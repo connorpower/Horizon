@@ -14,6 +14,7 @@ struct DataModel {
     init() {
         contacts = [
             Contact(name: "Connor", senderId: "", receiverId: ""),
+            Contact(name: "Steffen", senderId: "", receiverId: ""),
         ]
     }
 }

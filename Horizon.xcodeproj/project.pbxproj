@@ -57,21 +57,13 @@
 		4BE1DD701FAB6A0B006FEB46 /* Horizon */ = {
 			isa = PBXGroup;
 			children = (
-				4BE1DD711FAB6A0B006FEB46 /* AppDelegate.swift */,
 				4BE1DD871FAB909A006FEB46 /* Model */,
 				4BE1DD861FAB907C006FEB46 /* UI */,
-				4BE1DD851FAB906F006FEB46 /* Stuff */,
+				4BE1DD711FAB6A0B006FEB46 /* AppDelegate.swift */,
+				4BE1DD7B1FAB6A0B006FEB46 /* Horizon.entitlements */,
+				4BE1DD7A1FAB6A0B006FEB46 /* Info.plist */,
 			);
 			path = Horizon;
-			sourceTree = "<group>";
-		};
-		4BE1DD851FAB906F006FEB46 /* Stuff */ = {
-			isa = PBXGroup;
-			children = (
-				4BE1DD7A1FAB6A0B006FEB46 /* Info.plist */,
-				4BE1DD7B1FAB6A0B006FEB46 /* Horizon.entitlements */,
-			);
-			path = Stuff;
 			sourceTree = "<group>";
 		};
 		4BE1DD861FAB907C006FEB46 /* UI */ = {

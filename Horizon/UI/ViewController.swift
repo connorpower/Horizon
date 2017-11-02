@@ -9,6 +9,7 @@
 import Cocoa
 
 class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
+    var selectedContact: Contact?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,10 +39,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         switch identifier.rawValue {
         case "Contacts":
             return dataModel.contacts.count
-            
         case "Files":
             return 0
-            
         default:
             print("No data for table view with id \(identifier.rawValue)")
             return 0

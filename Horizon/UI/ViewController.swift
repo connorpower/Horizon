@@ -13,25 +13,26 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     @IBOutlet weak var contactsTableView: NSTableView!
     @IBOutlet weak var filesTableView: NSTableView!
     
+    
     // Constants
     let contactsTableViewId = NSUserInterfaceItemIdentifier("Contacts")
     let filesTableViewId = NSUserInterfaceItemIdentifier("Files")
 
     // State
     var selectedContact: Contact?
-    
+
+    var dataModel: DataModel {
+        let appDelegate = (NSApp.delegate) as? AppDelegate
+        return appDelegate!.dataModel
+    }
+
     // Life cycle and updating
     override func viewDidLoad() {
         super.viewDidLoad()
         updateFilesTableView()
+        contactsTableView.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
     }
 
-    override var representedObject: Any? {
-        didSet {
-        // Update the view, if already loaded.
-        }
-    }
-    
     func updateFilesTableView() {
         // Update selected contact
         let row = contactsTableView.selectedRow
@@ -46,14 +47,9 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         filesTableView.reloadData()
     }
     
-    var dataModel: DataModel {
-        let appDelegate = (NSApp.delegate) as? AppDelegate
-        return appDelegate!.dataModel
-    }
-    
-    // ************************************
-    // NSTableView data source and delegate
-    // ************************************
+    // ***********************
+    // NSTableView data source
+    // ***********************
 
     func numberOfRows(in tableView: NSTableView) -> Int {
         guard let identifier = tableView.identifier else {
@@ -120,11 +116,43 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         }
     }
     
+    // ***********************
+    // NSTableView selection
+    // ***********************
+    
     func tableViewSelectionDidChange(_ notification: Notification) {
         let tableView = notification.object as! NSTableView
         if tableView.identifier == contactsTableViewId {
             updateFilesTableView()
         }
+    }
+    
+    // ***********************
+    // NSTableView drop
+    // ***********************
+    
+    func tableView(_ tableView: NSTableView,
+                   validateDrop info: NSDraggingInfo,
+                   proposedRow row: Int,
+                   proposedDropOperation dropOperation: NSTableView.DropOperation) -> NSDragOperation {
+        if tableView == contactsTableView && dropOperation == NSTableView.DropOperation.on {
+            return NSDragOperation.copy
+        }
+        return NSDragOperation()
+    }
+    
+    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
+        if tableView == contactsTableView {
+            let pboard = info.draggingPasteboard()
+            //let data = pboard.propertyList(forType: NSPasteboard.PasteboardType.fileURL)
+            let data = pboard.readObjects(forClasses: [NSURL.self], options: nil)
+            if let fileURLs = data as? [NSURL] {
+                print(fileURLs)
+                return true
+            }
+        }
+        
+        return false
     }
 }
 

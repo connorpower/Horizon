@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B8210B61FAB96320063C26F /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B8210B51FAB96320063C26F /* File.swift */; };
 		4BE1DD721FAB6A0B006FEB46 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE1DD711FAB6A0B006FEB46 /* AppDelegate.swift */; };
 		4BE1DD741FAB6A0B006FEB46 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE1DD731FAB6A0B006FEB46 /* ViewController.swift */; };
 		4BE1DD761FAB6A0B006FEB46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BE1DD751FAB6A0B006FEB46 /* Assets.xcassets */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4B8210B51FAB96320063C26F /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		4BE1DD6E1FAB6A0B006FEB46 /* Horizon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Horizon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BE1DD711FAB6A0B006FEB46 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4BE1DD731FAB6A0B006FEB46 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				4BE1DD811FAB8670006FEB46 /* Contact.swift */,
+				4B8210B51FAB96320063C26F /* File.swift */,
 				4BE1DD831FAB8E9A006FEB46 /* DataModel.swift */,
 			);
 			path = Model;
@@ -156,6 +159,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B8210B61FAB96320063C26F /* File.swift in Sources */,
 				4BE1DD821FAB8670006FEB46 /* Contact.swift in Sources */,
 				4BE1DD841FAB8E9A006FEB46 /* DataModel.swift in Sources */,
 				4BE1DD741FAB6A0B006FEB46 /* ViewController.swift in Sources */,

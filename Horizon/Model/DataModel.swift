@@ -17,4 +17,13 @@ struct DataModel {
             Contact(name: "Steffen", senderId: "", receiverId: ""),
         ]
     }
+    
+    func files(for contact: Contact) -> [File] {
+        if contact.name == "Connor" {
+            return [File(name: "1"), File(name: "2"), File(name: "3")]
+        }
+        else {
+            return [File(name: "a"), File(name: "b"), File(name: "c")]
+        }
+    }
 }

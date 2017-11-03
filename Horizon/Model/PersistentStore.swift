@@ -11,11 +11,26 @@ import Foundation
 fileprivate struct UserDefaultsKeys {
     static let providedFileList = "de.horizon.providedFileList"
     static let receivedFileList = "de.horizon.receivedFileList"
+    static let contactList = "de.horizon.contactList"
 }
 
 struct PersistentStore {
 
     // MARK: - Functions
+
+    var contact: [Contact] {
+        if let jsonData = UserDefaults.standard.data(forKey: UserDefaultsKeys.contactList) {
+            let contacts = try? JSONDecoder().decode([Contact].self, from: jsonData)
+            return contacts ?? [Contact]()
+        } else {
+            return [Contact]()
+        }
+    }
+
+    func updateContacts(_ contacts: [Contact]) {
+        let jsonData = try! JSONEncoder().encode(contacts)
+        UserDefaults.standard.set(jsonData, forKey: UserDefaultsKeys.contactList)
+    }
 
     func receivedFileList(from contact: Contact) -> [File] {
         if let jsonData = UserDefaults.standard.data(forKey: contact.receivedFileListKey) {
@@ -24,12 +39,6 @@ struct PersistentStore {
         } else {
             return [File]()
         }
-//        if contact.name == "Connor" {
-//            return [File(name: "1", hash: nil), File(name: "2", hash: nil), File(name: "3", hash: nil)]
-//        }
-//        else {
-//            return [File(name: "a", hash: nil), File(name: "b", hash: nil), File(name: "c", hash: nil)]
-//        }
     }
 
     func updateReceivedFileList(_ fileList: [File], from contact: Contact) {

@@ -21,17 +21,10 @@ struct DataModel {
     private let persistentStore = PersistentStore()
     private let api: APIProviding
 
-    var contacts: [Contact] = []
-
     // MARK: - Initialization
 
     init(api: APIProviding) {
         self.api = api
-
-        contacts = [
-            Contact(name: "Connor", remoteHash: ""),
-            Contact(name: "Steffen", remoteHash: ""),
-        ]
     }
 
     // MARK: - API
@@ -47,7 +40,13 @@ struct DataModel {
     }
 
     func addContact(contact: Contact) {
-        print(contact)
+        persistentStore.updateContacts(contacts + [contact])
+        sync()
+        broadcastNewData()
+    }
+
+    var contacts: [Contact] {
+        return persistentStore.contact
     }
 
     func files(for contact: Contact) -> [File] {
@@ -97,7 +96,7 @@ struct DataModel {
 
             if let files = try? JSONDecoder().decode([File].self, from: data) {
                 self.persistentStore.updateReceivedFileList(files, from: contact)
-                NotificationCenter.default.post(name: Notifications.newDataAvailable, object: nil)
+                self.broadcastNewData()
             } else {
                 fatalError("Failed to decode downloaded JSON")
             }
@@ -114,6 +113,10 @@ struct DataModel {
                 print("Published new file list: \"\(hash)\"")
             }
         }
+    }
+
+    private func broadcastNewData() {
+        NotificationCenter.default.post(name: Notifications.newDataAvailable, object: nil)
     }
 
 }

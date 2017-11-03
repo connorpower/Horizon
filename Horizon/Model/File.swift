@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct File {
+struct File: Codable {
     let name: String
-    let fileURL: NSURL? = nil
+    let hash: String?
 }

@@ -15,6 +15,9 @@
 		4BE1DD791FAB6A0B006FEB46 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BE1DD771FAB6A0B006FEB46 /* Main.storyboard */; };
 		4BE1DD821FAB8670006FEB46 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE1DD811FAB8670006FEB46 /* Contact.swift */; };
 		4BE1DD841FAB8E9A006FEB46 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE1DD831FAB8E9A006FEB46 /* DataModel.swift */; };
+		D2AB9FB51FACF11C004BE28C /* APIProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AB9FB41FACF11C004BE28C /* APIProviding.swift */; };
+		D2AB9FB71FAD07E5004BE28C /* MockAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AB9FB61FAD07E5004BE28C /* MockAPI.swift */; };
+		D2AB9FBB1FAD16DD004BE28C /* IPFSAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AB9FBA1FAD16DD004BE28C /* IPFSAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +33,10 @@
 		4BE1DD831FAB8E9A006FEB46 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		5953289A5C5D7459AF47F705 /* Pods-Horizon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Horizon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Horizon/Pods-Horizon.release.xcconfig"; sourceTree = "<group>"; };
 		75683E09FE97130EA2C4048E /* Pods-Horizon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Horizon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Horizon/Pods-Horizon.debug.xcconfig"; sourceTree = "<group>"; };
+		D2AB9FB41FACF11C004BE28C /* APIProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProviding.swift; sourceTree = "<group>"; };
+		D2AB9FB61FAD07E5004BE28C /* MockAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPI.swift; sourceTree = "<group>"; };
+		D2AB9FB81FAD08FA004BE28C /* The Cathedral and the Bazaar.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "The Cathedral and the Bazaar.pdf"; sourceTree = "<group>"; };
+		D2AB9FBA1FAD16DD004BE28C /* IPFSAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPFSAPI.swift; sourceTree = "<group>"; };
 		E49777C0BA2468F69A3CE0F1 /* Pods_Horizon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Horizon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -66,6 +73,8 @@
 		4BE1DD701FAB6A0B006FEB46 /* Horizon */ = {
 			isa = PBXGroup;
 			children = (
+				D2AB9FB81FAD08FA004BE28C /* The Cathedral and the Bazaar.pdf */,
+				D2AB9FB91FAD16D0004BE28C /* API */,
 				4BE1DD871FAB909A006FEB46 /* Model */,
 				4BE1DD861FAB907C006FEB46 /* UI */,
 				4BE1DD711FAB6A0B006FEB46 /* AppDelegate.swift */,
@@ -110,6 +119,16 @@
 				E49777C0BA2468F69A3CE0F1 /* Pods_Horizon.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D2AB9FB91FAD16D0004BE28C /* API */ = {
+			isa = PBXGroup;
+			children = (
+				D2AB9FB41FACF11C004BE28C /* APIProviding.swift */,
+				D2AB9FB61FAD07E5004BE28C /* MockAPI.swift */,
+				D2AB9FBA1FAD16DD004BE28C /* IPFSAPI.swift */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -245,7 +264,10 @@
 				4B8210B61FAB96320063C26F /* File.swift in Sources */,
 				4BE1DD821FAB8670006FEB46 /* Contact.swift in Sources */,
 				4BE1DD841FAB8E9A006FEB46 /* DataModel.swift in Sources */,
+				D2AB9FB71FAD07E5004BE28C /* MockAPI.swift in Sources */,
+				D2AB9FBB1FAD16DD004BE28C /* IPFSAPI.swift in Sources */,
 				4BE1DD741FAB6A0B006FEB46 /* ViewController.swift in Sources */,
+				D2AB9FB51FACF11C004BE28C /* APIProviding.swift in Sources */,
 				4BE1DD721FAB6A0B006FEB46 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

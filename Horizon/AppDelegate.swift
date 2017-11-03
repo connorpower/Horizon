@@ -10,12 +10,12 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    var dataModel: DataModel = DataModel()
 
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-    }
+    let dataModel = DataModel(api: IPFSAPI())
 
-    func applicationWillTerminate(_ aNotification: Notification) {
-    }
+    func applicationDidFinishLaunching(_ aNotification: Notification) {}
+
+    func applicationWillTerminate(_ aNotification: Notification) {}
+
 }
 

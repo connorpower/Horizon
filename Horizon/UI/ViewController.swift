@@ -146,7 +146,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             let pboard = info.draggingPasteboard()
             let data = pboard.readObjects(forClasses: [NSURL.self],
                                           options: [NSPasteboard.ReadingOptionKey.urlReadingFileURLsOnly: true])
-            if let fileURLs = data as? [NSURL] {
+            if let fileURLs = data as? [URL] {
                 if let contact = contact(at: row) {
                     dataModel.add(fileURLs: fileURLs, to: contact)
                 }
@@ -162,23 +162,23 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     // ***********************
 
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
-        if tableView == filesTableView {
-            if let contact = selectedContact {
-                var fileURLs = [NSURL]()
-                let count = dataModel.files(for: contact).count
-                for row in rowIndexes {
-                    if row < count {
-                        let file = dataModel.files(for: contact)[row]
-                        if let fileURL = file.fileURL {
-                            fileURLs.append(fileURL)
-                        }
-                    }
-                }
-                pboard.writeObjects(fileURLs)
-            }
-
-            return true
-        }
+//        if tableView == filesTableView {
+//            if let contact = selectedContact {
+//                var fileURLs = [NSURL]()
+//                let count = dataModel.files(for: contact).count
+//                for row in rowIndexes {
+//                    if row < count {
+//                        let file = dataModel.files(for: contact)[row]
+//                        if let fileURL = file.fileURL {
+//                            fileURLs.append(fileURL)
+//                        }
+//                    }
+//                }
+//                pboard.writeObjects(fileURLs)
+//            }
+//
+//            return true
+//        }
         return false
     }
     

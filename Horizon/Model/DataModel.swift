@@ -23,8 +23,8 @@ struct DataModel {
         self.api = api
 
         contacts = [
-            Contact(name: "Connor", senderId: "", receiverId: ""),
-            Contact(name: "Steffen", senderId: "", receiverId: ""),
+            Contact(name: "Connor", remoteHash: ""),
+            Contact(name: "Steffen", remoteHash: ""),
         ]
     }
 
@@ -85,4 +85,7 @@ struct DataModel {
         }
     }
 
+    func addContact(contact: Contact) {
+        print(contact)
+    }
 }

@@ -10,6 +10,5 @@ import Foundation
 
 struct Contact {
     let name: String
-    let senderId: String
-    let receiverId: String
+    let remoteHash: String
 }

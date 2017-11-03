@@ -105,9 +105,7 @@ struct DataModel {
 
     private func publishFileList(_ hash: String, to contact: Contact) {
         OperationQueue.main.addOperation {
-            // TODO: use the Contact's key instead of "self"
-            //
-            self.api.publish(arg: hash, key: "self") { (response, error) in
+            self.api.publish(arg: hash, key: contact.name) { (response, error) in
                 guard let _ = response else { fatalError("\(error!.localizedDescription)") }
 
                 print("Published new file list: \"\(hash)\"")

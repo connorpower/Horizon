@@ -10,4 +10,5 @@ import Foundation
 
 struct File {
     let name: String
+    let fileURL: NSURL? = nil
 }

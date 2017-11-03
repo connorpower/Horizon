@@ -31,6 +31,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         super.viewDidLoad()
         updateFilesTableView()
         contactsTableView.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
+        filesTableView.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
+        filesTableView.setDraggingSourceOperationMask(NSDragOperation.copy, forLocal: false)
     }
 
     func updateFilesTableView() {
@@ -154,5 +156,31 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         
         return false
     }
+    
+    // ***********************
+    // NSTableView drag
+    // ***********************
+
+    func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
+        if tableView == filesTableView {
+            if let contact = selectedContact {
+                var fileURLs = [NSURL]()
+                let count = dataModel.files(for: contact).count
+                for row in rowIndexes {
+                    if row < count {
+                        let file = dataModel.files(for: contact)[row]
+                        if let fileURL = file.fileURL {
+                            fileURLs.append(fileURL)
+                        }
+                    }
+                }
+                pboard.writeObjects(fileURLs)
+            }
+
+            return true
+        }
+        return false
+    }
+    
 }
 

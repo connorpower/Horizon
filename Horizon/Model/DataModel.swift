@@ -10,14 +10,9 @@ import Foundation
 
 struct DataModel {
 
-    // MARK: - Constants
-
-    private struct UserDefaultsKeys {
-        static let providedFileListBase = "de.horizon.providedFileList"
-    }
-
     // MARK: - Variables
 
+    private let persistentStore = PersistentStore()
     private let api: APIProviding
 
     var contacts: [Contact] = []
@@ -49,7 +44,7 @@ struct DataModel {
     }
 
     func add(fileURLs: [URL], to contact: Contact) {
-        var providedFiles = providedFileList(for: contact)
+        var providedFiles = persistentStore.providedFileList(for: contact)
 
         for file in fileURLs {
             OperationQueue.main.addOperation {
@@ -62,7 +57,7 @@ struct DataModel {
         }
 
         OperationQueue.main.addOperation {
-            self.updateProvidedFileList(providedFiles, for: contact)
+            self.persistentStore.updateProvidedFileList(providedFiles, for: contact)
 
             // TODO: We should really have an API which simply takes data
             // instead of needing temporary files.
@@ -93,26 +88,6 @@ struct DataModel {
                 print("Published new file list: \"\(hash)\"")
             }
         }
-    }
-
-    // MARK: - Private Functions
-
-    private func providedFileList(for contact: Contact) -> [File] {
-        if let jsonData = UserDefaults.standard.data(forKey: key(for: contact)) {
-            let files = try? JSONDecoder().decode([File].self, from: jsonData)
-            return files ?? [File]()
-        } else {
-            return [File]()
-        }
-    }
-
-    private func updateProvidedFileList(_ fileList: [File], for contact: Contact) {
-        let jsonData = try! JSONEncoder().encode(fileList)
-        UserDefaults.standard.set(jsonData, forKey: key(for: contact))
-    }
-
-    private func key(for contact: Contact) -> String {
-        return UserDefaultsKeys.providedFileListBase + ".\(contact.name)"
     }
 
 }

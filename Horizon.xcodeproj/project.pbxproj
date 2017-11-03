@@ -18,6 +18,7 @@
 		D2AB9FB51FACF11C004BE28C /* APIProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AB9FB41FACF11C004BE28C /* APIProviding.swift */; };
 		D2AB9FB71FAD07E5004BE28C /* MockAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AB9FB61FAD07E5004BE28C /* MockAPI.swift */; };
 		D2AB9FBB1FAD16DD004BE28C /* IPFSAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AB9FBA1FAD16DD004BE28C /* IPFSAPI.swift */; };
+		D2AB9FBD1FAD203B004BE28C /* PersistentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AB9FBC1FAD203B004BE28C /* PersistentStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		D2AB9FB61FAD07E5004BE28C /* MockAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPI.swift; sourceTree = "<group>"; };
 		D2AB9FB81FAD08FA004BE28C /* The Cathedral and the Bazaar.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "The Cathedral and the Bazaar.pdf"; sourceTree = "<group>"; };
 		D2AB9FBA1FAD16DD004BE28C /* IPFSAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPFSAPI.swift; sourceTree = "<group>"; };
+		D2AB9FBC1FAD203B004BE28C /* PersistentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStore.swift; sourceTree = "<group>"; };
 		E49777C0BA2468F69A3CE0F1 /* Pods_Horizon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Horizon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -100,6 +102,7 @@
 				4BE1DD811FAB8670006FEB46 /* Contact.swift */,
 				4B8210B51FAB96320063C26F /* File.swift */,
 				4BE1DD831FAB8E9A006FEB46 /* DataModel.swift */,
+				D2AB9FBC1FAD203B004BE28C /* PersistentStore.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				4BE1DD741FAB6A0B006FEB46 /* ViewController.swift in Sources */,
 				D2AB9FB51FACF11C004BE28C /* APIProviding.swift in Sources */,
 				4BE1DD721FAB6A0B006FEB46 /* AppDelegate.swift in Sources */,
+				D2AB9FBD1FAD203B004BE28C /* PersistentStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

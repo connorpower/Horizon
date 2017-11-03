@@ -9,12 +9,28 @@
 import Foundation
 
 fileprivate struct UserDefaultsKeys {
-    static let providedFileListBase = "de.horizon.providedFileList"
+    static let providedFileList = "de.horizon.providedFileList"
+    static let receivedFileList = "de.horizon.receivedFileList"
 }
 
 struct PersistentStore {
 
     // MARK: - Functions
+
+    func receivedFileList(from contact: Contact) -> [File] {
+//        if let jsonData = UserDefaults.standard.data(forKey: contact.receivedFileListKey) {
+//            let files = try? JSONDecoder().decode([File].self, from: jsonData)
+//            return files ?? [File]()
+//        } else {
+//            return [File]()
+//        }
+        if contact.name == "Connor" {
+            return [File(name: "1", hash: nil), File(name: "2", hash: nil), File(name: "3", hash: nil)]
+        }
+        else {
+            return [File(name: "a", hash: nil), File(name: "b", hash: nil), File(name: "c", hash: nil)]
+        }
+    }
 
     func providedFileList(for contact: Contact) -> [File] {
         if let jsonData = UserDefaults.standard.data(forKey: contact.providedFileListKey) {
@@ -35,7 +51,11 @@ struct PersistentStore {
 fileprivate extension Contact {
 
     var providedFileListKey: String {
-        return UserDefaultsKeys.providedFileListBase + ".\(name)"
+        return UserDefaultsKeys.providedFileList + ".\(name)"
+    }
+
+    var receivedFileListKey: String {
+        return UserDefaultsKeys.receivedFileList + ".\(name)"
     }
 
 }

@@ -35,12 +35,7 @@ struct DataModel {
     }
 
     func files(for contact: Contact) -> [File] {
-        if contact.name == "Connor" {
-            return [File(name: "1", hash: nil), File(name: "2", hash: nil), File(name: "3", hash: nil)]
-        }
-        else {
-            return [File(name: "a", hash: nil), File(name: "b", hash: nil), File(name: "c", hash: nil)]
-        }
+        return persistentStore.receivedFileList(from: contact)
     }
 
     func add(fileURLs: [URL], to contact: Contact) {

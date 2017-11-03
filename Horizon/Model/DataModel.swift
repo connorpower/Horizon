@@ -26,4 +26,8 @@ struct DataModel {
             return [File(name: "a"), File(name: "b"), File(name: "c")]
         }
     }
+    
+    func add(fileURLs: [NSURL], to contact: Contact) {
+        print("\(fileURLs) --> \(contact.name)")
+    }
 }

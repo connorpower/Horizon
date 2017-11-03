@@ -34,16 +34,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     }
 
     func updateFilesTableView() {
-        // Update selected contact
-        let row = contactsTableView.selectedRow
-        if row < 0 {
-            selectedContact = nil
-        }
-        else if row < dataModel.contacts.count {
-            selectedContact = dataModel.contacts[row]
-        }
-
-        // Update files to the selected contact
+        selectedContact = contact(at: contactsTableView.selectedRow)
         filesTableView.reloadData()
     }
     
@@ -127,6 +118,13 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         }
     }
     
+    func contact(at row: Int) -> Contact? {
+        if row >= 0 && row < dataModel.contacts.count {
+            return dataModel.contacts[row]
+        }
+        return nil
+    }
+    
     // ***********************
     // NSTableView drop
     // ***********************
@@ -147,7 +145,9 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             let data = pboard.readObjects(forClasses: [NSURL.self],
                                           options: [NSPasteboard.ReadingOptionKey.urlReadingFileURLsOnly: true])
             if let fileURLs = data as? [NSURL] {
-                print(fileURLs)
+                if let contact = contact(at: row) {
+                    dataModel.add(fileURLs: fileURLs, to: contact)
+                }
                 return true
             }
         }

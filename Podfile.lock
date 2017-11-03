@@ -1,0 +1,16 @@
+PODS:
+  - Alamofire (4.5.1)
+  - IPFSWebService (0.0.1):
+    - Alamofire (~> 4.5)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.5)
+  - IPFSWebService (~> 0.0.1)
+
+SPEC CHECKSUMS:
+  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
+  IPFSWebService: aba5a19cb8af1d7582f3ac026b99231cfe138596
+
+PODFILE CHECKSUM: eb3f010fb550e1292ed7d9c02077fdfe12637334
+
+COCOAPODS: 1.3.1

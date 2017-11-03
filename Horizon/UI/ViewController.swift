@@ -33,6 +33,11 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         contactsTableView.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
         filesTableView.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
         filesTableView.setDraggingSourceOperationMask(NSDragOperation.copy, forLocal: false)
+        
+        NotificationCenter.default.addObserver(forName: DataModel.Notifications.newDataAvailable, object: nil, queue: OperationQueue.main) { _ in
+            self.contactsTableView.reloadData()
+            self.filesTableView.reloadData()
+        }
     }
 
     func updateFilesTableView() {

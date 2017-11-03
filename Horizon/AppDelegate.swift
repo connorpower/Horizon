@@ -17,5 +17,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_ aNotification: Notification) {}
 
+    @IBAction func refreshAction(_ sender: Any) {
+        dataModel.sync()
+    }
 }
 

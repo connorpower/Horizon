@@ -303,6 +303,12 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="View" id="HyV-fh-RgO">
                                     <items>
+                                        <menuItem title="Refresh" keyEquivalent="r" id="bwR-Ht-V0h">
+                                            <connections>
+                                                <action selector="refreshAction:" target="Voe-Tx-rLC" id="YS1-1g-JCZ"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="ijO-WP-Lre"/>
                                         <menuItem title="Show Toolbar" keyEquivalent="t" id="snW-S8-Cw5">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>

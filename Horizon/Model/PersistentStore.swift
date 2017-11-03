@@ -18,18 +18,23 @@ struct PersistentStore {
     // MARK: - Functions
 
     func receivedFileList(from contact: Contact) -> [File] {
-//        if let jsonData = UserDefaults.standard.data(forKey: contact.receivedFileListKey) {
-//            let files = try? JSONDecoder().decode([File].self, from: jsonData)
-//            return files ?? [File]()
-//        } else {
-//            return [File]()
+        if let jsonData = UserDefaults.standard.data(forKey: contact.receivedFileListKey) {
+            let files = try? JSONDecoder().decode([File].self, from: jsonData)
+            return files ?? [File]()
+        } else {
+            return [File]()
+        }
+//        if contact.name == "Connor" {
+//            return [File(name: "1", hash: nil), File(name: "2", hash: nil), File(name: "3", hash: nil)]
 //        }
-        if contact.name == "Connor" {
-            return [File(name: "1", hash: nil), File(name: "2", hash: nil), File(name: "3", hash: nil)]
-        }
-        else {
-            return [File(name: "a", hash: nil), File(name: "b", hash: nil), File(name: "c", hash: nil)]
-        }
+//        else {
+//            return [File(name: "a", hash: nil), File(name: "b", hash: nil), File(name: "c", hash: nil)]
+//        }
+    }
+
+    func updateReceivedFileList(_ fileList: [File], from contact: Contact) {
+        let jsonData = try! JSONEncoder().encode(fileList)
+        UserDefaults.standard.set(jsonData, forKey: contact.receivedFileListKey)
     }
 
     func providedFileList(for contact: Contact) -> [File] {

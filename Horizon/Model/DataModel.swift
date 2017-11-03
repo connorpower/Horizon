@@ -10,6 +10,12 @@ import Foundation
 
 struct DataModel {
 
+    // MARK: - Constants
+
+    struct Notifications {
+        static let newDataAvailable = Notification.Name("de.horizon.notification.newDataAvailable")
+    }
+
     // MARK: - Variables
 
     private let persistentStore = PersistentStore()
@@ -31,7 +37,17 @@ struct DataModel {
     // MARK: - API
 
     func sync() {
+        for contact in contacts {
+            self.api.resolve(arg: contact.remoteHash, recursive: true) { (response, error) in
+                guard let response = response else { fatalError("\(error!.localizedDescription)") }
 
+                self.getFileList(from: contact, at: response.path!)
+            }
+        }
+    }
+
+    func addContact(contact: Contact) {
+        print(contact)
     }
 
     func files(for contact: Contact) -> [File] {
@@ -73,6 +89,21 @@ struct DataModel {
         }
     }
 
+    // MARK: Private Functions
+
+    private func getFileList(from contact: Contact, at path: String) {
+        api.get(arg: path) { (data, error) in
+            guard let data = data else { fatalError("\(error!.localizedDescription)") }
+
+            if let files = try? JSONDecoder().decode([File].self, from: data) {
+                self.persistentStore.updateReceivedFileList(files, from: contact)
+                NotificationCenter.default.post(name: Notifications.newDataAvailable, object: nil)
+            } else {
+                fatalError("Failed to decode downloaded JSON")
+            }
+        }
+    }
+
     private func publishFileList(_ hash: String, to contact: Contact) {
         OperationQueue.main.addOperation {
             // TODO: use the Contact's key instead of "self"
@@ -85,7 +116,4 @@ struct DataModel {
         }
     }
 
-    func addContact(contact: Contact) {
-        print(contact)
-    }
 }

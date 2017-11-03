@@ -144,8 +144,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
         if tableView == contactsTableView {
             let pboard = info.draggingPasteboard()
-            //let data = pboard.propertyList(forType: NSPasteboard.PasteboardType.fileURL)
-            let data = pboard.readObjects(forClasses: [NSURL.self], options: nil)
+            let data = pboard.readObjects(forClasses: [NSURL.self],
+                                          options: [NSPasteboard.ReadingOptionKey.urlReadingFileURLsOnly: true])
             if let fileURLs = data as? [NSURL] {
                 print(fileURLs)
                 return true

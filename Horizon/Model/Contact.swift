@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Contact {
+struct Contact: Codable {
     let name: String
     let remoteHash: String
 }

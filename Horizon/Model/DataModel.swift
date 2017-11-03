@@ -41,8 +41,8 @@ struct DataModel {
 
     func addContact(contact: Contact) {
         persistentStore.updateContacts(contacts + [contact])
-        sync()
-        broadcastNewData()
+        self.broadcastNewData()
+        self.sync()
     }
 
     var contacts: [Contact] {

@@ -57,6 +57,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
                 self.updateProgressWithStatus(status: message)
             }
         }
+
+        dataModel.sync()
     }
 
     func updateFilesTableView() {

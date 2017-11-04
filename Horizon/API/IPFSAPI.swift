@@ -14,53 +14,100 @@ struct IPFSAPI: APIProviding {
 
     // MARK: File Management
 
-    func add(file: URL, completion: @escaping ((_ data: AddResponse?, _ error: Error?) -> Void)) {
+    func add(file: URL, completion: @escaping ((_ response: AddResponse?, _ error: Error?) -> Void)) {
         print("Adding file:\n  \"\(file.absoluteString)\"\n")
 
-        DefaultAPI.add(file: file, completion: completion)
+        DefaultAPI.add(file: file) { (response, error) in
+            if let response = response {
+                print("Added file:")
+                print("  Name: \"\(response.name!)\"\n  Hash: \"\(response.hash!)\"\n  Size: \"\(response.size!)\"\n")
+            }
+
+            completion(response, error)
+        }
     }
 
     func get(arg: String, completion: @escaping ((_ data: Data?, _ error: Error?) -> Void)) {
         print("Getting file:\n  File: \"\(arg)\"\n")
 
-        DefaultAPI.callGet(arg: arg, completion: completion)
+        DefaultAPI.callGet(arg: arg) { (data, error) in
+            if let data = data {
+                print("Got file:\n  Size: \"\(data.count)\"\n")
+            }
+
+            completion(data, error)
+        }
     }
 
     // MARK: IPNS
 
     func publish(arg: String, key: String?,
-                 completion: @escaping ((_ data: PublishResponse?, _ error: Error?) -> Void)) {
+                 completion: @escaping ((_ response: PublishResponse?, _ error: Error?) -> Void)) {
         print("Pubishing file:\n  File: \"\(arg)\"\n  Under key: \"\(key!)\"\n")
 
-        DefaultAPI.publish(arg: arg, key: key, completion: completion)
+        DefaultAPI.publish(arg: arg, key: key) { (response, error) in
+            if let response = response {
+                print("Published file:\n  Name: \"\(response.name!)\"\n  Value: \"\(response.value!)\"\n")
+            }
+
+            completion(response, error)
+        }
     }
 
     func resolve(arg: String, recursive: Bool?,
-                 completion: @escaping ((_ data: ResolveResponse?, _ error: Error?) -> Void)) {
+                 completion: @escaping ((_ response: ResolveResponse?, _ error: Error?) -> Void)) {
         print("Resolving hash:\n  Hash: \"\(arg)\"\n")
 
-        DefaultAPI.resolve(arg: arg, recursive: recursive, completion: completion)
+        DefaultAPI.resolve(arg: arg, recursive: recursive) { (response, error) in
+            if let response = response {
+                print("Resolved hash:\n  Path: \"\(response.path!)\"\n")
+            }
+
+            completion(response, error)
+        }
     }
 
     // MARK: Key Management
 
     func keygen(arg: String, type: DefaultAPI.ModelType_keygen, size: Int32,
-                completion: @escaping ((_ data: KeygenResponse?, _ error: Error?) -> Void)) {
+                completion: @escaping ((_ response: KeygenResponse?, _ error: Error?) -> Void)) {
         print("Generating key:\n  Name: \"\(arg)\"\n  Type: \"\(type.rawValue)\"\n  Size: \"\(size)\"\n")
 
-        DefaultAPI.keygen(arg: arg, type: type, size: size, completion: completion)
+        DefaultAPI.keygen(arg: arg, type: type, size: size) { (response, error) in
+            if let response = response {
+                print("Generated key:\n  Name: \"\(response.name!)\"\n  ID: \"\(response.id!)\"\n")
+            }
+
+            completion(response, error)
+        }
     }
 
-    func listKeys(completion: @escaping ((_ data: ListKeysResponse?, _ error: Error?) -> Void)) {
+    func listKeys(completion: @escaping ((_ response: ListKeysResponse?, _ error: Error?) -> Void)) {
         print("Listing keys...\n")
 
-        DefaultAPI.listKeys(completion: completion)
+        DefaultAPI.listKeys { (response, error) in
+            if let response = response {
+                print("Listed keys:")
+                for key in response.keys! {
+                    print("  Name: \"\(key.name!)\"\n  ID: \"\(key.id!)\"")
+                }
+                print("")
+            }
+
+            completion(response, error)
+        }
     }
 
-    func removeKey(arg: String, completion: @escaping ((_ data: RemoveKeyResponse?, _ error: Error?) -> Void)) {
+    func removeKey(arg: String, completion: @escaping ((_ response: RemoveKeyResponse?, _ error: Error?) -> Void)) {
         print("Removing key:\n  Name: \"\(arg)\"\n")
 
-        DefaultAPI.removeKey(arg: arg, completion: completion)
+        DefaultAPI.removeKey(arg: arg) { (response, error) in
+            if response != nil {
+                print("Removed key.")
+            }
+
+            completion(response, error)
+        }
     }
 
     // MARK: Utility

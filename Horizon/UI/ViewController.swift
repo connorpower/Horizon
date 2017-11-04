@@ -184,17 +184,30 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         }
         return false
     }
-    
-    func filePromiseProvider(_ filePromiseProvider: NSFilePromiseProvider, fileNameForType fileType: String) -> String {
+
+    func filePromiseProvider(_ filePromiseProvider: NSFilePromiseProvider,
+                             fileNameForType fileType: String) -> String {
         if let file = filePromiseProvider.userInfo as? File {
             return file.name
         }
         return "<File missing>"
     }
-    
-    func filePromiseProvider(_ filePromiseProvider: NSFilePromiseProvider, writePromiseTo url: URL, completionHandler: @escaping (Error?) -> Void) {
-        try! "Test".write(to: url, atomically: true, encoding: String.Encoding.utf8)
-        completionHandler(nil)
+
+    func filePromiseProvider(_ filePromiseProvider: NSFilePromiseProvider,
+                             writePromiseTo url: URL,
+                             completionHandler: @escaping (Error?) -> Void) {
+        if let file = filePromiseProvider.userInfo as? File, let hash = file.hash {
+            IPFSAPI().cat(arg: hash) { (data, error) in
+                if let data = data {
+                    try? data.write(to: url)
+                    completionHandler(nil)
+                } else {
+                    completionHandler(error)
+                }
+            }
+        } else {
+            completionHandler(nil)
+        }
     }
 
 }

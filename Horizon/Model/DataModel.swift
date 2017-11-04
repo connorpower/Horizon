@@ -42,7 +42,7 @@ class DataModel {
         broadcastSyncStart()
 
         for contact in contacts {
-            broadcastStatusMessage("Interplanetary Naming System: Resolving location of contacts...")
+            broadcastStatusMessage("Interplanetary Naming System: Resolving location of \(contact.name)...")
             self.api.resolve(arg: contact.remoteHash, recursive: true) { (response, error) in
                 guard let response = response else {
                     self.handleError(error)

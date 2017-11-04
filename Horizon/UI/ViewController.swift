@@ -84,7 +84,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             
         case filesTableViewId:
             if let contact = selectedContact {
-                return dataModel.files(for: contact).count
+                return dataModel.files(from: contact).count
             }
             else {
                 return 0
@@ -113,7 +113,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         case "File":
             let fileName: String
             if let contact = selectedContact {
-                let files = dataModel.files(for: contact)
+                let files = dataModel.files(from: contact)
                 if row < files.count {
                     fileName = files[row].name
                 }
@@ -192,10 +192,10 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
         if tableView == filesTableView {
             if let contact = selectedContact {
-                let count = dataModel.files(for: contact).count
+                let count = dataModel.files(from: contact).count
                 for row in rowIndexes {
                     if row < count {
-                        let file = dataModel.files(for: contact)[row]
+                        let file = dataModel.files(from: contact)[row]
                         let provider = NSFilePromiseProvider(fileType: kUTTypeData as String, delegate: self)
                         provider.userInfo = file
                         pboard.writeObjects([provider])

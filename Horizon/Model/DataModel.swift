@@ -64,7 +64,7 @@ class DataModel {
         return persistentStore.contact
     }
 
-    func files(for contact: Contact) -> [File] {
+    func files(from contact: Contact) -> [File] {
         return persistentStore.receivedFileList(from: contact)
     }
 

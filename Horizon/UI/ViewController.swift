@@ -12,10 +12,10 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     
     @IBOutlet weak var contactsTableView: NSTableView!
     @IBOutlet weak var filesTableView: NSTableView!
-    
-    @IBOutlet weak var progressView: NSVisualEffectView!
+
+    @IBOutlet weak var progressView: NSView!
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
-    
+
     // Constants
     let contactsTableViewId = NSUserInterfaceItemIdentifier("Contacts")
     let filesTableViewId = NSUserInterfaceItemIdentifier("Files")
@@ -36,19 +36,31 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         filesTableView.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
         filesTableView.setDraggingSourceOperationMask(NSDragOperation.copy, forLocal: false)
         
-        NotificationCenter.default.addObserver(forName: DataModel.Notifications.newDataAvailable, object: nil, queue: OperationQueue.main) { _ in
+        NotificationCenter.default.addObserver(forName: DataModel.Notifications.newDataAvailable,
+                                               object: nil, queue: OperationQueue.main) { _ in
             self.contactsTableView.reloadData()
             self.filesTableView.reloadData()
         }
 
-        NotificationCenter.default.addObserver(forName: DataModel.Notifications.syncStarted, object: nil, queue: OperationQueue.main) { _ in
+        NotificationCenter.default.addObserver(forName: DataModel.Notifications.syncStarted,
+                                               object: nil, queue: OperationQueue.main) { _ in
             self.beginProgressUpdates()
         }
 
-        NotificationCenter.default.addObserver(forName: DataModel.Notifications.syncEnded, object: nil, queue: OperationQueue.main) { _ in
+        NotificationCenter.default.addObserver(forName: DataModel.Notifications.syncEnded,
+                                               object: nil, queue: OperationQueue.main) { _ in
             self.endProgressUpdates()
         }
-}
+
+        NotificationCenter.default.addObserver(forName: DataModel.Notifications.statusMessage,
+                                               object: nil, queue: OperationQueue.main) { notification in
+            if let message = notification.userInfo?[DataModel.Notifications.statusMessageKey] as? String {
+                self.updateProgressWithStatus(status: message)
+            }
+        }
+
+        dataModel.sync()
+    }
 
     func updateFilesTableView() {
         selectedContact = contact(at: contactsTableView.selectedRow)
@@ -235,9 +247,10 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         progressIndicator.stopAnimation(nil)
         progressView.isHidden = true
     }
-    
+
     func updateProgressWithStatus(status: String) {
-        
+        print("status: \(status)")
     }
+
 }
 

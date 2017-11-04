@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct DataModel {
+class DataModel {
 
     // MARK: - Constants
 
@@ -25,6 +25,8 @@ struct DataModel {
     private let persistentStore = PersistentStore()
     private let api: APIProviding
 
+    private var syncState = [Contact]()
+
     // MARK: - Initialization
 
     init(api: APIProviding) {
@@ -34,13 +36,16 @@ struct DataModel {
     // MARK: - API
 
     func sync() {
-        NotificationCenter.default.post(name: Notifications.syncStarted, object: nil)
+        guard syncState.isEmpty else { return }
+
+        syncState += contacts
+        broadcastSyncStart()
 
         for contact in contacts {
-            broadcastStatusMessage("Interplanetary Naming System: Resolving location of contacts...")
+            broadcastStatusMessage("Interplanetary Naming System: Resolving location of \(contact.name)...")
             self.api.resolve(arg: contact.remoteHash, recursive: true) { (response, error) in
                 guard let response = response else {
-                    self.api.printError(error)
+                    self.handleError(error)
                     return
                 }
 
@@ -68,7 +73,7 @@ struct DataModel {
             broadcastStatusMessage("Interplanetary File System: Adding \(url.lastPathComponent) for \(contact.name)...")
             self.api.add(file: url, completion: { (response, error) in
                 guard let response = response else {
-                    self.api.printError(error)
+                    self.handleError(error)
                     return
                 }
 
@@ -93,7 +98,7 @@ struct DataModel {
 
         api.cat(arg: path) { (data, error) in
             guard let data = data else {
-                self.api.printError(error)
+                self.handleError(error)
                 return
             }
 
@@ -103,6 +108,11 @@ struct DataModel {
                 self.broadcastNewData()
             } else {
                 print("Failed to decode downloaded JSON\n")
+            }
+
+            self.syncState = self.syncState.filter({ $0.name != contact.name })
+            if self.syncState.isEmpty {
+                self.broadcastSyncEnd()
             }
         }
     }
@@ -122,14 +132,14 @@ struct DataModel {
         broadcastStatusMessage("Interplanetary File System: Uploading file list for \(contact.name)...")
         self.api.add(file: temporaryFile) { (response, error) in
             guard let response = response, let hash = response.hash else {
-                self.api.printError(error)
+                self.handleError(error)
                 return
             }
 
             self.broadcastStatusMessage("Interplanetary Naming System: Publishing file list for \(contact.name)...")
             self.api.publish(arg: hash, key: contact.name) { (response, error) in
                 guard let _ = response else {
-                    self.api.printError(error)
+                    self.handleError(error)
                     return
                 }
 
@@ -138,14 +148,27 @@ struct DataModel {
         }
     }
 
+    private func handleError(_ error: Error?) {
+        api.printError(error)
+        syncState.removeAll()
+        broadcastSyncEnd()
+    }
+
     private func broadcastStatusMessage(_ message: String) {
         NotificationCenter.default.post(name: Notifications.statusMessage, object: nil,
                                         userInfo: [Notifications.statusMessageKey: message])
     }
 
+    private func broadcastSyncStart() {
+        NotificationCenter.default.post(name: Notifications.syncStarted, object: nil)
+    }
+
+    private func broadcastSyncEnd() {
+        NotificationCenter.default.post(name: Notifications.syncEnded, object: nil)
+    }
+
     private func broadcastNewData() {
         NotificationCenter.default.post(name: Notifications.newDataAvailable, object: nil)
-        NotificationCenter.default.post(name: Notifications.syncEnded, object: nil)
     }
 
 }

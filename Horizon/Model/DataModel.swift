@@ -68,6 +68,10 @@ class DataModel {
         return persistentStore.receivedFileList(from: contact)
     }
 
+    func files(for contact: Contact) -> [File] {
+        return persistentStore.providedFileList(for: contact)
+    }
+
     func add(fileURLs: [URL], to contact: Contact) {
         for url in fileURLs {
             broadcastStatusMessage("Interplanetary File System: Adding \(url.lastPathComponent) for \(contact.name)...")

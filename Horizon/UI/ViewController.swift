@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
+class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, NSFilePromiseProviderDelegate {
     
     @IBOutlet weak var contactsTableView: NSTableView!
     @IBOutlet weak var filesTableView: NSTableView!
@@ -167,25 +167,35 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     // ***********************
 
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
-//        if tableView == filesTableView {
-//            if let contact = selectedContact {
-//                var fileURLs = [NSURL]()
-//                let count = dataModel.files(for: contact).count
-//                for row in rowIndexes {
-//                    if row < count {
-//                        let file = dataModel.files(for: contact)[row]
-//                        if let fileURL = file.fileURL {
-//                            fileURLs.append(fileURL)
-//                        }
-//                    }
-//                }
-//                pboard.writeObjects(fileURLs)
-//            }
-//
-//            return true
-//        }
+        if tableView == filesTableView {
+            if let contact = selectedContact {
+                let count = dataModel.files(for: contact).count
+                for row in rowIndexes {
+                    if row < count {
+                        let file = dataModel.files(for: contact)[row]
+                        let provider = NSFilePromiseProvider(fileType: kUTTypeData as String, delegate: self)
+                        provider.userInfo = file
+                        pboard.writeObjects([provider])
+                    }
+                }
+            }
+
+            return true
+        }
         return false
     }
     
+    func filePromiseProvider(_ filePromiseProvider: NSFilePromiseProvider, fileNameForType fileType: String) -> String {
+        if let file = filePromiseProvider.userInfo as? File {
+            return file.name
+        }
+        return "<File missing>"
+    }
+    
+    func filePromiseProvider(_ filePromiseProvider: NSFilePromiseProvider, writePromiseTo url: URL, completionHandler: @escaping (Error?) -> Void) {
+        try! "Test".write(to: url, atomically: true, encoding: String.Encoding.utf8)
+        completionHandler(nil)
+    }
+
 }
 

@@ -33,7 +33,7 @@ struct DataModel {
         for contact in contacts {
             self.api.resolve(arg: contact.remoteHash, recursive: true) { (response, error) in
                 guard let response = response else {
-                    print("\(error!.localizedDescription)")
+                    self.api.printError(error)
                     return
                 }
 
@@ -63,7 +63,7 @@ struct DataModel {
             OperationQueue.main.addOperation {
                 self.api.add(file: file, completion: { (response, error) in
                     guard let response = response else {
-                        print("\(error!.localizedDescription)")
+                        self.api.printError(error)
                         return
                     }
 
@@ -88,7 +88,7 @@ struct DataModel {
 
             self.api.add(file: temporaryFile) { (response, error) in
                 guard let response = response else {
-                    print("\(error!.localizedDescription)")
+                    self.api.printError(error)
                     return
                 }
 
@@ -102,7 +102,7 @@ struct DataModel {
     private func getFileList(from contact: Contact, at path: String) {
         api.get(arg: path) { (data, error) in
             guard let data = data else {
-                print("\(error!.localizedDescription)")
+                self.api.printError(error)
                 return
             }
 
@@ -119,7 +119,7 @@ struct DataModel {
         OperationQueue.main.addOperation {
             self.api.publish(arg: hash, key: contact.name) { (response, error) in
                 guard let _ = response else {
-                    print("\(error!.localizedDescription)")
+                    self.api.printError(error)
                     return
                 }
 

@@ -33,4 +33,8 @@ protocol APIProviding {
     func resolve(arg: String, recursive: Bool?,
                  completion: @escaping ((_ data: ResolveResponse?,_ error: Error?) -> Void))
 
+    // MARK: Utility
+
+    func printError(_ error: Error?)
+
 }

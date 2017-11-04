@@ -8,6 +8,7 @@
 
 import Foundation
 import IPFSWebService
+import Alamofire
 
 struct IPFSAPI: APIProviding {
 
@@ -60,6 +61,26 @@ struct IPFSAPI: APIProviding {
         print("Removing key:\n  Name: \"\(arg)\"\n")
 
         DefaultAPI.removeKey(arg: arg, completion: completion)
+    }
+
+    // MARK: Utility
+
+    func printError(_ error: Error?) {
+        if let errorResponse = error as? ErrorResponse {
+            switch errorResponse {
+            case .Error(let statusCode, let data, let error):
+                print("Error (\(statusCode)):")
+                if let data = data, let string = String(data: data, encoding: .utf8) {
+                    print("  \(string)")
+                }
+                // Recurse
+                printError(error)
+            }
+        } else if let afError = error as? AFError, let description = afError.errorDescription {
+            print(description)
+        } else {
+            print(String(describing: error))
+        }
     }
 
 }

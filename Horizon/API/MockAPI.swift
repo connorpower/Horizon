@@ -56,5 +56,9 @@ struct MockAPI: APIProviding {
     func listKeys(completion: @escaping ((_ data: ListKeysResponse?, _ error: Error?) -> Void)) {}
 
     func removeKey(arg: String, completion: @escaping ((_ data: RemoveKeyResponse?, _ error: Error?) -> Void)) {}
+
+    // MARK: Utility
+
+    func printError(_ error: Error?) {}
     
 }

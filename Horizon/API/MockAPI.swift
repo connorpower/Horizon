@@ -22,7 +22,7 @@ struct MockAPI: APIProviding {
         completion(response, nil)
     }
 
-    func get(arg: String, completion: @escaping ((_ data: Data?, _ error: Error?) -> Void)) {
+    func cat(arg: String, completion: @escaping ((_ data: Data?, _ error: Error?) -> Void)) {
         let fileURL = Bundle.main.url(forResource: "The Cathedral and the Bazaar", withExtension: "pdf")!
         let data = try! Data(contentsOf: fileURL, options: [])
 

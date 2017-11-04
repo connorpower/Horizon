@@ -18,7 +18,7 @@ protocol APIProviding {
 
     func add(file: URL, completion: @escaping ((_ data: AddResponse?,_ error: Error?) -> Void))
 
-    func get(arg: String, completion: @escaping ((_ data: Data?,_ error: Error?) -> Void))
+    func cat(arg: String, completion: @escaping ((_ data: Data?,_ error: Error?) -> Void))
 
     func keygen(arg: String, type: DefaultAPI.ModelType_keygen, size: Int32,
                 completion: @escaping ((_ data: KeygenResponse?,_ error: Error?) -> Void))

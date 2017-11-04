@@ -32,7 +32,10 @@ struct DataModel {
     func sync() {
         for contact in contacts {
             self.api.resolve(arg: contact.remoteHash, recursive: true) { (response, error) in
-                guard let response = response else { fatalError("\(error!.localizedDescription)") }
+                guard let response = response else {
+                    print("\(error!.localizedDescription)")
+                    return
+                }
 
                 self.getFileList(from: contact, at: response.path!)
             }
@@ -59,7 +62,10 @@ struct DataModel {
         for file in fileURLs {
             OperationQueue.main.addOperation {
                 self.api.add(file: file, completion: { (response, error) in
-                    guard let response = response else { fatalError("\(error!.localizedDescription)") }
+                    guard let response = response else {
+                        print("\(error!.localizedDescription)")
+                        return
+                    }
 
                     providedFiles += [File(name: response.name!, hash: response.hash!)]
                 })
@@ -81,7 +87,10 @@ struct DataModel {
             try! data.write(to: temporaryFile)
 
             self.api.add(file: temporaryFile) { (response, error) in
-                guard let response = response else { fatalError("\(error!.localizedDescription)") }
+                guard let response = response else {
+                    print("\(error!.localizedDescription)")
+                    return
+                }
 
                 self.publishFileList(response.hash!, to: contact)
             }
@@ -92,13 +101,16 @@ struct DataModel {
 
     private func getFileList(from contact: Contact, at path: String) {
         api.get(arg: path) { (data, error) in
-            guard let data = data else { fatalError("\(error!.localizedDescription)") }
+            guard let data = data else {
+                print("\(error!.localizedDescription)")
+                return
+            }
 
             if let files = try? JSONDecoder().decode([File].self, from: data) {
                 self.persistentStore.updateReceivedFileList(files, from: contact)
                 self.broadcastNewData()
             } else {
-                fatalError("Failed to decode downloaded JSON")
+                print("Failed to decode downloaded JSON")
             }
         }
     }
@@ -106,7 +118,10 @@ struct DataModel {
     private func publishFileList(_ hash: String, to contact: Contact) {
         OperationQueue.main.addOperation {
             self.api.publish(arg: hash, key: contact.name) { (response, error) in
-                guard let _ = response else { fatalError("\(error!.localizedDescription)") }
+                guard let _ = response else {
+                    print("\(error!.localizedDescription)")
+                    return
+                }
 
                 print("Published new file list: \"\(hash)\"")
             }

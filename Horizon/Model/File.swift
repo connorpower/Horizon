@@ -12,3 +12,15 @@ struct File: Codable {
     let name: String
     let hash: String?
 }
+
+extension File: Equatable {
+    public static func ==(lhs: File, rhs: File) -> Bool {
+        return lhs.name == rhs.name && lhs.hash == rhs.hash
+    }
+}
+
+extension File: Hashable {
+    var hashValue: Int {
+        return name.hashValue ^ (hash ?? "").hashValue &* 16777619
+    }
+}

@@ -67,13 +67,14 @@ struct DataModel {
 
                     let newFile = File(name: response.name!, hash: response.hash!)
                     let providedFiles = self.persistentStore.providedFileList(for: contact) + [newFile]
-                    self.persistentStore.updateProvidedFileList(providedFiles, for: contact)
+                    let providedFilesWithoutDuplicates = Array(Set(providedFiles))
+                    self.persistentStore.updateProvidedFileList(providedFilesWithoutDuplicates, for: contact)
 
                     // WARNING: This will likely fail if multiple concurrent attempts are performed
                     // at once. Move commands into a background thread and perform in a blocking
                     // synchronious manner
                     //
-                    self.publishFileList(providedFiles, to: contact)
+                    self.publishFileList(providedFilesWithoutDuplicates, to: contact)
                 })
             }
         }

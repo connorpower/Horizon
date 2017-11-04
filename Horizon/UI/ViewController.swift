@@ -15,7 +15,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 
     @IBOutlet weak var progressView: NSView!
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
-
+    @IBOutlet weak var statusField: NSTextField!
+    
     // Constants
     let contactsTableViewId = NSUserInterfaceItemIdentifier("Contacts")
     let filesTableViewId = NSUserInterfaceItemIdentifier("Files")
@@ -249,7 +250,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     }
 
     func updateProgressWithStatus(status: String) {
-        print("status: \(status)")
+        statusField.stringValue = status
     }
 
 }

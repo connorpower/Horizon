@@ -92,7 +92,7 @@ struct DataModel {
                 self.persistentStore.updateReceivedFileList(files, from: contact)
                 self.broadcastNewData()
             } else {
-                print("Failed to decode downloaded JSON")
+                print("Failed to decode downloaded JSON\n")
             }
         }
     }

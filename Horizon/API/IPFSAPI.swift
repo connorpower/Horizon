@@ -31,8 +31,8 @@ struct IPFSAPI: APIProviding {
         print("Getting file:\n  File: \"\(arg)\"\n")
 
         DefaultAPI.callGet(arg: arg) { (data, error) in
-            if let data = data {
-                print("Got file:\n  Size: \"\(data.count)\"\n")
+            if data != nil {
+                print("Got file\n")
             }
 
             completion(data, error)

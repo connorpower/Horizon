@@ -12,9 +12,9 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     
     @IBOutlet weak var contactsTableView: NSTableView!
     @IBOutlet weak var filesTableView: NSTableView!
-    @IBOutlet weak var progressView: NSView!
-    @IBOutlet weak var progressIndicator: NSProgressIndicator!
     
+    @IBOutlet weak var progressView: NSVisualEffectView!
+    @IBOutlet weak var progressIndicator: NSProgressIndicator!
     
     // Constants
     let contactsTableViewId = NSUserInterfaceItemIdentifier("Contacts")
@@ -233,7 +233,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     func endProgressUpdates() {
         print("endProgressUpdates")
         progressIndicator.stopAnimation(nil)
-        //progressView.isHidden = true
+        progressView.isHidden = true
     }
     
     func updateProgressWithStatus(status: String) {

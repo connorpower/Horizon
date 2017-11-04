@@ -57,42 +57,24 @@ struct DataModel {
     }
 
     func add(fileURLs: [URL], to contact: Contact) {
-        var providedFiles = persistentStore.providedFileList(for: contact)
-
-        for file in fileURLs {
+        for url in fileURLs {
             OperationQueue.main.addOperation {
-                self.api.add(file: file, completion: { (response, error) in
+                self.api.add(file: url, completion: { (response, error) in
                     guard let response = response else {
                         self.api.printError(error)
                         return
                     }
 
-                    providedFiles += [File(name: response.name!, hash: response.hash!)]
+                    let newFile = File(name: response.name!, hash: response.hash!)
+                    let providedFiles = self.persistentStore.providedFileList(for: contact) + [newFile]
+                    self.persistentStore.updateProvidedFileList(providedFiles, for: contact)
+
+                    // WARNING: This will likely fail if multiple concurrent attempts are performed
+                    // at once. Move commands into a background thread and perform in a blocking
+                    // synchronious manner
+                    //
+                    self.publishFileList(providedFiles, to: contact)
                 })
-            }
-        }
-
-        OperationQueue.main.addOperation {
-            self.persistentStore.updateProvidedFileList(providedFiles, for: contact)
-
-            // TODO: We should really have an API which simply takes data
-            // instead of needing temporary files.
-            //
-            let data = try! JSONEncoder().encode(providedFiles)
-            let tempDir = try! FileManager.default.url(for: .itemReplacementDirectory,
-                                                       in: .userDomainMask,
-                                                       appropriateFor: URL(fileURLWithPath: "/"),
-                                                       create: true)
-            let temporaryFile = tempDir.appendingPathComponent(UUID().uuidString + ".json")
-            try! data.write(to: temporaryFile)
-
-            self.api.add(file: temporaryFile) { (response, error) in
-                guard let response = response else {
-                    self.api.printError(error)
-                    return
-                }
-
-                self.publishFileList(response.hash!, to: contact)
             }
         }
     }
@@ -115,8 +97,24 @@ struct DataModel {
         }
     }
 
-    private func publishFileList(_ hash: String, to contact: Contact) {
-        OperationQueue.main.addOperation {
+    private func publishFileList(_ fileList: [File], to contact: Contact) {
+        // TODO: We should really have an API which simply takes data
+        // instead of needing temporary files.
+        //
+        let data = try! JSONEncoder().encode(fileList)
+        let tempDir = try! FileManager.default.url(for: .itemReplacementDirectory,
+                                                   in: .userDomainMask,
+                                                   appropriateFor: URL(fileURLWithPath: "/"),
+                                                   create: true)
+        let temporaryFile = tempDir.appendingPathComponent(UUID().uuidString + ".json")
+        try! data.write(to: temporaryFile)
+
+        self.api.add(file: temporaryFile) { (response, error) in
+            guard let response = response, let hash = response.hash else {
+                self.api.printError(error)
+                return
+            }
+
             self.api.publish(arg: hash, key: contact.name) { (response, error) in
                 guard let _ = response else {
                     self.api.printError(error)

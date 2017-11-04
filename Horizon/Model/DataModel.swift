@@ -14,6 +14,8 @@ struct DataModel {
 
     struct Notifications {
         static let newDataAvailable = Notification.Name("de.horizon.notification.newDataAvailable")
+        static let syncStarted = Notification.Name("de.horizon.notification.syncStarted")
+        static let syncEnded = Notification.Name("de.horizon.notification.syncEnded")
     }
 
     // MARK: - Variables
@@ -30,6 +32,8 @@ struct DataModel {
     // MARK: - API
 
     func sync() {
+        NotificationCenter.default.post(name: Notifications.syncStarted, object: nil)
+
         for contact in contacts {
             self.api.resolve(arg: contact.remoteHash, recursive: true) { (response, error) in
                 guard let response = response else {
@@ -40,6 +44,8 @@ struct DataModel {
                 self.getFileList(from: contact, at: response.path!)
             }
         }
+        
+        NotificationCenter.default.post(name: Notifications.syncEnded, object: nil)
     }
 
     func addContact(contact: Contact) {

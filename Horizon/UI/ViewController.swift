@@ -12,6 +12,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     
     @IBOutlet weak var contactsTableView: NSTableView!
     @IBOutlet weak var filesTableView: NSTableView!
+    @IBOutlet weak var progressView: NSView!
+    @IBOutlet weak var progressIndicator: NSProgressIndicator!
     
     
     // Constants
@@ -38,7 +40,15 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             self.contactsTableView.reloadData()
             self.filesTableView.reloadData()
         }
-    }
+
+        NotificationCenter.default.addObserver(forName: DataModel.Notifications.syncStarted, object: nil, queue: OperationQueue.main) { _ in
+            self.beginProgressUpdates()
+        }
+
+        NotificationCenter.default.addObserver(forName: DataModel.Notifications.syncEnded, object: nil, queue: OperationQueue.main) { _ in
+            self.endProgressUpdates()
+        }
+}
 
     func updateFilesTableView() {
         selectedContact = contact(at: contactsTableView.selectedRow)
@@ -210,5 +220,24 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         }
     }
 
+    // ***********************
+    // Progress Updates
+    // ***********************
+
+    func beginProgressUpdates() {
+        print("beginProgressUpdates")
+        progressView.isHidden = false
+        progressIndicator.startAnimation(nil)
+    }
+
+    func endProgressUpdates() {
+        print("endProgressUpdates")
+        progressIndicator.stopAnimation(nil)
+        //progressView.isHidden = true
+    }
+    
+    func updateProgressWithStatus(status: String) {
+        
+    }
 }
 

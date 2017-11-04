@@ -8,6 +8,6 @@ target 'Horizon' do
   platform :osx, '10.13'
 
   pod 'Alamofire', '~> 4.5'
-  pod 'IPFSWebService', '~> 0.2.0'
+  pod 'IPFSWebService', '~> 1.0.0'
 
 end

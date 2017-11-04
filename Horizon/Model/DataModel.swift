@@ -82,7 +82,7 @@ struct DataModel {
     // MARK: Private Functions
 
     private func getFileList(from contact: Contact, at path: String) {
-        api.get(arg: path) { (data, error) in
+        api.cat(arg: path) { (data, error) in
             guard let data = data else {
                 self.api.printError(error)
                 return

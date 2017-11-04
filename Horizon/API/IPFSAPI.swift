@@ -27,10 +27,10 @@ struct IPFSAPI: APIProviding {
         }
     }
 
-    func get(arg: String, completion: @escaping ((_ data: Data?, _ error: Error?) -> Void)) {
+    func cat(arg: String, completion: @escaping ((_ data: Data?, _ error: Error?) -> Void)) {
         print("Getting file:\n  File: \"\(arg)\"\n")
 
-        DefaultAPI.callGet(arg: arg) { (data, error) in
+        DefaultAPI.cat(arg: arg) { (data, error) in
             if data != nil {
                 print("Got file\n")
             }

@@ -45,7 +45,6 @@
 		D2AB9FB81FAD08FA004BE28C /* The Cathedral and the Bazaar.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "The Cathedral and the Bazaar.pdf"; sourceTree = "<group>"; };
 		D2AB9FBA1FAD16DD004BE28C /* IPFSAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPFSAPI.swift; sourceTree = "<group>"; };
 		D2AB9FBC1FAD203B004BE28C /* PersistentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStore.swift; sourceTree = "<group>"; };
-		D2E76FDB1FF56C1A00C6BC7E /* increase_build_number.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = increase_build_number.sh; sourceTree = "<group>"; };
 		E49777C0BA2468F69A3CE0F1 /* Pods_Horizon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Horizon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -64,7 +63,6 @@
 		4BE1DD651FAB6A0B006FEB46 = {
 			isa = PBXGroup;
 			children = (
-				D2E76FDA1FF56BF700C6BC7E /* XcodeBots */,
 				4BE1DD701FAB6A0B006FEB46 /* Horizon */,
 				4BE1DD6F1FAB6A0B006FEB46 /* Products */,
 				601831E7D7F0CBD994827C46 /* Pods */,
@@ -143,14 +141,6 @@
 				D2AB9FBA1FAD16DD004BE28C /* IPFSAPI.swift */,
 			);
 			path = API;
-			sourceTree = "<group>";
-		};
-		D2E76FDA1FF56BF700C6BC7E /* XcodeBots */ = {
-			isa = PBXGroup;
-			children = (
-				D2E76FDB1FF56C1A00C6BC7E /* increase_build_number.sh */,
-			);
-			path = XcodeBots;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -37,25 +37,25 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         filesTableView.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
         filesTableView.setDraggingSourceOperationMask(NSDragOperation.copy, forLocal: false)
 
-        NotificationCenter.default.addObserver(forName: DataModel.Notifications.newDataAvailable,
+        NotificationCenter.default.addObserver(forName: Notifications.newDataAvailable,
                                                object: nil, queue: OperationQueue.main) { _ in
             self.contactsTableView.reloadData()
             self.filesTableView.reloadData()
         }
 
-        NotificationCenter.default.addObserver(forName: DataModel.Notifications.syncStarted,
+        NotificationCenter.default.addObserver(forName: Notifications.syncStarted,
                                                object: nil, queue: OperationQueue.main) { _ in
             self.beginProgressUpdates()
         }
 
-        NotificationCenter.default.addObserver(forName: DataModel.Notifications.syncEnded,
+        NotificationCenter.default.addObserver(forName: Notifications.syncEnded,
                                                object: nil, queue: OperationQueue.main) { _ in
             self.endProgressUpdates()
         }
 
-        NotificationCenter.default.addObserver(forName: DataModel.Notifications.statusMessage,
+        NotificationCenter.default.addObserver(forName: Notifications.statusMessage,
                                                object: nil, queue: OperationQueue.main) { notification in
-            if let message = notification.userInfo?[DataModel.Notifications.statusMessageKey] as? String {
+            if let message = notification.userInfo?[Notifications.statusMessageKey] as? String {
                 self.updateProgressWithStatus(status: message)
             }
         }
@@ -97,8 +97,6 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        var result:NSTableCellView
-
         guard let columnId = tableColumn?.identifier else {
             print("Table view column is missing.")
             return nil
@@ -106,8 +104,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 
         switch columnId.rawValue {
         case "Contact":
-            result  = tableView.makeView(withIdentifier: columnId, owner: self) as! NSTableCellView
-            result.textField?.stringValue = dataModel.contacts[row].name
+            let result = tableView.makeView(withIdentifier: columnId, owner: self) as? NSTableCellView
+            result?.textField?.stringValue = dataModel.contacts[row].name
             return result
 
         case "File":
@@ -127,8 +125,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
                 fileName = "<Error>"
             }
 
-            result  = tableView.makeView(withIdentifier: columnId, owner: self) as! NSTableCellView
-            result.textField?.stringValue = fileName
+            let result = tableView.makeView(withIdentifier: columnId, owner: self) as? NSTableCellView
+            result?.textField?.stringValue = fileName
             return result
 
         default:
@@ -142,8 +140,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     // ***********************
 
     func tableViewSelectionDidChange(_ notification: Notification) {
-        let tableView = notification.object as! NSTableView
-        if tableView.identifier == contactsTableViewId {
+        if let tableView = notification.object as? NSTableView,
+            tableView.identifier == contactsTableViewId {
             updateFilesTableView()
         }
     }

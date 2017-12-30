@@ -28,7 +28,10 @@ struct PersistentStore {
     }
 
     func updateContacts(_ contacts: [Contact]) {
-        let jsonData = try! JSONEncoder().encode(contacts)
+        guard let jsonData = try? JSONEncoder().encode(contacts) else {
+            Notifications.broadcastStatusMessage("Internal error updating contacts list...")
+            return
+        }
         UserDefaults.standard.set(jsonData, forKey: UserDefaultsKeys.contactList)
     }
 
@@ -42,7 +45,10 @@ struct PersistentStore {
     }
 
     func updateReceivedFileList(_ fileList: [File], from contact: Contact) {
-        let jsonData = try! JSONEncoder().encode(fileList)
+        guard let jsonData = try? JSONEncoder().encode(fileList) else {
+            Notifications.broadcastStatusMessage("Internal error updating received file list from \(contact.name)...")
+            return
+        }
         UserDefaults.standard.set(jsonData, forKey: contact.receivedFileListKey)
     }
 
@@ -56,7 +62,10 @@ struct PersistentStore {
     }
 
     func updateProvidedFileList(_ fileList: [File], for contact: Contact) {
-        let jsonData = try! JSONEncoder().encode(fileList)
+        guard let jsonData = try? JSONEncoder().encode(fileList) else {
+            Notifications.broadcastStatusMessage("Internal error updating shared file list for \(contact.name)...")
+            return
+        }
         UserDefaults.standard.set(jsonData, forKey: contact.providedFileListKey)
     }
 

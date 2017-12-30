@@ -8,9 +8,13 @@
 
 import Cocoa
 
-class ShowContactSegue : NSStoryboardSegue {
+class ShowContactSegue: NSStoryboardSegue {
     override func perform() {
-        let windowController = self.destinationController as! NSWindowController
-        NSApp.runModal(for: windowController.window!)
+        if let windowController = self.destinationController as? NSWindowController,
+            let window = windowController.window {
+            NSApp.runModal(for: window)
+        } else {
+            super.perform()
+        }
     }
 }

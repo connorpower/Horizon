@@ -156,6 +156,7 @@
 				4BE1DD6C1FAB6A0B006FEB46 /* Resources */,
 				3B5B0783F01EF583C71057DB /* [CP] Embed Pods Frameworks */,
 				36E2452FB654B6C7C53A210F /* [CP] Copy Pods Resources */,
+				D28FC1751FF80202007D8BCA /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -265,6 +266,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Horizon/Pods-Horizon-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		D28FC1751FF80202007D8BCA /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 

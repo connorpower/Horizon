@@ -12,15 +12,23 @@ on how the beta testing pool is managed.
 
 ### Prerequisites
 
-Cocoapods is used for dependency management.
+Cocoapods is used for dependency management. Cocoapods is not required to
+build the app as all dependencies have been checked into the repository.
+You only need to install Cocoapods if you are actively developing Horizon.
 
-Cocoapods is not required to build the app as all dependencies have been
-checked into the repository. You only need to install Cocoapods if you are
-actively developing Horizon.
+This project integrates [SwiftLint](https://github.com/realm/SwiftLint) as
+a build step to ensure consistency among contributors and to detect common
+pitfalls. SwiftLint runs automatically during compilation.
 
 Under the hood, Horizon leverages [IPFS](https://github.com/ipfs/ipfs)
 for the distributed storage and data transfer mechanism. IPFS *is* required
 on the local system, and should be running before starting Horizon.
+
+```
+# Required for development only
+brew install cocoapods
+brew install swiftlint
+```
 
 ### Running the app
 
@@ -45,12 +53,6 @@ Automated tests exist only in the form of unit tests run by the continuous
 integration server. Due to the distributed nature of the app few other tests
 make sense.
 
-### SwiftLint
-
-This project integrates [SwiftLint](https://github.com/realm/SwiftLint) as
-a build step to ensure consistency among contributors and to detect common
-pitfalls. SwiftLint runs automatically during compilation.
-
 ## Deployment
 
 Horizon is deployed amongst testers using [App Center](https://appcenter.ms).
@@ -69,6 +71,7 @@ App Center is responsible for:
 
 * [Xcode](https://developer.apple.com/xcode/) - Integrated Development Environment
 * [Cocoapods](https://cocoapods.org) - Dependency Management
+* [SwiftLint](https://github.com/realm/SwiftLint) - Swift Linter
 * [App Center](https://appcenter.ms) - Continuous Integration
 
 ## Versioning

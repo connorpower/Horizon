@@ -30,7 +30,7 @@ struct MockAPI: APIProviding {
     }
 
     // MARK: IPNS
-    
+
     func publish(arg: String, key: String?,
                  completion: @escaping ((_ data: PublishResponse?, _ error: Error?) -> Void)) {
         let response = PublishResponse()
@@ -60,5 +60,5 @@ struct MockAPI: APIProviding {
     // MARK: Utility
 
     func printError(_ error: Error?) {}
-    
+
 }

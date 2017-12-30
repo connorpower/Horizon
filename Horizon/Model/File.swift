@@ -14,7 +14,7 @@ struct File: Codable {
 }
 
 extension File: Equatable {
-    public static func ==(lhs: File, rhs: File) -> Bool {
+    public static func == (lhs: File, rhs: File) -> Bool {
         return lhs.name == rhs.name && lhs.hash == rhs.hash
     }
 }

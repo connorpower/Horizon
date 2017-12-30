@@ -9,14 +9,14 @@
 import Cocoa
 
 class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, NSFilePromiseProviderDelegate {
-    
+
     @IBOutlet weak var contactsTableView: NSTableView!
     @IBOutlet weak var filesTableView: NSTableView!
 
     @IBOutlet weak var progressView: NSView!
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
     @IBOutlet weak var statusField: NSTextField!
-    
+
     // Constants
     let contactsTableViewId = NSUserInterfaceItemIdentifier("Contacts")
     let filesTableViewId = NSUserInterfaceItemIdentifier("Files")
@@ -36,7 +36,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         contactsTableView.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
         filesTableView.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
         filesTableView.setDraggingSourceOperationMask(NSDragOperation.copy, forLocal: false)
-        
+
         NotificationCenter.default.addObserver(forName: DataModel.Notifications.newDataAvailable,
                                                object: nil, queue: OperationQueue.main) { _ in
             self.contactsTableView.reloadData()
@@ -67,7 +67,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         selectedContact = contact(at: contactsTableView.selectedRow)
         filesTableView.reloadData()
     }
-    
+
     // ***********************
     // NSTableView data source
     // ***********************
@@ -77,11 +77,11 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             print("Table view is missing an identifier.")
             return 0
         }
-        
+
         switch identifier {
         case contactsTableViewId:
             return dataModel.contacts.count
-            
+
         case filesTableViewId:
             if let contact = selectedContact {
                 return dataModel.files(from: contact).count
@@ -89,27 +89,27 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             else {
                 return 0
             }
-            
+
         default:
             print("No data for table view with id \(identifier.rawValue)")
             return 0
         }
     }
-    
+
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         var result:NSTableCellView
-        
+
         guard let columnId = tableColumn?.identifier else {
             print("Table view column is missing.")
             return nil
         }
-        
+
         switch columnId.rawValue {
         case "Contact":
             result  = tableView.makeView(withIdentifier: columnId, owner: self) as! NSTableCellView
             result.textField?.stringValue = dataModel.contacts[row].name
             return result
-            
+
         case "File":
             let fileName: String
             if let contact = selectedContact {
@@ -136,29 +136,29 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             return nil
         }
     }
-    
+
     // ***********************
     // NSTableView selection
     // ***********************
-    
+
     func tableViewSelectionDidChange(_ notification: Notification) {
         let tableView = notification.object as! NSTableView
         if tableView.identifier == contactsTableViewId {
             updateFilesTableView()
         }
     }
-    
+
     func contact(at row: Int) -> Contact? {
         if row >= 0 && row < dataModel.contacts.count {
             return dataModel.contacts[row]
         }
         return nil
     }
-    
+
     // ***********************
     // NSTableView drop
     // ***********************
-    
+
     func tableView(_ tableView: NSTableView,
                    validateDrop info: NSDraggingInfo,
                    proposedRow row: Int,
@@ -168,7 +168,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         }
         return NSDragOperation()
     }
-    
+
     func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
         if tableView == contactsTableView {
             let pboard = info.draggingPasteboard()
@@ -181,10 +181,10 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
                 return true
             }
         }
-        
+
         return false
     }
-    
+
     // ***********************
     // NSTableView drag
     // ***********************
@@ -254,4 +254,3 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     }
 
 }
-

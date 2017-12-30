@@ -32,7 +32,10 @@ class DataModel {
         Notifications.broadcastSyncStart()
 
         for contact in contacts {
-            Notifications.broadcastStatusMessage("Interplanetary Naming System: Resolving location of \(contact.name)...")
+            Notifications.broadcastStatusMessage("""
+                                                 Interplanetary Naming System: Resolving location of \(contact.name)...
+                                                 """
+            )
             self.api.resolve(arg: contact.remoteHash, recursive: true) { (response, error) in
                 guard let response = response else {
                     self.handleError(error)
@@ -64,7 +67,10 @@ class DataModel {
 
     func add(fileURLs: [URL], to contact: Contact) {
         for url in fileURLs {
-            Notifications.broadcastStatusMessage("Interplanetary File System: Adding \(url.lastPathComponent) for \(contact.name)...")
+            Notifications.broadcastStatusMessage("""
+                                                 Interplanetary File System: Adding \(url.lastPathComponent)
+                                                  for \(contact.name)...
+                                                 """)
             self.api.add(file: url, completion: { (response, error) in
                 guard let response = response else {
                     self.handleError(error)
@@ -88,7 +94,9 @@ class DataModel {
     // MARK: Private Functions
 
     private func getFileList(from contact: Contact, at path: String) {
-        Notifications.broadcastStatusMessage("Interplanetary File System: Downloading file list from \(contact.name)...")
+        Notifications.broadcastStatusMessage("""
+                                             Interplanetary File System: Downloading file list from \(contact.name)...
+                                             """)
 
         api.cat(arg: path) { (data, error) in
             guard let data = data else {
@@ -96,7 +104,9 @@ class DataModel {
                 return
             }
 
-            Notifications.broadcastStatusMessage("Interplanetary File System: Decoding file list from \(contact.name)...")
+            Notifications.broadcastStatusMessage("""
+                                                 Interplanetary File System: Decoding file list from \(contact.name)...
+                                                 """)
             if let files = try? JSONDecoder().decode([File].self, from: data) {
                 self.persistentStore.updateReceivedFileList(files, from: contact)
                 Notifications.broadcastNewData()
@@ -140,7 +150,10 @@ class DataModel {
                 return
             }
 
-            Notifications.broadcastStatusMessage("Interplanetary Naming System: Publishing file list for \(contact.name)...")
+            Notifications.broadcastStatusMessage("""
+                                                 Interplanetary Naming System: Publishing file list
+                                                  for \(contact.name)...
+                                                 """)
             self.api.publish(arg: hash, key: contact.name) { (response, error) in
                 guard response != nil else {
                     self.handleError(error)

@@ -164,7 +164,10 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         return NSDragOperation()
     }
 
-    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
+    func tableView(_ tableView: NSTableView,
+                   acceptDrop info: NSDraggingInfo,
+                   row: Int,
+                   dropOperation: NSTableView.DropOperation) -> Bool {
         if tableView == contactsTableView {
             let pboard = info.draggingPasteboard()
             let data = pboard.readObjects(forClasses: [NSURL.self],

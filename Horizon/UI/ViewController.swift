@@ -24,6 +24,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     // State
     var selectedContact: Contact?
 
+    var observers = [NSObjectProtocol]()
+
     var dataModel: DataModel {
         let appDelegate = (NSApp.delegate) as? AppDelegate
         return appDelegate!.dataModel
@@ -37,30 +39,41 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         filesTableView.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
         filesTableView.setDraggingSourceOperationMask(NSDragOperation.copy, forLocal: false)
 
-        NotificationCenter.default.addObserver(forName: Notifications.newDataAvailable,
-                                               object: nil, queue: OperationQueue.main) { _ in
-            self.contactsTableView.reloadData()
-            self.filesTableView.reloadData()
-        }
-
-        NotificationCenter.default.addObserver(forName: Notifications.syncStarted,
-                                               object: nil, queue: OperationQueue.main) { _ in
-            self.beginProgressUpdates()
-        }
-
-        NotificationCenter.default.addObserver(forName: Notifications.syncEnded,
-                                               object: nil, queue: OperationQueue.main) { _ in
-            self.endProgressUpdates()
-        }
-
-        NotificationCenter.default.addObserver(forName: Notifications.statusMessage,
-                                               object: nil, queue: OperationQueue.main) { notification in
-            if let message = notification.userInfo?[Notifications.statusMessageKey] as? String {
-                self.updateProgressWithStatus(status: message)
+        let dataAvailableObserver = NotificationCenter.default.addObserver(
+            forName: Notifications.newDataAvailable, object: nil,
+            queue: OperationQueue.main) { [weak self] _ in
+                self?.contactsTableView.reloadData()
+                self?.filesTableView.reloadData()
             }
-        }
 
+        let syncStartedObserver = NotificationCenter.default.addObserver(
+            forName: Notifications.syncStarted, object: nil,
+            queue: OperationQueue.main) { [weak self] _ in
+                self?.beginProgressUpdates()
+            }
+
+        let syncEndedObserver = NotificationCenter.default.addObserver(
+            forName: Notifications.syncEnded, object: nil,
+            queue: OperationQueue.main) { [weak self] _ in
+                self?.endProgressUpdates()
+            }
+
+        let statusMessageObserver = NotificationCenter.default.addObserver(
+            forName: Notifications.statusMessage, object: nil,
+            queue: OperationQueue.main) { [weak self] notification in
+                if let message = notification.userInfo?[Notifications.statusMessageKey] as? String {
+                    self?.updateProgressWithStatus(status: message)
+                }
+            }
+
+        observers = [dataAvailableObserver, syncStartedObserver, syncEndedObserver, statusMessageObserver]
         dataModel.sync()
+    }
+
+    deinit {
+        for observer in observers {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 
     func updateFilesTableView() {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-fileprivate struct UserDefaultsKeys {
+private struct UserDefaultsKeys {
     static let providedFileList = "de.horizon.providedFileList"
     static let receivedFileList = "de.horizon.receivedFileList"
     static let contactList = "de.horizon.contactList"

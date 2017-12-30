@@ -112,9 +112,6 @@ class DataModel {
     }
 
     private func publishFileList(_ fileList: [File], to contact: Contact) {
-        // TODO: We should really have an API which simply takes data
-        // instead of needing temporary files.
-        //
         guard let data = try? JSONEncoder().encode(fileList) else {
             Notifications.broadcastStatusMessage("Internal error uploading file list for \(contact.name)...")
             return
@@ -145,7 +142,7 @@ class DataModel {
 
             Notifications.broadcastStatusMessage("Interplanetary Naming System: Publishing file list for \(contact.name)...")
             self.api.publish(arg: hash, key: contact.name) { (response, error) in
-                guard let _ = response else {
+                guard response != nil else {
                     self.handleError(error)
                     return
                 }

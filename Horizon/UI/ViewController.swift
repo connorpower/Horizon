@@ -85,8 +85,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         case filesTableViewId:
             if let contact = selectedContact {
                 return dataModel.files(from: contact).count
-            }
-            else {
+            } else {
                 return 0
             }
 
@@ -114,13 +113,11 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
                 let files = dataModel.files(from: contact)
                 if row < files.count {
                     fileName = files[row].name
-                }
-                else {
+                } else {
                     print("We seem to have lost files since we last retrieved the file count.")
                     fileName = "<File is missing>"
                 }
-            }
-            else {
+            } else {
                 print("Don't retrieve files when there's no contact selected.")
                 fileName = "<Error>"
             }
@@ -191,13 +188,11 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         if tableView == filesTableView {
             if let contact = selectedContact {
                 let count = dataModel.files(from: contact).count
-                for row in rowIndexes {
-                    if row < count {
-                        let file = dataModel.files(from: contact)[row]
-                        let provider = NSFilePromiseProvider(fileType: kUTTypeData as String, delegate: self)
-                        provider.userInfo = file
-                        pboard.writeObjects([provider])
-                    }
+                for row in rowIndexes where row < count {
+                    let file = dataModel.files(from: contact)[row]
+                    let provider = NSFilePromiseProvider(fileType: kUTTypeData as String, delegate: self)
+                    provider.userInfo = file
+                    pboard.writeObjects([provider])
                 }
             }
 

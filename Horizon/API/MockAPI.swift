@@ -24,13 +24,13 @@ struct MockAPI: APIProviding {
 
     func cat(arg: String, completion: @escaping ((_ data: Data?, _ error: Error?) -> Void)) {
         let fileURL = Bundle.main.url(forResource: "The Cathedral and the Bazaar", withExtension: "pdf")!
-        let data = try! Data(contentsOf: fileURL, options: [])
+        let data = try? Data(contentsOf: fileURL, options: [])
 
         completion(data, nil)
     }
 
     // MARK: IPNS
-    
+
     func publish(arg: String, key: String?,
                  completion: @escaping ((_ data: PublishResponse?, _ error: Error?) -> Void)) {
         let response = PublishResponse()
@@ -60,5 +60,5 @@ struct MockAPI: APIProviding {
     // MARK: Utility
 
     func printError(_ error: Error?) {}
-    
+
 }

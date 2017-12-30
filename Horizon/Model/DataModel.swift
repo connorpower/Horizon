@@ -10,16 +10,6 @@ import Foundation
 
 class DataModel {
 
-    // MARK: - Constants
-
-    struct Notifications {
-        static let newDataAvailable = Notification.Name("de.horizon.notification.newDataAvailable")
-        static let syncStarted = Notification.Name("de.horizon.notification.syncStarted")
-        static let syncEnded = Notification.Name("de.horizon.notification.syncEnded")
-        static let statusMessage = Notification.Name("de.horizon.notification.statusMessage")
-        static let statusMessageKey = "StatusMessage"
-    }
-
     // MARK: - Variables
 
     private let persistentStore = PersistentStore()
@@ -39,10 +29,13 @@ class DataModel {
         guard syncState.isEmpty else { return }
 
         syncState += contacts
-        broadcastSyncStart()
+        Notifications.broadcastSyncStart()
 
         for contact in contacts {
-            broadcastStatusMessage("Interplanetary Naming System: Resolving location of \(contact.name)...")
+            Notifications.broadcastStatusMessage("""
+                                                 Interplanetary Naming System: Resolving location of \(contact.name)...
+                                                 """
+            )
             self.api.resolve(arg: contact.remoteHash, recursive: true) { (response, error) in
                 guard let response = response else {
                     self.handleError(error)
@@ -56,7 +49,7 @@ class DataModel {
 
     func addContact(contact: Contact) {
         persistentStore.updateContacts(contacts + [contact])
-        self.broadcastNewData()
+        Notifications.broadcastNewData()
         self.sync()
     }
 
@@ -74,7 +67,10 @@ class DataModel {
 
     func add(fileURLs: [URL], to contact: Contact) {
         for url in fileURLs {
-            broadcastStatusMessage("Interplanetary File System: Adding \(url.lastPathComponent) for \(contact.name)...")
+            Notifications.broadcastStatusMessage("""
+                                                 Interplanetary File System: Adding \(url.lastPathComponent)
+                                                  for \(contact.name)...
+                                                 """)
             self.api.add(file: url, completion: { (response, error) in
                 guard let response = response else {
                     self.handleError(error)
@@ -98,7 +94,9 @@ class DataModel {
     // MARK: Private Functions
 
     private func getFileList(from contact: Contact, at path: String) {
-        broadcastStatusMessage("Interplanetary File System: Downloading file list from \(contact.name)...")
+        Notifications.broadcastStatusMessage("""
+                                             Interplanetary File System: Downloading file list from \(contact.name)...
+                                             """)
 
         api.cat(arg: path) { (data, error) in
             guard let data = data else {
@@ -106,43 +104,58 @@ class DataModel {
                 return
             }
 
-            self.broadcastStatusMessage("Interplanetary File System: Decoding file list from \(contact.name)...")
+            Notifications.broadcastStatusMessage("""
+                                                 Interplanetary File System: Decoding file list from \(contact.name)...
+                                                 """)
             if let files = try? JSONDecoder().decode([File].self, from: data) {
                 self.persistentStore.updateReceivedFileList(files, from: contact)
-                self.broadcastNewData()
+                Notifications.broadcastNewData()
             } else {
                 print("Failed to decode downloaded JSON\n")
             }
 
             self.syncState = self.syncState.filter({ $0.name != contact.name })
             if self.syncState.isEmpty {
-                self.broadcastSyncEnd()
+                Notifications.broadcastSyncEnd()
             }
         }
     }
 
     private func publishFileList(_ fileList: [File], to contact: Contact) {
-        // TODO: We should really have an API which simply takes data
-        // instead of needing temporary files.
-        //
-        let data = try! JSONEncoder().encode(fileList)
-        let tempDir = try! FileManager.default.url(for: .itemReplacementDirectory,
-                                                   in: .userDomainMask,
-                                                   appropriateFor: URL(fileURLWithPath: "/"),
-                                                   create: true)
-        let temporaryFile = tempDir.appendingPathComponent(UUID().uuidString + ".json")
-        try! data.write(to: temporaryFile)
+        guard let data = try? JSONEncoder().encode(fileList) else {
+            Notifications.broadcastStatusMessage("Internal error uploading file list for \(contact.name)...")
+            return
+        }
+        guard let tempDir = try? FileManager.default.url(for: .itemReplacementDirectory,
+                                                         in: .userDomainMask,
+                                                         appropriateFor: URL(fileURLWithPath: "/"),
+                                                         create: true) else {
+            Notifications.broadcastStatusMessage("Internal error uploading file list for \(contact.name)...")
+            return
 
-        broadcastStatusMessage("Interplanetary File System: Uploading file list for \(contact.name)...")
+        }
+
+        let temporaryFile = tempDir.appendingPathComponent(UUID().uuidString + ".json")
+        do {
+            try data.write(to: temporaryFile)
+        } catch {
+            Notifications.broadcastStatusMessage("Internal error uploading file list for \(contact.name)...")
+            return
+        }
+
+        Notifications.broadcastStatusMessage("Interplanetary File System: Uploading file list for \(contact.name)...")
         self.api.add(file: temporaryFile) { (response, error) in
             guard let response = response, let hash = response.hash else {
                 self.handleError(error)
                 return
             }
 
-            self.broadcastStatusMessage("Interplanetary Naming System: Publishing file list for \(contact.name)...")
+            Notifications.broadcastStatusMessage("""
+                                                 Interplanetary Naming System: Publishing file list
+                                                  for \(contact.name)...
+                                                 """)
             self.api.publish(arg: hash, key: contact.name) { (response, error) in
-                guard let _ = response else {
+                guard response != nil else {
                     self.handleError(error)
                     return
                 }
@@ -155,24 +168,7 @@ class DataModel {
     private func handleError(_ error: Error?) {
         api.printError(error)
         syncState.removeAll()
-        broadcastSyncEnd()
-    }
-
-    private func broadcastStatusMessage(_ message: String) {
-        NotificationCenter.default.post(name: Notifications.statusMessage, object: nil,
-                                        userInfo: [Notifications.statusMessageKey: message])
-    }
-
-    private func broadcastSyncStart() {
-        NotificationCenter.default.post(name: Notifications.syncStarted, object: nil)
-    }
-
-    private func broadcastSyncEnd() {
-        NotificationCenter.default.post(name: Notifications.syncEnded, object: nil)
-    }
-
-    private func broadcastNewData() {
-        NotificationCenter.default.post(name: Notifications.newDataAvailable, object: nil)
+        Notifications.broadcastSyncEnd()
     }
 
 }

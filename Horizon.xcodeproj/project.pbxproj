@@ -18,12 +18,23 @@
 		4BE1DD791FAB6A0B006FEB46 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BE1DD771FAB6A0B006FEB46 /* Main.storyboard */; };
 		4BE1DD821FAB8670006FEB46 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE1DD811FAB8670006FEB46 /* Contact.swift */; };
 		4BE1DD841FAB8E9A006FEB46 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE1DD831FAB8E9A006FEB46 /* DataModel.swift */; };
+		D275FC841FFFB1A700B5ABDB /* FileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D275FC831FFFB1A700B5ABDB /* FileTests.swift */; };
 		D28FC1771FF809F1007D8BCA /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FC1761FF809F1007D8BCA /* Notifications.swift */; };
 		D2AB9FB51FACF11C004BE28C /* APIProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AB9FB41FACF11C004BE28C /* APIProviding.swift */; };
 		D2AB9FB71FAD07E5004BE28C /* MockAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AB9FB61FAD07E5004BE28C /* MockAPI.swift */; };
 		D2AB9FBB1FAD16DD004BE28C /* IPFSAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AB9FBA1FAD16DD004BE28C /* IPFSAPI.swift */; };
 		D2AB9FBD1FAD203B004BE28C /* PersistentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AB9FBC1FAD203B004BE28C /* PersistentStore.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D275FC7E1FFFB11300B5ABDB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4BE1DD661FAB6A0B006FEB46 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4BE1DD6D1FAB6A0B006FEB46;
+			remoteInfo = Horizon;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		4B493E7A1FAD23560025A34E /* AddContactController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddContactController.swift; sourceTree = "<group>"; };
@@ -41,6 +52,10 @@
 		4BE1DD831FAB8E9A006FEB46 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		5953289A5C5D7459AF47F705 /* Pods-Horizon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Horizon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Horizon/Pods-Horizon.release.xcconfig"; sourceTree = "<group>"; };
 		75683E09FE97130EA2C4048E /* Pods-Horizon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Horizon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Horizon/Pods-Horizon.debug.xcconfig"; sourceTree = "<group>"; };
+		D275FC791FFFB11300B5ABDB /* HorizonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HorizonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D275FC7D1FFFB11300B5ABDB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D275FC831FFFB1A700B5ABDB /* FileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTests.swift; sourceTree = "<group>"; };
+		D275FC861FFFB83000B5ABDB /* appcenter-post-build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "appcenter-post-build.sh"; sourceTree = "<group>"; };
 		D28FC1761FF809F1007D8BCA /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		D2AB9FB41FACF11C004BE28C /* APIProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProviding.swift; sourceTree = "<group>"; };
 		D2AB9FB61FAD07E5004BE28C /* MockAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPI.swift; sourceTree = "<group>"; };
@@ -59,13 +74,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D275FC761FFFB11300B5ABDB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		4BE1DD651FAB6A0B006FEB46 = {
 			isa = PBXGroup;
 			children = (
+				D275FC851FFFB81C00B5ABDB /* Scripts */,
 				4BE1DD701FAB6A0B006FEB46 /* Horizon */,
+				D275FC7A1FFFB11300B5ABDB /* HorizonTests */,
 				4BE1DD6F1FAB6A0B006FEB46 /* Products */,
 				601831E7D7F0CBD994827C46 /* Pods */,
 				7002DBFEC7B77261FBE48BEE /* Frameworks */,
@@ -76,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				4BE1DD6E1FAB6A0B006FEB46 /* Horizon.app */,
+				D275FC791FFFB11300B5ABDB /* HorizonTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -136,6 +161,23 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D275FC7A1FFFB11300B5ABDB /* HorizonTests */ = {
+			isa = PBXGroup;
+			children = (
+				D275FC7D1FFFB11300B5ABDB /* Info.plist */,
+				D275FC831FFFB1A700B5ABDB /* FileTests.swift */,
+			);
+			path = HorizonTests;
+			sourceTree = "<group>";
+		};
+		D275FC851FFFB81C00B5ABDB /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				D275FC861FFFB83000B5ABDB /* appcenter-post-build.sh */,
+			);
+			name = Scripts;
+			sourceTree = "<group>";
+		};
 		D2AB9FB91FAD16D0004BE28C /* API */ = {
 			isa = PBXGroup;
 			children = (
@@ -170,19 +212,42 @@
 			productReference = 4BE1DD6E1FAB6A0B006FEB46 /* Horizon.app */;
 			productType = "com.apple.product-type.application";
 		};
+		D275FC781FFFB11300B5ABDB /* HorizonTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D275FC821FFFB11300B5ABDB /* Build configuration list for PBXNativeTarget "HorizonTests" */;
+			buildPhases = (
+				D275FC751FFFB11300B5ABDB /* Sources */,
+				D275FC761FFFB11300B5ABDB /* Frameworks */,
+				D275FC771FFFB11300B5ABDB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D275FC7F1FFFB11300B5ABDB /* PBXTargetDependency */,
+			);
+			name = HorizonTests;
+			productName = HorizonTests;
+			productReference = D275FC791FFFB11300B5ABDB /* HorizonTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		4BE1DD661FAB6A0B006FEB46 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0900;
+				LastSwiftUpdateCheck = 0920;
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Semantical GmbH & Co. KG";
 				TargetAttributes = {
 					4BE1DD6D1FAB6A0B006FEB46 = {
 						CreatedOnToolsVersion = 9.0.1;
 						ProvisioningStyle = Manual;
+					};
+					D275FC781FFFB11300B5ABDB = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 4BE1DD6D1FAB6A0B006FEB46;
 					};
 				};
 			};
@@ -200,6 +265,7 @@
 			projectRoot = "";
 			targets = (
 				4BE1DD6D1FAB6A0B006FEB46 /* Horizon */,
+				D275FC781FFFB11300B5ABDB /* HorizonTests */,
 			);
 		};
 /* End PBXProject section */
@@ -211,6 +277,13 @@
 			files = (
 				4BE1DD761FAB6A0B006FEB46 /* Assets.xcassets in Resources */,
 				4BE1DD791FAB6A0B006FEB46 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D275FC771FFFB11300B5ABDB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,7 +380,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D275FC751FFFB11300B5ABDB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D275FC841FFFB1A700B5ABDB /* FileTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D275FC7F1FFFB11300B5ABDB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4BE1DD6D1FAB6A0B006FEB46 /* Horizon */;
+			targetProxy = D275FC7E1FFFB11300B5ABDB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		4BE1DD771FAB6A0B006FEB46 /* Main.storyboard */ = {
@@ -465,6 +554,38 @@
 			};
 			name = Release;
 		};
+		D275FC801FFFB11300B5ABDB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = MJ4T58LF5M;
+				INFOPLIST_FILE = HorizonTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.connorpower.HorizonTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Horizon.app/Contents/MacOS/Horizon";
+			};
+			name = Debug;
+		};
+		D275FC811FFFB11300B5ABDB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = MJ4T58LF5M;
+				INFOPLIST_FILE = HorizonTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.connorpower.HorizonTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Horizon.app/Contents/MacOS/Horizon";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -482,6 +603,15 @@
 			buildConfigurations = (
 				4BE1DD7F1FAB6A0B006FEB46 /* Debug */,
 				4BE1DD801FAB6A0B006FEB46 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D275FC821FFFB11300B5ABDB /* Build configuration list for PBXNativeTarget "HorizonTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D275FC801FFFB11300B5ABDB /* Debug */,
+				D275FC811FFFB11300B5ABDB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

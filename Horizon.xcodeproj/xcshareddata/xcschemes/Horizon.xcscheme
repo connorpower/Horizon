@@ -29,6 +29,16 @@
       language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D275FC781FFFB11300B5ABDB"
+               BuildableName = "HorizonTests.xctest"
+               BlueprintName = "HorizonTests"
+               ReferencedContainer = "container:Horizon.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

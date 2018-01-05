@@ -1,4 +1,5 @@
-[![Master build status](https://build.appcenter.ms/v0.1/apps/698105ed-4847-4884-a9b2-3c22ae326101/branches/master/badge)](https://appcenter.ms)
+[![build status](https://build.appcenter.ms/v0.1/apps/698105ed-4847-4884-a9b2-3c22ae326101/branches/develop/badge)](https://appcenter.ms)
+[![codecov](https://codecov.io/gh/connorpower/Horizon/branch/develop/graph/badge.svg?token=SBDd6fta4d)](https://codecov.io/gh/connorpower/Horizon)
 
 # Horizon
 

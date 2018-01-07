@@ -1,5 +1,5 @@
 //
-//  MockAPI.swift
+//  MockIPFSWebserviceAPI.swift
 //  Horizon
 //
 //  Created by Connor Power on 03.11.17.
@@ -9,7 +9,7 @@
 import Foundation
 import IPFSWebService
 
-struct MockAPI: APIProviding {
+struct MockIPFSWebserviceAPI: IPFSAPI {
 
     // MARK: File Management
 

@@ -14,7 +14,7 @@ import AppCenterCrashes
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    let dataModel = DataModel(api: IPFSAPI())
+    let dataModel = DataModel(api: IPFSWebserviceAPI())
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         MSAppCenter.start("2cb50192-2776-44c4-b8f3-e823754633c7", withServices: [MSCrashes.self, MSAnalytics.self])

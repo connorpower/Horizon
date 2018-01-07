@@ -13,13 +13,13 @@ class DataModel {
     // MARK: - Variables
 
     private let persistentStore = PersistentStore()
-    private let api: APIProviding
+    private let api: IPFSAPI
 
     private var syncState = [Contact]()
 
     // MARK: - Initialization
 
-    init(api: APIProviding) {
+    init(api: IPFSAPI) {
         self.api = api
     }
 

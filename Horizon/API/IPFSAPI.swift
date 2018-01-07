@@ -15,6 +15,8 @@ import IPFSWebService
  */
 protocol IPFSAPI {
 
+    // MARK: File Management
+
     /**
      Adds contents of `file` to IPFS. Directories are not supported at
      this stage.
@@ -37,6 +39,8 @@ protocol IPFSAPI {
        a value within it's optional, or the `Error` parameter, but not both.
      */
     func cat(arg: String, completion: @escaping ((_ data: Data?, _ error: Error?) -> Void))
+
+    // MARK: IPNS
 
     /**
      Creates a new keypair.
@@ -109,6 +113,17 @@ protocol IPFSAPI {
 
     // MARK: Utility
 
-    func printError(_ error: Error?)
+    /**
+     Describes an error which was returned by an API call. This
+     utility function is provided in order to deal with the myriad
+     of error types and wrapped error types with the various layers
+     of networking might return.
+
+     No guarantee is made as to the format of the returned string.
+
+     - parameter error: The error to describe.
+     - returns: A string describing the error.
+     */
+    func describeError(_ error: Error?) -> String
 
 }

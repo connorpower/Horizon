@@ -20,8 +20,8 @@
 		4BE1DD841FAB8E9A006FEB46 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE1DD831FAB8E9A006FEB46 /* DataModel.swift */; };
 		D275FC841FFFB1A700B5ABDB /* FileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D275FC831FFFB1A700B5ABDB /* FileTests.swift */; };
 		D28FC1771FF809F1007D8BCA /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FC1761FF809F1007D8BCA /* Notifications.swift */; };
+		D2A7D2872002557600FFAE7F /* Loggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A7D2862002557600FFAE7F /* Loggers.swift */; };
 		D2AB9FB51FACF11C004BE28C /* IPFSAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AB9FB41FACF11C004BE28C /* IPFSAPI.swift */; };
-		D2AB9FB71FAD07E5004BE28C /* MockIPFSWebserviceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AB9FB61FAD07E5004BE28C /* MockIPFSWebserviceAPI.swift */; };
 		D2AB9FBB1FAD16DD004BE28C /* IPFSWebserviceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AB9FBA1FAD16DD004BE28C /* IPFSWebserviceAPI.swift */; };
 		D2AB9FBD1FAD203B004BE28C /* PersistentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AB9FBC1FAD203B004BE28C /* PersistentStore.swift */; };
 /* End PBXBuildFile section */
@@ -56,8 +56,8 @@
 		D275FC7D1FFFB11300B5ABDB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D275FC831FFFB1A700B5ABDB /* FileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTests.swift; sourceTree = "<group>"; };
 		D28FC1761FF809F1007D8BCA /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		D2A7D2862002557600FFAE7F /* Loggers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loggers.swift; sourceTree = "<group>"; };
 		D2AB9FB41FACF11C004BE28C /* IPFSAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPFSAPI.swift; sourceTree = "<group>"; };
-		D2AB9FB61FAD07E5004BE28C /* MockIPFSWebserviceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockIPFSWebserviceAPI.swift; sourceTree = "<group>"; };
 		D2AB9FB81FAD08FA004BE28C /* The Cathedral and the Bazaar.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "The Cathedral and the Bazaar.pdf"; sourceTree = "<group>"; };
 		D2AB9FBA1FAD16DD004BE28C /* IPFSWebserviceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPFSWebserviceAPI.swift; sourceTree = "<group>"; };
 		D2AB9FBC1FAD203B004BE28C /* PersistentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStore.swift; sourceTree = "<group>"; };
@@ -107,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				D2AB9FB81FAD08FA004BE28C /* The Cathedral and the Bazaar.pdf */,
+				D2A7D285200245DC00FFAE7F /* Utility */,
 				D2AB9FB91FAD16D0004BE28C /* API */,
 				4BE1DD871FAB909A006FEB46 /* Model */,
 				4BE1DD861FAB907C006FEB46 /* UI */,
@@ -162,19 +163,18 @@
 		D275FC7A1FFFB11300B5ABDB /* HorizonTests */ = {
 			isa = PBXGroup;
 			children = (
-				D2A7D28420023E5300FFAE7F /* API */,
 				D275FC7D1FFFB11300B5ABDB /* Info.plist */,
 				D275FC831FFFB1A700B5ABDB /* FileTests.swift */,
 			);
 			path = HorizonTests;
 			sourceTree = "<group>";
 		};
-		D2A7D28420023E5300FFAE7F /* API */ = {
+		D2A7D285200245DC00FFAE7F /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				D2AB9FB61FAD07E5004BE28C /* MockIPFSWebserviceAPI.swift */,
+				D2A7D2862002557600FFAE7F /* Loggers.swift */,
 			);
-			path = API;
+			path = Utility;
 			sourceTree = "<group>";
 		};
 		D2AB9FB91FAD16D0004BE28C /* API */ = {
@@ -365,8 +365,8 @@
 				4B8210B61FAB96320063C26F /* File.swift in Sources */,
 				4BE1DD821FAB8670006FEB46 /* Contact.swift in Sources */,
 				4B493E7D1FAD23560025A34E /* ShowContactSegue.swift in Sources */,
+				D2A7D2872002557600FFAE7F /* Loggers.swift in Sources */,
 				4BE1DD841FAB8E9A006FEB46 /* DataModel.swift in Sources */,
-				D2AB9FB71FAD07E5004BE28C /* MockIPFSWebserviceAPI.swift in Sources */,
 				D28FC1771FF809F1007D8BCA /* Notifications.swift in Sources */,
 				4B493E7F1FAE097D0025A34E /* ProgressView.swift in Sources */,
 				D2AB9FBB1FAD16DD004BE28C /* IPFSWebserviceAPI.swift in Sources */,

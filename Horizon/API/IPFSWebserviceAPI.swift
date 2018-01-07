@@ -9,18 +9,24 @@
 import Foundation
 import IPFSWebService
 import Alamofire
+import os.log
 
 struct IPFSWebserviceAPI: IPFSAPI {
 
     // MARK: File Management
 
     func add(file: URL, completion: @escaping ((_ response: AddResponse?, _ error: Error?) -> Void)) {
-        print("Adding file:\n  \"\(file.absoluteString)\"\n")
+        os_log("Adding file to IPFS: %s", log: Loggers.network, type: .info, file.absoluteString)
 
         DefaultAPI.add(file: file) { (response, error) in
             if let response = response {
-                print("Added file:")
-                print("  Name: \"\(response.name!)\"\n  Hash: \"\(response.hash!)\"\n  Size: \"\(response.size!)\"\n")
+                os_log("Added file %s to IPFS with hash %s, size %s", log: Loggers.network, type: .info,
+                       response.name ?? "[no name]",
+                       response.hash ?? "[no hash]",
+                       response.size ?? "[no size]")
+            } else {
+                os_log("Failed to add file %s to IPFS. %s", log: Loggers.network, type: .error,
+                       self.describeError(error))
             }
 
             completion(response, error)
@@ -28,11 +34,15 @@ struct IPFSWebserviceAPI: IPFSAPI {
     }
 
     func cat(arg: String, completion: @escaping ((_ data: Data?, _ error: Error?) -> Void)) {
-        print("Getting file:\n  File: \"\(arg)\"\n")
+        os_log("Catting object from IPFS: %s", log: Loggers.network, type: .info, arg)
 
         DefaultAPI.cat(arg: arg) { (data, error) in
             if data != nil {
-                print("Got file\n")
+                os_log("Cat of %s from IPFS returned %d bytes", log: Loggers.network, type: .info,
+                       data?.count ?? 0)
+            } else if let error = error {
+                os_log("Failed to cat %s from IPFS. %s", log: Loggers.network, type: .error,
+                       self.describeError(error))
             }
 
             completion(data, error)
@@ -43,11 +53,16 @@ struct IPFSWebserviceAPI: IPFSAPI {
 
     func publish(arg: String, key: String?,
                  completion: @escaping ((_ response: PublishResponse?, _ error: Error?) -> Void)) {
-        print("Pubishing file:\n  File: \"\(arg)\"\n  Under key: \"\(key!)\"\n")
+        os_log("Publishing file %s under key %s", log: Loggers.network, type: .info, arg, key ?? "[Node's Own PeerID]")
 
         DefaultAPI.publish(arg: arg, key: key) { (response, error) in
             if let response = response {
-                print("Published file:\n  Name: \"\(response.name!)\"\n  Value: \"\(response.value!)\"\n")
+                os_log("Published file with name %s under key %s", log: Loggers.network, type: .info,
+                       response.name ?? "[no name]",
+                       response.value ?? "[no value]")
+            } else {
+                os_log("Failed to publish file %s. %s", log: Loggers.network, type: .error,
+                       arg, self.describeError(error))
             }
 
             completion(response, error)
@@ -56,26 +71,30 @@ struct IPFSWebserviceAPI: IPFSAPI {
 
     func resolve(arg: String, recursive: Bool?,
                  completion: @escaping ((_ response: ResolveResponse?, _ error: Error?) -> Void)) {
-        print("Resolving hash:\n  Hash: \"\(arg)\"\n")
+        os_log("Resolving hash %s", log: Loggers.network, type: .info, arg)
 
         DefaultAPI.resolve(arg: arg, recursive: recursive) { (response, error) in
             if let response = response {
-                print("Resolved hash:\n  Path: \"\(response.path!)\"\n")
+                os_log("Resolved hash %s to path %s", log: Loggers.network, type: .info,
+                       arg, response.path ?? "[no path]")
+            } else {
+                os_log("Failed to resolve hash %s", log: Loggers.network, type: .error, arg)
             }
 
             completion(response, error)
         }
     }
 
-    // MARK: Key Management
-
     func keygen(arg: String, type: DefaultAPI.ModelType_keygen, size: Int32,
                 completion: @escaping ((_ response: KeygenResponse?, _ error: Error?) -> Void)) {
-        print("Generating key:\n  Name: \"\(arg)\"\n  Type: \"\(type.rawValue)\"\n  Size: \"\(size)\"\n")
+        os_log("Generating key %s of type %s, size %d", log: Loggers.network, type: .info, arg, type.rawValue, size)
 
         DefaultAPI.keygen(arg: arg, type: type, size: size) { (response, error) in
             if let response = response {
-                print("Generated key:\n  Name: \"\(response.name!)\"\n  ID: \"\(response.id!)\"\n")
+                os_log("Generated key %s with ID %s", log: Loggers.network, type: .info, arg, response.id ?? "[no ID]")
+            } else {
+                os_log("Failed to generate key %s. %s", log: Loggers.network, type: .error,
+                       arg, self.describeError(error))
             }
 
             completion(response, error)
@@ -83,15 +102,14 @@ struct IPFSWebserviceAPI: IPFSAPI {
     }
 
     func listKeys(completion: @escaping ((_ response: ListKeysResponse?, _ error: Error?) -> Void)) {
-        print("Listing keys...\n")
+        os_log("Listing keypairs", log: Loggers.network, type: .info)
 
         DefaultAPI.listKeys { (response, error) in
             if let response = response {
-                print("Listed keys:")
-                for key in response.keys! {
-                    print("  Name: \"\(key.name!)\"\n  ID: \"\(key.id!)\"")
-                }
-                print("")
+                let keys = (response.keys ?? []).map({"\($0.name ?? "[no name]"): \($0.id ?? "[no ID]")"})
+                os_log("Found keypairs: ", log: Loggers.network, type: .info, keys.joined(separator: ", "))
+            } else {
+                os_log("Failed to list keypairs. %s", log: Loggers.network, type: .error, self.describeError(error))
             }
 
             completion(response, error)
@@ -99,35 +117,42 @@ struct IPFSWebserviceAPI: IPFSAPI {
     }
 
     func removeKey(arg: String, completion: @escaping ((_ response: RemoveKeyResponse?, _ error: Error?) -> Void)) {
-        print("Removing key:\n  Name: \"\(arg)\"\n")
+        os_log("Removing key %s", log: Loggers.network, type: .info, arg)
 
         DefaultAPI.removeKey(arg: arg) { (response, error) in
             if response != nil {
-                print("Removed key.")
+                os_log("Removed key %s", log: Loggers.network, type: .info, arg)
+            } else {
+                os_log("Failed to removed key %s. %s", log: Loggers.network, type: .info,
+                       arg, self.describeError(error))
             }
 
             completion(response, error)
         }
     }
 
-    // MARK: Utility
+    // MARK: - Utility
 
-    func printError(_ error: Error?) {
+    func describeError(_ error: Error?) -> String {
+        var string = ""
+
         if let errorResponse = error as? ErrorResponse {
             switch errorResponse {
             case .Error(let statusCode, let data, let error):
-                print("Error (\(statusCode)):")
-                if let data = data, let string = String(data: data, encoding: .utf8) {
-                    print("  \(string)")
+                string += "HTTP Error – status code: \(statusCode). "
+                if let data = data, let stringData = String(data: data, encoding: .utf8) {
+                    string += "data:  \(stringData). "
                 }
                 // Recurse
-                printError(error)
+                string += "Wrapped error: " + describeError(error)
             }
         } else if let afError = error as? AFError, let description = afError.errorDescription {
-            print(description)
+            string += description + " "
         } else {
-            print(String(describing: error))
+            string += String(describing: error) + " "
         }
+
+        return string
     }
 
 }

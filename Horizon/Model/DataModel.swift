@@ -166,7 +166,6 @@ class DataModel {
     }
 
     private func handleError(_ error: Error?) {
-        api.printError(error)
         syncState.removeAll()
         Notifications.broadcastSyncEnd()
     }

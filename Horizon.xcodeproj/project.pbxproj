@@ -58,7 +58,6 @@
 		D28FC1761FF809F1007D8BCA /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		D2A7D2862002557600FFAE7F /* Loggers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loggers.swift; sourceTree = "<group>"; };
 		D2AB9FB41FACF11C004BE28C /* IPFSAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPFSAPI.swift; sourceTree = "<group>"; };
-		D2AB9FB81FAD08FA004BE28C /* The Cathedral and the Bazaar.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "The Cathedral and the Bazaar.pdf"; sourceTree = "<group>"; };
 		D2AB9FBA1FAD16DD004BE28C /* IPFSWebserviceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPFSWebserviceAPI.swift; sourceTree = "<group>"; };
 		D2AB9FBC1FAD203B004BE28C /* PersistentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStore.swift; sourceTree = "<group>"; };
 		E49777C0BA2468F69A3CE0F1 /* Pods_Horizon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Horizon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -106,7 +105,6 @@
 		4BE1DD701FAB6A0B006FEB46 /* Horizon */ = {
 			isa = PBXGroup;
 			children = (
-				D2AB9FB81FAD08FA004BE28C /* The Cathedral and the Bazaar.pdf */,
 				D2A7D285200245DC00FFAE7F /* Utility */,
 				D2AB9FB91FAD16D0004BE28C /* API */,
 				4BE1DD871FAB909A006FEB46 /* Model */,

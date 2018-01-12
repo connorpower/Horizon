@@ -76,7 +76,7 @@ App Center is responsible for:
 
 ## Versioning
 
-We use [Semantical Versioning](http://semver.org/). For the versions available,
+We use [Semantic Versioning](http://semver.org/). For the versions available,
 see the [tags on this repository](https://github.com/connorpower/Horizon/tags).
 
 ## Authors

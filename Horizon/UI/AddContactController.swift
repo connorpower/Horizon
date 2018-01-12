@@ -37,12 +37,12 @@ class AddContactController: NSViewController {
                               displayName: name,
                               sendListKey: name,
                               receiveListHash: receiveListHash)
-        dataModel.addContact(contact: contact)
+        model.addContact(contact: contact)
     }
 
-    var dataModel: DataModel {
+    var model: Model {
         let appDelegate = (NSApp.delegate) as? AppDelegate
-        return appDelegate!.dataModel
+        return appDelegate!.model
     }
 
 }

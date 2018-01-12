@@ -26,9 +26,9 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 
     var observers = [NSObjectProtocol]()
 
-    var dataModel: DataModel {
+    var model: Model {
         let appDelegate = (NSApp.delegate) as? AppDelegate
-        return appDelegate!.dataModel
+        return appDelegate!.model
     }
 
     // Life cycle and updating
@@ -68,7 +68,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             }
 
         observers = [dataAvailableObserver, syncStartedObserver, syncEndedObserver, statusMessageObserver]
-        dataModel.sync()
+        model.sync()
     }
 
     deinit {
@@ -94,7 +94,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 
         switch identifier {
         case contactsTableViewId:
-            return dataModel.contacts.count
+            return model.contacts.count
 
         case filesTableViewId:
             if let contact = selectedContact {
@@ -118,7 +118,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         switch columnId.rawValue {
         case "Contact":
             let result = tableView.makeView(withIdentifier: columnId, owner: self) as? NSTableCellView
-            result?.textField?.stringValue = dataModel.contacts[row].displayName
+            result?.textField?.stringValue = model.contacts[row].displayName
             return result
 
         case "File":
@@ -158,8 +158,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     }
 
     func contact(at row: Int) -> Contact? {
-        if row >= 0 && row < dataModel.contacts.count {
-            return dataModel.contacts[row]
+        if row >= 0 && row < model.contacts.count {
+            return model.contacts[row]
         }
         return nil
     }
@@ -188,7 +188,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
                                           options: [NSPasteboard.ReadingOptionKey.urlReadingFileURLsOnly: true])
             if let fileURLs = data as? [URL] {
                 if let contact = contact(at: row) {
-                    dataModel.add(fileURLs: fileURLs, to: contact)
+                    model.add(fileURLs: fileURLs, to: contact)
                 }
                 return true
             }

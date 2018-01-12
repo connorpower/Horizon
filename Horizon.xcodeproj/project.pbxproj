@@ -17,7 +17,7 @@
 		4BE1DD761FAB6A0B006FEB46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BE1DD751FAB6A0B006FEB46 /* Assets.xcassets */; };
 		4BE1DD791FAB6A0B006FEB46 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BE1DD771FAB6A0B006FEB46 /* Main.storyboard */; };
 		4BE1DD821FAB8670006FEB46 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE1DD811FAB8670006FEB46 /* Contact.swift */; };
-		4BE1DD841FAB8E9A006FEB46 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE1DD831FAB8E9A006FEB46 /* DataModel.swift */; };
+		4BE1DD841FAB8E9A006FEB46 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE1DD831FAB8E9A006FEB46 /* Model.swift */; };
 		D275FC841FFFB1A700B5ABDB /* FileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D275FC831FFFB1A700B5ABDB /* FileTests.swift */; };
 		D278661D2008DE4000E41669 /* FileList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D278661C2008DE4000E41669 /* FileList.swift */; };
 		D28FC1771FF809F1007D8BCA /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FC1761FF809F1007D8BCA /* Notifications.swift */; };
@@ -50,7 +50,7 @@
 		4BE1DD7A1FAB6A0B006FEB46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4BE1DD7B1FAB6A0B006FEB46 /* Horizon.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Horizon.entitlements; sourceTree = "<group>"; };
 		4BE1DD811FAB8670006FEB46 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
-		4BE1DD831FAB8E9A006FEB46 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		4BE1DD831FAB8E9A006FEB46 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		5953289A5C5D7459AF47F705 /* Pods-Horizon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Horizon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Horizon/Pods-Horizon.release.xcconfig"; sourceTree = "<group>"; };
 		75683E09FE97130EA2C4048E /* Pods-Horizon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Horizon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Horizon/Pods-Horizon.debug.xcconfig"; sourceTree = "<group>"; };
 		D275FC791FFFB11300B5ABDB /* HorizonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HorizonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,7 +137,7 @@
 				4BE1DD811FAB8670006FEB46 /* Contact.swift */,
 				4B8210B51FAB96320063C26F /* File.swift */,
 				D278661C2008DE4000E41669 /* FileList.swift */,
-				4BE1DD831FAB8E9A006FEB46 /* DataModel.swift */,
+				4BE1DD831FAB8E9A006FEB46 /* Model.swift */,
 				D2AB9FBC1FAD203B004BE28C /* PersistentStore.swift */,
 				D28FC1761FF809F1007D8BCA /* Notifications.swift */,
 			);
@@ -368,7 +368,7 @@
 				4B493E7D1FAD23560025A34E /* ShowContactSegue.swift in Sources */,
 				D278661D2008DE4000E41669 /* FileList.swift in Sources */,
 				D2A7D2872002557600FFAE7F /* Loggers.swift in Sources */,
-				4BE1DD841FAB8E9A006FEB46 /* DataModel.swift in Sources */,
+				4BE1DD841FAB8E9A006FEB46 /* Model.swift in Sources */,
 				D28FC1771FF809F1007D8BCA /* Notifications.swift in Sources */,
 				4B493E7F1FAE097D0025A34E /* ProgressView.swift in Sources */,
 				D2AB9FBB1FAD16DD004BE28C /* IPFSWebserviceAPI.swift in Sources */,

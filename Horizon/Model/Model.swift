@@ -1,5 +1,5 @@
 //
-//  DataModel.swift
+//  Model.swift
 //  Horizon
 //
 //  Created by Jürgen on 02.11.17.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DataModel {
+class Model {
 
     // MARK: - Variables
 

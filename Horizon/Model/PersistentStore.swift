@@ -8,17 +8,29 @@
 
 import Foundation
 
-private struct UserDefaultsKeys {
-    static let providedFileList = "de.horizon.providedFileList"
-    static let receivedFileList = "de.horizon.receivedFileList"
-    static let contactList = "de.horizon.contactList"
-}
-
+/**
+ The persistent store acts a simple abstraction between the
+ model and persistence technology du jour.
+ */
 struct PersistentStore {
+
+    // MARK: - Constants
+
+    private struct UserDefaultsKeys {
+
+        /**
+         The NSUserDefaults key for the list of contacts.
+         */
+        static let contactList = "com.semantical.Horizon.contactList"
+    }
 
     // MARK: - Functions
 
-    var contact: [Contact] {
+    /**
+     Returns the array of all contacts which whom data is
+     shared.
+     */
+    var contacts: [Contact] {
         if let jsonData = UserDefaults.standard.data(forKey: UserDefaultsKeys.contactList) {
             let contacts = try? JSONDecoder().decode([Contact].self, from: jsonData)
             return contacts ?? [Contact]()
@@ -27,58 +39,22 @@ struct PersistentStore {
         }
     }
 
-    func updateContacts(_ contacts: [Contact]) {
-        guard let jsonData = try? JSONEncoder().encode(contacts) else {
+    /**
+     A simple function which either creates a new contact
+     in the persistent store, or updates a contact with the
+     same identifier.
+
+     - parameter contact: The contact to write to the persistent
+       store.
+     */
+    func createOrUpdateContact(_ contact: Contact) {
+        let newContacts = contacts.filter({ $0.identifier != contact.identifier }) + [contact]
+
+        guard let jsonData = try? JSONEncoder().encode(newContacts) else {
             Notifications.broadcastStatusMessage("Internal error updating contacts list...")
             return
         }
         UserDefaults.standard.set(jsonData, forKey: UserDefaultsKeys.contactList)
-    }
-
-    func receivedFileList(from contact: Contact) -> [File] {
-        if let jsonData = UserDefaults.standard.data(forKey: contact.receivedFileListKey) {
-            let files = try? JSONDecoder().decode([File].self, from: jsonData)
-            return files ?? [File]()
-        } else {
-            return [File]()
-        }
-    }
-
-    func updateReceivedFileList(_ fileList: [File], from contact: Contact) {
-        guard let jsonData = try? JSONEncoder().encode(fileList) else {
-            Notifications.broadcastStatusMessage("Internal error updating received file list from \(contact.name)...")
-            return
-        }
-        UserDefaults.standard.set(jsonData, forKey: contact.receivedFileListKey)
-    }
-
-    func providedFileList(for contact: Contact) -> [File] {
-        if let jsonData = UserDefaults.standard.data(forKey: contact.providedFileListKey) {
-            let files = try? JSONDecoder().decode([File].self, from: jsonData)
-            return files ?? [File]()
-        } else {
-            return [File]()
-        }
-    }
-
-    func updateProvidedFileList(_ fileList: [File], for contact: Contact) {
-        guard let jsonData = try? JSONEncoder().encode(fileList) else {
-            Notifications.broadcastStatusMessage("Internal error updating shared file list for \(contact.name)...")
-            return
-        }
-        UserDefaults.standard.set(jsonData, forKey: contact.providedFileListKey)
-    }
-
-}
-
-fileprivate extension Contact {
-
-    var providedFileListKey: String {
-        return UserDefaultsKeys.providedFileList + ".\(name)"
-    }
-
-    var receivedFileListKey: String {
-        return UserDefaultsKeys.receivedFileList + ".\(name)"
     }
 
 }

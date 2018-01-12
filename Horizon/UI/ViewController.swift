@@ -34,6 +34,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     // Life cycle and updating
     override func viewDidLoad() {
         super.viewDidLoad()
+        progressView.isHidden = true
         updateFilesTableView()
         contactsTableView.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
         filesTableView.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
@@ -97,7 +98,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 
         case filesTableViewId:
             if let contact = selectedContact {
-                return dataModel.files(from: contact).count
+                return contact.receiveList.files.count
             } else {
                 return 0
             }
@@ -117,13 +118,13 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         switch columnId.rawValue {
         case "Contact":
             let result = tableView.makeView(withIdentifier: columnId, owner: self) as? NSTableCellView
-            result?.textField?.stringValue = dataModel.contacts[row].name
+            result?.textField?.stringValue = dataModel.contacts[row].displayName
             return result
 
         case "File":
             let fileName: String
             if let contact = selectedContact {
-                let files = dataModel.files(from: contact)
+                let files = contact.receiveList.files
                 if row < files.count {
                     fileName = files[row].name
                 } else {
@@ -203,9 +204,9 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
         if tableView == filesTableView {
             if let contact = selectedContact {
-                let count = dataModel.files(from: contact).count
+                let count = contact.receiveList.files.count
                 for row in rowIndexes where row < count {
-                    let file = dataModel.files(from: contact)[row]
+                    let file = contact.receiveList.files[row]
                     let provider = NSFilePromiseProvider(fileType: kUTTypeData as String, delegate: self)
                     provider.userInfo = file
                     pboard.writeObjects([provider])

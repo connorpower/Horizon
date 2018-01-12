@@ -33,7 +33,11 @@ class AddContactController: NSViewController {
         NSApp.stopModal()
         sender.window?.close()
 
-        dataModel.addContact(contact: Contact(name: name, sendListKey: name, receiveListHash: receiveListHash))
+        let contact = Contact(identifier: UUID(),
+                              displayName: name,
+                              sendListKey: name,
+                              receiveListHash: receiveListHash)
+        dataModel.addContact(contact: contact)
     }
 
     var dataModel: DataModel {

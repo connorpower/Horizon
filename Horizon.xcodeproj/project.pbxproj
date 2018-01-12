@@ -19,6 +19,7 @@
 		4BE1DD821FAB8670006FEB46 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE1DD811FAB8670006FEB46 /* Contact.swift */; };
 		4BE1DD841FAB8E9A006FEB46 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE1DD831FAB8E9A006FEB46 /* DataModel.swift */; };
 		D275FC841FFFB1A700B5ABDB /* FileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D275FC831FFFB1A700B5ABDB /* FileTests.swift */; };
+		D278661D2008DE4000E41669 /* FileList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D278661C2008DE4000E41669 /* FileList.swift */; };
 		D28FC1771FF809F1007D8BCA /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FC1761FF809F1007D8BCA /* Notifications.swift */; };
 		D2A7D2872002557600FFAE7F /* Loggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A7D2862002557600FFAE7F /* Loggers.swift */; };
 		D2AB9FB51FACF11C004BE28C /* IPFSAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AB9FB41FACF11C004BE28C /* IPFSAPI.swift */; };
@@ -55,6 +56,7 @@
 		D275FC791FFFB11300B5ABDB /* HorizonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HorizonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D275FC7D1FFFB11300B5ABDB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D275FC831FFFB1A700B5ABDB /* FileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTests.swift; sourceTree = "<group>"; };
+		D278661C2008DE4000E41669 /* FileList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileList.swift; sourceTree = "<group>"; };
 		D28FC1761FF809F1007D8BCA /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		D2A7D2862002557600FFAE7F /* Loggers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loggers.swift; sourceTree = "<group>"; };
 		D2AB9FB41FACF11C004BE28C /* IPFSAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPFSAPI.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 			children = (
 				4BE1DD811FAB8670006FEB46 /* Contact.swift */,
 				4B8210B51FAB96320063C26F /* File.swift */,
+				D278661C2008DE4000E41669 /* FileList.swift */,
 				4BE1DD831FAB8E9A006FEB46 /* DataModel.swift */,
 				D2AB9FBC1FAD203B004BE28C /* PersistentStore.swift */,
 				D28FC1761FF809F1007D8BCA /* Notifications.swift */,
@@ -363,6 +366,7 @@
 				4B8210B61FAB96320063C26F /* File.swift in Sources */,
 				4BE1DD821FAB8670006FEB46 /* Contact.swift in Sources */,
 				4B493E7D1FAD23560025A34E /* ShowContactSegue.swift in Sources */,
+				D278661D2008DE4000E41669 /* FileList.swift in Sources */,
 				D2A7D2872002557600FFAE7F /* Loggers.swift in Sources */,
 				4BE1DD841FAB8E9A006FEB46 /* DataModel.swift in Sources */,
 				D28FC1771FF809F1007D8BCA /* Notifications.swift in Sources */,

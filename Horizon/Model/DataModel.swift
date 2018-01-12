@@ -36,7 +36,7 @@ class DataModel {
                                                  Interplanetary Naming System: Resolving location of \(contact.name)...
                                                  """
             )
-            self.api.resolve(arg: contact.remoteHash, recursive: true) { (response, error) in
+            self.api.resolve(arg: contact.receiveListHash, recursive: true) { (response, error) in
                 guard let response = response else {
                     self.handleError(error)
                     return
@@ -154,7 +154,7 @@ class DataModel {
                                                  Interplanetary Naming System: Publishing file list
                                                   for \(contact.name)...
                                                  """)
-            self.api.publish(arg: hash, key: contact.name) { (response, error) in
+            self.api.publish(arg: hash, key: contact.sendListKey) { (response, error) in
                 guard response != nil else {
                     self.handleError(error)
                     return

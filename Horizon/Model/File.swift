@@ -8,9 +8,22 @@
 
 import Foundation
 
+/**
+ A simple representation of an IPFS file. Directories/trees
+ are not yet supported.
+ */
 struct File: Codable {
+
+    /**
+     The name of the file itself as recorded in IPFS.
+     */
     let name: String
+
+    /**
+     The IPFS hash of the file.
+     */
     let hash: String?
+
 }
 
 extension File: Equatable {

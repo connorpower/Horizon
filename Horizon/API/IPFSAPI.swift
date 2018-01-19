@@ -53,7 +53,7 @@ protocol IPFSAPI {
        call returns. Either the `KeygenResponse` parameter will contain
        a value within it's optional, or the `Error` parameter, but not both.
      */
-    func keygen(arg: String, type: DefaultAPI.ModelType_keygen, size: Int32,
+    func keygen(arg: String, type: DefaultAPI.ModelType_keygen, size: Int,
                 completion: @escaping ((_ data: KeygenResponse?, _ error: Error?) -> Void))
 
     /**

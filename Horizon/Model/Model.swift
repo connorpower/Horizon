@@ -48,7 +48,7 @@ class Model {
                     return
                 }
 
-                self.getFileList(from: contact, at: response.path!)
+                self.getFileList(from: contact, at: response.path)
             }
         }
     }
@@ -71,7 +71,7 @@ class Model {
                     return
                 }
 
-                let newFile = File(name: response.name!, hash: response.hash!)
+                let newFile = File(name: response.name, hash: response.hash)
                 let sendListWithoutDuplicates = Array(Set(contact.sendList.files + [newFile]))
                 let sendList = FileList(hash: nil, files: sendListWithoutDuplicates)
 
@@ -144,11 +144,12 @@ class Model {
         Notifications.broadcastStatusMessage(
             "Interplanetary File System: Uploading file list for \(contact.displayName)...")
         self.api.add(file: temporaryFile) { (response, error) in
-            guard let response = response, let hash = response.hash else {
+            guard let response = response else {
                 self.handleError(error)
                 return
             }
 
+            let hash = response.hash
             Notifications.broadcastStatusMessage("""
                                                  Interplanetary Naming System: Publishing file list
                                                   for \(contact.displayName)...

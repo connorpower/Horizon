@@ -22,9 +22,7 @@ struct IPFSWebserviceAPI: IPFSAPI {
             if let response = response {
                 os_log("Added file %{public}s to IPFS with hash %{public}s, size %{public}s",
                        log: Loggers.network, type: .info,
-                       response.name ?? "[no name]",
-                       response.hash ?? "[no hash]",
-                       response.size ?? "[no size]")
+                       response.name, response.hash, response.size)
             } else {
                 os_log("Failed to add file %{public}s to IPFS. %{public}s", log: Loggers.network, type: .error,
                        self.describeError(error))
@@ -60,8 +58,7 @@ struct IPFSWebserviceAPI: IPFSAPI {
         DefaultAPI.publish(arg: arg, key: key) { (response, error) in
             if let response = response {
                 os_log("Published file with name %{public}s under key %{public}s", log: Loggers.network, type: .info,
-                       response.name ?? "[no name]",
-                       response.value ?? "[no value]")
+                       response.name, response.value)
             } else {
                 os_log("Failed to publish file %{public}s. %{public}s", log: Loggers.network, type: .error,
                        arg, self.describeError(error))
@@ -78,7 +75,7 @@ struct IPFSWebserviceAPI: IPFSAPI {
         DefaultAPI.resolve(arg: arg, recursive: recursive) { (response, error) in
             if let response = response {
                 os_log("Resolved hash %{public}s to path %{public}s", log: Loggers.network, type: .info,
-                       arg, response.path ?? "[no path]")
+                       arg, response.path)
             } else {
                 os_log("Failed to resolve hash %{public}s", log: Loggers.network, type: .error, arg)
             }
@@ -87,7 +84,7 @@ struct IPFSWebserviceAPI: IPFSAPI {
         }
     }
 
-    func keygen(arg: String, type: DefaultAPI.ModelType_keygen, size: Int32,
+    func keygen(arg: String, type: DefaultAPI.ModelType_keygen, size: Int,
                 completion: @escaping ((_ response: KeygenResponse?, _ error: Error?) -> Void)) {
         os_log("Generating key %{public}s of type %{public}s, size %d", log: Loggers.network, type: .info,
                arg, type.rawValue, size)
@@ -95,7 +92,7 @@ struct IPFSWebserviceAPI: IPFSAPI {
         DefaultAPI.keygen(arg: arg, type: type, size: size) { (response, error) in
             if let response = response {
                 os_log("Generated key %{public}s with ID %{public}s", log: Loggers.network, type: .info,
-                       arg, response.id ?? "[no ID]")
+                       arg, response.id)
             } else {
                 os_log("Failed to generate key %{public}s. %{public}s", log: Loggers.network, type: .error,
                        arg, self.describeError(error))
@@ -110,7 +107,7 @@ struct IPFSWebserviceAPI: IPFSAPI {
 
         DefaultAPI.listKeys { (response, error) in
             if let response = response {
-                let keys = (response.keys ?? []).map({"\($0.name ?? "[no name]"): \($0.id ?? "[no ID]")"})
+                let keys = response.keys.map({"\($0.name): \($0.id)"})
                 os_log("Found keypairs: ", log: Loggers.network, type: .info, keys.joined(separator: ", "))
             } else {
                 os_log("Failed to list keypairs. %{public}s", log: Loggers.network, type: .error,
@@ -143,7 +140,7 @@ struct IPFSWebserviceAPI: IPFSAPI {
 
         if let errorResponse = error as? ErrorResponse {
             switch errorResponse {
-            case .Error(let statusCode, let data, let error):
+            case .error(let statusCode, let data, let error):
                 string += "HTTP Error – status code: \(statusCode). "
                 if let data = data, let stringData = String(data: data, encoding: .utf8) {
                     string += "data:  \(stringData). "

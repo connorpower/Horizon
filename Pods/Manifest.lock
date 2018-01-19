@@ -1,12 +1,12 @@
 PODS:
-  - Alamofire (4.5.1)
-  - AppCenter (1.1.0):
-    - AppCenter/Analytics (= 1.1.0)
-    - AppCenter/Crashes (= 1.1.0)
-  - AppCenter/Analytics (1.1.0):
+  - Alamofire (4.6.0)
+  - AppCenter (1.2.0):
+    - AppCenter/Analytics (= 1.2.0)
+    - AppCenter/Crashes (= 1.2.0)
+  - AppCenter/Analytics (1.2.0):
     - AppCenter/Core
-  - AppCenter/Core (1.1.0)
-  - AppCenter/Crashes (1.1.0):
+  - AppCenter/Core (1.2.0)
+  - AppCenter/Crashes (1.2.0):
     - AppCenter/Core
   - IPFSWebService (1.0.0):
     - Alamofire (~> 4.5)
@@ -17,8 +17,8 @@ DEPENDENCIES:
   - IPFSWebService (~> 1.0.0)
 
 SPEC CHECKSUMS:
-  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
-  AppCenter: 97c88c10f83719de514aa7f186766f289012f074
+  Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
+  AppCenter: d0b68b2a7a87ac0aed78e66f36d87fd321d0a29c
   IPFSWebService: 8e8d05f9a43c0ed6e219fc34c947c18bd8af925d
 
 PODFILE CHECKSUM: 9f69a7db88ef4a8a2b6ea2c89c6a64550fcc2e03

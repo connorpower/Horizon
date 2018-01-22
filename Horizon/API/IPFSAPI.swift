@@ -8,126 +8,122 @@
 
 import Foundation
 import IPFSWebService
-import Alamofire
 
-struct IPFSAPI: APIProviding {
+/**
+ This protocol defines an interface to the IPFS API. It can be
+ easily implemented by mock variants for offline testing.
+ */
+protocol IPFSAPI {
 
     // MARK: File Management
 
-    func add(file: URL, completion: @escaping ((_ response: AddResponse?, _ error: Error?) -> Void)) {
-        print("Adding file:\n  \"\(file.absoluteString)\"\n")
+    /**
+     Adds contents of `file` to IPFS. Directories are not supported at
+     this stage.
 
-        DefaultAPI.add(file: file) { (response, error) in
-            if let response = response {
-                print("Added file:")
-                print("  Name: \"\(response.name!)\"\n  Hash: \"\(response.hash!)\"\n  Size: \"\(response.size!)\"\n")
-            }
+     - parameter file: The file to be added to IPFS.
+     - parameter completion: A completion block to be invoked when the
+       call returns. Either the `AddResponse` parameter will contain a
+       value within it's optional, or the `Error` parameter, but not both.
+     */
+    func add(file: URL, completion: @escaping ((_ data: AddResponse?, _ error: Error?) -> Void))
 
-            completion(response, error)
-        }
-    }
+    /**
+     Displays the data contained by an IPFS or IPNS object(s) at the
+     given path. The data returned is a raw byte array and must be interpreted
+     by the application itself.
 
-    func cat(arg: String, completion: @escaping ((_ data: Data?, _ error: Error?) -> Void)) {
-        print("Getting file:\n  File: \"\(arg)\"\n")
-
-        DefaultAPI.cat(arg: arg) { (data, error) in
-            if data != nil {
-                print("Got file\n")
-            }
-
-            completion(data, error)
-        }
-    }
+     - parameter arg: The path to the IPFS object(s) to be outputted.
+     - parameter completion: A completion block to be invoked when the
+       call returns. Either the `Data` parameter will contain
+       a value within it's optional, or the `Error` parameter, but not both.
+     */
+    func cat(arg: String, completion: @escaping ((_ data: Data?, _ error: Error?) -> Void))
 
     // MARK: IPNS
 
+    /**
+     Creates a new keypair.
+
+     - parameter arg: The name of the key to create.
+     - parameter type: The type of the key to create (for instance: 'rsa'
+       or 'ed25519'),
+     - parameter size: The size of the key to generate.
+     - parameter completion: A completion block to be invoked when the
+       call returns. Either the `KeygenResponse` parameter will contain
+       a value within it's optional, or the `Error` parameter, but not both.
+     */
+    func keygen(arg: String, type: DefaultAPI.ModelType_keygen, size: Int,
+                completion: @escaping ((_ data: KeygenResponse?, _ error: Error?) -> Void))
+
+    /**
+     Lists all local keypairs.
+
+     - parameter completion: A completion block to be invoked when the
+       call returns. Either the `ListKeysResponse` parameter will contain
+       a value within it's optional, or the `Error` parameter, but not both.
+     */
+    func listKeys(completion: @escaping ((_ data: ListKeysResponse?, _ error: Error?) -> Void))
+
+    /**
+     Removes a keypair.
+
+     - parameter arg: The name of the keypair to remove.
+     - parameter completion: A completion block to be invoked when the
+       call returns. Either the `RemoveKeyResponse` parameter will contain
+       a value within it's optional, or the `Error` parameter, but not both.
+     */
+    func removeKey(arg: String, completion: @escaping ((_ data: RemoveKeyResponse?, _ error: Error?) -> Void))
+
+    /**
+     Publishes an IPNS name.
+
+     IPNS is a PKI namespace, where names are the hashes of public keys, and
+     the private key enables publishing new (signed) values. In both publish
+     and resolve, the default name used is the node's own PeerID,
+     which is the hash of its public key.
+
+     - parameter arg: The IPFS path of the object to be published.
+     - parameter key: The name of the key to be used, as listed by `listKeys(:)`.
+       Defaults to the node's own PeerID.
+     - parameter completion: A completion block to be invoked when the
+       call returns. Either the `PublishResponse` parameter will contain
+       a value within it's optional, or the `Error` parameter, but not both.
+     */
     func publish(arg: String, key: String?,
-                 completion: @escaping ((_ response: PublishResponse?, _ error: Error?) -> Void)) {
-        print("Pubishing file:\n  File: \"\(arg)\"\n  Under key: \"\(key!)\"\n")
+                 completion: @escaping ((_ data: PublishResponse?, _ error: Error?) -> Void))
 
-        DefaultAPI.publish(arg: arg, key: key) { (response, error) in
-            if let response = response {
-                print("Published file:\n  Name: \"\(response.name!)\"\n  Value: \"\(response.value!)\"\n")
-            }
+    /**
+     Resolves an IPNS name.
 
-            completion(response, error)
-        }
-    }
+     IPNS is a PKI namespace, where names are the hashes of public keys, and
+     the private key enables publishing new (signed) values. In both publish
+     and resolve, the default name used is the node's own PeerID,
+     which is the hash of its public key.
 
+     - parameter arg: The IPNS name to resolve.
+     - recursive key: Resolve until the result is not an IPNS name. Defaults
+       to false.
+     - parameter completion: A completion block to be invoked when the
+       call returns. Either the `ResolveResponse` parameter will contain
+       a value within it's optional, or the `Error` parameter, but not both.
+     */
     func resolve(arg: String, recursive: Bool?,
-                 completion: @escaping ((_ response: ResolveResponse?, _ error: Error?) -> Void)) {
-        print("Resolving hash:\n  Hash: \"\(arg)\"\n")
-
-        DefaultAPI.resolve(arg: arg, recursive: recursive) { (response, error) in
-            if let response = response {
-                print("Resolved hash:\n  Path: \"\(response.path!)\"\n")
-            }
-
-            completion(response, error)
-        }
-    }
-
-    // MARK: Key Management
-
-    func keygen(arg: String, type: DefaultAPI.ModelType_keygen, size: Int32,
-                completion: @escaping ((_ response: KeygenResponse?, _ error: Error?) -> Void)) {
-        print("Generating key:\n  Name: \"\(arg)\"\n  Type: \"\(type.rawValue)\"\n  Size: \"\(size)\"\n")
-
-        DefaultAPI.keygen(arg: arg, type: type, size: size) { (response, error) in
-            if let response = response {
-                print("Generated key:\n  Name: \"\(response.name!)\"\n  ID: \"\(response.id!)\"\n")
-            }
-
-            completion(response, error)
-        }
-    }
-
-    func listKeys(completion: @escaping ((_ response: ListKeysResponse?, _ error: Error?) -> Void)) {
-        print("Listing keys...\n")
-
-        DefaultAPI.listKeys { (response, error) in
-            if let response = response {
-                print("Listed keys:")
-                for key in response.keys! {
-                    print("  Name: \"\(key.name!)\"\n  ID: \"\(key.id!)\"")
-                }
-                print("")
-            }
-
-            completion(response, error)
-        }
-    }
-
-    func removeKey(arg: String, completion: @escaping ((_ response: RemoveKeyResponse?, _ error: Error?) -> Void)) {
-        print("Removing key:\n  Name: \"\(arg)\"\n")
-
-        DefaultAPI.removeKey(arg: arg) { (response, error) in
-            if response != nil {
-                print("Removed key.")
-            }
-
-            completion(response, error)
-        }
-    }
+                 completion: @escaping ((_ data: ResolveResponse?, _ error: Error?) -> Void))
 
     // MARK: Utility
 
-    func printError(_ error: Error?) {
-        if let errorResponse = error as? ErrorResponse {
-            switch errorResponse {
-            case .Error(let statusCode, let data, let error):
-                print("Error (\(statusCode)):")
-                if let data = data, let string = String(data: data, encoding: .utf8) {
-                    print("  \(string)")
-                }
-                // Recurse
-                printError(error)
-            }
-        } else if let afError = error as? AFError, let description = afError.errorDescription {
-            print(description)
-        } else {
-            print(String(describing: error))
-        }
-    }
+    /**
+     Describes an error which was returned by an API call. This
+     utility function is provided in order to deal with the myriad
+     of error types and wrapped error types with the various layers
+     of networking might return.
+
+     No guarantee is made as to the format of the returned string.
+
+     - parameter error: The error to describe.
+     - returns: A string describing the error.
+     */
+    func describeError(_ error: Error?) -> String
 
 }

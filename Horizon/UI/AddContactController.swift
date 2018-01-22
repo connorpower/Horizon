@@ -23,9 +23,9 @@ class AddContactController: NSViewController {
 
     @IBAction func saveAction(_ sender: NSButton) {
         let name = nameField.stringValue
-        let remoteHash = idField.stringValue
+        let receiveListHash = idField.stringValue
 
-        if name.isEmpty || remoteHash.isEmpty {
+        if name.isEmpty || receiveListHash.isEmpty {
             NSSound.beep()
             return
         }
@@ -33,12 +33,16 @@ class AddContactController: NSViewController {
         NSApp.stopModal()
         sender.window?.close()
 
-        dataModel.addContact(contact: Contact(name: name, remoteHash: remoteHash))
+        let contact = Contact(identifier: UUID(),
+                              displayName: name,
+                              sendListKey: name,
+                              receiveListHash: receiveListHash)
+        model.addContact(contact: contact)
     }
 
-    var dataModel: DataModel {
+    var model: Model {
         let appDelegate = (NSApp.delegate) as? AppDelegate
-        return appDelegate!.dataModel
+        return appDelegate!.model
     }
 
 }

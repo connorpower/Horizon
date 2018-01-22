@@ -26,14 +26,15 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 
     var observers = [NSObjectProtocol]()
 
-    var dataModel: DataModel {
+    var model: Model {
         let appDelegate = (NSApp.delegate) as? AppDelegate
-        return appDelegate!.dataModel
+        return appDelegate!.model
     }
 
     // Life cycle and updating
     override func viewDidLoad() {
         super.viewDidLoad()
+        progressView.isHidden = true
         updateFilesTableView()
         contactsTableView.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
         filesTableView.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
@@ -67,7 +68,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             }
 
         observers = [dataAvailableObserver, syncStartedObserver, syncEndedObserver, statusMessageObserver]
-        dataModel.sync()
+        model.sync()
     }
 
     deinit {
@@ -93,11 +94,11 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
 
         switch identifier {
         case contactsTableViewId:
-            return dataModel.contacts.count
+            return model.contacts.count
 
         case filesTableViewId:
             if let contact = selectedContact {
-                return dataModel.files(from: contact).count
+                return contact.receiveList.files.count
             } else {
                 return 0
             }
@@ -117,13 +118,13 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         switch columnId.rawValue {
         case "Contact":
             let result = tableView.makeView(withIdentifier: columnId, owner: self) as? NSTableCellView
-            result?.textField?.stringValue = dataModel.contacts[row].name
+            result?.textField?.stringValue = model.contacts[row].displayName
             return result
 
         case "File":
             let fileName: String
             if let contact = selectedContact {
-                let files = dataModel.files(from: contact)
+                let files = contact.receiveList.files
                 if row < files.count {
                     fileName = files[row].name
                 } else {
@@ -157,8 +158,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     }
 
     func contact(at row: Int) -> Contact? {
-        if row >= 0 && row < dataModel.contacts.count {
-            return dataModel.contacts[row]
+        if row >= 0 && row < model.contacts.count {
+            return model.contacts[row]
         }
         return nil
     }
@@ -187,7 +188,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
                                           options: [NSPasteboard.ReadingOptionKey.urlReadingFileURLsOnly: true])
             if let fileURLs = data as? [URL] {
                 if let contact = contact(at: row) {
-                    dataModel.add(fileURLs: fileURLs, to: contact)
+                    model.add(fileURLs: fileURLs, to: contact)
                 }
                 return true
             }
@@ -203,9 +204,9 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
         if tableView == filesTableView {
             if let contact = selectedContact {
-                let count = dataModel.files(from: contact).count
+                let count = contact.receiveList.files.count
                 for row in rowIndexes where row < count {
-                    let file = dataModel.files(from: contact)[row]
+                    let file = contact.receiveList.files[row]
                     let provider = NSFilePromiseProvider(fileType: kUTTypeData as String, delegate: self)
                     provider.userInfo = file
                     pboard.writeObjects([provider])
@@ -229,7 +230,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
                              writePromiseTo url: URL,
                              completionHandler: @escaping (Error?) -> Void) {
         if let file = filePromiseProvider.userInfo as? File, let hash = file.hash {
-            IPFSAPI().cat(arg: hash) { (data, error) in
+            IPFSWebserviceAPI().cat(arg: hash) { (data, error) in
                 if let data = data {
                     try? data.write(to: url)
                     completionHandler(nil)

@@ -29,6 +29,10 @@
 		D236AA9C201600B900D2BCF8 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = D236AA772015CF2A00D2BCF8 /* Event.swift */; };
 		D236AA9F2016012A00D2BCF8 /* libHorizonCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D236AA8B2016008C00D2BCF8 /* libHorizonCore.a */; };
 		D236AAA2201603B200D2BCF8 /* libHorizonCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D236AA8B2016008C00D2BCF8 /* libHorizonCore.a */; };
+		D236AAA7201625DF00D2BCF8 /* PeersHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D236AAA6201625DF00D2BCF8 /* PeersHandler.swift */; };
+		D236AAA920165F0500D2BCF8 /* Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D236AAA820165F0500D2BCF8 /* Handler.swift */; };
+		D236AAAB2016617D00D2BCF8 /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = D236AAAA2016617D00D2BCF8 /* Program.swift */; };
+		D236AAAD2016678B00D2BCF8 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = D236AAAC2016678B00D2BCF8 /* Command.swift */; };
 		D275FC841FFFB1A700B5ABDB /* FileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D275FC831FFFB1A700B5ABDB /* FileTests.swift */; };
 		D28FC1771FF809F1007D8BCA /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FC1761FF809F1007D8BCA /* Notifications.swift */; };
 		D2A7D2872002557600FFAE7F /* Loggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A7D2862002557600FFAE7F /* Loggers.swift */; };
@@ -105,6 +109,10 @@
 		D236AA802015F2AE00D2BCF8 /* horizon-cli */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "horizon-cli"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D236AA822015F2AE00D2BCF8 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D236AA8B2016008C00D2BCF8 /* libHorizonCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHorizonCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D236AAA6201625DF00D2BCF8 /* PeersHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeersHandler.swift; sourceTree = "<group>"; };
+		D236AAA820165F0500D2BCF8 /* Handler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Handler.swift; sourceTree = "<group>"; };
+		D236AAAA2016617D00D2BCF8 /* Program.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
+		D236AAAC2016678B00D2BCF8 /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		D275FC791FFFB11300B5ABDB /* HorizonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HorizonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D275FC7D1FFFB11300B5ABDB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D275FC831FFFB1A700B5ABDB /* FileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTests.swift; sourceTree = "<group>"; };
@@ -257,6 +265,10 @@
 			isa = PBXGroup;
 			children = (
 				D236AA822015F2AE00D2BCF8 /* main.swift */,
+				D236AAA6201625DF00D2BCF8 /* PeersHandler.swift */,
+				D236AAA820165F0500D2BCF8 /* Handler.swift */,
+				D236AAAA2016617D00D2BCF8 /* Program.swift */,
+				D236AAAC2016678B00D2BCF8 /* Command.swift */,
 			);
 			path = "horizon-cli";
 			sourceTree = "<group>";
@@ -582,6 +594,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D236AAAD2016678B00D2BCF8 /* Command.swift in Sources */,
+				D236AAAB2016617D00D2BCF8 /* Program.swift in Sources */,
+				D236AAA920165F0500D2BCF8 /* Handler.swift in Sources */,
+				D236AAA7201625DF00D2BCF8 /* PeersHandler.swift in Sources */,
 				D236AA832015F2AE00D2BCF8 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,6 +1,6 @@
 //
 //  Contact.swift
-//  Horizon
+//  HorizonCore
 //
 //  Created by Jürgen on 02.11.17.
 //  Copyright © 2017 Semantical GmbH & Co. KG. All rights reserved.
@@ -12,41 +12,41 @@ import Foundation
  A `Contact` represents a single remote user with which files
  can be shared.
  */
-struct Contact: Codable {
+public struct Contact: Codable {
 
     // MARK: - Properties
 
     /**
      A unique identifier for the contact.
      */
-    let identifier: UUID
+    public let identifier: UUID
 
     /**
      The user visible name, which is displayed in the UI.
      */
-    let displayName: String
+    public let displayName: String
 
     /**
      The name for an IPNS keypair on the local machine. Via the IPFS
      API, IPNS keypairs are manipulated using a human readable name.
      */
-    let sendListKey: String
+    public let sendListKey: String
 
     /**
      The IPNS hash for the remote file list. This must be provided
      by the other user.
      */
-    let receiveListHash: String
+    public let receiveListHash: String
 
     /**
      The list of files which are to be shared with the contact.
      */
-    var sendList = FileList(hash: nil, files: [])
+    public var sendList = FileList(hash: nil, files: [])
 
     /**
      The last known file list from the contact.
      */
-    var receiveList = FileList(hash: nil, files: [])
+    public var receiveList = FileList(hash: nil, files: [])
 
     // MARK: - Initializer
 
@@ -63,7 +63,7 @@ struct Contact: Codable {
      - parameter receiveListHash: An IPNS hash provided by the contact,
        through which their current list of shared files can be resolved.
      */
-    init(identifier: UUID, displayName: String, sendListKey: String, receiveListHash: String) {
+    public init(identifier: UUID, displayName: String, sendListKey: String, receiveListHash: String) {
         self.identifier = identifier
         self.displayName = displayName
         self.sendListKey = sendListKey

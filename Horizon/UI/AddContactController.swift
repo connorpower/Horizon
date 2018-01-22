@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import HorizonCore
 
 class AddContactController: NSViewController {
 

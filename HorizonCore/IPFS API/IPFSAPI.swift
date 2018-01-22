@@ -1,6 +1,6 @@
 //
 //  IPFSAPI.swift
-//  Horizon
+//  HorizonCore
 //
 //  Created by Connor Power on 03.11.17.
 //  Copyright © 2017 Semantical GmbH & Co. KG. All rights reserved.
@@ -13,7 +13,7 @@ import IPFSWebService
  This protocol defines an interface to the IPFS API. It can be
  easily implemented by mock variants for offline testing.
  */
-protocol IPFSAPI {
+public protocol IPFSAPI {
 
     // MARK: File Management
 

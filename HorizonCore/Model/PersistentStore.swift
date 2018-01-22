@@ -1,6 +1,6 @@
 //
 //  PersistentStore.swift
-//  Horizon
+//  HorizonCore
 //
 //  Created by Connor Power on 03.11.17.
 //  Copyright © 2017 Semantical GmbH & Co. KG. All rights reserved.
@@ -12,7 +12,7 @@ import Foundation
  The persistent store acts a simple abstraction between the
  model and persistence technology du jour.
  */
-struct PersistentStore {
+public struct PersistentStore {
 
     // MARK: - Constants
 
@@ -30,7 +30,7 @@ struct PersistentStore {
      Returns the array of all contacts which whom data is
      shared.
      */
-    var contacts: [Contact] {
+    public var contacts: [Contact] {
         if let jsonData = UserDefaults.standard.data(forKey: UserDefaultsKeys.contactList) {
             let contacts = try? JSONDecoder().decode([Contact].self, from: jsonData)
             return contacts ?? [Contact]()
@@ -47,12 +47,11 @@ struct PersistentStore {
      - parameter contact: The contact to write to the persistent
        store.
      */
-    func createOrUpdateContact(_ contact: Contact) {
+    public func createOrUpdateContact(_ contact: Contact) {
         let newContacts = contacts.filter({ $0.identifier != contact.identifier }) + [contact]
 
         guard let jsonData = try? JSONEncoder().encode(newContacts) else {
-            Notifications.broadcastStatusMessage("Internal error updating contacts list...")
-            return
+            fatalError("JSON Encoding failure. Failed to save new contacts list.")
         }
         UserDefaults.standard.set(jsonData, forKey: UserDefaultsKeys.contactList)
     }

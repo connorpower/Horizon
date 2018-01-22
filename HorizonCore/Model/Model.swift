@@ -1,6 +1,6 @@
 //
 //  Model.swift
-//  Horizon
+//  HorizonCore
 //
 //  Created by Jürgen on 02.11.17.
 //  Copyright © 2017 Semantical GmbH & Co. KG. All rights reserved.
@@ -8,43 +8,49 @@
 
 import Foundation
 
-class Model {
+public class Model {
 
-    // MARK: - Variables
+    // MARK: - Public Properties
+
+    public var contacts: [Contact] {
+        return persistentStore.contacts
+    }
+
+    // MARK: - Private Properties
 
     private let persistentStore = PersistentStore()
     private let api: IPFSAPI
 
-    private var syncState = [Contact]()
+    private let eventCallback: (Event) -> Void
 
-    var contacts: [Contact] {
-        return persistentStore.contacts
-    }
+    private var syncState = [Contact]()
 
     // MARK: - Initialization
 
-    init(api: IPFSAPI) {
+    public init(api: IPFSAPI, eventCallback: @escaping (Event) -> Void) {
         self.api = api
+        self.eventCallback = eventCallback
     }
 
     // MARK: - API
 
-    func sync() {
+    public func sync() {
         guard syncState.isEmpty else { return }
 
         let contacts = persistentStore.contacts
         guard !contacts.isEmpty else { return }
         syncState += contacts
 
-        Notifications.broadcastSyncStart()
+        eventCallback(.syncDidStart)
 
         for contact in syncState {
-            Notifications.broadcastStatusMessage(
-                "Interplanetary Naming System: Resolving location of \(contact.displayName)..."
-            )
+            eventCallback(.resolvingReceiveListDidStart(contact))
+
             self.api.resolve(arg: contact.receiveListHash, recursive: true) { (response, error) in
                 guard let response = response else {
-                    self.handleError(error)
+                    self.eventCallback(.syncDidFail(.networkError(error)))
+                    self.removeContactFromSyncState(contact)
+
                     return
                 }
 
@@ -53,21 +59,23 @@ class Model {
         }
     }
 
-    func addContact(contact: Contact) {
+    public func addContact(contact: Contact) {
         persistentStore.createOrUpdateContact(contact)
-        Notifications.broadcastNewData()
+        eventCallback(.propertiesDidChange(contact))
         self.sync()
     }
 
-    func add(fileURLs: [URL], to contact: Contact) {
+    public func add(fileURLs: [URL], to contact: Contact) {
+        // Warning: a loop here is unsafe. Perform sequentially.
         for url in fileURLs {
-            Notifications.broadcastStatusMessage("""
-                                                 Interplanetary File System: Adding \(url.lastPathComponent)
-                                                  for \(contact.displayName)...
-                                                 """)
+            eventCallback(.addingFileToIPFSDidStart(File(name: url.lastPathComponent, hash: nil)))
+
             self.api.add(file: url, completion: { (response, error) in
                 guard let response = response else {
-                    self.handleError(error)
+                    // Warning: removes contact from sync state, but other URLS might still be adding
+                    self.eventCallback(.syncDidFail(.networkError(error)))
+                    self.removeContactFromSyncState(contact)
+
                     return
                 }
 
@@ -91,87 +99,84 @@ class Model {
     // MARK: Private Functions
 
     private func getFileList(from contact: Contact, at path: String) {
-        Notifications.broadcastStatusMessage(
-            "Interplanetary File System: Downloading file list from \(contact.displayName)...")
+        eventCallback(.downloadingReceiveListDidStart(contact))
 
         api.cat(arg: path) { (data, error) in
             guard let data = data else {
-                self.handleError(error)
+                self.eventCallback(.syncDidFail(.networkError(error)))
+                self.removeContactFromSyncState(contact)
+
                 return
             }
 
-            Notifications.broadcastStatusMessage(
-                "Interplanetary File System: Decoding file list from \(contact.displayName)...")
+            self.eventCallback(.processingReceiveListDidStart(contact))
+
             if let files = try? JSONDecoder().decode([File].self, from: data) {
                 var updatedContact = contact
                 updatedContact.receiveList = FileList(hash: path, files: files)
                 self.persistentStore.createOrUpdateContact(updatedContact)
 
-                Notifications.broadcastNewData()
+                self.eventCallback(.propertiesDidChange(contact))
             } else {
-                print("Failed to decode downloaded JSON\n")
+                self.eventCallback(.syncDidFail(.invalidJSONAtPath(path)))
             }
 
-            self.syncState = self.syncState.filter({ $0.displayName != contact.displayName })
-            if self.syncState.isEmpty {
-                Notifications.broadcastSyncEnd()
-            }
+            self.removeContactFromSyncState(contact)
         }
     }
 
     private func sendFileList(to contact: Contact) {
         guard let data = try? JSONEncoder().encode(contact.sendList.files) else {
-            Notifications.broadcastStatusMessage("Internal error uploading file list for \(contact.displayName)...")
+            eventCallback(.syncDidFail(.JSONEncodingErrorForContact(contact)))
+            removeContactFromSyncState(contact)
             return
         }
+
         guard let tempDir = try? FileManager.default.url(for: .itemReplacementDirectory,
                                                          in: .userDomainMask,
                                                          appropriateFor: URL(fileURLWithPath: "/"),
                                                          create: true) else {
-            Notifications.broadcastStatusMessage("Internal error uploading file list for \(contact.displayName)...")
-            return
-
+            fatalError("Failed to create required temp directory.")
         }
 
         let temporaryFile = tempDir.appendingPathComponent(UUID().uuidString + ".json")
         do {
             try data.write(to: temporaryFile)
         } catch {
-            Notifications.broadcastStatusMessage("Internal error uploading file list for \(contact.displayName)...")
-            return
+            fatalError("Failed to write to temporary file \(temporaryFile).")
         }
 
-        Notifications.broadcastStatusMessage(
-            "Interplanetary File System: Uploading file list for \(contact.displayName)...")
+        eventCallback(.addingProvidedFileListToIPFSDidStart(contact))
         self.api.add(file: temporaryFile) { (response, error) in
             guard let response = response else {
-                self.handleError(error)
+                self.eventCallback(.syncDidFail(.networkError(error)))
+                self.removeContactFromSyncState(contact)
                 return
             }
 
+            self.eventCallback(.publishingFileListToIPNSDidStart(contact))
+
             let hash = response.hash
-            Notifications.broadcastStatusMessage("""
-                                                 Interplanetary Naming System: Publishing file list
-                                                  for \(contact.displayName)...
-                                                 """)
             self.api.publish(arg: hash, key: contact.sendListKey) { (response, error) in
                 guard response != nil else {
-                    self.handleError(error)
+                    self.eventCallback(.syncDidFail(.networkError(error)))
+                    self.removeContactFromSyncState(contact)
                     return
                 }
 
                 var updatedContact = contact
                 updatedContact.sendList = FileList(hash: hash, files: contact.sendList.files)
                 self.persistentStore.createOrUpdateContact(updatedContact)
-
-                print("Published new file list: \"\(hash)\"")
             }
         }
     }
 
-    private func handleError(_ error: Error?) {
-        syncState.removeAll()
-        Notifications.broadcastSyncEnd()
+    private func removeContactFromSyncState(_ contact: Contact) {
+        syncState = syncState.filter({ $0.identifier != contact.identifier })
+
+        if syncState.isEmpty {
+            eventCallback(.syncDidEnd)
+        }
     }
 
 }

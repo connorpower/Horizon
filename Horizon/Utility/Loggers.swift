@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import HorizonCore
 import os.log
 
 /**
@@ -14,11 +15,11 @@ import os.log
  by major application domains for easy filtering in the Console
  App as per Apple's recommendations.
  */
-struct Loggers {
+struct Loggers: LogProvider {
 
     /**
      A logger to be used for network related log messages.
      */
-    static let network = OSLog(subsystem: "com.semantical.Horizon", category: "network")
+    let network = OSLog(subsystem: "com.semantical.Horizon", category: "network")
 
 }

@@ -40,6 +40,16 @@
                ReferencedContainer = "container:Horizon.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D236AA552015C82800D2BCF8"
+               BuildableName = "HorizonCoreTests.xctest"
+               BlueprintName = "HorizonCoreTests"
+               ReferencedContainer = "container:Horizon.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

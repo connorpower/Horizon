@@ -31,6 +31,7 @@
 		D236AA762015CE9000D2BCF8 /* ModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D236AA752015CE9000D2BCF8 /* ModelFactory.swift */; };
 		D236AA782015CF2A00D2BCF8 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = D236AA772015CF2A00D2BCF8 /* Event.swift */; };
 		D236AA7B2015E90D00D2BCF8 /* LogProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D236AA7A2015E90D00D2BCF8 /* LogProvider.swift */; };
+		D236AA832015F2AE00D2BCF8 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D236AA822015F2AE00D2BCF8 /* main.swift */; };
 		D275FC841FFFB1A700B5ABDB /* FileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D275FC831FFFB1A700B5ABDB /* FileTests.swift */; };
 		D28FC1771FF809F1007D8BCA /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FC1761FF809F1007D8BCA /* Notifications.swift */; };
 		D2A7D2872002557600FFAE7F /* Loggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A7D2862002557600FFAE7F /* Loggers.swift */; };
@@ -79,6 +80,15 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D236AA7E2015F2AE00D2BCF8 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -109,6 +119,8 @@
 		D236AA752015CE9000D2BCF8 /* ModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelFactory.swift; sourceTree = "<group>"; };
 		D236AA772015CF2A00D2BCF8 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		D236AA7A2015E90D00D2BCF8 /* LogProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogProvider.swift; sourceTree = "<group>"; };
+		D236AA802015F2AE00D2BCF8 /* horizon-cli */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "horizon-cli"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D236AA822015F2AE00D2BCF8 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D275FC791FFFB11300B5ABDB /* HorizonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HorizonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D275FC7D1FFFB11300B5ABDB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D275FC831FFFB1A700B5ABDB /* FileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTests.swift; sourceTree = "<group>"; };
@@ -147,6 +159,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D236AA7D2015F2AE00D2BCF8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D275FC761FFFB11300B5ABDB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -164,6 +183,7 @@
 				D275FC7A1FFFB11300B5ABDB /* HorizonTests */,
 				D236AA4F2015C82800D2BCF8 /* HorizonCore */,
 				D236AA5C2015C82900D2BCF8 /* HorizonCoreTests */,
+				D236AA812015F2AE00D2BCF8 /* horizon-cli */,
 				4BE1DD6F1FAB6A0B006FEB46 /* Products */,
 				601831E7D7F0CBD994827C46 /* Pods */,
 				7002DBFEC7B77261FBE48BEE /* Frameworks */,
@@ -177,6 +197,7 @@
 				D275FC791FFFB11300B5ABDB /* HorizonTests.xctest */,
 				D236AA4E2015C82800D2BCF8 /* HorizonCore.framework */,
 				D236AA562015C82800D2BCF8 /* HorizonCoreTests.xctest */,
+				D236AA802015F2AE00D2BCF8 /* horizon-cli */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -286,6 +307,14 @@
 			path = Utility;
 			sourceTree = "<group>";
 		};
+		D236AA812015F2AE00D2BCF8 /* horizon-cli */ = {
+			isa = PBXGroup;
+			children = (
+				D236AA822015F2AE00D2BCF8 /* main.swift */,
+			);
+			path = "horizon-cli";
+			sourceTree = "<group>";
+		};
 		D275FC7A1FFFB11300B5ABDB /* HorizonTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -388,6 +417,23 @@
 			productReference = D236AA562015C82800D2BCF8 /* HorizonCoreTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		D236AA7F2015F2AE00D2BCF8 /* horizon-cli */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D236AA842015F2AE00D2BCF8 /* Build configuration list for PBXNativeTarget "horizon-cli" */;
+			buildPhases = (
+				D236AA7C2015F2AE00D2BCF8 /* Sources */,
+				D236AA7D2015F2AE00D2BCF8 /* Frameworks */,
+				D236AA7E2015F2AE00D2BCF8 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "horizon-cli";
+			productName = "horizon-cli";
+			productReference = D236AA802015F2AE00D2BCF8 /* horizon-cli */;
+			productType = "com.apple.product-type.tool";
+		};
 		D275FC781FFFB11300B5ABDB /* HorizonTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D275FC821FFFB11300B5ABDB /* Build configuration list for PBXNativeTarget "HorizonTests" */;
@@ -429,6 +475,10 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 4BE1DD6D1FAB6A0B006FEB46;
 					};
+					D236AA7F2015F2AE00D2BCF8 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
 					D275FC781FFFB11300B5ABDB = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
@@ -453,6 +503,7 @@
 				D275FC781FFFB11300B5ABDB /* HorizonTests */,
 				D236AA4D2015C82800D2BCF8 /* HorizonCore */,
 				D236AA552015C82800D2BCF8 /* HorizonCoreTests */,
+				D236AA7F2015F2AE00D2BCF8 /* horizon-cli */,
 			);
 		};
 /* End PBXProject section */
@@ -632,6 +683,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				D236AA5E2015C82900D2BCF8 /* HorizonCoreTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D236AA7C2015F2AE00D2BCF8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D236AA832015F2AE00D2BCF8 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -910,6 +969,26 @@
 			};
 			name = Release;
 		};
+		D236AA852015F2AE00D2BCF8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = MJ4T58LF5M;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		D236AA862015F2AE00D2BCF8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = MJ4T58LF5M;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
 		D275FC801FFFB11300B5ABDB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -977,6 +1056,15 @@
 			buildConfigurations = (
 				D236AA672015C82900D2BCF8 /* Debug */,
 				D236AA682015C82900D2BCF8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D236AA842015F2AE00D2BCF8 /* Build configuration list for PBXNativeTarget "horizon-cli" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D236AA852015F2AE00D2BCF8 /* Debug */,
+				D236AA862015F2AE00D2BCF8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

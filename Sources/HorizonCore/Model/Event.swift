@@ -19,6 +19,8 @@ public enum Event {
     case addingFileToIPFSDidStart(File)
     case keygenDidStart(String)
     case keygenDidFail(ErrorEvent)
+    case listKeysDidStart
+    case listKeysDidFail(ErrorEvent)
     case addingProvidedFileListToIPFSDidStart(Contact)
     case publishingFileListToIPNSDidStart(Contact)
     case downloadingReceiveListDidStart(Contact)

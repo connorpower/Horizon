@@ -46,15 +46,19 @@ public class Model {
         for contact in syncState {
             eventCallback?(.resolvingReceiveListDidStart(contact))
 
-            self.api.resolve(arg: contact.receiveListHash, recursive: true) { (response, error) in
-                guard let response = response else {
-                    self.eventCallback?(.syncDidFail(.networkError(error)))
-                    self.removeContactFromSyncState(contact)
+            if let receiveListHash = contact.receiveListHash {
+                self.api.resolve(arg: receiveListHash, recursive: true) { (response, error) in
+                    guard let response = response else {
+                        self.eventCallback?(.syncDidFail(.networkError(error)))
+                        self.removeContactFromSyncState(contact)
 
-                    return
+                        return
+                    }
+
+                    self.getFileList(from: contact, at: response.path)
                 }
-
-                self.getFileList(from: contact, at: response.path)
+            } else {
+                removeContactFromSyncState(contact)
             }
         }
     }
@@ -96,7 +100,7 @@ public class Model {
         }
     }
 
-    public func generateKey(name: String, completion: @escaping ((name: String, hash: String)?) -> Void) {
+    public func generateKey(name: String, completion: @escaping ((keypairName: String, hash: String)?) -> Void) {
         eventCallback?(.keygenDidStart(name))
 
         api.keygen(arg: name, type: .rsa, size: 2048) { (response, error) in
@@ -106,7 +110,21 @@ public class Model {
                 return
             }
 
-            completion((name: response.name, hash: response.id))
+            completion((keypairName: response.name, hash: response.id))
+        }
+    }
+
+    public func listKeys(completion: @escaping ([String]?) -> Void) {
+        eventCallback?(.listKeysDidStart)
+
+        api.listKeys { (response, error) in
+            guard let response = response else {
+                self.eventCallback?(.listKeysDidFail(.networkError(error)))
+                completion(nil)
+                return
+            }
+
+            completion(response.keys.map{ $0.name })
         }
     }
 

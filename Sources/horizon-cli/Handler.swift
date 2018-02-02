@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import HorizonCore
 
 /**
  The CLI program has multiple top level commands, for instance:
@@ -45,13 +46,17 @@ protocol Handler {
     /**
      Required initializer for a command handler.
 
+     - parameter model: The dependency injected model.
      - parameter arguments: All remaining command line arguments, excluding
      the name of the top-level command itself.
      - parameter completion: A completion block to be called when the
      command has been processed. The app will block on a run loop until
      this completion block is called.
+     - parameter error: An error block to be called when the
+     command has been unable to complete sucessfully. The app will block
+     on a run loop until this completion block is called.
      */
-    init(arguments: [String], completion: @escaping () -> Void)
+    init(model: Model, arguments: [String], completion: @escaping () -> Never, error: @escaping () -> Never)
 
     /**
      Run the command handler as appopriate, calling the completion

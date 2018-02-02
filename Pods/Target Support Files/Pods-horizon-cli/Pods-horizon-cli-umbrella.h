@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_HorizonCoreVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_HorizonCoreVersionString[];
+FOUNDATION_EXPORT double Pods_horizon_cliVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_horizon_cliVersionString[];
 

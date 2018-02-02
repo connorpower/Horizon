@@ -21,13 +21,13 @@ public class Model {
     private let persistentStore = PersistentStore()
     private let api: IPFSAPI
 
-    private let eventCallback: (Event) -> Void
+    private let eventCallback: ((Event) -> Void)?
 
     private var syncState = [Contact]()
 
     // MARK: - Initialization
 
-    public init(api: IPFSAPI, eventCallback: @escaping (Event) -> Void) {
+    public init(api: IPFSAPI, eventCallback: ((Event) -> Void)?) {
         self.api = api
         self.eventCallback = eventCallback
     }
@@ -41,14 +41,14 @@ public class Model {
         guard !contacts.isEmpty else { return }
         syncState += contacts
 
-        eventCallback(.syncDidStart)
+        eventCallback?(.syncDidStart)
 
         for contact in syncState {
-            eventCallback(.resolvingReceiveListDidStart(contact))
+            eventCallback?(.resolvingReceiveListDidStart(contact))
 
             self.api.resolve(arg: contact.receiveListHash, recursive: true) { (response, error) in
                 guard let response = response else {
-                    self.eventCallback(.syncDidFail(.networkError(error)))
+                    self.eventCallback?(.syncDidFail(.networkError(error)))
                     self.removeContactFromSyncState(contact)
 
                     return
@@ -61,19 +61,19 @@ public class Model {
 
     public func addContact(contact: Contact) {
         persistentStore.createOrUpdateContact(contact)
-        eventCallback(.propertiesDidChange(contact))
+        eventCallback?(.propertiesDidChange(contact))
         self.sync()
     }
 
     public func add(fileURLs: [URL], to contact: Contact) {
         // Warning: a loop here is unsafe. Perform sequentially.
         for url in fileURLs {
-            eventCallback(.addingFileToIPFSDidStart(File(name: url.lastPathComponent, hash: nil)))
+            eventCallback?(.addingFileToIPFSDidStart(File(name: url.lastPathComponent, hash: nil)))
 
-            self.api.add(file: url, completion: { (response, error) in
+            api.add(file: url, completion: { (response, error) in
                 guard let response = response else {
                     // Warning: removes contact from sync state, but other URLS might still be adding
-                    self.eventCallback(.syncDidFail(.networkError(error)))
+                    self.eventCallback?(.syncDidFail(.networkError(error)))
                     self.removeContactFromSyncState(contact)
 
                     return
@@ -96,29 +96,43 @@ public class Model {
         }
     }
 
+    public func generateKey(name: String, completion: @escaping ((name: String, hash: String)?) -> Void) {
+        eventCallback?(.keygenDidStart(name))
+
+        api.keygen(arg: name, type: .rsa, size: 2048) { (response, error) in
+            guard let response = response else {
+                self.eventCallback?(.keygenDidFail(.networkError(error)))
+                completion(nil)
+                return
+            }
+
+            completion((name: response.name, hash: response.id))
+        }
+    }
+
     // MARK: Private Functions
 
     private func getFileList(from contact: Contact, at path: String) {
-        eventCallback(.downloadingReceiveListDidStart(contact))
+        eventCallback?(.downloadingReceiveListDidStart(contact))
 
         api.cat(arg: path) { (data, error) in
             guard let data = data else {
-                self.eventCallback(.syncDidFail(.networkError(error)))
+                self.eventCallback?(.syncDidFail(.networkError(error)))
                 self.removeContactFromSyncState(contact)
 
                 return
             }
 
-            self.eventCallback(.processingReceiveListDidStart(contact))
+            self.eventCallback?(.processingReceiveListDidStart(contact))
 
             if let files = try? JSONDecoder().decode([File].self, from: data) {
                 var updatedContact = contact
                 updatedContact.receiveList = FileList(hash: path, files: files)
                 self.persistentStore.createOrUpdateContact(updatedContact)
 
-                self.eventCallback(.propertiesDidChange(contact))
+                self.eventCallback?(.propertiesDidChange(contact))
             } else {
-                self.eventCallback(.syncDidFail(.invalidJSONAtPath(path)))
+                self.eventCallback?(.syncDidFail(.invalidJSONAtPath(path)))
             }
 
             self.removeContactFromSyncState(contact)
@@ -127,7 +141,7 @@ public class Model {
 
     private func sendFileList(to contact: Contact) {
         guard let data = try? JSONEncoder().encode(contact.sendList.files) else {
-            eventCallback(.syncDidFail(.JSONEncodingErrorForContact(contact)))
+            eventCallback?(.syncDidFail(.JSONEncodingErrorForContact(contact)))
             removeContactFromSyncState(contact)
             return
         }
@@ -146,20 +160,20 @@ public class Model {
             fatalError("Failed to write to temporary file \(temporaryFile).")
         }
 
-        eventCallback(.addingProvidedFileListToIPFSDidStart(contact))
+        eventCallback?(.addingProvidedFileListToIPFSDidStart(contact))
         self.api.add(file: temporaryFile) { (response, error) in
             guard let response = response else {
-                self.eventCallback(.syncDidFail(.networkError(error)))
+                self.eventCallback?(.syncDidFail(.networkError(error)))
                 self.removeContactFromSyncState(contact)
                 return
             }
 
-            self.eventCallback(.publishingFileListToIPNSDidStart(contact))
+            self.eventCallback?(.publishingFileListToIPNSDidStart(contact))
 
             let hash = response.hash
             self.api.publish(arg: hash, key: contact.sendListKey) { (response, error) in
                 guard response != nil else {
-                    self.eventCallback(.syncDidFail(.networkError(error)))
+                    self.eventCallback?(.syncDidFail(.networkError(error)))
                     self.removeContactFromSyncState(contact)
                     return
                 }
@@ -175,7 +189,7 @@ public class Model {
         syncState = syncState.filter({ $0.identifier != contact.identifier })
 
         if syncState.isEmpty {
-            eventCallback(.syncDidEnd)
+            eventCallback?(.syncDidEnd)
         }
     }
 

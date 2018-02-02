@@ -15,3 +15,11 @@ target 'HorizonCore' do
   pod 'Alamofire', '~> 4.5'
   pod 'IPFSWebService', '2.0'
 end
+
+target 'horizon-cli' do
+  platform :osx, '10.13'
+
+  pod 'Alamofire', '~> 4.5'
+  pod 'IPFSWebService', '2.0'
+end
+

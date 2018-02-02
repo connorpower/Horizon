@@ -26,10 +26,18 @@ class PeersHandler: Handler {
     private let completionHandler: () -> Void
 
     private let commands = [
-        Command(command: "list", expectedNumArgs: 0, help: """
+        Command(name: "list", expectedNumArgs: 0, help: """
             horizon-cli peers list:
               Lists all peers which have been added to Horizon.
               This command takes no arguments.
+            """),
+        Command(name: "add", expectedNumArgs: 1, help: """
+            horizon-cli peers add {name}:
+              Adds a new peer to Horizon and generates an IPNS key which will
+              be used for sharing files with the peer. The new peer's shared file
+              list can be added after the fact using `ipfs peer edit {name}`.
+
+              name: A short name for the peer.
             """)
     ]
 
@@ -47,18 +55,22 @@ class PeersHandler: Handler {
             return
         }
 
-        var matchedCommand: Command?
-        for command in commands {
-            if arguments.first == command.command {
-                matchedCommand = command
-                break
-            }
+        guard let command = commands.filter({$0.name == arguments.first}).first else {
+            printHelp()
+            return
         }
 
-        if let matchedCommand = matchedCommand {
-            print(matchedCommand.help)
-        } else {
-            printHelp()
+        if command.expectedNumArgs != arguments.count - 1 {
+            print(command.help)
+            return
+        }
+
+        switch command.name {
+        case "add":
+            break
+        default:
+            print(command.help)
+            return
         }
     }
 

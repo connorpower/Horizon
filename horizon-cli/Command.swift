@@ -19,7 +19,7 @@ struct Command {
      `$ horizon-cli peers list`, the command would
      be `"list"`.
      */
-    let command: String
+    let name: String
 
     /**
      The expected number of arguments for the command.

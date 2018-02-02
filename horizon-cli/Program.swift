@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import HorizonCore
 
 /**
  In the absensce of any required program structure enforced by
@@ -16,6 +17,14 @@ import Foundation
  management.
  */
 struct Program {
+
+    // MARK: - Properties
+
+    lazy var model: Model = {
+        let api = IPFSWebserviceAPI(logProvider: Loggers())
+        let model = Model(api: api, eventCallback: nil)
+        return model
+    }()
 
     // MARK: - Functions
 

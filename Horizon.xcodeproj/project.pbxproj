@@ -36,6 +36,8 @@
 		D275FC841FFFB1A700B5ABDB /* FileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D275FC831FFFB1A700B5ABDB /* FileTests.swift */; };
 		D28FC1771FF809F1007D8BCA /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28FC1761FF809F1007D8BCA /* Notifications.swift */; };
 		D2A7D2872002557600FFAE7F /* Loggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A7D2862002557600FFAE7F /* Loggers.swift */; };
+		D2B8655A20245DBB00554A19 /* Loggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B8655920245DBB00554A19 /* Loggers.swift */; };
+		DC97D467458381459BA3BA48 /* Pods_horizon_cli.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C1B89DDB40328D29553F7DA /* Pods_horizon_cli.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +88,7 @@
 
 /* Begin PBXFileReference section */
 		0BF935E8B80FF5351F7C4214 /* Pods-HorizonCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HorizonCore.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HorizonCore/Pods-HorizonCore.debug.xcconfig"; sourceTree = "<group>"; };
+		3EA4FC06384364AC5B07BA5C /* Pods-horizon-cli.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-horizon-cli.release.xcconfig"; path = "Pods/Target Support Files/Pods-horizon-cli/Pods-horizon-cli.release.xcconfig"; sourceTree = "<group>"; };
 		4B493E7A1FAD23560025A34E /* AddContactController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddContactController.swift; sourceTree = "<group>"; };
 		4B493E7B1FAD23560025A34E /* ShowContactSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowContactSegue.swift; sourceTree = "<group>"; };
 		4B493E7E1FAE097D0025A34E /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
@@ -102,6 +105,7 @@
 		5953289A5C5D7459AF47F705 /* Pods-Horizon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Horizon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Horizon/Pods-Horizon.release.xcconfig"; sourceTree = "<group>"; };
 		6C58C09748E78985489BF35C /* Pods-HorizonCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HorizonCore.release.xcconfig"; path = "Pods/Target Support Files/Pods-HorizonCore/Pods-HorizonCore.release.xcconfig"; sourceTree = "<group>"; };
 		75683E09FE97130EA2C4048E /* Pods-Horizon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Horizon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Horizon/Pods-Horizon.debug.xcconfig"; sourceTree = "<group>"; };
+		7C1B89DDB40328D29553F7DA /* Pods_horizon_cli.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_horizon_cli.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EA28F0C05B27F83309CE1B /* Pods_HorizonCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HorizonCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D236AA752015CE9000D2BCF8 /* ModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelFactory.swift; sourceTree = "<group>"; };
 		D236AA772015CF2A00D2BCF8 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -122,7 +126,9 @@
 		D2AB9FB41FACF11C004BE28C /* IPFSAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPFSAPI.swift; sourceTree = "<group>"; };
 		D2AB9FBA1FAD16DD004BE28C /* IPFSWebserviceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPFSWebserviceAPI.swift; sourceTree = "<group>"; };
 		D2AB9FBC1FAD203B004BE28C /* PersistentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStore.swift; sourceTree = "<group>"; };
+		D2B8655920245DBB00554A19 /* Loggers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loggers.swift; sourceTree = "<group>"; };
 		E49777C0BA2468F69A3CE0F1 /* Pods_Horizon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Horizon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E8018468063DFD00046EA9BA /* Pods-horizon-cli.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-horizon-cli.debug.xcconfig"; path = "Pods/Target Support Files/Pods-horizon-cli/Pods-horizon-cli.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D236AAA2201603B200D2BCF8 /* libHorizonCore.a in Frameworks */,
+				DC97D467458381459BA3BA48 /* Pods_horizon_cli.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,7 +195,6 @@
 		4BE1DD701FAB6A0B006FEB46 /* Horizon */ = {
 			isa = PBXGroup;
 			children = (
-				D2A7D285200245DC00FFAE7F /* Utility */,
 				4BE1DD871FAB909A006FEB46 /* Model */,
 				4BE1DD861FAB907C006FEB46 /* UI */,
 				4BE1DD711FAB6A0B006FEB46 /* AppDelegate.swift */,
@@ -214,6 +220,7 @@
 		4BE1DD871FAB909A006FEB46 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D2A7D2862002557600FFAE7F /* Loggers.swift */,
 				D28FC1761FF809F1007D8BCA /* Notifications.swift */,
 				D236AA752015CE9000D2BCF8 /* ModelFactory.swift */,
 			);
@@ -227,6 +234,8 @@
 				5953289A5C5D7459AF47F705 /* Pods-Horizon.release.xcconfig */,
 				0BF935E8B80FF5351F7C4214 /* Pods-HorizonCore.debug.xcconfig */,
 				6C58C09748E78985489BF35C /* Pods-HorizonCore.release.xcconfig */,
+				E8018468063DFD00046EA9BA /* Pods-horizon-cli.debug.xcconfig */,
+				3EA4FC06384364AC5B07BA5C /* Pods-horizon-cli.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -236,6 +245,7 @@
 			children = (
 				E49777C0BA2468F69A3CE0F1 /* Pods_Horizon.framework */,
 				C9EA28F0C05B27F83309CE1B /* Pods_HorizonCore.framework */,
+				7C1B89DDB40328D29553F7DA /* Pods_horizon_cli.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -269,6 +279,7 @@
 				D236AAA820165F0500D2BCF8 /* Handler.swift */,
 				D236AAAA2016617D00D2BCF8 /* Program.swift */,
 				D236AAAC2016678B00D2BCF8 /* Command.swift */,
+				D2B8655920245DBB00554A19 /* Loggers.swift */,
 			);
 			path = "horizon-cli";
 			sourceTree = "<group>";
@@ -290,14 +301,6 @@
 				D275FC831FFFB1A700B5ABDB /* FileTests.swift */,
 			);
 			path = HorizonTests;
-			sourceTree = "<group>";
-		};
-		D2A7D285200245DC00FFAE7F /* Utility */ = {
-			isa = PBXGroup;
-			children = (
-				D2A7D2862002557600FFAE7F /* Loggers.swift */,
-			);
-			path = Utility;
 			sourceTree = "<group>";
 		};
 		D2AB9FB91FAD16D0004BE28C /* IPFS API */ = {
@@ -349,9 +352,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D236AA842015F2AE00D2BCF8 /* Build configuration list for PBXNativeTarget "horizon-cli" */;
 			buildPhases = (
+				04BBFC4121A64CE4B0E7CDD1 /* [CP] Check Pods Manifest.lock */,
 				D236AA7C2015F2AE00D2BCF8 /* Sources */,
 				D236AA7D2015F2AE00D2BCF8 /* Frameworks */,
 				D236AA7E2015F2AE00D2BCF8 /* CopyFiles */,
+				1339B199915B33C1A0445C07 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -470,6 +475,39 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		04BBFC4121A64CE4B0E7CDD1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-horizon-cli-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1339B199915B33C1A0445C07 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-horizon-cli/Pods-horizon-cli-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		1D3A26C4A5103DBD781D0AC5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -597,6 +635,7 @@
 				D236AAAD2016678B00D2BCF8 /* Command.swift in Sources */,
 				D236AAAB2016617D00D2BCF8 /* Program.swift in Sources */,
 				D236AAA920165F0500D2BCF8 /* Handler.swift in Sources */,
+				D2B8655A20245DBB00554A19 /* Loggers.swift in Sources */,
 				D236AAA7201625DF00D2BCF8 /* PeersHandler.swift in Sources */,
 				D236AA832015F2AE00D2BCF8 /* main.swift in Sources */,
 			);
@@ -804,6 +843,7 @@
 		};
 		D236AA852015F2AE00D2BCF8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E8018468063DFD00046EA9BA /* Pods-horizon-cli.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MJ4T58LF5M;
@@ -814,6 +854,7 @@
 		};
 		D236AA862015F2AE00D2BCF8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3EA4FC06384364AC5B07BA5C /* Pods-horizon-cli.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MJ4T58LF5M;

@@ -123,7 +123,8 @@ public struct IPFSWebserviceAPI: IPFSAPI {
         DefaultAPI.listKeys { (response, error) in
             if let response = response {
                 let keys = response.keys.map({"\($0.name): \($0.id)"})
-                os_log("Found keypairs: ", log: self.logProvider.network, type: .info, keys.joined(separator: ", "))
+                os_log("Found keypairs: %{public}s", log: self.logProvider.network,
+                       type: .info, keys.joined(separator: ", "))
             } else {
                 os_log("Failed to list keypairs. %{public}s", log: self.logProvider.network, type: .error,
                        self.describeError(error))

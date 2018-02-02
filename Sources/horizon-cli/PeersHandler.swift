@@ -18,7 +18,7 @@ import HorizonCore
      $ horizon-cli peers edit {peer-name}
 
  */
-class PeersHandler: Handler {
+struct PeersHandler: Handler {
 
     // MARK: - Constants
 
@@ -40,16 +40,16 @@ class PeersHandler: Handler {
 
     // MARK: - Properties
 
+    private let model: Model
+
     private let arguments: [String]
 
     private let completionHandler: () -> Never
     private let errorHandler: () -> Never
 
-    private let model: Model
-
     // MARK: - Handler Protocol
 
-    required init(model: Model, arguments: [String], completion: @escaping () -> Never, error: @escaping () -> Never) {
+    init(model: Model, arguments: [String], completion: @escaping () -> Never, error: @escaping () -> Never) {
         self.model = model
         self.arguments = arguments
         self.completionHandler = completion

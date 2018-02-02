@@ -20,11 +20,7 @@ struct Program {
 
     // MARK: - Properties
 
-    lazy var model: Model = {
-        let api = IPFSWebserviceAPI(logProvider: Loggers())
-        let model = Model(api: api, eventCallback: nil)
-        return model
-    }()
+    let model: Model = Model(api: IPFSWebserviceAPI(logProvider: Loggers()), eventCallback: nil)
 
     // MARK: - Functions
 
@@ -36,13 +32,21 @@ struct Program {
      processing has completed.
      */
     func main() {
-        guard CommandLine.arguments.count >= 2 else {
+        let arguments: [String]
+        if CommandLine.arguments.count == 1 {
+            print("> ", separator: "", terminator: "")
+            arguments = readLine(strippingNewline: true)?.split(separator: " ").map({String($0)}) ?? [String]()
+        } else {
+            arguments = Array(CommandLine.arguments.dropFirst())
+        }
+
+        guard arguments.count >= 1 else {
             printHelp()
             exit(EXIT_FAILURE)
         }
 
-        let command = CommandLine.arguments[1]
-        let commandArgs = Array(CommandLine.arguments[2..<CommandLine.arguments.count])
+        let command = arguments[0]
+        let commandArgs = Array(arguments[1..<arguments.count])
 
         switch command {
         case "peers":

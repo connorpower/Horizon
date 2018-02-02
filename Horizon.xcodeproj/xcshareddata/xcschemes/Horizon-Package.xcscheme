@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0920"
+   LastUpgradeVersion = "9999"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,65 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D21E3FB220249CEE0049BCFA"
-               BuildableName = "Horizon.app"
-               BlueprintName = "Horizon"
+               BlueprintIdentifier = "Horizon::horizon-cli"
+               BuildableName = "horizon-cli"
+               BlueprintName = "horizon-cli"
+               ReferencedContainer = "container:Horizon.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "Horizon::HorizonCore"
+               BuildableName = "HorizonCore.framework"
+               BlueprintName = "HorizonCore"
+               ReferencedContainer = "container:Horizon.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "IPFSWebService::IPFSWebService"
+               BuildableName = "IPFSWebService.framework"
+               BlueprintName = "IPFSWebService"
+               ReferencedContainer = "container:Horizon.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "RxSwift::RxSwift"
+               BuildableName = "RxSwift.framework"
+               BlueprintName = "RxSwift"
+               ReferencedContainer = "container:Horizon.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "Alamofire::Alamofire"
+               BuildableName = "Alamofire.framework"
+               BlueprintName = "Alamofire"
                ReferencedContainer = "container:Horizon.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -57,9 +113,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D21E3FB220249CEE0049BCFA"
-            BuildableName = "Horizon.app"
-            BlueprintName = "Horizon"
+            BlueprintIdentifier = "Horizon::horizon-cli"
+            BuildableName = "horizon-cli"
+            BlueprintName = "horizon-cli"
             ReferencedContainer = "container:Horizon.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -77,16 +133,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D21E3FB220249CEE0049BCFA"
-            BuildableName = "Horizon.app"
-            BlueprintName = "Horizon"
+            BlueprintIdentifier = "Horizon::horizon-cli"
+            BuildableName = "horizon-cli"
+            BlueprintName = "horizon-cli"
             ReferencedContainer = "container:Horizon.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -96,16 +151,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D21E3FB220249CEE0049BCFA"
-            BuildableName = "Horizon.app"
-            BlueprintName = "Horizon"
+            BlueprintIdentifier = "Horizon::horizon-cli"
+            BuildableName = "horizon-cli"
+            BlueprintName = "horizon-cli"
             ReferencedContainer = "container:Horizon.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

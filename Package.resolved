@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Alamofire",
+        "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
+        "state": {
+          "branch": null,
+          "revision": "bc973c5311ce3db3f01a9fcde027fb11fa2254bf",
+          "version": "4.6.0"
+        }
+      },
+      {
+        "package": "IPFSWebService",
+        "repositoryURL": "https://github.com/connorpower/IPFSWebService.git",
+        "state": {
+          "branch": null,
+          "revision": "8aafc8ed323c92559c8c027413a21dfd1d54361a",
+          "version": "3.0.0"
+        }
+      },
+      {
+        "package": "RxSwift",
+        "repositoryURL": "https://github.com/ReactiveX/RxSwift.git",
+        "state": {
+          "branch": null,
+          "revision": "e479d0029db0575e03e3c092e1c9724b9410eab7",
+          "version": "4.1.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

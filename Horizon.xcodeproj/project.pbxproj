@@ -23,10 +23,6 @@
 		D21E403020249FDF0049BCFA /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D21E402C20249FDF0049BCFA /* AppCenter.framework */; };
 		D21E40362024A1620049BCFA /* FileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21E40352024A1620049BCFA /* FileTests.swift */; };
 		D21E40382024A3620049BCFA /* HorizonCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Horizon::HorizonCore::Product" /* HorizonCore.framework */; };
-		OBJ_248 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
-		OBJ_254 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_61 /* Package.swift */; };
-		OBJ_260 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_217 /* Package.swift */; };
-		OBJ_266 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_219 /* Package.swift */; };
 		OBJ_272 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* Command.swift */; };
 		OBJ_273 /* Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* Handler.swift */; };
 		OBJ_274 /* Loggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* Loggers.swift */; };
@@ -608,13 +604,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D21E3FDF20249D890049BCFA /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		D21E400220249E680049BCFA /* Horizon */ = {
 			isa = PBXGroup;
 			children = (
@@ -883,7 +872,6 @@
 				OBJ_28 /* Tests */,
 				OBJ_34 /* Dependencies */,
 				OBJ_237 /* Products */,
-				D21E3FDF20249D890049BCFA /* Frameworks */,
 			);
 			name = "";
 			sourceTree = "<group>";
@@ -1123,20 +1111,6 @@
 			productReference = "Alamofire::Alamofire::Product" /* Alamofire.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		"Alamofire::SwiftPMPackageDescription" /* AlamofirePackageDescription */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_262 /* Build configuration list for PBXNativeTarget "AlamofirePackageDescription" */;
-			buildPhases = (
-				OBJ_265 /* Sources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = AlamofirePackageDescription;
-			productName = AlamofirePackageDescription;
-			productType = "com.apple.product-type.framework";
-		};
 		D21E3FB220249CEE0049BCFA /* Horizon */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D21E3FD620249CEE0049BCFA /* Build configuration list for PBXNativeTarget "Horizon" */;
@@ -1191,20 +1165,6 @@
 			productReference = "Horizon::HorizonCore::Product" /* HorizonCore.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		"Horizon::SwiftPMPackageDescription" /* HorizonPackageDescription */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_244 /* Build configuration list for PBXNativeTarget "HorizonPackageDescription" */;
-			buildPhases = (
-				OBJ_247 /* Sources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = HorizonPackageDescription;
-			productName = HorizonPackageDescription;
-			productType = "com.apple.product-type.framework";
-		};
 		"Horizon::horizon-cli" /* horizon-cli */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_268 /* Build configuration list for PBXNativeTarget "horizon-cli" */;
@@ -1243,20 +1203,6 @@
 			productReference = "IPFSWebService::IPFSWebService::Product" /* IPFSWebService.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		"IPFSWebService::SwiftPMPackageDescription" /* IPFSWebServicePackageDescription */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_250 /* Build configuration list for PBXNativeTarget "IPFSWebServicePackageDescription" */;
-			buildPhases = (
-				OBJ_253 /* Sources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = IPFSWebServicePackageDescription;
-			productName = IPFSWebServicePackageDescription;
-			productType = "com.apple.product-type.framework";
-		};
 		"RxSwift::RxSwift" /* RxSwift */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_339 /* Build configuration list for PBXNativeTarget "RxSwift" */;
@@ -1271,20 +1217,6 @@
 			name = RxSwift;
 			productName = RxSwift;
 			productReference = "RxSwift::RxSwift::Product" /* RxSwift.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		"RxSwift::SwiftPMPackageDescription" /* RxSwiftPackageDescription */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_256 /* Build configuration list for PBXNativeTarget "RxSwiftPackageDescription" */;
-			buildPhases = (
-				OBJ_259 /* Sources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = RxSwiftPackageDescription;
-			productName = RxSwiftPackageDescription;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -1323,10 +1255,6 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				"Horizon::SwiftPMPackageDescription" /* HorizonPackageDescription */,
-				"IPFSWebService::SwiftPMPackageDescription" /* IPFSWebServicePackageDescription */,
-				"RxSwift::SwiftPMPackageDescription" /* RxSwiftPackageDescription */,
-				"Alamofire::SwiftPMPackageDescription" /* AlamofirePackageDescription */,
 				"Horizon::horizon-cli" /* horizon-cli */,
 				"Horizon::HorizonCore" /* HorizonCore */,
 				"IPFSWebService::IPFSWebService" /* IPFSWebService */,
@@ -1378,38 +1306,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D21E40362024A1620049BCFA /* FileTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		OBJ_247 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
-				OBJ_248 /* Package.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		OBJ_253 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
-				OBJ_254 /* Package.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		OBJ_259 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
-				OBJ_260 /* Package.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		OBJ_265 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
-				OBJ_266 /* Package.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1952,78 +1848,6 @@
 			};
 			name = Release;
 		};
-		OBJ_245 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 4 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
-				SWIFT_VERSION = 4.0;
-			};
-			name = Debug;
-		};
-		OBJ_246 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 4 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
-				SWIFT_VERSION = 4.0;
-			};
-			name = Release;
-		};
-		OBJ_251 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 4 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
-				SWIFT_VERSION = 4.0;
-			};
-			name = Debug;
-		};
-		OBJ_252 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 4 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
-				SWIFT_VERSION = 4.0;
-			};
-			name = Release;
-		};
-		OBJ_257 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 4 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
-				SWIFT_VERSION = 4.0;
-			};
-			name = Debug;
-		};
-		OBJ_258 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 4 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
-				SWIFT_VERSION = 4.0;
-			};
-			name = Release;
-		};
-		OBJ_263 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 3 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/3 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
-				SWIFT_VERSION = 3.0;
-			};
-			name = Debug;
-		};
-		OBJ_264 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 3 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/3 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
-				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
 		OBJ_269 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2310,42 +2134,6 @@
 			buildConfigurations = (
 				OBJ_3 /* Debug */,
 				OBJ_4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		OBJ_244 /* Build configuration list for PBXNativeTarget "HorizonPackageDescription" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_245 /* Debug */,
-				OBJ_246 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		OBJ_250 /* Build configuration list for PBXNativeTarget "IPFSWebServicePackageDescription" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_251 /* Debug */,
-				OBJ_252 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		OBJ_256 /* Build configuration list for PBXNativeTarget "RxSwiftPackageDescription" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_257 /* Debug */,
-				OBJ_258 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		OBJ_262 /* Build configuration list for PBXNativeTarget "AlamofirePackageDescription" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_263 /* Debug */,
-				OBJ_264 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

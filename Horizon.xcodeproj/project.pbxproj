@@ -481,8 +481,6 @@
 		OBJ_25 /* PeersHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeersHandler.swift; sourceTree = "<group>"; };
 		OBJ_26 /* Program.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
 		OBJ_27 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		OBJ_30 /* _Horizon */ = {isa = PBXFileReference; lastKnownFileType = folder; path = _Horizon; sourceTree = SOURCE_ROOT; };
-		OBJ_32 /* Pods */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pods; sourceTree = SOURCE_ROOT; };
 		OBJ_40 /* APIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHelper.swift; sourceTree = "<group>"; };
 		OBJ_41 /* APIs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIs.swift; sourceTree = "<group>"; };
 		OBJ_43 /* DefaultAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAPI.swift; sourceTree = "<group>"; };
@@ -883,8 +881,6 @@
 				OBJ_6 /* Package.swift */,
 				OBJ_7 /* Sources */,
 				OBJ_28 /* Tests */,
-				OBJ_30 /* _Horizon */,
-				OBJ_32 /* Pods */,
 				OBJ_34 /* Dependencies */,
 				OBJ_237 /* Products */,
 				D21E3FDF20249D890049BCFA /* Frameworks */,

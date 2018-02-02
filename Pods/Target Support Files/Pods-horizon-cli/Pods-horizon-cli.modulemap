@@ -1,6 +1,0 @@
-framework module Pods_horizon_cli {
-  umbrella header "Pods-horizon-cli-umbrella.h"
-
-  export *
-  module * { export * }
-}

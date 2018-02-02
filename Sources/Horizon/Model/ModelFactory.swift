@@ -47,6 +47,10 @@ struct ModelFactory {
         case .processingReceiveListDidStart(let contact):
             Notifications.broadcastStatusMessage(
                 "Interplanetary File System: Processing file list from \(contact.displayName)...")
+        case .keygenDidStart(_):
+            break
+        case .keygenDidFail(_):
+            break
         }
     }
 

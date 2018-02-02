@@ -1,13 +1,13 @@
 //
 //  FileTests.swift
-//  HorizonTests
+//  HorizonCoreTests
 //
 //  Created by Connor Power on 05.01.18.
 //  Copyright © 2018 Semantical GmbH & Co. KG. All rights reserved.
 //
 
 import XCTest
-@testable import Horizon
+@testable import HorizonCore
 
 class FileTests: XCTestCase {
 

@@ -4,14 +4,19 @@ import PackageDescription
 
 let package = Package(
     name: "Horizon",
+    products: [
+        .executable(name: "horizon-cli", targets: ["horizon-cli"]),
+        .library(name: "HorizonCore", type: .static, targets: ["HorizonCore"]),
+    ],
     dependencies: [
         .package(url: "https://github.com/connorpower/IPFSWebService.git", from: "3.0.0")
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
-            name: "Horizon",
-            dependencies: []),
+            name: "horizon-cli",
+            dependencies: ["HorizonCore"]),
+        .target(
+            name: "HorizonCore",
+            dependencies: ["IPFSWebService"]),
     ]
 )

@@ -59,26 +59,30 @@ struct PeersHandler: Handler {
     func run() {
         guard !arguments.isEmpty else {
             printHelp()
-            completionHandler()
+            errorHandler()
         }
 
         guard let command = commands.filter({$0.name == arguments.first}).first else {
             printHelp()
-            return
+            errorHandler()
         }
 
         if command.expectedNumArgs != arguments.count - 1 {
             print(command.help)
-            return
+            errorHandler()
         }
 
         switch command.name {
         case "add":
-            addPeer(arguments: Array(arguments.dropFirst()))
-            break
+            if let name = arguments.first {
+                addPeer(name: name)
+            } else {
+                print(command.help)
+                errorHandler()
+            }
         default:
             print(command.help)
-            return
+            errorHandler()
         }
     }
 
@@ -88,37 +92,15 @@ struct PeersHandler: Handler {
         print("No matched commands. Print help...")
     }
 
-    private func addPeer(arguments: [String]) {
-        guard let name = arguments.first else {
-            return
+    private func addPeer(name: String) {
+        model.addContact(name: name) { contact in
+            if contact != nil {
+                self.completionHandler()
+            } else {
+                print("Failed to add peer. Is IPFS running?")
+                self.errorHandler()
+            }
         }
-
-        let keypairName = "com.semantical.horizon-cli.peer.\(name)"
-
-        model.listKeys(completion: { (keys) in
-            guard let keys = keys else {
-                print("Failed to list current keypairs.\nIs IPFS running?")
-                self.errorHandler()
-            }
-
-            guard !keys.contains(keypairName) else {
-                print("Peer already exists.")
-                self.errorHandler()
-            }
-
-            self.model.generateKey(name: keypairName) { (result: (keypairName: String, hash: String)?) in
-                if let result = result {
-                    let contact = Contact(identifier: UUID(), displayName: name,
-                                          sendListKey: result.keypairName, receiveListHash: nil)
-
-                    self.model.addContact(contact: contact)
-                    self.completionHandler()
-                } else {
-                    print("Failed to generate keypair \(keypairName).\nIs IPFS running?")
-                    self.errorHandler()
-                }
-            }
-        })
     }
 
 }

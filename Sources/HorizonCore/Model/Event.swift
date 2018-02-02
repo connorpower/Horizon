@@ -30,6 +30,7 @@ public enum Event {
 
 public enum ErrorEvent: Error {
 
+    case keypairAlreadyExists(String)
     case networkError(Error?)
     case invalidJSONAtPath(String)
     case JSONEncodingErrorForContact(Contact)

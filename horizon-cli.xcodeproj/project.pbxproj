@@ -224,8 +224,6 @@
 		OBJ_28 /* Program.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
 		OBJ_29 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		OBJ_32 /* FileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTests.swift; sourceTree = "<group>"; };
-		OBJ_33 /* HorizonApp */ = {isa = PBXFileReference; lastKnownFileType = folder; path = HorizonApp; sourceTree = SOURCE_ROOT; };
-		OBJ_34 /* Horizon.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = Horizon.xcworkspace; sourceTree = SOURCE_ROOT; };
 		OBJ_41 /* APIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHelper.swift; sourceTree = "<group>"; };
 		OBJ_42 /* APIs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIs.swift; sourceTree = "<group>"; };
 		OBJ_44 /* DefaultAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAPI.swift; sourceTree = "<group>"; };
@@ -493,8 +491,6 @@
 				OBJ_7 /* Configs */,
 				OBJ_9 /* Sources */,
 				OBJ_30 /* Tests */,
-				OBJ_33 /* HorizonApp */,
-				OBJ_34 /* Horizon.xcworkspace */,
 				OBJ_35 /* Dependencies */,
 				OBJ_96 /* Products */,
 			);

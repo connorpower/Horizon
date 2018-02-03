@@ -15,17 +15,17 @@
         "repositoryURL": "https://github.com/connorpower/IPFSWebService.git",
         "state": {
           "branch": null,
-          "revision": "8aafc8ed323c92559c8c027413a21dfd1d54361a",
-          "version": "3.0.0"
+          "revision": "55989b03ade8cad331f011d560218792bb7e1118",
+          "version": "4.0.0"
         }
       },
       {
-        "package": "RxSwift",
-        "repositoryURL": "https://github.com/ReactiveX/RxSwift.git",
+        "package": "PromiseKit",
+        "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
         "state": {
           "branch": null,
-          "revision": "e479d0029db0575e03e3c092e1c9724b9410eab7",
-          "version": "4.1.1"
+          "revision": "c70677a12b8367a808af7049a94096370f7cda0d",
+          "version": "4.5.2"
         }
       }
     ]

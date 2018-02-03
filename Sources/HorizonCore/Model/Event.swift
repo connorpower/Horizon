@@ -19,6 +19,8 @@ public enum Event {
     case addingFileToIPFSDidStart(File)
     case keygenDidStart(String)
     case keygenDidFail(ErrorEvent)
+    case listKeysDidStart
+    case listKeysDidFail(ErrorEvent)
     case addingProvidedFileListToIPFSDidStart(Contact)
     case publishingFileListToIPNSDidStart(Contact)
     case downloadingReceiveListDidStart(Contact)
@@ -28,6 +30,7 @@ public enum Event {
 
 public enum ErrorEvent: Error {
 
+    case keypairAlreadyExists(String)
     case networkError(Error?)
     case invalidJSONAtPath(String)
     case JSONEncodingErrorForContact(Contact)

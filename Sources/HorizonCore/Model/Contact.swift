@@ -30,13 +30,13 @@ public struct Contact: Codable {
      The name for an IPNS keypair on the local machine. Via the IPFS
      API, IPNS keypairs are manipulated using a human readable name.
      */
-    public let sendListKey: String
+    public let sendListKey: String?
 
     /**
      The IPNS hash for the remote file list. This must be provided
      by the other user.
      */
-    public let receiveListHash: String
+    public let receiveListHash: String?
 
     /**
      The list of files which are to be shared with the contact.
@@ -63,7 +63,7 @@ public struct Contact: Codable {
      - parameter receiveListHash: An IPNS hash provided by the contact,
        through which their current list of shared files can be resolved.
      */
-    public init(identifier: UUID, displayName: String, sendListKey: String, receiveListHash: String) {
+    public init(identifier: UUID, displayName: String, sendListKey: String?, receiveListHash: String?) {
         self.identifier = identifier
         self.displayName = displayName
         self.sendListKey = sendListKey

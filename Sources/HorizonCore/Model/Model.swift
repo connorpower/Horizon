@@ -10,6 +10,12 @@ import Foundation
 
 public class Model {
 
+    // MARK: - Constants
+
+    struct Constants {
+        static let keypairPrefix = "com.semantical.horizon-cli.peer"
+    }
+
     // MARK: - Public Properties
 
     public var contacts: [Contact] {
@@ -46,23 +52,57 @@ public class Model {
         for contact in syncState {
             eventCallback?(.resolvingReceiveListDidStart(contact))
 
-            self.api.resolve(arg: contact.receiveListHash, recursive: true) { (response, error) in
-                guard let response = response else {
-                    self.eventCallback?(.syncDidFail(.networkError(error)))
-                    self.removeContactFromSyncState(contact)
+            if let receiveListHash = contact.receiveListHash {
+                self.api.resolve(arg: receiveListHash, recursive: true) { (response, error) in
+                    guard let response = response else {
+                        self.eventCallback?(.syncDidFail(.networkError(error)))
+                        self.removeContactFromSyncState(contact)
 
-                    return
+                        return
+                    }
+
+                    self.getFileList(from: contact, at: response.path)
                 }
-
-                self.getFileList(from: contact, at: response.path)
+            } else {
+                removeContactFromSyncState(contact)
             }
         }
     }
 
-    public func addContact(contact: Contact) {
-        persistentStore.createOrUpdateContact(contact)
-        eventCallback?(.propertiesDidChange(contact))
-        self.sync()
+    public func addContact(name: String, completion: @escaping (Contact?) -> Void) {
+        let keypairName = "\(Constants.keypairPrefix).\(name)"
+
+        api.listKeys { (response, error) in
+            guard let response = response else {
+                self.eventCallback?(.listKeysDidFail(.networkError(error)))
+                completion(nil)
+                return
+            }
+
+            let keys = response.keys.map{ $0.name }
+
+            guard !keys.contains(keypairName) else {
+                self.eventCallback?(.keygenDidFail(.keypairAlreadyExists(keypairName)))
+                completion(nil)
+                return
+            }
+
+            self.eventCallback?(.keygenDidStart(name))
+            self.api.keygen(arg: name, type: .rsa, size: 2048) { (response, error) in
+                guard let response = response else {
+                    self.eventCallback?(.keygenDidFail(.networkError(error)))
+                    completion(nil)
+                    return
+                }
+
+                let contact = Contact(identifier: UUID(), displayName: name,
+                                      sendListKey: response.name, receiveListHash: nil)
+
+                self.persistentStore.createOrUpdateContact(contact)
+                self.eventCallback?(.propertiesDidChange(contact))
+                completion(contact)
+            }
+        }
     }
 
     public func add(fileURLs: [URL], to contact: Contact) {
@@ -93,20 +133,6 @@ public class Model {
                 //
                 self.sendFileList(to: contact)
             })
-        }
-    }
-
-    public func generateKey(name: String, completion: @escaping ((name: String, hash: String)?) -> Void) {
-        eventCallback?(.keygenDidStart(name))
-
-        api.keygen(arg: name, type: .rsa, size: 2048) { (response, error) in
-            guard let response = response else {
-                self.eventCallback?(.keygenDidFail(.networkError(error)))
-                completion(nil)
-                return
-            }
-
-            completion((name: response.name, hash: response.id))
         }
     }
 

@@ -50,11 +50,16 @@ struct Program {
 
         switch command {
         case "peers":
-            PeersHandler(arguments: commandArgs, completion: { exit(EXIT_SUCCESS) }).run()
+            PeersHandler(model: model,
+                         arguments: commandArgs,
+                         completion: { exit(EXIT_SUCCESS) },
+                         error: { exit(EXIT_FAILURE) }).run()
         default:
             printHelp()
             exit(EXIT_FAILURE)
         }
+
+        dispatchMain()
     }
 
     // MARK: - Private Functions

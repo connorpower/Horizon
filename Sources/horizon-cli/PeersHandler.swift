@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import HorizonCore
 
 /**
  A handler for all peer commands. Currently these are:
@@ -17,22 +18,18 @@ import Foundation
      $ horizon-cli peers edit {peer-name}
 
  */
-class PeersHandler: Handler {
+struct PeersHandler: Handler {
 
-    // MARK: - Properties
-
-    private let arguments: [String]
-
-    private let completionHandler: () -> Void
+    // MARK: - Constants
 
     private let commands = [
         Command(name: "list", expectedNumArgs: 0, help: """
-            horizon-cli peers list:
+            horizon-cli peers list
               Lists all peers which have been added to Horizon.
               This command takes no arguments.
             """),
         Command(name: "add", expectedNumArgs: 1, help: """
-            horizon-cli peers add {name}:
+            horizon-cli peers add {name}
               Adds a new peer to Horizon and generates an IPNS key which will
               be used for sharing files with the peer. The new peer's shared file
               list can be added after the fact using `ipfs peer edit {name}`.
@@ -41,36 +38,51 @@ class PeersHandler: Handler {
             """)
     ]
 
+    // MARK: - Properties
+
+    private let model: Model
+
+    private let arguments: [String]
+
+    private let completionHandler: () -> Never
+    private let errorHandler: () -> Never
+
     // MARK: - Handler Protocol
 
-    required init(arguments: [String], completion: @escaping () -> Void) {
+    init(model: Model, arguments: [String], completion: @escaping () -> Never, error: @escaping () -> Never) {
+        self.model = model
         self.arguments = arguments
         self.completionHandler = completion
+        self.errorHandler = error
     }
 
     func run() {
         guard !arguments.isEmpty else {
             printHelp()
-            completionHandler()
-            return
+            errorHandler()
         }
 
         guard let command = commands.filter({$0.name == arguments.first}).first else {
             printHelp()
-            return
+            errorHandler()
         }
 
         if command.expectedNumArgs != arguments.count - 1 {
             print(command.help)
-            return
+            errorHandler()
         }
 
         switch command.name {
         case "add":
-            break
+            if let name = arguments.first {
+                addPeer(name: name)
+            } else {
+                print(command.help)
+                errorHandler()
+            }
         default:
             print(command.help)
-            return
+            errorHandler()
         }
     }
 
@@ -78,6 +90,17 @@ class PeersHandler: Handler {
 
     private func printHelp() {
         print("No matched commands. Print help...")
+    }
+
+    private func addPeer(name: String) {
+        model.addContact(name: name) { contact in
+            if contact != nil {
+                self.completionHandler()
+            } else {
+                print("Failed to add peer. Is IPFS running?")
+                self.errorHandler()
+            }
+        }
     }
 
 }

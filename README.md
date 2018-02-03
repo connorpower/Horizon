@@ -35,6 +35,13 @@ To combine the Cocoa GUI app with the libraries managed by the Swift Package
 Manger, we use an umnbrella Xcode Workspace 'Horizon' as a pragmatic means of
 acessing the SPM managed libraries from the Cocoa App.
 
+#### But why?
+
+Cocoapods doesn't support Swift static libraries – a necessity for the command
+line app. The Swift Package Manager doesn't support either Cocoa or iOS Apps.
+Neither offers an optimial soultion, but the Swift Package Manager is likely
+the best long-term solution.
+
 #### Dependency Management
 
 Dependencies are managed by the swift package manager as normal. Simply run

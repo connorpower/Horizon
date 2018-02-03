@@ -8,6 +8,7 @@
 
 import Foundation
 import IPFSWebService
+import PromiseKit
 
 /**
  This protocol defines an interface to the IPFS API. It can be
@@ -22,11 +23,9 @@ public protocol IPFSAPI {
      this stage.
 
      - parameter file: The file to be added to IPFS.
-     - parameter completion: A completion block to be invoked when the
-       call returns. Either the `AddResponse` parameter will contain a
-       value within it's optional, or the `Error` parameter, but not both.
+     - returns: An `AddResponse` promise.
      */
-    func add(file: URL, completion: @escaping ((_ data: AddResponse?, _ error: Error?) -> Void))
+    func add(file: URL) -> Promise<AddResponse>
 
     /**
      Displays the data contained by an IPFS or IPNS object(s) at the
@@ -34,11 +33,9 @@ public protocol IPFSAPI {
      by the application itself.
 
      - parameter arg: The path to the IPFS object(s) to be outputted.
-     - parameter completion: A completion block to be invoked when the
-       call returns. Either the `Data` parameter will contain
-       a value within it's optional, or the `Error` parameter, but not both.
+     - returns: A `Data` promise.
      */
-    func cat(arg: String, completion: @escaping ((_ data: Data?, _ error: Error?) -> Void))
+    func cat(arg: String) -> Promise<Data>
 
     // MARK: IPNS
 
@@ -49,31 +46,24 @@ public protocol IPFSAPI {
      - parameter type: The type of the key to create (for instance: 'rsa'
        or 'ed25519'),
      - parameter size: The size of the key to generate.
-     - parameter completion: A completion block to be invoked when the
-       call returns. Either the `KeygenResponse` parameter will contain
-       a value within it's optional, or the `Error` parameter, but not both.
+     - returns: A `KeygenResponse` promise.
      */
-    func keygen(arg: String, type: DefaultAPI.ModelType_keygen, size: Int,
-                completion: @escaping ((_ data: KeygenResponse?, _ error: Error?) -> Void))
+    func keygen(arg: String, type: DefaultAPI.ModelType_keygen, size: Int) -> Promise<KeygenResponse>
 
     /**
      Lists all local keypairs.
 
-     - parameter completion: A completion block to be invoked when the
-       call returns. Either the `ListKeysResponse` parameter will contain
-       a value within it's optional, or the `Error` parameter, but not both.
+     - returns: A `ListKeysResponse` promise.
      */
-    func listKeys(completion: @escaping ((_ data: ListKeysResponse?, _ error: Error?) -> Void))
+    func listKeys() -> Promise<ListKeysResponse>
 
     /**
      Removes a keypair.
 
      - parameter arg: The name of the keypair to remove.
-     - parameter completion: A completion block to be invoked when the
-       call returns. Either the `RemoveKeyResponse` parameter will contain
-       a value within it's optional, or the `Error` parameter, but not both.
+     - returns: A `RemoveKeyResponse` promise.
      */
-    func removeKey(arg: String, completion: @escaping ((_ data: RemoveKeyResponse?, _ error: Error?) -> Void))
+    func removeKey(keypairName: String) -> Promise<RemoveKeyResponse>
 
     /**
      Publishes an IPNS name.
@@ -86,12 +76,9 @@ public protocol IPFSAPI {
      - parameter arg: The IPFS path of the object to be published.
      - parameter key: The name of the key to be used, as listed by `listKeys(:)`.
        Defaults to the node's own PeerID.
-     - parameter completion: A completion block to be invoked when the
-       call returns. Either the `PublishResponse` parameter will contain
-       a value within it's optional, or the `Error` parameter, but not both.
+     - returns: A `PublishResponse` promise.
      */
-    func publish(arg: String, key: String?,
-                 completion: @escaping ((_ data: PublishResponse?, _ error: Error?) -> Void))
+    func publish(arg: String, key: String?) -> Promise<PublishResponse>
 
     /**
      Resolves an IPNS name.
@@ -104,26 +91,8 @@ public protocol IPFSAPI {
      - parameter arg: The IPNS name to resolve.
      - recursive key: Resolve until the result is not an IPNS name. Defaults
        to false.
-     - parameter completion: A completion block to be invoked when the
-       call returns. Either the `ResolveResponse` parameter will contain
-       a value within it's optional, or the `Error` parameter, but not both.
+     - returns: A `ResolveResponse` promise.
      */
-    func resolve(arg: String, recursive: Bool?,
-                 completion: @escaping ((_ data: ResolveResponse?, _ error: Error?) -> Void))
-
-    // MARK: Utility
-
-    /**
-     Describes an error which was returned by an API call. This
-     utility function is provided in order to deal with the myriad
-     of error types and wrapped error types with the various layers
-     of networking might return.
-
-     No guarantee is made as to the format of the returned string.
-
-     - parameter error: The error to describe.
-     - returns: A string describing the error.
-     */
-    func describeError(_ error: Error?) -> String
+    func resolve(arg: String, recursive: Bool?) -> Promise<ResolveResponse>
 
 }

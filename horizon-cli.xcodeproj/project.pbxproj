@@ -280,7 +280,7 @@
 		OBJ_94 /* Timeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
 		OBJ_95 /* Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
 		"PromiseKit::PromiseKit::Product" /* PromiseKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PromiseKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"horizon-cli::HorizonCore::Product" /* HorizonCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HorizonCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"horizon-cli::HorizonCore::Product" /* HorizonCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HorizonCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"horizon-cli::HorizonCoreTests::Product" /* HorizonCoreTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = HorizonCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		"horizon-cli::horizon-cli::Product" /* horizon-cli */ = {isa = PBXFileReference; lastKnownFileType = text; path = "horizon-cli"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */

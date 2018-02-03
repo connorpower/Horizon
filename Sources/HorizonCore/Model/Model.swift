@@ -73,14 +73,14 @@ public class Model {
         }
     }
 
-    public func addContact(name: String, completion: @escaping (Contact?) -> Void) {
+    public func addContact(name: String, completion: @escaping (Contact?, HorizonError?) -> Void) {
         let keypairName = "\(Constants.keypairPrefix).\(name)"
 
         firstly {
             return self.api.listKeys()
         }.then { listKeysResponse  -> Promise<KeygenResponse> in
             if listKeysResponse.keys.map({ $0.name }).contains(keypairName) {
-                throw HorizonError.keygenFailed(reason: .keypairAlreadyExists)
+                throw HorizonError.addContactFailed(reason: .contactAlreadyExists)
             }
 
             self.eventCallback?(.keygenDidStart(name))
@@ -91,10 +91,12 @@ public class Model {
 
             self.persistentStore.createOrUpdateContact(contact)
             self.eventCallback?(.propertiesDidChange(contact))
-            completion(contact)
+            completion(contact, nil)
         }.catch { error in
-            self.eventCallback?(.errorEvent(HorizonError.addContactFailed(reason: .unknown(error))))
-            completion(nil)
+            let horizonError: HorizonError = error is HorizonError
+                ? error as! HorizonError : HorizonError.addContactFailed(reason: .unknown(error))
+            self.eventCallback?(.errorEvent(horizonError))
+            completion(nil, horizonError)
         }
     }
 

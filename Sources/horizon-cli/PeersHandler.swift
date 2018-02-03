@@ -93,10 +93,17 @@ struct PeersHandler: Handler {
     }
 
     private func addPeer(name: String) {
-        model.addContact(name: name) { contact in
+        model.addContact(name: name) { contact, error in
             if contact != nil {
                 self.completionHandler()
-            } else {
+            } else if let error = error {
+                if case HorizonError.addContactFailed(let reason) = error {
+                    if case .contactAlreadyExists = reason {
+                        print("Contact already exists.")
+                        self.errorHandler()
+                    }
+                }
+
                 print("Failed to add peer. Is IPFS running?")
                 self.errorHandler()
             }

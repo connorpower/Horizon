@@ -10,19 +10,12 @@ import Foundation
 public enum HorizonError: Error {
 
     /**
-     The underlying reason the keygen command failed.
-     - keypairAlreadyExists: A keypair of the given name already exists.
-     */
-    public enum KeygenFailureReason {
-        case keypairAlreadyExists
-    }
-
-    /**
      The underlying reason the add contact command failed.
      - unknown: An unknown reason caused the command to fail.
      */
     public enum AddContactFailureReason {
         case unknown(Error)
+        case contactAlreadyExists
     }
 
     /**
@@ -61,7 +54,6 @@ public enum HorizonError: Error {
         case failedToEncodeFileList
     }
 
-    case keygenFailed(reason: KeygenFailureReason)
     case addContactFailed(reason: AddContactFailureReason)
     case syncFailed(reason: SyncFailureReason)
     case addFileFailed(reason: AddFileFailureReason)

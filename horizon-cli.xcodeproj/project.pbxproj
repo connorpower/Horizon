@@ -345,7 +345,6 @@
 		OBJ_10 /* HorizonCore */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_11 /* IPFS API */,
 				OBJ_14 /* Model */,
 				OBJ_21 /* Utility */,
 			);
@@ -353,18 +352,11 @@
 			path = Sources/HorizonCore;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_11 /* IPFS API */ = {
+		OBJ_14 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				OBJ_12 /* IPFSAPI.swift */,
 				OBJ_13 /* IPFSWebserviceAPI.swift */,
-			);
-			path = "IPFS API";
-			sourceTree = "<group>";
-		};
-		OBJ_14 /* Model */ = {
-			isa = PBXGroup;
-			children = (
 				OBJ_15 /* Contact.swift */,
 				OBJ_16 /* Event.swift */,
 				OBJ_17 /* File.swift */,

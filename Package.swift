@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "Horizon",
+    name: "horizon-cli",
     products: [
         .executable(name: "horizon-cli", targets: ["horizon-cli"]),
         .library(name: "HorizonCore", type: .static, targets: ["HorizonCore"]),
@@ -19,5 +19,8 @@ let package = Package(
         .target(
             name: "HorizonCore",
             dependencies: ["IPFSWebService"]),
+        .testTarget(
+            name: "HorizonCoreTests",
+            dependencies: ["HorizonCore"]),
     ]
 )

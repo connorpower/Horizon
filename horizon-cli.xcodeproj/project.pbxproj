@@ -1,0 +1,1517 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		"horizon-cli::horizon-cliPackageTests::ProductTarget" /* horizon-cliPackageTests */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = OBJ_254 /* Build configuration list for PBXAggregateTarget "horizon-cliPackageTests" */;
+			buildPhases = (
+			);
+			dependencies = (
+				OBJ_257 /* PBXTargetDependency */,
+			);
+			name = "horizon-cliPackageTests";
+			productName = "horizon-cliPackageTests";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		OBJ_108 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
+		OBJ_114 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_62 /* Package.swift */; };
+		OBJ_120 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_64 /* Package.swift */; };
+		OBJ_126 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_78 /* Package.swift */; };
+		OBJ_132 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* Command.swift */; };
+		OBJ_133 /* Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* Handler.swift */; };
+		OBJ_134 /* Loggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* Loggers.swift */; };
+		OBJ_135 /* PeersHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* PeersHandler.swift */; };
+		OBJ_136 /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_28 /* Program.swift */; };
+		OBJ_137 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_29 /* main.swift */; };
+		OBJ_139 /* HorizonCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "horizon-cli::HorizonCore::Product" /* HorizonCore.framework */; };
+		OBJ_140 /* IPFSWebService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "IPFSWebService::IPFSWebService::Product" /* IPFSWebService.framework */; };
+		OBJ_141 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "PromiseKit::PromiseKit::Product" /* PromiseKit.framework */; };
+		OBJ_142 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Alamofire::Alamofire::Product" /* Alamofire.framework */; };
+		OBJ_156 /* FileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* FileTests.swift */; };
+		OBJ_158 /* HorizonCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "horizon-cli::HorizonCore::Product" /* HorizonCore.framework */; };
+		OBJ_159 /* IPFSWebService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "IPFSWebService::IPFSWebService::Product" /* IPFSWebService.framework */; };
+		OBJ_160 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "PromiseKit::PromiseKit::Product" /* PromiseKit.framework */; };
+		OBJ_161 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Alamofire::Alamofire::Product" /* Alamofire.framework */; };
+		OBJ_170 /* IPFSAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* IPFSAPI.swift */; };
+		OBJ_171 /* IPFSWebserviceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* IPFSWebserviceAPI.swift */; };
+		OBJ_172 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* Contact.swift */; };
+		OBJ_173 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* Event.swift */; };
+		OBJ_174 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* File.swift */; };
+		OBJ_175 /* FileList.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* FileList.swift */; };
+		OBJ_176 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* Model.swift */; };
+		OBJ_177 /* PersistentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* PersistentStore.swift */; };
+		OBJ_178 /* LogProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* LogProvider.swift */; };
+		OBJ_180 /* IPFSWebService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "IPFSWebService::IPFSWebService::Product" /* IPFSWebService.framework */; };
+		OBJ_181 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "PromiseKit::PromiseKit::Product" /* PromiseKit.framework */; };
+		OBJ_182 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Alamofire::Alamofire::Product" /* Alamofire.framework */; };
+		OBJ_190 /* APIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_41 /* APIHelper.swift */; };
+		OBJ_191 /* APIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_42 /* APIs.swift */; };
+		OBJ_192 /* DefaultAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_44 /* DefaultAPI.swift */; };
+		OBJ_193 /* AlamofireImplementations.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_45 /* AlamofireImplementations.swift */; };
+		OBJ_194 /* CodableHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_46 /* CodableHelper.swift */; };
+		OBJ_195 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_47 /* Configuration.swift */; };
+		OBJ_196 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_48 /* Extensions.swift */; };
+		OBJ_197 /* JSONEncodableEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_49 /* JSONEncodableEncoding.swift */; };
+		OBJ_198 /* JSONEncodingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_50 /* JSONEncodingHelper.swift */; };
+		OBJ_199 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_51 /* Models.swift */; };
+		OBJ_200 /* AddResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_53 /* AddResponse.swift */; };
+		OBJ_201 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_54 /* Key.swift */; };
+		OBJ_202 /* KeyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_55 /* KeyList.swift */; };
+		OBJ_203 /* KeygenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_56 /* KeygenResponse.swift */; };
+		OBJ_204 /* ListKeysResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_57 /* ListKeysResponse.swift */; };
+		OBJ_205 /* PinResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_58 /* PinResponse.swift */; };
+		OBJ_206 /* PublishResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_59 /* PublishResponse.swift */; };
+		OBJ_207 /* RemoveKeyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_60 /* RemoveKeyResponse.swift */; };
+		OBJ_208 /* ResolveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_61 /* ResolveResponse.swift */; };
+		OBJ_210 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "PromiseKit::PromiseKit::Product" /* PromiseKit.framework */; };
+		OBJ_211 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Alamofire::Alamofire::Product" /* Alamofire.framework */; };
+		OBJ_218 /* DispatchQueue+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_65 /* DispatchQueue+Promise.swift */; };
+		OBJ_219 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_66 /* Error.swift */; };
+		OBJ_220 /* Promise+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_67 /* Promise+Properties.swift */; };
+		OBJ_221 /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_68 /* Promise.swift */; };
+		OBJ_222 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_69 /* State.swift */; };
+		OBJ_223 /* SwiftPM.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_70 /* SwiftPM.swift */; };
+		OBJ_224 /* Zalgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_71 /* Zalgo.swift */; };
+		OBJ_225 /* after.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_72 /* after.swift */; };
+		OBJ_226 /* join.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_73 /* join.swift */; };
+		OBJ_227 /* race.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_74 /* race.swift */; };
+		OBJ_228 /* when.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_75 /* when.swift */; };
+		OBJ_229 /* wrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_76 /* wrap.swift */; };
+		OBJ_235 /* AFError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_79 /* AFError.swift */; };
+		OBJ_236 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_80 /* Alamofire.swift */; };
+		OBJ_237 /* DispatchQueue+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_81 /* DispatchQueue+Alamofire.swift */; };
+		OBJ_238 /* MultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_82 /* MultipartFormData.swift */; };
+		OBJ_239 /* NetworkReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_83 /* NetworkReachabilityManager.swift */; };
+		OBJ_240 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_84 /* Notifications.swift */; };
+		OBJ_241 /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_85 /* ParameterEncoding.swift */; };
+		OBJ_242 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_86 /* Request.swift */; };
+		OBJ_243 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_87 /* Response.swift */; };
+		OBJ_244 /* ResponseSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_88 /* ResponseSerialization.swift */; };
+		OBJ_245 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_89 /* Result.swift */; };
+		OBJ_246 /* ServerTrustPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_90 /* ServerTrustPolicy.swift */; };
+		OBJ_247 /* SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_91 /* SessionDelegate.swift */; };
+		OBJ_248 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_92 /* SessionManager.swift */; };
+		OBJ_249 /* TaskDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_93 /* TaskDelegate.swift */; };
+		OBJ_250 /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_94 /* Timeline.swift */; };
+		OBJ_251 /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_95 /* Validation.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D281938E202606350036D2AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "IPFSWebService::IPFSWebService";
+			remoteInfo = IPFSWebService;
+		};
+		D281938F202606350036D2AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "PromiseKit::PromiseKit";
+			remoteInfo = PromiseKit;
+		};
+		D2819390202606350036D2AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "Alamofire::Alamofire";
+			remoteInfo = Alamofire;
+		};
+		D2819391202606350036D2AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "PromiseKit::PromiseKit";
+			remoteInfo = PromiseKit;
+		};
+		D2819392202606350036D2AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "Alamofire::Alamofire";
+			remoteInfo = Alamofire;
+		};
+		D2819393202606350036D2AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "horizon-cli::HorizonCore";
+			remoteInfo = HorizonCore;
+		};
+		D2819394202606350036D2AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "IPFSWebService::IPFSWebService";
+			remoteInfo = IPFSWebService;
+		};
+		D2819395202606350036D2AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "PromiseKit::PromiseKit";
+			remoteInfo = PromiseKit;
+		};
+		D2819396202606350036D2AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "Alamofire::Alamofire";
+			remoteInfo = Alamofire;
+		};
+		D2819397202606350036D2AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "horizon-cli::HorizonCore";
+			remoteInfo = HorizonCore;
+		};
+		D2819398202606350036D2AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "IPFSWebService::IPFSWebService";
+			remoteInfo = IPFSWebService;
+		};
+		D2819399202606350036D2AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "PromiseKit::PromiseKit";
+			remoteInfo = PromiseKit;
+		};
+		D281939A202606350036D2AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "Alamofire::Alamofire";
+			remoteInfo = Alamofire;
+		};
+		D281939B202606350036D2AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "horizon-cli::HorizonCoreTests";
+			remoteInfo = HorizonCoreTests;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		"Alamofire::Alamofire::Product" /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"IPFSWebService::IPFSWebService::Product" /* IPFSWebService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IPFSWebService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_12 /* IPFSAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPFSAPI.swift; sourceTree = "<group>"; };
+		OBJ_13 /* IPFSWebserviceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPFSWebserviceAPI.swift; sourceTree = "<group>"; };
+		OBJ_15 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		OBJ_16 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		OBJ_17 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		OBJ_18 /* FileList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileList.swift; sourceTree = "<group>"; };
+		OBJ_19 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		OBJ_20 /* PersistentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStore.swift; sourceTree = "<group>"; };
+		OBJ_22 /* LogProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogProvider.swift; sourceTree = "<group>"; };
+		OBJ_24 /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
+		OBJ_25 /* Handler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Handler.swift; sourceTree = "<group>"; };
+		OBJ_26 /* Loggers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loggers.swift; sourceTree = "<group>"; };
+		OBJ_27 /* PeersHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeersHandler.swift; sourceTree = "<group>"; };
+		OBJ_28 /* Program.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
+		OBJ_29 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		OBJ_32 /* FileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTests.swift; sourceTree = "<group>"; };
+		OBJ_33 /* HorizonApp */ = {isa = PBXFileReference; lastKnownFileType = folder; path = HorizonApp; sourceTree = SOURCE_ROOT; };
+		OBJ_34 /* Horizon.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = Horizon.xcworkspace; sourceTree = SOURCE_ROOT; };
+		OBJ_41 /* APIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHelper.swift; sourceTree = "<group>"; };
+		OBJ_42 /* APIs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIs.swift; sourceTree = "<group>"; };
+		OBJ_44 /* DefaultAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAPI.swift; sourceTree = "<group>"; };
+		OBJ_45 /* AlamofireImplementations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireImplementations.swift; sourceTree = "<group>"; };
+		OBJ_46 /* CodableHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableHelper.swift; sourceTree = "<group>"; };
+		OBJ_47 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		OBJ_48 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		OBJ_49 /* JSONEncodableEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONEncodableEncoding.swift; sourceTree = "<group>"; };
+		OBJ_50 /* JSONEncodingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONEncodingHelper.swift; sourceTree = "<group>"; };
+		OBJ_51 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		OBJ_53 /* AddResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddResponse.swift; sourceTree = "<group>"; };
+		OBJ_54 /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
+		OBJ_55 /* KeyList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyList.swift; sourceTree = "<group>"; };
+		OBJ_56 /* KeygenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeygenResponse.swift; sourceTree = "<group>"; };
+		OBJ_57 /* ListKeysResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListKeysResponse.swift; sourceTree = "<group>"; };
+		OBJ_58 /* PinResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinResponse.swift; sourceTree = "<group>"; };
+		OBJ_59 /* PublishResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishResponse.swift; sourceTree = "<group>"; };
+		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		OBJ_60 /* RemoveKeyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveKeyResponse.swift; sourceTree = "<group>"; };
+		OBJ_61 /* ResolveResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolveResponse.swift; sourceTree = "<group>"; };
+		OBJ_62 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/connorpower/Library/Mobile Documents/com~apple~CloudDocs/Developer/newtopia/Horizon/.build/checkouts/IPFSWebService.git-1892152358706138552/Package.swift"; sourceTree = "<group>"; };
+		OBJ_64 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/connorpower/Library/Mobile Documents/com~apple~CloudDocs/Developer/newtopia/Horizon/.build/checkouts/PromiseKit.git--245509577168976307/Package.swift"; sourceTree = "<group>"; };
+		OBJ_65 /* DispatchQueue+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+Promise.swift"; sourceTree = "<group>"; };
+		OBJ_66 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		OBJ_67 /* Promise+Properties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Promise+Properties.swift"; sourceTree = "<group>"; };
+		OBJ_68 /* Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
+		OBJ_69 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
+		OBJ_70 /* SwiftPM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftPM.swift; sourceTree = "<group>"; };
+		OBJ_71 /* Zalgo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Zalgo.swift; sourceTree = "<group>"; };
+		OBJ_72 /* after.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = after.swift; sourceTree = "<group>"; };
+		OBJ_73 /* join.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = join.swift; sourceTree = "<group>"; };
+		OBJ_74 /* race.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = race.swift; sourceTree = "<group>"; };
+		OBJ_75 /* when.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = when.swift; sourceTree = "<group>"; };
+		OBJ_76 /* wrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wrap.swift; sourceTree = "<group>"; };
+		OBJ_78 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/connorpower/Library/Mobile Documents/com~apple~CloudDocs/Developer/newtopia/Horizon/.build/checkouts/Alamofire.git-6801331143877184500/Package.swift"; sourceTree = "<group>"; };
+		OBJ_79 /* AFError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AFError.swift; sourceTree = "<group>"; };
+		OBJ_8 /* Configuration.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Configuration.xcconfig; sourceTree = "<group>"; };
+		OBJ_80 /* Alamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alamofire.swift; sourceTree = "<group>"; };
+		OBJ_81 /* DispatchQueue+Alamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+Alamofire.swift"; sourceTree = "<group>"; };
+		OBJ_82 /* MultipartFormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartFormData.swift; sourceTree = "<group>"; };
+		OBJ_83 /* NetworkReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachabilityManager.swift; sourceTree = "<group>"; };
+		OBJ_84 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		OBJ_85 /* ParameterEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterEncoding.swift; sourceTree = "<group>"; };
+		OBJ_86 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		OBJ_87 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		OBJ_88 /* ResponseSerialization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseSerialization.swift; sourceTree = "<group>"; };
+		OBJ_89 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		OBJ_90 /* ServerTrustPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerTrustPolicy.swift; sourceTree = "<group>"; };
+		OBJ_91 /* SessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDelegate.swift; sourceTree = "<group>"; };
+		OBJ_92 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		OBJ_93 /* TaskDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDelegate.swift; sourceTree = "<group>"; };
+		OBJ_94 /* Timeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
+		OBJ_95 /* Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
+		"PromiseKit::PromiseKit::Product" /* PromiseKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PromiseKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"horizon-cli::HorizonCore::Product" /* HorizonCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HorizonCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"horizon-cli::HorizonCoreTests::Product" /* HorizonCoreTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = HorizonCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"horizon-cli::horizon-cli::Product" /* horizon-cli */ = {isa = PBXFileReference; lastKnownFileType = text; path = "horizon-cli"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		OBJ_138 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_139 /* HorizonCore.framework in Frameworks */,
+				OBJ_140 /* IPFSWebService.framework in Frameworks */,
+				OBJ_141 /* PromiseKit.framework in Frameworks */,
+				OBJ_142 /* Alamofire.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_157 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_158 /* HorizonCore.framework in Frameworks */,
+				OBJ_159 /* IPFSWebService.framework in Frameworks */,
+				OBJ_160 /* PromiseKit.framework in Frameworks */,
+				OBJ_161 /* Alamofire.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_179 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_180 /* IPFSWebService.framework in Frameworks */,
+				OBJ_181 /* PromiseKit.framework in Frameworks */,
+				OBJ_182 /* Alamofire.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_209 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_210 /* PromiseKit.framework in Frameworks */,
+				OBJ_211 /* Alamofire.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_230 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_252 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		OBJ_10 /* HorizonCore */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_11 /* IPFS API */,
+				OBJ_14 /* Model */,
+				OBJ_21 /* Utility */,
+			);
+			name = HorizonCore;
+			path = Sources/HorizonCore;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_11 /* IPFS API */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_12 /* IPFSAPI.swift */,
+				OBJ_13 /* IPFSWebserviceAPI.swift */,
+			);
+			path = "IPFS API";
+			sourceTree = "<group>";
+		};
+		OBJ_14 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_15 /* Contact.swift */,
+				OBJ_16 /* Event.swift */,
+				OBJ_17 /* File.swift */,
+				OBJ_18 /* FileList.swift */,
+				OBJ_19 /* Model.swift */,
+				OBJ_20 /* PersistentStore.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		OBJ_21 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_22 /* LogProvider.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		OBJ_23 /* horizon-cli */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_24 /* Command.swift */,
+				OBJ_25 /* Handler.swift */,
+				OBJ_26 /* Loggers.swift */,
+				OBJ_27 /* PeersHandler.swift */,
+				OBJ_28 /* Program.swift */,
+				OBJ_29 /* main.swift */,
+			);
+			name = "horizon-cli";
+			path = "Sources/horizon-cli";
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_30 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_31 /* HorizonCoreTests */,
+			);
+			name = Tests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_31 /* HorizonCoreTests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_32 /* FileTests.swift */,
+			);
+			name = HorizonCoreTests;
+			path = Tests/HorizonCoreTests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_35 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_36 /* IPFSWebService 4.0.0 */,
+				OBJ_63 /* PromiseKit 4.5.2 */,
+				OBJ_77 /* Alamofire 4.6.0 */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
+		OBJ_36 /* IPFSWebService 4.0.0 */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_37 /* IPFSWebService */,
+				OBJ_62 /* Package.swift */,
+			);
+			name = "IPFSWebService 4.0.0";
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_37 /* IPFSWebService */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_38 /* SwaggerClient */,
+			);
+			name = IPFSWebService;
+			path = ".build/checkouts/IPFSWebService.git-1892152358706138552/Sources/IPFSWebService";
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_38 /* SwaggerClient */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_39 /* Classes */,
+			);
+			path = SwaggerClient;
+			sourceTree = "<group>";
+		};
+		OBJ_39 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_40 /* Swaggers */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		OBJ_40 /* Swaggers */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_41 /* APIHelper.swift */,
+				OBJ_42 /* APIs.swift */,
+				OBJ_43 /* APIs */,
+				OBJ_45 /* AlamofireImplementations.swift */,
+				OBJ_46 /* CodableHelper.swift */,
+				OBJ_47 /* Configuration.swift */,
+				OBJ_48 /* Extensions.swift */,
+				OBJ_49 /* JSONEncodableEncoding.swift */,
+				OBJ_50 /* JSONEncodingHelper.swift */,
+				OBJ_51 /* Models.swift */,
+				OBJ_52 /* Models */,
+			);
+			path = Swaggers;
+			sourceTree = "<group>";
+		};
+		OBJ_43 /* APIs */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_44 /* DefaultAPI.swift */,
+			);
+			path = APIs;
+			sourceTree = "<group>";
+		};
+		OBJ_5 /*  */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_6 /* Package.swift */,
+				OBJ_7 /* Configs */,
+				OBJ_9 /* Sources */,
+				OBJ_30 /* Tests */,
+				OBJ_33 /* HorizonApp */,
+				OBJ_34 /* Horizon.xcworkspace */,
+				OBJ_35 /* Dependencies */,
+				OBJ_96 /* Products */,
+			);
+			name = "";
+			sourceTree = "<group>";
+		};
+		OBJ_52 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_53 /* AddResponse.swift */,
+				OBJ_54 /* Key.swift */,
+				OBJ_55 /* KeyList.swift */,
+				OBJ_56 /* KeygenResponse.swift */,
+				OBJ_57 /* ListKeysResponse.swift */,
+				OBJ_58 /* PinResponse.swift */,
+				OBJ_59 /* PublishResponse.swift */,
+				OBJ_60 /* RemoveKeyResponse.swift */,
+				OBJ_61 /* ResolveResponse.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		OBJ_63 /* PromiseKit 4.5.2 */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_64 /* Package.swift */,
+				OBJ_65 /* DispatchQueue+Promise.swift */,
+				OBJ_66 /* Error.swift */,
+				OBJ_67 /* Promise+Properties.swift */,
+				OBJ_68 /* Promise.swift */,
+				OBJ_69 /* State.swift */,
+				OBJ_70 /* SwiftPM.swift */,
+				OBJ_71 /* Zalgo.swift */,
+				OBJ_72 /* after.swift */,
+				OBJ_73 /* join.swift */,
+				OBJ_74 /* race.swift */,
+				OBJ_75 /* when.swift */,
+				OBJ_76 /* wrap.swift */,
+			);
+			name = "PromiseKit 4.5.2";
+			path = ".build/checkouts/PromiseKit.git--245509577168976307/Sources";
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_7 /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_8 /* Configuration.xcconfig */,
+			);
+			name = Configs;
+			sourceTree = "<group>";
+		};
+		OBJ_77 /* Alamofire 4.6.0 */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_78 /* Package.swift */,
+				OBJ_79 /* AFError.swift */,
+				OBJ_80 /* Alamofire.swift */,
+				OBJ_81 /* DispatchQueue+Alamofire.swift */,
+				OBJ_82 /* MultipartFormData.swift */,
+				OBJ_83 /* NetworkReachabilityManager.swift */,
+				OBJ_84 /* Notifications.swift */,
+				OBJ_85 /* ParameterEncoding.swift */,
+				OBJ_86 /* Request.swift */,
+				OBJ_87 /* Response.swift */,
+				OBJ_88 /* ResponseSerialization.swift */,
+				OBJ_89 /* Result.swift */,
+				OBJ_90 /* ServerTrustPolicy.swift */,
+				OBJ_91 /* SessionDelegate.swift */,
+				OBJ_92 /* SessionManager.swift */,
+				OBJ_93 /* TaskDelegate.swift */,
+				OBJ_94 /* Timeline.swift */,
+				OBJ_95 /* Validation.swift */,
+			);
+			name = "Alamofire 4.6.0";
+			path = ".build/checkouts/Alamofire.git-6801331143877184500/Source";
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_9 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_10 /* HorizonCore */,
+				OBJ_23 /* horizon-cli */,
+			);
+			name = Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_96 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				"horizon-cli::horizon-cli::Product" /* horizon-cli */,
+				"horizon-cli::HorizonCoreTests::Product" /* HorizonCoreTests.xctest */,
+				"horizon-cli::HorizonCore::Product" /* HorizonCore.framework */,
+				"IPFSWebService::IPFSWebService::Product" /* IPFSWebService.framework */,
+				"PromiseKit::PromiseKit::Product" /* PromiseKit.framework */,
+				"Alamofire::Alamofire::Product" /* Alamofire.framework */,
+			);
+			name = Products;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		"Alamofire::Alamofire" /* Alamofire */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_231 /* Build configuration list for PBXNativeTarget "Alamofire" */;
+			buildPhases = (
+				OBJ_234 /* Sources */,
+				OBJ_252 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Alamofire;
+			productName = Alamofire;
+			productReference = "Alamofire::Alamofire::Product" /* Alamofire.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"Alamofire::SwiftPMPackageDescription" /* AlamofirePackageDescription */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_122 /* Build configuration list for PBXNativeTarget "AlamofirePackageDescription" */;
+			buildPhases = (
+				OBJ_125 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AlamofirePackageDescription;
+			productName = AlamofirePackageDescription;
+			productType = "com.apple.product-type.framework";
+		};
+		"IPFSWebService::IPFSWebService" /* IPFSWebService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_186 /* Build configuration list for PBXNativeTarget "IPFSWebService" */;
+			buildPhases = (
+				OBJ_189 /* Sources */,
+				OBJ_209 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_212 /* PBXTargetDependency */,
+				OBJ_213 /* PBXTargetDependency */,
+			);
+			name = IPFSWebService;
+			productName = IPFSWebService;
+			productReference = "IPFSWebService::IPFSWebService::Product" /* IPFSWebService.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"IPFSWebService::SwiftPMPackageDescription" /* IPFSWebServicePackageDescription */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_110 /* Build configuration list for PBXNativeTarget "IPFSWebServicePackageDescription" */;
+			buildPhases = (
+				OBJ_113 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IPFSWebServicePackageDescription;
+			productName = IPFSWebServicePackageDescription;
+			productType = "com.apple.product-type.framework";
+		};
+		"PromiseKit::PromiseKit" /* PromiseKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_214 /* Build configuration list for PBXNativeTarget "PromiseKit" */;
+			buildPhases = (
+				OBJ_217 /* Sources */,
+				OBJ_230 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PromiseKit;
+			productName = PromiseKit;
+			productReference = "PromiseKit::PromiseKit::Product" /* PromiseKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"PromiseKit::SwiftPMPackageDescription" /* PromiseKitPackageDescription */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_116 /* Build configuration list for PBXNativeTarget "PromiseKitPackageDescription" */;
+			buildPhases = (
+				OBJ_119 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PromiseKitPackageDescription;
+			productName = PromiseKitPackageDescription;
+			productType = "com.apple.product-type.framework";
+		};
+		"horizon-cli::HorizonCore" /* HorizonCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_166 /* Build configuration list for PBXNativeTarget "HorizonCore" */;
+			buildPhases = (
+				OBJ_169 /* Sources */,
+				OBJ_179 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_183 /* PBXTargetDependency */,
+				OBJ_184 /* PBXTargetDependency */,
+				OBJ_185 /* PBXTargetDependency */,
+			);
+			name = HorizonCore;
+			productName = HorizonCore;
+			productReference = "horizon-cli::HorizonCore::Product" /* HorizonCore.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"horizon-cli::HorizonCoreTests" /* HorizonCoreTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_152 /* Build configuration list for PBXNativeTarget "HorizonCoreTests" */;
+			buildPhases = (
+				OBJ_155 /* Sources */,
+				OBJ_157 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_162 /* PBXTargetDependency */,
+				OBJ_163 /* PBXTargetDependency */,
+				OBJ_164 /* PBXTargetDependency */,
+				OBJ_165 /* PBXTargetDependency */,
+			);
+			name = HorizonCoreTests;
+			productName = HorizonCoreTests;
+			productReference = "horizon-cli::HorizonCoreTests::Product" /* HorizonCoreTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		"horizon-cli::SwiftPMPackageDescription" /* horizon-cliPackageDescription */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_104 /* Build configuration list for PBXNativeTarget "horizon-cliPackageDescription" */;
+			buildPhases = (
+				OBJ_107 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "horizon-cliPackageDescription";
+			productName = "horizon-cliPackageDescription";
+			productType = "com.apple.product-type.framework";
+		};
+		"horizon-cli::horizon-cli" /* horizon-cli */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_128 /* Build configuration list for PBXNativeTarget "horizon-cli" */;
+			buildPhases = (
+				OBJ_131 /* Sources */,
+				OBJ_138 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_143 /* PBXTargetDependency */,
+				OBJ_145 /* PBXTargetDependency */,
+				OBJ_147 /* PBXTargetDependency */,
+				OBJ_149 /* PBXTargetDependency */,
+			);
+			name = "horizon-cli";
+			productName = horizon_cli;
+			productReference = "horizon-cli::horizon-cli::Product" /* horizon-cli */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		OBJ_1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 9999;
+			};
+			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "horizon-cli" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = OBJ_5 /*  */;
+			productRefGroup = OBJ_96 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				"horizon-cli::SwiftPMPackageDescription" /* horizon-cliPackageDescription */,
+				"IPFSWebService::SwiftPMPackageDescription" /* IPFSWebServicePackageDescription */,
+				"PromiseKit::SwiftPMPackageDescription" /* PromiseKitPackageDescription */,
+				"Alamofire::SwiftPMPackageDescription" /* AlamofirePackageDescription */,
+				"horizon-cli::horizon-cli" /* horizon-cli */,
+				"horizon-cli::HorizonCoreTests" /* HorizonCoreTests */,
+				"horizon-cli::HorizonCore" /* HorizonCore */,
+				"IPFSWebService::IPFSWebService" /* IPFSWebService */,
+				"PromiseKit::PromiseKit" /* PromiseKit */,
+				"Alamofire::Alamofire" /* Alamofire */,
+				"horizon-cli::horizon-cliPackageTests::ProductTarget" /* horizon-cliPackageTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		OBJ_107 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_108 /* Package.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_113 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_114 /* Package.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_119 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_120 /* Package.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_125 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_126 /* Package.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_131 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_132 /* Command.swift in Sources */,
+				OBJ_133 /* Handler.swift in Sources */,
+				OBJ_134 /* Loggers.swift in Sources */,
+				OBJ_135 /* PeersHandler.swift in Sources */,
+				OBJ_136 /* Program.swift in Sources */,
+				OBJ_137 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_155 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_156 /* FileTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_169 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_170 /* IPFSAPI.swift in Sources */,
+				OBJ_171 /* IPFSWebserviceAPI.swift in Sources */,
+				OBJ_172 /* Contact.swift in Sources */,
+				OBJ_173 /* Event.swift in Sources */,
+				OBJ_174 /* File.swift in Sources */,
+				OBJ_175 /* FileList.swift in Sources */,
+				OBJ_176 /* Model.swift in Sources */,
+				OBJ_177 /* PersistentStore.swift in Sources */,
+				OBJ_178 /* LogProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_189 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_190 /* APIHelper.swift in Sources */,
+				OBJ_191 /* APIs.swift in Sources */,
+				OBJ_192 /* DefaultAPI.swift in Sources */,
+				OBJ_193 /* AlamofireImplementations.swift in Sources */,
+				OBJ_194 /* CodableHelper.swift in Sources */,
+				OBJ_195 /* Configuration.swift in Sources */,
+				OBJ_196 /* Extensions.swift in Sources */,
+				OBJ_197 /* JSONEncodableEncoding.swift in Sources */,
+				OBJ_198 /* JSONEncodingHelper.swift in Sources */,
+				OBJ_199 /* Models.swift in Sources */,
+				OBJ_200 /* AddResponse.swift in Sources */,
+				OBJ_201 /* Key.swift in Sources */,
+				OBJ_202 /* KeyList.swift in Sources */,
+				OBJ_203 /* KeygenResponse.swift in Sources */,
+				OBJ_204 /* ListKeysResponse.swift in Sources */,
+				OBJ_205 /* PinResponse.swift in Sources */,
+				OBJ_206 /* PublishResponse.swift in Sources */,
+				OBJ_207 /* RemoveKeyResponse.swift in Sources */,
+				OBJ_208 /* ResolveResponse.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_217 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_218 /* DispatchQueue+Promise.swift in Sources */,
+				OBJ_219 /* Error.swift in Sources */,
+				OBJ_220 /* Promise+Properties.swift in Sources */,
+				OBJ_221 /* Promise.swift in Sources */,
+				OBJ_222 /* State.swift in Sources */,
+				OBJ_223 /* SwiftPM.swift in Sources */,
+				OBJ_224 /* Zalgo.swift in Sources */,
+				OBJ_225 /* after.swift in Sources */,
+				OBJ_226 /* join.swift in Sources */,
+				OBJ_227 /* race.swift in Sources */,
+				OBJ_228 /* when.swift in Sources */,
+				OBJ_229 /* wrap.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_234 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_235 /* AFError.swift in Sources */,
+				OBJ_236 /* Alamofire.swift in Sources */,
+				OBJ_237 /* DispatchQueue+Alamofire.swift in Sources */,
+				OBJ_238 /* MultipartFormData.swift in Sources */,
+				OBJ_239 /* NetworkReachabilityManager.swift in Sources */,
+				OBJ_240 /* Notifications.swift in Sources */,
+				OBJ_241 /* ParameterEncoding.swift in Sources */,
+				OBJ_242 /* Request.swift in Sources */,
+				OBJ_243 /* Response.swift in Sources */,
+				OBJ_244 /* ResponseSerialization.swift in Sources */,
+				OBJ_245 /* Result.swift in Sources */,
+				OBJ_246 /* ServerTrustPolicy.swift in Sources */,
+				OBJ_247 /* SessionDelegate.swift in Sources */,
+				OBJ_248 /* SessionManager.swift in Sources */,
+				OBJ_249 /* TaskDelegate.swift in Sources */,
+				OBJ_250 /* Timeline.swift in Sources */,
+				OBJ_251 /* Validation.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		OBJ_143 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "horizon-cli::HorizonCore" /* HorizonCore */;
+			targetProxy = D2819393202606350036D2AA /* PBXContainerItemProxy */;
+		};
+		OBJ_145 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "IPFSWebService::IPFSWebService" /* IPFSWebService */;
+			targetProxy = D2819394202606350036D2AA /* PBXContainerItemProxy */;
+		};
+		OBJ_147 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "PromiseKit::PromiseKit" /* PromiseKit */;
+			targetProxy = D2819395202606350036D2AA /* PBXContainerItemProxy */;
+		};
+		OBJ_149 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "Alamofire::Alamofire" /* Alamofire */;
+			targetProxy = D2819396202606350036D2AA /* PBXContainerItemProxy */;
+		};
+		OBJ_162 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "horizon-cli::HorizonCore" /* HorizonCore */;
+			targetProxy = D2819397202606350036D2AA /* PBXContainerItemProxy */;
+		};
+		OBJ_163 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "IPFSWebService::IPFSWebService" /* IPFSWebService */;
+			targetProxy = D2819398202606350036D2AA /* PBXContainerItemProxy */;
+		};
+		OBJ_164 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "PromiseKit::PromiseKit" /* PromiseKit */;
+			targetProxy = D2819399202606350036D2AA /* PBXContainerItemProxy */;
+		};
+		OBJ_165 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "Alamofire::Alamofire" /* Alamofire */;
+			targetProxy = D281939A202606350036D2AA /* PBXContainerItemProxy */;
+		};
+		OBJ_183 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "IPFSWebService::IPFSWebService" /* IPFSWebService */;
+			targetProxy = D281938E202606350036D2AA /* PBXContainerItemProxy */;
+		};
+		OBJ_184 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "PromiseKit::PromiseKit" /* PromiseKit */;
+			targetProxy = D281938F202606350036D2AA /* PBXContainerItemProxy */;
+		};
+		OBJ_185 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "Alamofire::Alamofire" /* Alamofire */;
+			targetProxy = D2819390202606350036D2AA /* PBXContainerItemProxy */;
+		};
+		OBJ_212 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "PromiseKit::PromiseKit" /* PromiseKit */;
+			targetProxy = D2819391202606350036D2AA /* PBXContainerItemProxy */;
+		};
+		OBJ_213 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "Alamofire::Alamofire" /* Alamofire */;
+			targetProxy = D2819392202606350036D2AA /* PBXContainerItemProxy */;
+		};
+		OBJ_257 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "horizon-cli::HorizonCoreTests" /* HorizonCoreTests */;
+			targetProxy = D281939B202606350036D2AA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		OBJ_105 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		OBJ_106 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		OBJ_111 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		OBJ_112 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		OBJ_117 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 3 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/3 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		OBJ_118 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 3 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/3 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		OBJ_123 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 3 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/3 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		OBJ_124 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 3 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/3 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		OBJ_129 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* Configuration.xcconfig */;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "horizon-cli.xcodeproj/horizon_cli_Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx @executable_path";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
+				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = "horizon-cli";
+			};
+			name = Debug;
+		};
+		OBJ_130 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* Configuration.xcconfig */;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "horizon-cli.xcodeproj/horizon_cli_Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx @executable_path";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
+				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = "horizon-cli";
+			};
+			name = Release;
+		};
+		OBJ_153 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* Configuration.xcconfig */;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "horizon-cli.xcodeproj/HorizonCoreTests_Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = HorizonCoreTests;
+			};
+			name = Debug;
+		};
+		OBJ_154 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* Configuration.xcconfig */;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "horizon-cli.xcodeproj/HorizonCoreTests_Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = HorizonCoreTests;
+			};
+			name = Release;
+		};
+		OBJ_167 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* Configuration.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "horizon-cli.xcodeproj/HorizonCore_Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = HorizonCore;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = HorizonCore;
+			};
+			name = Debug;
+		};
+		OBJ_168 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* Configuration.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "horizon-cli.xcodeproj/HorizonCore_Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = HorizonCore;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = HorizonCore;
+			};
+			name = Release;
+		};
+		OBJ_187 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* Configuration.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "horizon-cli.xcodeproj/IPFSWebService_Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = IPFSWebService;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = IPFSWebService;
+			};
+			name = Debug;
+		};
+		OBJ_188 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* Configuration.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "horizon-cli.xcodeproj/IPFSWebService_Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = IPFSWebService;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = IPFSWebService;
+			};
+			name = Release;
+		};
+		OBJ_215 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* Configuration.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "horizon-cli.xcodeproj/PromiseKit_Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = PromiseKit;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGET_NAME = PromiseKit;
+			};
+			name = Debug;
+		};
+		OBJ_216 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* Configuration.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "horizon-cli.xcodeproj/PromiseKit_Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = PromiseKit;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGET_NAME = PromiseKit;
+			};
+			name = Release;
+		};
+		OBJ_232 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* Configuration.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "horizon-cli.xcodeproj/Alamofire_Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Alamofire;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGET_NAME = Alamofire;
+			};
+			name = Debug;
+		};
+		OBJ_233 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* Configuration.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "horizon-cli.xcodeproj/Alamofire_Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Alamofire;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGET_NAME = Alamofire;
+			};
+			name = Release;
+		};
+		OBJ_255 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		OBJ_256 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		OBJ_3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				USE_HEADERMAP = NO;
+			};
+			name = Debug;
+		};
+		OBJ_4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_OPTIMIZATION_LEVEL = s;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				USE_HEADERMAP = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		OBJ_104 /* Build configuration list for PBXNativeTarget "horizon-cliPackageDescription" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_105 /* Debug */,
+				OBJ_106 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_110 /* Build configuration list for PBXNativeTarget "IPFSWebServicePackageDescription" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_111 /* Debug */,
+				OBJ_112 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_116 /* Build configuration list for PBXNativeTarget "PromiseKitPackageDescription" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_117 /* Debug */,
+				OBJ_118 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_122 /* Build configuration list for PBXNativeTarget "AlamofirePackageDescription" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_123 /* Debug */,
+				OBJ_124 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_128 /* Build configuration list for PBXNativeTarget "horizon-cli" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_129 /* Debug */,
+				OBJ_130 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_152 /* Build configuration list for PBXNativeTarget "HorizonCoreTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_153 /* Debug */,
+				OBJ_154 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_166 /* Build configuration list for PBXNativeTarget "HorizonCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_167 /* Debug */,
+				OBJ_168 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_186 /* Build configuration list for PBXNativeTarget "IPFSWebService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_187 /* Debug */,
+				OBJ_188 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_2 /* Build configuration list for PBXProject "horizon-cli" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_3 /* Debug */,
+				OBJ_4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_214 /* Build configuration list for PBXNativeTarget "PromiseKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_215 /* Debug */,
+				OBJ_216 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_231 /* Build configuration list for PBXNativeTarget "Alamofire" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_232 /* Debug */,
+				OBJ_233 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_254 /* Build configuration list for PBXAggregateTarget "horizon-cliPackageTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_255 /* Debug */,
+				OBJ_256 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = OBJ_1 /* Project object */;
+}

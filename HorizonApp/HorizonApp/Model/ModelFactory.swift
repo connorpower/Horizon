@@ -51,6 +51,10 @@ struct ModelFactory {
             break
         case .keygenDidFail(_):
             break
+        case .listKeysDidStart:
+            break
+        case .listKeysDidFail(_):
+            break
         }
     }
 
@@ -63,6 +67,8 @@ struct ModelFactory {
             Notifications.broadcastStatusMessage("Failed to decode JSON at \(path)...")
         case .JSONEncodingErrorForContact(let contact):
             Notifications.broadcastStatusMessage("Internal encoding file list for \(contact.displayName)...")
+        case .keypairAlreadyExists(_):
+            break
         }
     }
 

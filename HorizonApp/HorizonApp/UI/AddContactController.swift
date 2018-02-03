@@ -34,11 +34,12 @@ class AddContactController: NSViewController {
         NSApp.stopModal()
         sender.window?.close()
 
-        let contact = Contact(identifier: UUID(),
-                              displayName: name,
-                              sendListKey: name,
-                              receiveListHash: receiveListHash)
-        model.addContact(contact: contact)
+        // TODO: Fix
+//        let contact = Contact(identifier: UUID(),
+//                              displayName: name,
+//                              sendListKey: name,
+//                              receiveListHash: receiveListHash)
+//        model.addContact(contact: contact)
     }
 
     var model: Model {

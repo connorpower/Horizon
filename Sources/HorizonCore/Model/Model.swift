@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import PromiseKit
+import IPFSWebService
 
 public class Model {
 
@@ -29,7 +31,8 @@ public class Model {
 
     private let eventCallback: ((Event) -> Void)?
 
-    private var syncState = [Contact]()
+    // [(receiveListHash, Contact)]
+    private var syncState = [(receiveHashList: String, contact: Contact)]()
 
     // MARK: - Initialization
 
@@ -43,82 +46,68 @@ public class Model {
     public func sync() {
         guard syncState.isEmpty else { return }
 
-        let contacts = persistentStore.contacts
-        guard !contacts.isEmpty else { return }
-        syncState += contacts
+        let newSyncState = persistentStore.contacts.map({ contact -> (receiveHashList: String, contact: Contact)? in
+            guard let receiveListHash = contact.receiveListHash else {
+                return nil
+            }
+            return (receiveListHash, contact)
+        }).flatMap( {$0} )
 
+        guard !newSyncState.isEmpty else {
+            return
+        }
+
+        syncState += newSyncState
         eventCallback?(.syncDidStart)
 
-        for contact in syncState {
+        for (receiveListHash, contact) in syncState {
             eventCallback?(.resolvingReceiveListDidStart(contact))
 
-            if let receiveListHash = contact.receiveListHash {
-                self.api.resolve(arg: receiveListHash, recursive: true) { (response, error) in
-                    guard let response = response else {
-                        self.eventCallback?(.syncDidFail(.networkError(error)))
-                        self.removeContactFromSyncState(contact)
-
-                        return
-                    }
-
-                    self.getFileList(from: contact, at: response.path)
-                }
-            } else {
-                removeContactFromSyncState(contact)
+            firstly {
+                return self.api.resolve(arg: receiveListHash, recursive: true)
+            }.then { response in
+                try self.getFileList(from: contact, at: response.path)
+            }.catch { error in
+                self.eventCallback?(.errorEvent(HorizonError.syncFailed(reason: .unknown(error))))
             }
         }
     }
 
-    public func addContact(name: String, completion: @escaping (Contact?) -> Void) {
+    public func addContact(name: String, completion: @escaping (Contact?, HorizonError?) -> Void) {
         let keypairName = "\(Constants.keypairPrefix).\(name)"
 
-        api.listKeys { (response, error) in
-            guard let response = response else {
-                self.eventCallback?(.listKeysDidFail(.networkError(error)))
-                completion(nil)
-                return
-            }
-
-            let keys = response.keys.map{ $0.name }
-
-            guard !keys.contains(keypairName) else {
-                self.eventCallback?(.keygenDidFail(.keypairAlreadyExists(keypairName)))
-                completion(nil)
-                return
+        firstly {
+            return self.api.listKeys()
+        }.then { listKeysResponse  -> Promise<KeygenResponse> in
+            if listKeysResponse.keys.map({ $0.name }).contains(keypairName) {
+                throw HorizonError.addContactFailed(reason: .contactAlreadyExists)
             }
 
             self.eventCallback?(.keygenDidStart(name))
-            self.api.keygen(arg: name, type: .rsa, size: 2048) { (response, error) in
-                guard let response = response else {
-                    self.eventCallback?(.keygenDidFail(.networkError(error)))
-                    completion(nil)
-                    return
-                }
+            return self.api.keygen(arg: keypairName, type: .rsa, size: 2048)
+        }.then { keygenResponse in
+            let contact = Contact(identifier: UUID(), displayName: name,
+                                  sendListKey: keygenResponse.name, receiveListHash: nil)
 
-                let contact = Contact(identifier: UUID(), displayName: name,
-                                      sendListKey: response.name, receiveListHash: nil)
-
-                self.persistentStore.createOrUpdateContact(contact)
-                self.eventCallback?(.propertiesDidChange(contact))
-                completion(contact)
-            }
+            self.persistentStore.createOrUpdateContact(contact)
+            self.eventCallback?(.propertiesDidChange(contact))
+            completion(contact, nil)
+        }.catch { error in
+            let horizonError: HorizonError = error is HorizonError
+                ? error as! HorizonError : HorizonError.addContactFailed(reason: .unknown(error))
+            self.eventCallback?(.errorEvent(horizonError))
+            completion(nil, horizonError)
         }
     }
 
     public func add(fileURLs: [URL], to contact: Contact) {
-        // Warning: a loop here is unsafe. Perform sequentially.
+        // TODO: Add files in loop using when(fulfilled:) and only upload new fileList when all are added
         for url in fileURLs {
             eventCallback?(.addingFileToIPFSDidStart(File(name: url.lastPathComponent, hash: nil)))
 
-            api.add(file: url, completion: { (response, error) in
-                guard let response = response else {
-                    // Warning: removes contact from sync state, but other URLS might still be adding
-                    self.eventCallback?(.syncDidFail(.networkError(error)))
-                    self.removeContactFromSyncState(contact)
-
-                    return
-                }
-
+            firstly {
+                return self.api.add(file: url)
+            }.then { response in
                 let newFile = File(name: response.name, hash: response.hash)
                 let sendListWithoutDuplicates = Array(Set(contact.sendList.files + [newFile]))
                 let sendList = FileList(hash: nil, files: sendListWithoutDuplicates)
@@ -131,24 +120,21 @@ public class Model {
                 // at once. Move commands into a background thread and perform in a blocking
                 // synchronious manner
                 //
-                self.sendFileList(to: contact)
-            })
+                try self.sendFileList(to: contact)
+            }.catch { error in
+                self.eventCallback?(.errorEvent(HorizonError.addFileFailed(reason: .unknown(error))))
+            }
         }
     }
 
     // MARK: Private Functions
 
-    private func getFileList(from contact: Contact, at path: String) {
+    private func getFileList(from contact: Contact, at path: String) throws {
         eventCallback?(.downloadingReceiveListDidStart(contact))
 
-        api.cat(arg: path) { (data, error) in
-            guard let data = data else {
-                self.eventCallback?(.syncDidFail(.networkError(error)))
-                self.removeContactFromSyncState(contact)
-
-                return
-            }
-
+        firstly {
+            return api.cat(arg: path)
+        }.then { data in
             self.eventCallback?(.processingReceiveListDidStart(contact))
 
             if let files = try? JSONDecoder().decode([File].self, from: data) {
@@ -158,61 +144,51 @@ public class Model {
 
                 self.eventCallback?(.propertiesDidChange(contact))
             } else {
-                self.eventCallback?(.syncDidFail(.invalidJSONAtPath(path)))
+                throw HorizonError.retrieveFileListFailed(reason: .invalidJSONAtPath(path))
             }
-
+        }.always {
             self.removeContactFromSyncState(contact)
         }
     }
 
-    private func sendFileList(to contact: Contact) {
+    private func sendFileList(to contact: Contact) throws {
         guard let data = try? JSONEncoder().encode(contact.sendList.files) else {
-            eventCallback?(.syncDidFail(.JSONEncodingErrorForContact(contact)))
-            removeContactFromSyncState(contact)
-            return
+            throw HorizonError.sendFileListFailed(reason: .failedToEncodeFileList)
         }
 
         guard let tempDir = try? FileManager.default.url(for: .itemReplacementDirectory,
                                                          in: .userDomainMask,
                                                          appropriateFor: URL(fileURLWithPath: "/"),
                                                          create: true) else {
-            fatalError("Failed to create required temp directory.")
+            throw HorizonError.sendFileListFailed(reason: .failedToCreateTemporaryDirectory)
         }
 
         let temporaryFile = tempDir.appendingPathComponent(UUID().uuidString + ".json")
         do {
             try data.write(to: temporaryFile)
         } catch {
-            fatalError("Failed to write to temporary file \(temporaryFile).")
+            throw HorizonError.sendFileListFailed(reason: .failedToWriteTemporaryFile(temporaryFile))
         }
 
         eventCallback?(.addingProvidedFileListToIPFSDidStart(contact))
-        self.api.add(file: temporaryFile) { (response, error) in
-            guard let response = response else {
-                self.eventCallback?(.syncDidFail(.networkError(error)))
-                self.removeContactFromSyncState(contact)
-                return
-            }
 
+        firstly {
+            return api.add(file: temporaryFile)
+        }.then { (addFileFesponse: AddResponse) -> Promise<PublishResponse> in
             self.eventCallback?(.publishingFileListToIPNSDidStart(contact))
 
-            let hash = response.hash
-            self.api.publish(arg: hash, key: contact.sendListKey) { (response, error) in
-                guard response != nil else {
-                    self.eventCallback?(.syncDidFail(.networkError(error)))
-                    self.removeContactFromSyncState(contact)
-                    return
-                }
-
-                var updatedContact = contact
-                updatedContact.sendList = FileList(hash: hash, files: contact.sendList.files)
-                self.persistentStore.createOrUpdateContact(updatedContact)
-            }
+            return self.api.publish(arg: addFileFesponse.hash, key: contact.sendListKey)
+        }.then { (publishResponse: PublishResponse) -> Void in
+            var updatedContact = contact
+            updatedContact.sendList = FileList(hash: publishResponse.value, files: contact.sendList.files)
+            self.persistentStore.createOrUpdateContact(updatedContact)
+        }.recover { error -> Void in
+            throw HorizonError.sendFileListFailed(reason: .unknown(error))
         }
     }
 
     private func removeContactFromSyncState(_ contact: Contact) {
-        syncState = syncState.filter({ $0.identifier != contact.identifier })
+        syncState = syncState.filter({ $0.contact.identifier != contact.identifier })
 
         if syncState.isEmpty {
             eventCallback?(.syncDidEnd)

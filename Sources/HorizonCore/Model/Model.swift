@@ -58,7 +58,6 @@ public class Model {
         }
 
         syncState += newSyncState
-
         eventCallback?(.syncDidStart)
 
         for (receiveListHash, contact) in syncState {
@@ -67,11 +66,9 @@ public class Model {
             firstly {
                 return self.api.resolve(arg: receiveListHash, recursive: true)
             }.then { response in
-                self.getFileList(from: contact, at: response.path)
-            }.always {
-                self.removeContactFromSyncState(contact)
+                try self.getFileList(from: contact, at: response.path)
             }.catch { error in
-                self.eventCallback?(.syncDidFail(.networkError(error)))
+                self.eventCallback?(.errorEvent(HorizonError.syncFailed(reason: .unknown(error))))
             }
         }
     }
@@ -83,11 +80,11 @@ public class Model {
             return self.api.listKeys()
         }.then { listKeysResponse  -> Promise<KeygenResponse> in
             if listKeysResponse.keys.map({ $0.name }).contains(keypairName) {
-                throw ErrorEvent.keypairAlreadyExists(keypairName)
+                throw HorizonError.keygenFailed(reason: .keypairAlreadyExists)
             }
 
             self.eventCallback?(.keygenDidStart(name))
-            return self.api.keygen(arg: name, type: .rsa, size: 2048)
+            return self.api.keygen(arg: keypairName, type: .rsa, size: 2048)
         }.then { keygenResponse in
             let contact = Contact(identifier: UUID(), displayName: name,
                                   sendListKey: keygenResponse.name, receiveListHash: nil)
@@ -96,8 +93,7 @@ public class Model {
             self.eventCallback?(.propertiesDidChange(contact))
             completion(contact)
         }.catch { error in
-            // Warning: no longer strictly a network error
-//            self.eventCallback?(.listKeysDidFail(.networkError(error)))
+            self.eventCallback?(.errorEvent(HorizonError.addContactFailed(reason: .unknown(error))))
             completion(nil)
         }
     }
@@ -122,17 +118,16 @@ public class Model {
                 // at once. Move commands into a background thread and perform in a blocking
                 // synchronious manner
                 //
-                self.sendFileList(to: contact)
+                try self.sendFileList(to: contact)
             }.catch { error in
-                // TODO: Wrong callback
-                //self.eventCallback?(.syncDidFail(.networkError(error)))
+                self.eventCallback?(.errorEvent(HorizonError.addFileFailed(reason: .unknown(error))))
             }
         }
     }
 
     // MARK: Private Functions
 
-    private func getFileList(from contact: Contact, at path: String) {
+    private func getFileList(from contact: Contact, at path: String) throws {
         eventCallback?(.downloadingReceiveListDidStart(contact))
 
         firstly {
@@ -147,54 +142,46 @@ public class Model {
 
                 self.eventCallback?(.propertiesDidChange(contact))
             } else {
-                throw ErrorEvent.invalidJSONAtPath(path)
+                throw HorizonError.retrieveFileListFailed(reason: .invalidJSONAtPath(path))
             }
         }.always {
             self.removeContactFromSyncState(contact)
-        }.catch { error in
-// TODO: Not necessarily a networkError
-//            self.eventCallback?(.syncDidFail(.networkError(error)))
         }
     }
 
-    private func sendFileList(to contact: Contact) {
+    private func sendFileList(to contact: Contact) throws {
         guard let data = try? JSONEncoder().encode(contact.sendList.files) else {
-            eventCallback?(.syncDidFail(.JSONEncodingErrorForContact(contact)))
-            removeContactFromSyncState(contact)
-            return
+            throw HorizonError.sendFileListFailed(reason: .failedToEncodeFileList)
         }
 
         guard let tempDir = try? FileManager.default.url(for: .itemReplacementDirectory,
                                                          in: .userDomainMask,
                                                          appropriateFor: URL(fileURLWithPath: "/"),
                                                          create: true) else {
-            fatalError("Failed to create required temp directory.")
+            throw HorizonError.sendFileListFailed(reason: .failedToCreateTemporaryDirectory)
         }
 
         let temporaryFile = tempDir.appendingPathComponent(UUID().uuidString + ".json")
         do {
             try data.write(to: temporaryFile)
         } catch {
-            fatalError("Failed to write to temporary file \(temporaryFile).")
+            throw HorizonError.sendFileListFailed(reason: .failedToWriteTemporaryFile(temporaryFile))
         }
 
         eventCallback?(.addingProvidedFileListToIPFSDidStart(contact))
 
         firstly {
             return api.add(file: temporaryFile)
-        }.then { addFileFesponse -> Promise<PublishResponse> in
+        }.then { (addFileFesponse: AddResponse) -> Promise<PublishResponse> in
             self.eventCallback?(.publishingFileListToIPNSDidStart(contact))
 
             return self.api.publish(arg: addFileFesponse.hash, key: contact.sendListKey)
-        }.then { publishResponse in
+        }.then { (publishResponse: PublishResponse) -> Void in
             var updatedContact = contact
             updatedContact.sendList = FileList(hash: publishResponse.value, files: contact.sendList.files)
             self.persistentStore.createOrUpdateContact(updatedContact)
-        }.always {
-            self.removeContactFromSyncState(contact)
-        }.catch { error in
-//          TODO: Fix
-//          self.eventCallback?(.syncDidFail(.networkError(error)))
+        }.recover { error -> Void in
+            throw HorizonError.sendFileListFailed(reason: .unknown(error))
         }
     }
 

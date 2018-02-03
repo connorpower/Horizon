@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		D260941820265D4C003504CA /* HorizonError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D260941720265D4C003504CA /* HorizonError.swift */; };
 		OBJ_108 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_114 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_62 /* Package.swift */; };
 		OBJ_120 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_64 /* Package.swift */; };
@@ -207,6 +208,7 @@
 
 /* Begin PBXFileReference section */
 		"Alamofire::Alamofire::Product" /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D260941720265D4C003504CA /* HorizonError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizonError.swift; sourceTree = "<group>"; };
 		"IPFSWebService::IPFSWebService::Product" /* IPFSWebService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IPFSWebService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_12 /* IPFSAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPFSAPI.swift; sourceTree = "<group>"; };
 		OBJ_13 /* IPFSWebserviceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPFSWebserviceAPI.swift; sourceTree = "<group>"; };
@@ -363,6 +365,7 @@
 				OBJ_18 /* FileList.swift */,
 				OBJ_19 /* Model.swift */,
 				OBJ_20 /* PersistentStore.swift */,
+				D260941720265D4C003504CA /* HorizonError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -846,6 +849,7 @@
 				OBJ_171 /* IPFSWebserviceAPI.swift in Sources */,
 				OBJ_172 /* Contact.swift in Sources */,
 				OBJ_173 /* Event.swift in Sources */,
+				D260941820265D4C003504CA /* HorizonError.swift in Sources */,
 				OBJ_174 /* File.swift in Sources */,
 				OBJ_175 /* FileList.swift in Sources */,
 				OBJ_176 /* Model.swift in Sources */,

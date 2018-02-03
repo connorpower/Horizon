@@ -74,7 +74,7 @@ struct PeersHandler: Handler {
 
         switch command.name {
         case "add":
-            if let name = arguments.first {
+            if let name = arguments.dropFirst().first {
                 addPeer(name: name)
             } else {
                 print(command.help)

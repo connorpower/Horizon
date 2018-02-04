@@ -180,7 +180,7 @@ struct ContactsHandler: Handler {
             errorHandler()
         }
 
-        let commandArguments = arguments.dropFirst()
+        let commandArguments = Array(arguments.dropFirst())
         if command.expectedNumArgs != commandArguments.count {
             print(command.help)
             errorHandler()
@@ -188,21 +188,11 @@ struct ContactsHandler: Handler {
 
         switch command.name {
         case "add":
-            if let name = commandArguments.first {
-                addContact(name: name)
-            } else {
-                print(command.help)
-                errorHandler()
-            }
+            addContact(name: commandArguments[0])
         case "ls":
             listContacts()
         case "rm":
-            if let name = commandArguments.first {
-                removeContact(name: name)
-            } else {
-                print(command.help)
-                errorHandler()
-            }
+            removeContact(name: commandArguments[0])
         case "rename":
             let name = commandArguments[0]
             let newName = commandArguments[1]

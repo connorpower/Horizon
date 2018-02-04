@@ -51,6 +51,10 @@ struct ModelFactory {
             break
         case .listKeysDidStart:
             break
+        case .removeKeyDidStart(_):
+            break
+        case .renameKeyDidStart(_, _):
+            break
         }
     }
 

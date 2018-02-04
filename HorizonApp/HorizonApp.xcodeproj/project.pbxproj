@@ -23,8 +23,8 @@
 		D27826372026024B00550CAB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D27826272026024A00550CAB /* Assets.xcassets */; };
 		D27826382026024B00550CAB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D27826282026024A00550CAB /* Main.storyboard */; };
 		D27826392026024B00550CAB /* AddContactController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D278262A2026024A00550CAB /* AddContactController.swift */; };
-		D278263B2026027800550CAB /* HorizonCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D278263C2026027800550CAB /* HorizonCore.framework */; };
 		D278263D2026027D00550CAB /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D278263E2026027D00550CAB /* PromiseKit.framework */; };
+		D29FA5CF20278E3E0009FFAC /* HorizonCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D278263C2026027800550CAB /* HorizonCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +70,7 @@
 		D278262A2026024A00550CAB /* AddContactController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddContactController.swift; sourceTree = "<group>"; };
 		D278263C2026027800550CAB /* HorizonCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HorizonCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D278263E2026027D00550CAB /* PromiseKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PromiseKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D29FA5CE20278E3E0009FFAC /* IPFSWebService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IPFSWebService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,8 +78,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D29FA5CF20278E3E0009FFAC /* HorizonCore.framework in Frameworks */,
 				D278263D2026027D00550CAB /* PromiseKit.framework in Frameworks */,
-				D278263B2026027800550CAB /* HorizonCore.framework in Frameworks */,
 				D278262B2026024A00550CAB /* AppCenterCrashes.framework in Frameworks */,
 				D278262E2026024A00550CAB /* AppCenter.framework in Frameworks */,
 				D278262D2026024A00550CAB /* AppCenterAnalytics.framework in Frameworks */,
@@ -200,6 +201,7 @@
 		D278263A2026027800550CAB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D29FA5CE20278E3E0009FFAC /* IPFSWebService.framework */,
 				D278263E2026027D00550CAB /* PromiseKit.framework */,
 				D278263C2026027800550CAB /* HorizonCore.framework */,
 			);

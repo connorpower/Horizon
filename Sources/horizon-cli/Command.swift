@@ -16,14 +16,14 @@ struct Command {
 
     /**
      The name of the command. In the case of
-     `$ horizon-cli peers list`, the command would
+     `$ horizon-cli contacts list`, the command would
      be `"list"`.
      */
     let name: String
 
     /**
      The expected number of arguments for the command.
-     In the case of `$ horizon-cli peers list`, the
+     In the case of `$ horizon-cli contacts list`, the
      expected number of argumnets would be `0`.
      */
     let expectedNumArgs: Int
@@ -31,11 +31,11 @@ struct Command {
     /**
      The help string, as it would be output to the terminal
      in the event that the user inputs invalid information.
-     In the case of `$ horizon-cli peers list foobar`, the
+     In the case of `$ horizon-cli contacts list foobar`, the
      output could be expected to be:
 
-         horizon-cli peers list:
-           Lists all peers which have been added to Horizon.
+         horizon-cli contacts list:
+           Lists all contacts which have been added to Horizon.
            This command takes no arguments.
 
      */

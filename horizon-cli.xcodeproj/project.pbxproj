@@ -29,7 +29,7 @@
 		OBJ_132 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* Command.swift */; };
 		OBJ_133 /* Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* Handler.swift */; };
 		OBJ_134 /* Loggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* Loggers.swift */; };
-		OBJ_135 /* PeersHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* PeersHandler.swift */; };
+		OBJ_135 /* ContactsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* ContactsHandler.swift */; };
 		OBJ_136 /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_28 /* Program.swift */; };
 		OBJ_137 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_29 /* main.swift */; };
 		OBJ_139 /* HorizonCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "horizon-cli::HorizonCore::Product" /* HorizonCore.framework */; };
@@ -222,7 +222,7 @@
 		OBJ_24 /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		OBJ_25 /* Handler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Handler.swift; sourceTree = "<group>"; };
 		OBJ_26 /* Loggers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loggers.swift; sourceTree = "<group>"; };
-		OBJ_27 /* PeersHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeersHandler.swift; sourceTree = "<group>"; };
+		OBJ_27 /* ContactsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsHandler.swift; sourceTree = "<group>"; };
 		OBJ_28 /* Program.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
 		OBJ_29 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		OBJ_32 /* FileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTests.swift; sourceTree = "<group>"; };
@@ -384,7 +384,7 @@
 				OBJ_24 /* Command.swift */,
 				OBJ_25 /* Handler.swift */,
 				OBJ_26 /* Loggers.swift */,
-				OBJ_27 /* PeersHandler.swift */,
+				OBJ_27 /* ContactsHandler.swift */,
 				OBJ_28 /* Program.swift */,
 				OBJ_29 /* main.swift */,
 			);
@@ -827,7 +827,7 @@
 				OBJ_132 /* Command.swift in Sources */,
 				OBJ_133 /* Handler.swift in Sources */,
 				OBJ_134 /* Loggers.swift in Sources */,
-				OBJ_135 /* PeersHandler.swift in Sources */,
+				OBJ_135 /* ContactsHandler.swift in Sources */,
 				OBJ_136 /* Program.swift in Sources */,
 				OBJ_137 /* main.swift in Sources */,
 			);

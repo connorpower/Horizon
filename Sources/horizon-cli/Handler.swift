@@ -13,11 +13,11 @@ import HorizonCore
  The CLI program has multiple top level commands, for instance:
 
      $ horizon-cli sync
-     $ horizon-cli peers list
+     $ horizon-cli contacts list
      $ horizon-cli share "Max Mustermann" ~/Desktop/The\ Cathedral\ and\ the\ Bazaar.pdf
 
  In these examples above, there are three top level commands: `sync`,
- `peers` and `share`. Each top level command has its own Handler which
+ `contacts` and `share`. Each top level command has its own Handler which
  is repsonsible for processing the command.
 
  ## Examples
@@ -28,10 +28,10 @@ import HorizonCore
      Handler -> SyncHandler
      args -> []
 
- Peers:
+ Contacts:
 
-     $ horizon-cli peers list
-     Handler -> PeersHandler
+     $ horizon-cli contacts list
+     Handler -> ContactsHandler
      args -> ["list"]
 
  Share:

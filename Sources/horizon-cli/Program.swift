@@ -49,8 +49,8 @@ struct Program {
         let commandArgs = Array(arguments[1..<arguments.count])
 
         switch command {
-        case "peers":
-            PeersHandler(model: model,
+        case "contacts":
+            ContactsHandler(model: model,
                          arguments: commandArgs,
                          completion: { exit(EXIT_SUCCESS) },
                          error: { exit(EXIT_FAILURE) }).run()

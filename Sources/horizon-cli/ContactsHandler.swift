@@ -1,5 +1,5 @@
 //
-//  PeersHandler.swift
+//  ContactsHandler.swift
 //  horizon-cli
 //
 //  Created by Connor Power on 22.01.18.
@@ -12,24 +12,24 @@ import HorizonCore
 /**
  A handler for all peer commands. Currently these are:
 
-     $ horizon-cli peers list
-     $ horizon-cli peers add {peer-name}
-     $ horizon-cli peers remove {peer-name}
-     $ horizon-cli peers edit {peer-name}
+     $ horizon-cli contacts list
+     $ horizon-cli contacts add {peer-name}
+     $ horizon-cli contacts remove {peer-name}
+     $ horizon-cli contacts edit {peer-name}
 
  */
-struct PeersHandler: Handler {
+struct ContactsHandler: Handler {
 
     // MARK: - Constants
 
     private let commands = [
         Command(name: "list", expectedNumArgs: 0, help: """
-            horizon-cli peers list
-              Lists all peers which have been added to Horizon.
+            horizon-cli contacts list
+              Lists all contacts which have been added to Horizon.
               This command takes no arguments.
             """),
         Command(name: "add", expectedNumArgs: 1, help: """
-            horizon-cli peers add {name}
+            horizon-cli contacts add {name}
               Adds a new peer to Horizon and generates an IPNS key which will
               be used for sharing files with the peer. The new peer's shared file
               list can be added after the fact using `ipfs peer edit {name}`.

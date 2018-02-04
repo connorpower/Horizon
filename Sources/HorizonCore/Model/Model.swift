@@ -15,7 +15,7 @@ public class Model {
     // MARK: - Constants
 
     struct Constants {
-        static let keypairPrefix = "com.semantical.horizon-cli.peer"
+        static let keypairPrefix = "com.semantical.horizon-cli.contact"
     }
 
     // MARK: - Public Properties

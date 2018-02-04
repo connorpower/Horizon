@@ -54,7 +54,7 @@ public enum HorizonError: Error {
     }
 
     /**
-     The underlying reason the attempt to retrieve a peer's filelist failed.
+     The underlying reason the attempt to retrieve a contact's filelist failed.
      - unknown: An unknown reason caused the command to fail.
      */
     public enum RetrieveFileListFailureReason {

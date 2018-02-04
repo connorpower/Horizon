@@ -16,8 +16,8 @@ import Foundation
  keypair relates (as given out to other contacts).
  */
 public struct SendAddress: Codable {
-    let address: String
-    let keypairName: String
+    public let address: String
+    public let keypairName: String
 }
 
 /**

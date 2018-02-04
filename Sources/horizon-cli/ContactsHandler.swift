@@ -44,10 +44,15 @@ struct ContactsHandler: Handler {
       showing the current values for the send address and receive address.
 
         > horizon-cli contacts info mmusterman
-        Display name:     mmusterman
+        mmusterman
         Send address:     QmSomeHash
         Receive address:  QmSomeHash
         IPFS keypair:     com-semantical.horizon-cli.mmusterman
+
+        joe
+        Send address:     QmSomeHash
+        Receive address:  QmSomeHash
+        IPFS keypair:     com-semantical.horizon-cli.joe
 
       'horizon-cli contacts rm <name>' removes a given contact from Horizon.
       All files shared with the contact until this point remain available to
@@ -110,10 +115,15 @@ struct ContactsHandler: Handler {
               showing the current values for the send address and receive address.
 
                 > horizon-cli contacts info mmusterman
-                Display name:     mmusterman
+                mmusterman
                 Send address:     QmSomeHash
                 Receive address:  QmSomeHash
                 IPFS keypair:     com-semantical.horizon-cli.mmusterman
+
+                joe
+                Send address:     QmSomeHash
+                Receive address:  QmSomeHash
+                IPFS keypair:     com-semantical.horizon-cli.joe
 
             """),
         Command(name: "rm", expectedNumArgs: 0, help: """
@@ -178,11 +188,13 @@ struct ContactsHandler: Handler {
         switch command.name {
         case "add":
             if let name = commandArguments.first {
-                addPeer(name: name)
+                addContact(name: name)
             } else {
                 print(command.help)
                 errorHandler()
             }
+        case "ls":
+            listContacts()
         default:
             print(command.help)
             errorHandler()
@@ -191,7 +203,7 @@ struct ContactsHandler: Handler {
 
     // MARK: - Private Functions
 
-    private func addPeer(name: String) {
+    private func addContact(name: String) {
         model.addContact(name: name) { contact, error in
             if contact != nil {
                 self.completionHandler()
@@ -207,6 +219,20 @@ struct ContactsHandler: Handler {
                 self.errorHandler()
             }
         }
+    }
+
+    private func listContacts() {
+        for contact in model.contacts {
+            print("""
+                  \(contact.displayName)
+                  Send address:    \(contact.sendAddress?.address ?? "nil")
+                  Receive address: \(contact.receiveAddress ?? "nil")
+                  IPFS keypair:    \(contact.sendAddress?.keypairName ?? "nil")
+
+                  """)
+        }
+
+        completionHandler()
     }
 
 }

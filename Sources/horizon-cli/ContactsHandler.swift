@@ -60,10 +60,9 @@ struct ContactsHandler: Handler {
 
         > horizon-cli contacts rename mmusterman max
 
-      'horizon-cli contacts set-rcv-addr <name> <receive-hash>' sets the
-      receive address for a given contact. The contact should provide you
-      with this address – the result of them adding you as a contact to
-      their horizon instance.
+      'horizon-cli contacts set-rcv-addr <name> <hash>' sets the receive address
+      for a given contact. The contact should provide you with this address –
+      the result of them adding you as a contact to their horizon instance.
 
         > horizon-cli contacts set-rcv-addr mmusterman QmSomeHash
 
@@ -80,18 +79,70 @@ struct ContactsHandler: Handler {
     """
 
     private let commands = [
-        Command(name: "ls", expectedNumArgs: 0, help: """
-            horizon-cli contacts ls
-              Lists all contacts which have been added to Horizon.
-              This command takes no arguments.
-            """),
         Command(name: "add", expectedNumArgs: 1, help: """
             horizon-cli contacts add <name>
-              Adds a new peer to Horizon and generates an IPNS key which will
-              be used for sharing files with the peer.
+              'horizon-cli contacts add' adds a new contact for usage with Horizon.
+              An address for the send channel will be immediately created. This address
+              consists of an IPNS hash and can be shared with the contact to allow
+              them to receive files from you.
+              The contact should run the same procedure on their side and provide you
+              with the address of their shared list.
+              This becomes the receive-address which you can set manually later using
+              'horizon-cli contacts set-receive-addr <name> <receive-address>'
 
-              name: A short name for the peer.
-            """)
+                > horizon-cli contacts add mmusterman
+                > horizon-cli contacts set-rcv-addr mmusterman QmSomeHash
+
+            """),
+        Command(name: "ls", expectedNumArgs: 0, help: """
+            horizon-cli contacts ls
+              'horizon-cli contacts ls' lists the available contacts by their short
+              display names.
+
+                > horizon-cli contacts ls
+                joe
+                mmusterman
+
+            """),
+        Command(name: "info", expectedNumArgs: 0, help: """
+            horizon-cli contacts info <name>
+              'horizon-cli contacts info <name>' prints a given contact to the screen,
+              showing the current values for the send address and receive address.
+
+                > horizon-cli contacts info mmusterman
+                Display name:     mmusterman
+                Send address:     QmSomeHash
+                Receive address:  QmSomeHash
+                IPFS keypair:     com-semantical.horizon-cli.mmusterman
+
+            """),
+        Command(name: "rm", expectedNumArgs: 0, help: """
+            horizon-cli contacts rm <name>
+              'horizon-cli contacts rm <name>' removes a given contact from Horizon.
+              All files shared with the contact until this point remain available to
+              the contact.
+
+                > horizon-cli contacts rm mmusterman
+
+            """),
+        Command(name: "rename", expectedNumArgs: 2, help: """
+            horizon-cli contacts rename <name> <newName>
+              'horizon-cli contacts rename <name> <newName>' renames a given contact
+              but otherwise keeps all information and addresses the same.
+
+                > horizon-cli contacts rename mmusterman max
+
+            """),
+        Command(name: "set-rcv-addr", expectedNumArgs: 2, help: """
+            horizon-cli contacts set-rcv-addr <name> <hash>
+              'horizon-cli contacts set-rcv-addr <name> <hash>' sets the
+              receive address for a given contact. The contact should provide you
+              with this address – the result of them adding you as a contact to
+              their horizon instance.
+
+                > horizon-cli contacts set-rcv-addr mmusterman QmSomeHash
+
+            """),
     ]
 
     // MARK: - Properties

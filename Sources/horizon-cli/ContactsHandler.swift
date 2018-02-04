@@ -9,18 +9,75 @@
 import Foundation
 import HorizonCore
 
-/**
- A handler for all peer commands. Currently these are:
-
-     $ horizon-cli contacts list
-     $ horizon-cli contacts add {peer-name}
-     $ horizon-cli contacts remove {peer-name}
-     $ horizon-cli contacts edit {peer-name}
-
- */
 struct ContactsHandler: Handler {
 
     // MARK: - Constants
+
+    static let help = """
+    USAGE
+      horizon-cli contacts - Create and manage Horizon contacts
+
+    SYNOPSIS
+      horizon-cli contacts
+
+    DESCRIPTION
+
+      'horizon-cli contacts add' adds a new contact for usage with Horizon.
+      An address for the send channel will be immediately created. This address
+      consists of an IPNS hash and can be shared with the contact to allow
+      them to receive files from you.
+      The contact should run the same procedure on their side and provide you
+      with the address of their shared list.
+      This becomes the receive-address which you can set manually later using
+      'horizon-cli contacts set-receive-addr <name> <receive-address>'
+
+
+        > horizon-cli contacts add mmusterman
+        > horizon-cli contacts set-rcv-addr mmusterman QmSomeHash
+
+      'horizon-cli contacts list' lists the available contacts.
+
+        > horizon-cli contacts list
+        joe
+        mmusterman
+
+      'horizon-cli contacts show <name>' prints a given contact to the screen,
+      showing the current values for the send address and receive address.
+
+        > horizon-cli contacts show mmusterman
+        Display name:     mmusterman
+        Send address:     QmSomeHash
+        Receive address:  QmSomeHash
+        IPFS keypair:     com-semantical.horizon-cli.mmusterman
+
+      'horizon-cli contacts rm <name>' removes a given contact from Horizon.
+      All files shared with the contact until this point remain available to
+      the contact.
+
+        > horizon-cli contacts rm mmusterman
+
+      'horizon-cli contacts rename <name> <newName>' renames a given contact
+      but otherwise keeps all information and addresses the same.
+
+        > horizon-cli contacts rename mmusterman max
+
+      'horizon-cli contacts set-rcv-addr <name> <receive-hash>' sets the
+      receive address for a given contact. The contact should provide you
+      with this address – the result of them adding you as a contact to
+      their horizon instance.
+
+        > horizon-cli contacts set-rcv-addr mmusterman QmSomeHash
+
+      SUBCOMMANDS
+        horizon-cli contacts add <name>                            - Create a new contact
+        horizon-cli contacts list                                  - List all contacts
+        horizon-cli contacts show <name>                           - Prints a contact and associated details
+        horizon-cli contacts rm <name>                             - Remove a contact
+        horizon-cli contacts rename <name> <newName>               - Rename a contact
+        horizon-cli contacts set-rcv-addr <name> <receive-hash>    - Sets the receive address for a contact
+
+        Use 'horizon-cli contacts <subcmd> --help' for more information about each command.
+    """
 
     private let commands = [
         Command(name: "list", expectedNumArgs: 0, help: """

@@ -70,12 +70,13 @@ struct ContactsHandler: Handler {
       SUBCOMMANDS
         horizon-cli contacts add <name>                    - Create a new contact
         horizon-cli contacts ls                            - List all contacts
-        horizon-cli contacts info <name>                   - Prints a contact and associated details
-        horizon-cli contacts rm <name>                     - Remove a contact
-        horizon-cli contacts rename <name> <newName>       - Rename a contact
+        horizon-cli contacts info <name>                   - Prints contact and associated details
+        horizon-cli contacts rm <name>                     - Removes contact
+        horizon-cli contacts rename <name> <newName>       - Renames contact
         horizon-cli contacts set-rcv-addr <name> <hash>    - Sets the receive address for a contact
 
         Use 'horizon-cli contacts <subcmd> --help' for more information about each command.
+
     """
 
     private let commands = [

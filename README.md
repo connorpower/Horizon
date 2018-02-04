@@ -65,6 +65,27 @@ ipfs daemon
 
 Run Horizon, observing the log window as necessary.
 
+## Logging
+
+For logging, we use Apple's new unified logging framework. This allows
+configuration of the logging granularity from the OS without requiring
+a re-compile or re-configuration of the app.
+
+The various levels are:
+
+- off
+- default
+- info
+- debug
+
+Example for the command line tool:
+
+    sudo log config --mode "level:info" --subsystem com.semantical.horizon-cli
+
+Example for the macOS App:
+
+    sudo log config --mode "level:info" --subsystem com.semantical.Horizon
+
 ## Running the tests
 
 Automated tests exist only in the form of unit tests run by the continuous

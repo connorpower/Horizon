@@ -83,8 +83,8 @@ public class Model {
                 throw HorizonError.addContactFailed(reason: .contactAlreadyExists)
             }
 
-            self.eventCallback?(.keygenDidStart(name))
-            return self.api.keygen(arg: keypairName, type: .rsa, size: 2048)
+            self.eventCallback?(.keygenDidStart(keypairName))
+            return self.api.keygen(keypairName: keypairName, type: .rsa, size: 2048)
         }.then { keygenResponse in
             let sendAddress = SendAddress(address: keygenResponse.id, keypairName: keygenResponse.name)
             let contact = Contact(identifier: UUID(), displayName: name,

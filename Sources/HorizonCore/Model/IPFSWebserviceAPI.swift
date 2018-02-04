@@ -71,19 +71,19 @@ public struct IPFSWebserviceAPI: IPFSAPI {
         }
     }
 
-    public func keygen(arg: String, type: DefaultAPI.ModelType_keygen, size: Int) -> Promise<KeygenResponse> {
+    public func keygen(keypairName: String, type: DefaultAPI.ModelType_keygen, size: Int) -> Promise<KeygenResponse> {
         os_log("Generating key %{public}s of type %{public}s, size %d", log: logProvider.network, type: .info,
-               arg, type.rawValue, size)
+               keypairName, type.rawValue, size)
 
         return Promise { fulfill, reject in
-            DefaultAPI.keygen(arg: arg, type: type, size: size) { (response, error) in
+            DefaultAPI.keygen(arg: keypairName, type: type, size: size) { (response, error) in
                 if let response = response {
                     os_log("Generated key %{public}s with ID %{public}s",
-                           log: self.logProvider.network, type: .info, arg, response.id)
+                           log: self.logProvider.network, type: .info, keypairName, response.id)
                     fulfill(response)
                 } else if let error = error {
                     os_log("Failed to generate key %{public}s. %{public}s",
-                           log: self.logProvider.network, type: .error, arg, self.describeError(error))
+                           log: self.logProvider.network, type: .error, keypairName, self.describeError(error))
                     reject(error)
                 } else {
                     reject(PMKError.invalidCallingConvention)

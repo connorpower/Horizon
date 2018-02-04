@@ -42,13 +42,13 @@ public protocol IPFSAPI {
     /**
      Creates a new keypair.
 
-     - parameter arg: The name of the key to create.
+     - parameter keypairName: The name of the key to create.
      - parameter type: The type of the key to create (for instance: 'rsa'
        or 'ed25519'),
      - parameter size: The size of the key to generate.
      - returns: A `KeygenResponse` promise.
      */
-    func keygen(arg: String, type: DefaultAPI.ModelType_keygen, size: Int) -> Promise<KeygenResponse>
+    func keygen(keypairName: String, type: DefaultAPI.ModelType_keygen, size: Int) -> Promise<KeygenResponse>
 
     /**
      Lists all local keypairs.
@@ -60,7 +60,7 @@ public protocol IPFSAPI {
     /**
      Removes a keypair.
 
-     - parameter arg: The name of the keypair to remove.
+     - parameter keypairName: The name of the keypair to remove.
      - returns: A `RemoveKeyResponse` promise.
      */
     func removeKey(keypairName: String) -> Promise<RemoveKeyResponse>

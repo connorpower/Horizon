@@ -36,7 +36,7 @@ public struct Contact: Codable {
      The IPNS hash for the remote file list. This must be provided
      by the other user.
      */
-    public let receiveListHash: String?
+    public let receiveAddress: String?
 
     /**
      The list of files which are to be shared with the contact.
@@ -60,14 +60,14 @@ public struct Contact: Codable {
        in the UI.
      - parameter sendListKey: A string which corresponds to an IPNS
        keypair on the local machine.
-     - parameter receiveListHash: An IPNS hash provided by the contact,
+     - parameter receiveAddress: An IPNS hash provided by the contact,
        through which their current list of shared files can be resolved.
      */
-    public init(identifier: UUID, displayName: String, sendListKey: String?, receiveListHash: String?) {
+    public init(identifier: UUID, displayName: String, sendListKey: String?, receiveAddress: String?) {
         self.identifier = identifier
         self.displayName = displayName
         self.sendListKey = sendListKey
-        self.receiveListHash = receiveListHash
+        self.receiveAddress = receiveAddress
     }
 
 }

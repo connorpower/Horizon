@@ -31,7 +31,7 @@ public class Model {
 
     private let eventCallback: ((Event) -> Void)?
 
-    // [(receiveListHash, Contact)]
+    // [(receiveAddress, Contact)]
     private var syncState = [(receiveHashList: String, contact: Contact)]()
 
     // MARK: - Initialization
@@ -47,10 +47,10 @@ public class Model {
         guard syncState.isEmpty else { return }
 
         let newSyncState = persistentStore.contacts.map({ contact -> (receiveHashList: String, contact: Contact)? in
-            guard let receiveListHash = contact.receiveListHash else {
+            guard let receiveAddress = contact.receiveAddress else {
                 return nil
             }
-            return (receiveListHash, contact)
+            return (receiveAddress, contact)
         }).flatMap( {$0} )
 
         guard !newSyncState.isEmpty else {
@@ -60,11 +60,11 @@ public class Model {
         syncState += newSyncState
         eventCallback?(.syncDidStart)
 
-        for (receiveListHash, contact) in syncState {
+        for (receiveAddress, contact) in syncState {
             eventCallback?(.resolvingReceiveListDidStart(contact))
 
             firstly {
-                return self.api.resolve(arg: receiveListHash, recursive: true)
+                return self.api.resolve(arg: receiveAddress, recursive: true)
             }.then { response in
                 try self.getFileList(from: contact, at: response.path)
             }.catch { error in
@@ -87,7 +87,7 @@ public class Model {
             return self.api.keygen(arg: keypairName, type: .rsa, size: 2048)
         }.then { keygenResponse in
             let contact = Contact(identifier: UUID(), displayName: name,
-                                  sendListKey: keygenResponse.name, receiveListHash: nil)
+                                  sendListKey: keygenResponse.name, receiveAddress: nil)
 
             self.persistentStore.createOrUpdateContact(contact)
             self.eventCallback?(.propertiesDidChange(contact))

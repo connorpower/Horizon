@@ -31,7 +31,6 @@ struct ContactsHandler: Handler {
       This becomes the receive-address which you can set manually later using
       'horizon-cli contacts set-receive-addr <name> <receive-address>'
 
-
         > horizon-cli contacts add mmusterman
         > horizon-cli contacts set-rcv-addr mmusterman QmSomeHash
 

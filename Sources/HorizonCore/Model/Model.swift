@@ -73,10 +73,10 @@ public class Model {
         }
     }
 
-    public func addContact(name: String, completion: @escaping (Contact?, HorizonError?) -> Void) {
+    public func addContact(name: String) -> Promise<Contact> {
         let keypairName = "\(Constants.keypairPrefix).\(name)"
 
-        firstly {
+        return firstly {
             return self.api.listKeys()
         }.then { listKeysResponse  -> Promise<KeygenResponse> in
             if listKeysResponse.keys.map({ $0.name }).contains(keypairName) {
@@ -92,12 +92,41 @@ public class Model {
 
             self.persistentStore.createOrUpdateContact(contact)
             self.eventCallback?(.propertiesDidChange(contact))
-            completion(contact, nil)
+            return Promise(value: contact)
         }.catch { error in
             let horizonError: HorizonError = error is HorizonError
                 ? error as! HorizonError : HorizonError.addContactFailed(reason: .unknown(error))
             self.eventCallback?(.errorEvent(horizonError))
-            completion(nil, horizonError)
+        }
+    }
+
+    public func removeContact(name: String) -> Promise<Void> {
+        // Dont rely entirely on the keypair name or the contact. The
+        // contact was potentially deleted, leaving behind a dangling IPNS keypair or vice versa.
+        let contact = contacts.filter({ $0.displayName == name }).first
+        let keypairName = "\(Constants.keypairPrefix).\(name)"
+
+        return firstly {
+            return self.api.listKeys()
+        }.then { listKeysResponse  -> Promise<RemoveKeyResponse> in
+            guard listKeysResponse.keys.map({ $0.name }).contains(keypairName) else {
+                throw HorizonError.removeContactFailed(reason: .contactDoesNotExist)
+            }
+
+            self.eventCallback?(.removeKeyDidStart(name))
+            return self.api.removeKey(keypairName: keypairName)
+        }.then { _ in
+            guard let contact = contact else {
+                throw HorizonError.removeContactFailed(reason: .contactDoesNotExist)
+            }
+
+            self.persistentStore.removeContact(contact)
+            self.eventCallback?(.propertiesDidChange(contact))
+            return Promise(value: ())
+        }.catch { error in
+            let horizonError: HorizonError = error is HorizonError
+                ? error as! HorizonError : HorizonError.removeContactFailed(reason: .unknown(error))
+            self.eventCallback?(.errorEvent(horizonError))
         }
     }
 

@@ -107,98 +107,98 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		D29FA5B1202786560009FFAC /* PBXContainerItemProxy */ = {
+		D29FA5BF20278C970009FFAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "horizon-cli::HorizonCore";
 			remoteInfo = HorizonCore;
 		};
-		D29FA5B2202786560009FFAC /* PBXContainerItemProxy */ = {
+		D29FA5C020278C970009FFAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "IPFSWebService::IPFSWebService";
 			remoteInfo = IPFSWebService;
 		};
-		D29FA5B3202786560009FFAC /* PBXContainerItemProxy */ = {
+		D29FA5C120278C970009FFAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "PromiseKit::PromiseKit";
 			remoteInfo = PromiseKit;
 		};
-		D29FA5B4202786560009FFAC /* PBXContainerItemProxy */ = {
+		D29FA5C220278C970009FFAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Alamofire::Alamofire";
 			remoteInfo = Alamofire;
 		};
-		D29FA5B5202786560009FFAC /* PBXContainerItemProxy */ = {
+		D29FA5C320278C970009FFAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "PromiseKit::PromiseKit";
 			remoteInfo = PromiseKit;
 		};
-		D29FA5B6202786560009FFAC /* PBXContainerItemProxy */ = {
+		D29FA5C420278C970009FFAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Alamofire::Alamofire";
 			remoteInfo = Alamofire;
 		};
-		D29FA5B7202786560009FFAC /* PBXContainerItemProxy */ = {
+		D29FA5C520278C970009FFAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "IPFSWebService::IPFSWebService";
 			remoteInfo = IPFSWebService;
 		};
-		D29FA5B8202786560009FFAC /* PBXContainerItemProxy */ = {
+		D29FA5C620278C970009FFAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "PromiseKit::PromiseKit";
 			remoteInfo = PromiseKit;
 		};
-		D29FA5B9202786560009FFAC /* PBXContainerItemProxy */ = {
+		D29FA5C720278C970009FFAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Alamofire::Alamofire";
 			remoteInfo = Alamofire;
 		};
-		D29FA5BA202786560009FFAC /* PBXContainerItemProxy */ = {
+		D29FA5C820278C970009FFAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "horizon-cli::HorizonCore";
 			remoteInfo = HorizonCore;
 		};
-		D29FA5BB202786560009FFAC /* PBXContainerItemProxy */ = {
+		D29FA5C920278C970009FFAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "IPFSWebService::IPFSWebService";
 			remoteInfo = IPFSWebService;
 		};
-		D29FA5BC202786560009FFAC /* PBXContainerItemProxy */ = {
+		D29FA5CA20278C970009FFAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "PromiseKit::PromiseKit";
 			remoteInfo = PromiseKit;
 		};
-		D29FA5BD202786560009FFAC /* PBXContainerItemProxy */ = {
+		D29FA5CB20278C970009FFAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Alamofire::Alamofire";
 			remoteInfo = Alamofire;
 		};
-		D29FA5BE202786570009FFAC /* PBXContainerItemProxy */ = {
+		D29FA5CC20278C970009FFAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
@@ -416,20 +416,20 @@
 		OBJ_35 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_36 /* IPFSWebService 4.1.0 */,
+				OBJ_36 /* IPFSWebService 4.1.1 */,
 				OBJ_64 /* PromiseKit 4.5.2 */,
 				OBJ_78 /* Alamofire 4.6.0 */,
 			);
 			name = Dependencies;
 			sourceTree = "<group>";
 		};
-		OBJ_36 /* IPFSWebService 4.1.0 */ = {
+		OBJ_36 /* IPFSWebService 4.1.1 */ = {
 			isa = PBXGroup;
 			children = (
 				OBJ_37 /* IPFSWebService */,
 				OBJ_63 /* Package.swift */,
 			);
-			name = "IPFSWebService 4.1.0";
+			name = "IPFSWebService 4.1.1";
 			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_37 /* IPFSWebService */ = {
@@ -942,72 +942,72 @@
 		OBJ_144 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "horizon-cli::HorizonCore" /* HorizonCore */;
-			targetProxy = D29FA5B1202786560009FFAC /* PBXContainerItemProxy */;
+			targetProxy = D29FA5BF20278C970009FFAC /* PBXContainerItemProxy */;
 		};
 		OBJ_146 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "IPFSWebService::IPFSWebService" /* IPFSWebService */;
-			targetProxy = D29FA5B7202786560009FFAC /* PBXContainerItemProxy */;
+			targetProxy = D29FA5C520278C970009FFAC /* PBXContainerItemProxy */;
 		};
 		OBJ_148 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "PromiseKit::PromiseKit" /* PromiseKit */;
-			targetProxy = D29FA5B8202786560009FFAC /* PBXContainerItemProxy */;
+			targetProxy = D29FA5C620278C970009FFAC /* PBXContainerItemProxy */;
 		};
 		OBJ_150 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Alamofire::Alamofire" /* Alamofire */;
-			targetProxy = D29FA5B9202786560009FFAC /* PBXContainerItemProxy */;
+			targetProxy = D29FA5C720278C970009FFAC /* PBXContainerItemProxy */;
 		};
 		OBJ_163 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "horizon-cli::HorizonCore" /* HorizonCore */;
-			targetProxy = D29FA5BA202786560009FFAC /* PBXContainerItemProxy */;
+			targetProxy = D29FA5C820278C970009FFAC /* PBXContainerItemProxy */;
 		};
 		OBJ_164 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "IPFSWebService::IPFSWebService" /* IPFSWebService */;
-			targetProxy = D29FA5BB202786560009FFAC /* PBXContainerItemProxy */;
+			targetProxy = D29FA5C920278C970009FFAC /* PBXContainerItemProxy */;
 		};
 		OBJ_165 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "PromiseKit::PromiseKit" /* PromiseKit */;
-			targetProxy = D29FA5BC202786560009FFAC /* PBXContainerItemProxy */;
+			targetProxy = D29FA5CA20278C970009FFAC /* PBXContainerItemProxy */;
 		};
 		OBJ_166 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Alamofire::Alamofire" /* Alamofire */;
-			targetProxy = D29FA5BD202786560009FFAC /* PBXContainerItemProxy */;
+			targetProxy = D29FA5CB20278C970009FFAC /* PBXContainerItemProxy */;
 		};
 		OBJ_185 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "IPFSWebService::IPFSWebService" /* IPFSWebService */;
-			targetProxy = D29FA5B2202786560009FFAC /* PBXContainerItemProxy */;
+			targetProxy = D29FA5C020278C970009FFAC /* PBXContainerItemProxy */;
 		};
 		OBJ_186 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "PromiseKit::PromiseKit" /* PromiseKit */;
-			targetProxy = D29FA5B5202786560009FFAC /* PBXContainerItemProxy */;
+			targetProxy = D29FA5C320278C970009FFAC /* PBXContainerItemProxy */;
 		};
 		OBJ_187 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Alamofire::Alamofire" /* Alamofire */;
-			targetProxy = D29FA5B6202786560009FFAC /* PBXContainerItemProxy */;
+			targetProxy = D29FA5C420278C970009FFAC /* PBXContainerItemProxy */;
 		};
 		OBJ_215 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "PromiseKit::PromiseKit" /* PromiseKit */;
-			targetProxy = D29FA5B3202786560009FFAC /* PBXContainerItemProxy */;
+			targetProxy = D29FA5C120278C970009FFAC /* PBXContainerItemProxy */;
 		};
 		OBJ_216 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Alamofire::Alamofire" /* Alamofire */;
-			targetProxy = D29FA5B4202786560009FFAC /* PBXContainerItemProxy */;
+			targetProxy = D29FA5C220278C970009FFAC /* PBXContainerItemProxy */;
 		};
 		OBJ_260 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "horizon-cli::HorizonCoreTests" /* HorizonCoreTests */;
-			targetProxy = D29FA5BE202786570009FFAC /* PBXContainerItemProxy */;
+			targetProxy = D29FA5CC20278C970009FFAC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

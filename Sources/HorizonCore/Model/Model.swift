@@ -15,7 +15,7 @@ public class Model {
     // MARK: - Constants
 
     struct Constants {
-        static let keypairPrefix = "com.semantical.horizon-cli.peer"
+        static let keypairPrefix = "com.semantical.horizon-cli.contact"
     }
 
     // MARK: - Public Properties
@@ -83,8 +83,8 @@ public class Model {
                 throw HorizonError.addContactFailed(reason: .contactAlreadyExists)
             }
 
-            self.eventCallback?(.keygenDidStart(name))
-            return self.api.keygen(arg: keypairName, type: .rsa, size: 2048)
+            self.eventCallback?(.keygenDidStart(keypairName))
+            return self.api.keygen(keypairName: keypairName, type: .rsa, size: 2048)
         }.then { keygenResponse in
             let sendAddress = SendAddress(address: keygenResponse.id, keypairName: keygenResponse.name)
             let contact = Contact(identifier: UUID(), displayName: name,
@@ -126,6 +126,42 @@ public class Model {
         }.catch { error in
             let horizonError: HorizonError = error is HorizonError
                 ? error as! HorizonError : HorizonError.removeContactFailed(reason: .unknown(error))
+            self.eventCallback?(.errorEvent(horizonError))
+        }
+    }
+
+    public func renameContact(_ name: String, to newName: String) -> Promise<Contact> {
+        let keypairName = "\(Constants.keypairPrefix).\(name)"
+        let newKeypairName = "\(Constants.keypairPrefix).\(newName)"
+
+        return firstly {
+            return self.api.listKeys()
+        }.then { listKeysResponse  -> Promise<RenameKeyResponse> in
+            let currentNames = listKeysResponse.keys.map({ $0.name })
+            if !currentNames.contains(keypairName) {
+                throw HorizonError.renameContactFailed(reason: .contactDoesNotExist)
+            }
+            if currentNames.contains(newKeypairName) {
+                throw HorizonError.renameContactFailed(reason: .newNameAlreadyExists)
+            }
+
+            self.eventCallback?(.renameKeyDidStart(keypairName, newKeypairName))
+            return self.api.renameKey(keypairName: keypairName, to: newKeypairName)
+        }.then { renameKeyResponse in
+            guard let contact = self.contacts.filter({ $0.displayName == name }).first else {
+                throw HorizonError.renameContactFailed(reason: .contactDoesNotExist)
+            }
+
+            let sendAddress = SendAddress(address: renameKeyResponse.id, keypairName: renameKeyResponse.now)
+            let updatedContact = Contact(identifier: contact.identifier, displayName: newName,
+                                         sendAddress: sendAddress, receiveAddress: contact.receiveAddress)
+
+            self.persistentStore.createOrUpdateContact(updatedContact)
+            self.eventCallback?(.propertiesDidChange(contact))
+            return Promise(value: contact)
+        }.catch { error in
+            let horizonError: HorizonError = error is HorizonError
+                ? error as! HorizonError : HorizonError.addContactFailed(reason: .unknown(error))
             self.eventCallback?(.errorEvent(horizonError))
         }
     }

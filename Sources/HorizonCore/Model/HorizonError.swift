@@ -28,6 +28,16 @@ public enum HorizonError: Error {
     }
 
     /**
+     The underlying reason the rename contact command failed.
+     - unknown: An unknown reason caused the command to fail.
+     */
+    public enum RenameContactFailureReason {
+        case unknown(Error)
+        case contactDoesNotExist
+        case newNameAlreadyExists
+    }
+
+    /**
      The underlying reason the sync command failed.
      - unknown: An unknown reason caused the command to fail.
      */
@@ -44,7 +54,7 @@ public enum HorizonError: Error {
     }
 
     /**
-     The underlying reason the attempt to retrieve a peer's filelist failed.
+     The underlying reason the attempt to retrieve a contact's filelist failed.
      - unknown: An unknown reason caused the command to fail.
      */
     public enum RetrieveFileListFailureReason {
@@ -65,6 +75,7 @@ public enum HorizonError: Error {
 
     case addContactFailed(reason: AddContactFailureReason)
     case removeContactFailed(reason: RemoveContactFailureReason)
+    case renameContactFailed(reason: RenameContactFailureReason)
     case syncFailed(reason: SyncFailureReason)
     case addFileFailed(reason: AddFileFailureReason)
     case retrieveFileListFailed(reason: RetrieveFileListFailureReason)

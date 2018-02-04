@@ -19,6 +19,7 @@ public enum Event {
     case addingFileToIPFSDidStart(File)
     case keygenDidStart(String)
     case removeKeyDidStart(String)
+    case renameKeyDidStart(String, String)
     case listKeysDidStart
     case addingProvidedFileListToIPFSDidStart(Contact)
     case publishingFileListToIPNSDidStart(Contact)

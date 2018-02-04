@@ -180,7 +180,7 @@ struct ContactsHandler: Handler {
             errorHandler()
         }
 
-        let commandArguments = arguments.dropFirst()
+        let commandArguments = Array(arguments.dropFirst())
         if command.expectedNumArgs != commandArguments.count {
             print(command.help)
             errorHandler()
@@ -188,21 +188,15 @@ struct ContactsHandler: Handler {
 
         switch command.name {
         case "add":
-            if let name = commandArguments.first {
-                addContact(name: name)
-            } else {
-                print(command.help)
-                errorHandler()
-            }
+            addContact(name: commandArguments[0])
         case "ls":
             listContacts()
         case "rm":
-            if let name = commandArguments.first {
-                removeContact(name: name)
-            } else {
-                print(command.help)
-                errorHandler()
-            }
+            removeContact(name: commandArguments[0])
+        case "rename":
+            let name = commandArguments[0]
+            let newName = commandArguments[1]
+            renameContact(name, to: newName)
         default:
             print(command.help)
             errorHandler()
@@ -258,6 +252,27 @@ struct ContactsHandler: Handler {
 
             print("Failed to remove contact. Is IPFS running?")
             self.errorHandler()
+        }
+    }
+
+    private func renameContact(_ name: String, to newName: String) {
+        firstly {
+            model.renameContact(name, to: newName)
+        }.then { _ in
+            self.completionHandler()
+        }.catch { error in
+            if case HorizonError.renameContactFailed(let reason) = error {
+                if case .contactDoesNotExist = reason {
+                    print("Contact does not exist.")
+                    self.errorHandler()
+                } else if case .newNameAlreadyExists = reason {
+                    print("Another contact already exists with the name \(newName).")
+                    self.errorHandler()
+                }
+            }
+
+           print("Failed to rename contact. Is IPFS running?")
+           self.errorHandler()
         }
     }
 

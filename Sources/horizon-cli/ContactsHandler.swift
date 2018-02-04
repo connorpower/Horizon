@@ -61,7 +61,7 @@ struct ContactsHandler: Handler {
 
         > horizon-cli contacts rm mmusterman
 
-      'horizon-cli contacts rename <name> <newName>' renames a given contact
+      'horizon-cli contacts rename <name> <new-name>' renames a given contact
       but otherwise keeps all information and addresses the same.
 
         > horizon-cli contacts rename mmusterman max
@@ -77,7 +77,7 @@ struct ContactsHandler: Handler {
         horizon-cli contacts ls                            - List all contacts
         horizon-cli contacts info <name>                   - Prints contact and associated details
         horizon-cli contacts rm <name>                     - Removes contact
-        horizon-cli contacts rename <name> <newName>       - Renames contact
+        horizon-cli contacts rename <name> <new-name>      - Renames contact
         horizon-cli contacts set-rcv-addr <name> <hash>    - Sets the receive address for a contact
 
         Use 'horizon-cli contacts <subcmd> --help' for more information about each command.
@@ -137,8 +137,8 @@ struct ContactsHandler: Handler {
 
             """),
         Command(name: "rename", expectedNumArgs: 2, help: """
-            horizon-cli contacts rename <name> <newName>
-              'horizon-cli contacts rename <name> <newName>' renames a given contact
+            horizon-cli contacts rename <name> <new-name>
+              'horizon-cli contacts rename <name> <new-name>' renames a given contact
               but otherwise keeps all information and addresses the same.
 
                 > horizon-cli contacts rename mmusterman max

@@ -42,7 +42,7 @@ struct Program {
         ls                            List all contacts
         info <name>                   Prints contact and associated details
         rm <name>                     Removes contact
-        rename <name> <newName>       Renames contact
+        rename <name> <new-name>      Renames contact
         set-rcv-addr <name> <hash>    Sets the receive address for a contact
 
       Use 'horizon-cli <command> --help' to learn more about each command.

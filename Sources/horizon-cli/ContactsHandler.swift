@@ -13,7 +13,7 @@ struct ContactsHandler: Handler {
 
     // MARK: - Constants
 
-    static let help = """
+    let help = """
     USAGE
       horizon-cli contacts - Create and manage Horizon contacts
 
@@ -114,24 +114,20 @@ struct ContactsHandler: Handler {
     }
 
     func run() {
-        guard !arguments.isEmpty else {
-            printHelp()
+        guard !arguments.isEmpty, let command = commands.filter({$0.name == arguments.first}).first else {
+            print(help)
             errorHandler()
         }
 
-        guard let command = commands.filter({$0.name == arguments.first}).first else {
-            printHelp()
-            errorHandler()
-        }
-
-        if command.expectedNumArgs != arguments.count - 1 {
+        let commandArguments = arguments.dropFirst()
+        if command.expectedNumArgs != commandArguments.count {
             print(command.help)
             errorHandler()
         }
 
         switch command.name {
         case "add":
-            if let name = arguments.dropFirst().first {
+            if let name = commandArguments.first {
                 addPeer(name: name)
             } else {
                 print(command.help)
@@ -144,10 +140,6 @@ struct ContactsHandler: Handler {
     }
 
     // MARK: - Private Functions
-
-    private func printHelp() {
-        print("No matched commands. Print help...")
-    }
 
     private func addPeer(name: String) {
         model.addContact(name: name) { contact, error in

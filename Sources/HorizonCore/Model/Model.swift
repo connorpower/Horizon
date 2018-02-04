@@ -86,8 +86,9 @@ public class Model {
             self.eventCallback?(.keygenDidStart(name))
             return self.api.keygen(arg: keypairName, type: .rsa, size: 2048)
         }.then { keygenResponse in
+            let sendAddress = SendAddress(address: keygenResponse.id, keypairName: keygenResponse.name)
             let contact = Contact(identifier: UUID(), displayName: name,
-                                  sendListKey: keygenResponse.name, receiveAddress: nil)
+                                  sendAddress: sendAddress, receiveAddress: nil)
 
             self.persistentStore.createOrUpdateContact(contact)
             self.eventCallback?(.propertiesDidChange(contact))
@@ -177,7 +178,7 @@ public class Model {
         }.then { (addFileFesponse: AddResponse) -> Promise<PublishResponse> in
             self.eventCallback?(.publishingFileListToIPNSDidStart(contact))
 
-            return self.api.publish(arg: addFileFesponse.hash, key: contact.sendListKey)
+            return self.api.publish(arg: addFileFesponse.hash, key: contact.sendAddress?.keypairName)
         }.then { (publishResponse: PublishResponse) -> Void in
             var updatedContact = contact
             updatedContact.sendList = FileList(hash: publishResponse.value, files: contact.sendList.files)

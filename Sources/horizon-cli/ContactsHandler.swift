@@ -8,6 +8,7 @@
 
 import Foundation
 import HorizonCore
+import PromiseKit
 
 struct ContactsHandler: Handler {
 
@@ -204,20 +205,20 @@ struct ContactsHandler: Handler {
     // MARK: - Private Functions
 
     private func addContact(name: String) {
-        model.addContact(name: name) { contact, error in
-            if contact != nil {
-                self.completionHandler()
-            } else if let error = error {
-                if case HorizonError.addContactFailed(let reason) = error {
-                    if case .contactAlreadyExists = reason {
-                        print("Contact already exists.")
-                        self.errorHandler()
-                    }
+        firstly {
+            return model.addContact(name: name)
+        }.then { contact in
+            self.completionHandler()
+        }.catch { error in
+            if case HorizonError.addContactFailed(let reason) = error {
+                if case .contactAlreadyExists = reason {
+                    print("Contact already exists.")
+                    self.errorHandler()
                 }
-
-                print("Failed to add peer. Is IPFS running?")
-                self.errorHandler()
             }
+
+            print("Failed to add contact. Is IPFS running?")
+            self.errorHandler()
         }
     }
 

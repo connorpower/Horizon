@@ -34,16 +34,16 @@ struct ContactsHandler: Handler {
         > horizon-cli contacts add mmusterman
         > horizon-cli contacts set-rcv-addr mmusterman QmSomeHash
 
-      'horizon-cli contacts list' lists the available contacts.
+      'horizon-cli contacts ls' lists the available contacts.
 
-        > horizon-cli contacts list
+        > horizon-cli contacts ls
         joe
         mmusterman
 
-      'horizon-cli contacts show <name>' prints a given contact to the screen,
+      'horizon-cli contacts info <name>' prints a given contact to the screen,
       showing the current values for the send address and receive address.
 
-        > horizon-cli contacts show mmusterman
+        > horizon-cli contacts info mmusterman
         Display name:     mmusterman
         Send address:     QmSomeHash
         Receive address:  QmSomeHash
@@ -68,27 +68,26 @@ struct ContactsHandler: Handler {
         > horizon-cli contacts set-rcv-addr mmusterman QmSomeHash
 
       SUBCOMMANDS
-        horizon-cli contacts add <name>                            - Create a new contact
-        horizon-cli contacts list                                  - List all contacts
-        horizon-cli contacts show <name>                           - Prints a contact and associated details
-        horizon-cli contacts rm <name>                             - Remove a contact
-        horizon-cli contacts rename <name> <newName>               - Rename a contact
-        horizon-cli contacts set-rcv-addr <name> <receive-hash>    - Sets the receive address for a contact
+        horizon-cli contacts add <name>                    - Create a new contact
+        horizon-cli contacts ls                            - List all contacts
+        horizon-cli contacts info <name>                   - Prints a contact and associated details
+        horizon-cli contacts rm <name>                     - Remove a contact
+        horizon-cli contacts rename <name> <newName>       - Rename a contact
+        horizon-cli contacts set-rcv-addr <name> <hash>    - Sets the receive address for a contact
 
         Use 'horizon-cli contacts <subcmd> --help' for more information about each command.
     """
 
     private let commands = [
-        Command(name: "list", expectedNumArgs: 0, help: """
-            horizon-cli contacts list
+        Command(name: "ls", expectedNumArgs: 0, help: """
+            horizon-cli contacts ls
               Lists all contacts which have been added to Horizon.
               This command takes no arguments.
             """),
         Command(name: "add", expectedNumArgs: 1, help: """
-            horizon-cli contacts add {name}
+            horizon-cli contacts add <name>
               Adds a new peer to Horizon and generates an IPNS key which will
-              be used for sharing files with the peer. The new peer's shared file
-              list can be added after the fact using `ipfs peer edit {name}`.
+              be used for sharing files with the peer.
 
               name: A short name for the peer.
             """)

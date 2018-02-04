@@ -130,6 +130,42 @@ public class Model {
         }
     }
 
+    public func renameContact(_ name: String, to newName: String) -> Promise<Contact> {
+        let keypairName = "\(Constants.keypairPrefix).\(name)"
+        let newKeypairName = "\(Constants.keypairPrefix).\(newName)"
+
+        return firstly {
+            return self.api.listKeys()
+        }.then { listKeysResponse  -> Promise<RenameKeyResponse> in
+            let currentNames = listKeysResponse.keys.map({ $0.name })
+            if !currentNames.contains(keypairName) {
+                throw HorizonError.renameContactFailed(reason: .contactDoesNotExist)
+            }
+            if currentNames.contains(newKeypairName) {
+                throw HorizonError.renameContactFailed(reason: .newNameAlreadyExists)
+            }
+
+            self.eventCallback?(.renameKeyDidStart(keypairName, newKeypairName))
+            return self.api.renameKey(keypairName: keypairName, to: newKeypairName)
+        }.then { renameKeyResponse in
+            guard let contact = self.contacts.filter({ $0.displayName == name }).first else {
+                throw HorizonError.renameContactFailed(reason: .contactDoesNotExist)
+            }
+
+            let sendAddress = SendAddress(address: renameKeyResponse.id, keypairName: renameKeyResponse.now)
+            let updatedContact = Contact(identifier: contact.identifier, displayName: newName,
+                                         sendAddress: sendAddress, receiveAddress: contact.receiveAddress)
+
+            self.persistentStore.createOrUpdateContact(updatedContact)
+            self.eventCallback?(.propertiesDidChange(contact))
+            return Promise(value: contact)
+        }.catch { error in
+            let horizonError: HorizonError = error is HorizonError
+                ? error as! HorizonError : HorizonError.addContactFailed(reason: .unknown(error))
+            self.eventCallback?(.errorEvent(horizonError))
+        }
+    }
+
     public func add(fileURLs: [URL], to contact: Contact) {
         // TODO: Add files in loop using when(fulfilled:) and only upload new fileList when all are added
         for url in fileURLs {

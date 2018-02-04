@@ -132,6 +132,28 @@ public struct IPFSWebserviceAPI: IPFSAPI {
         }
     }
 
+    public func renameKey(keypairName: String, to newKeypairName: String) -> Promise<RenameKeyResponse> {
+        os_log("Renaming key %{public}s to %{public}s", log: logProvider.network, type: .info,
+               keypairName, newKeypairName)
+
+        return Promise { fulfill, reject in
+            DefaultAPI.renameKey(arg: keypairName, arg2: newKeypairName, force: false) { (response, error) in
+                if let response = response {
+                    os_log("Renamed key %{public}s to %{public}s", log: self.logProvider.network, type: .info,
+                           keypairName, newKeypairName)
+                    fulfill(response)
+                } else if let error = error {
+                    os_log("Failed to rename key %{public}s to %{public}s. %{public}s",
+                           log: self.logProvider.network, type: .info,
+                           keypairName, newKeypairName, self.describeError(error))
+                    reject(error)
+                } else {
+                    reject(PMKError.invalidCallingConvention)
+                }
+            }
+        }
+    }
+
     public func publish(arg: String, key: String?) -> Promise<PublishResponse> {
         os_log("Publishing file %{public}s under key %{public}s", log: logProvider.network, type: .info,
                arg, key ?? "[Node's Own PeerID]")

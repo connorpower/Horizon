@@ -66,6 +66,15 @@ public protocol IPFSAPI {
     func removeKey(keypairName: String) -> Promise<RemoveKeyResponse>
 
     /**
+     Renames a keypair.
+
+     - parameter keypairName: The name of the keypair to rename.
+     - parameter newKeypairName: The new name to give the keypair.
+     - returns: A `RenameKeyResponse` promise.
+     */
+    func renameKey(keypairName: String, to newKeypairName: String) -> Promise<RenameKeyResponse>
+
+    /**
      Publishes an IPNS name.
 
      IPNS is a PKI namespace, where names are the hashes of public keys, and

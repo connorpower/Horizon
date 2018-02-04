@@ -203,6 +203,10 @@ struct ContactsHandler: Handler {
                 print(command.help)
                 errorHandler()
             }
+        case "rename":
+            let name = commandArguments[0]
+            let newName = commandArguments[1]
+            renameContact(name, to: newName)
         default:
             print(command.help)
             errorHandler()
@@ -258,6 +262,27 @@ struct ContactsHandler: Handler {
 
             print("Failed to remove contact. Is IPFS running?")
             self.errorHandler()
+        }
+    }
+
+    private func renameContact(_ name: String, to newName: String) {
+        firstly {
+            model.renameContact(name, to: newName)
+        }.then { _ in
+            self.completionHandler()
+        }.catch { error in
+            if case HorizonError.renameContactFailed(let reason) = error {
+                if case .contactDoesNotExist = reason {
+                    print("Contact does not exist.")
+                    self.errorHandler()
+                } else if case .newNameAlreadyExists = reason {
+                    print("Another contact already exists with the name \(newName).")
+                    self.errorHandler()
+                }
+            }
+
+           print("Failed to rename contact. Is IPFS running?")
+           self.errorHandler()
         }
     }
 

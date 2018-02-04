@@ -20,6 +20,42 @@ struct Program {
 
     // MARK: - Properties
 
+    let help = """
+    USAGE
+      horizon-cli - An encrypted fileshare for the decentralized web.
+
+    SYNOPSIS
+      horizon-cli [--help | -h] <command> ...
+
+    OPTIONS
+
+      --help, -h      - Show the full command help text.
+
+    SUBCOMMANDS
+      BASIC COMMANDS
+        help                          Prints this help menu
+        sync                          Syncs the receive lists from all contacts
+        stat                          Prints statistics
+
+      CONTACT COMMANDS
+        add <name>                    Create a new contact
+        ls                            List all contacts
+        info <name>                   Prints contact and associated details
+        rm <name>                     Removes contact
+        rename <name> <newName>       Renames contact
+        set-rcv-addr <name> <hash>    Sets the receive address for a contact
+
+      Use 'horizon-cli <command> --help' to learn more about each command.
+
+    EXIT STATUS
+
+      The CLI will exit with one of the following values:
+
+      0     Successful execution.
+      1     Failed executions.
+
+    """
+
     let model: Model = Model(api: IPFSWebserviceAPI(logProvider: Loggers()), eventCallback: nil)
 
     // MARK: - Functions
@@ -41,7 +77,7 @@ struct Program {
         }
 
         guard arguments.count >= 1 else {
-            printHelp()
+            print(help)
             exit(EXIT_FAILURE)
         }
 
@@ -51,21 +87,21 @@ struct Program {
         switch command {
         case "contacts":
             ContactsHandler(model: model,
-                         arguments: commandArgs,
-                         completion: { exit(EXIT_SUCCESS) },
-                         error: { exit(EXIT_FAILURE) }).run()
+                            arguments: commandArgs,
+                            completion: { exit(EXIT_SUCCESS) },
+                            error: { exit(EXIT_FAILURE) }).run()
+        case "-h":
+            fallthrough
+        case "--help":
+            fallthrough
+        case "help":
+            fallthrough
         default:
-            printHelp()
+            print(help)
             exit(EXIT_FAILURE)
         }
 
         dispatchMain()
-    }
-
-    // MARK: - Private Functions
-
-    private func printHelp() {
-        print("Print help...")
     }
 
 }

@@ -19,6 +19,15 @@ public enum HorizonError: Error {
     }
 
     /**
+     The underlying reason the remove contact command failed.
+     - unknown: An unknown reason caused the command to fail.
+     */
+    public enum RemoveContactFailureReason {
+        case unknown(Error)
+        case contactDoesNotExist
+    }
+
+    /**
      The underlying reason the sync command failed.
      - unknown: An unknown reason caused the command to fail.
      */
@@ -55,6 +64,7 @@ public enum HorizonError: Error {
     }
 
     case addContactFailed(reason: AddContactFailureReason)
+    case removeContactFailed(reason: RemoveContactFailureReason)
     case syncFailed(reason: SyncFailureReason)
     case addFileFailed(reason: AddFileFailureReason)
     case retrieveFileListFailed(reason: RetrieveFileListFailureReason)

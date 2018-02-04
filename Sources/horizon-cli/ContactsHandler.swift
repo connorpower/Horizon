@@ -127,7 +127,7 @@ struct ContactsHandler: Handler {
                 IPFS keypair:     com-semantical.horizon-cli.joe
 
             """),
-        Command(name: "rm", expectedNumArgs: 0, help: """
+        Command(name: "rm", expectedNumArgs: 1, help: """
             horizon-cli contacts rm <name>
               'horizon-cli contacts rm <name>' removes a given contact from Horizon.
               All files shared with the contact until this point remain available to
@@ -196,6 +196,13 @@ struct ContactsHandler: Handler {
             }
         case "ls":
             listContacts()
+        case "rm":
+            if let name = commandArguments.first {
+                removeContact(name: name)
+            } else {
+                print(command.help)
+                errorHandler()
+            }
         default:
             print(command.help)
             errorHandler()
@@ -234,6 +241,24 @@ struct ContactsHandler: Handler {
         }
 
         completionHandler()
+    }
+
+    private func removeContact(name: String) {
+        firstly {
+            model.removeContact(name: name)
+        }.then {
+            self.completionHandler()
+        }.catch { error in
+            if case HorizonError.removeContactFailed(let reason) = error {
+                if case .contactDoesNotExist = reason {
+                    print("Contact does not exist.")
+                    self.errorHandler()
+                }
+            }
+
+            print("Failed to remove contact. Is IPFS running?")
+            self.errorHandler()
+        }
     }
 
 }

@@ -56,4 +56,19 @@ public struct PersistentStore {
         UserDefaults.standard.set(jsonData, forKey: UserDefaultsKeys.contactList)
     }
 
+    /**
+     Removes a contact from the store.
+
+     - parameter contact: The contact to remove from the persistent
+     store.
+     */
+    public func removeContact(_ contact: Contact) {
+        let newContacts = contacts.filter({ $0.identifier != contact.identifier })
+
+        guard let jsonData = try? JSONEncoder().encode(newContacts) else {
+            fatalError("JSON Encoding failure. Failed to save new contacts list.")
+        }
+        UserDefaults.standard.set(jsonData, forKey: UserDefaultsKeys.contactList)
+    }
+
 }

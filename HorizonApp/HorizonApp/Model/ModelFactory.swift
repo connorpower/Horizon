@@ -21,10 +21,10 @@ struct ModelFactory {
 
     private func handleEvent(_ event: Event) {
         switch event {
+        case .errorEvent(let errorEvent):
+            handleErrorEvent(errorEvent)
         case .syncDidStart:
             Notifications.broadcastSyncStart()
-        case .syncDidFail(let errorEvent):
-            handleErrorEvent(errorEvent)
         case .syncDidEnd:
             Notifications.broadcastSyncEnd()
         case .propertiesDidChange:
@@ -49,27 +49,13 @@ struct ModelFactory {
                 "Interplanetary File System: Processing file list from \(contact.displayName)...")
         case .keygenDidStart(_):
             break
-        case .keygenDidFail(_):
-            break
         case .listKeysDidStart:
-            break
-        case .listKeysDidFail(_):
             break
         }
     }
 
-    private func handleErrorEvent(_ errorEvent: ErrorEvent) {
-        switch errorEvent {
-        case .networkError(let error):
-            Notifications.broadcastStatusMessage("IPFS or network error encountered...")
-            print(error as Any)
-        case .invalidJSONAtPath(let path):
-            Notifications.broadcastStatusMessage("Failed to decode JSON at \(path)...")
-        case .JSONEncodingErrorForContact(let contact):
-            Notifications.broadcastStatusMessage("Internal encoding file list for \(contact.displayName)...")
-        case .keypairAlreadyExists(_):
-            break
-        }
+    private func handleErrorEvent(_ error: HorizonError) {
+        // TODO: log
     }
 
 }

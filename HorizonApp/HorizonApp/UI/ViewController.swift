@@ -8,6 +8,7 @@
 
 import Cocoa
 import HorizonCore
+import PromiseKit
 
 class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, NSFilePromiseProviderDelegate {
 
@@ -231,13 +232,11 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
                              writePromiseTo url: URL,
                              completionHandler: @escaping (Error?) -> Void) {
         if let file = filePromiseProvider.userInfo as? File, let hash = file.hash {
-            IPFSWebserviceAPI(logProvider: Loggers()).cat(arg: hash) { (data, error) in
-                if let data = data {
-                    try? data.write(to: url)
-                    completionHandler(nil)
-                } else {
-                    completionHandler(error)
-                }
+            IPFSWebserviceAPI(logProvider: Loggers()).cat(arg: hash).then { data in
+                try? data.write(to: url)
+                completionHandler(nil)
+            }.catch { error in
+                completionHandler(error)
             }
         } else {
             completionHandler(nil)

@@ -254,7 +254,14 @@ struct ContactsHandler: Handler {
     }
 
     private func listContacts() {
-        for contact in model.contacts {
+        let contacts = model.contacts
+
+        guard !contacts.isEmpty else {
+            print("No contacts")
+            completionHandler()
+        }
+
+        for contact in contacts {
             print("""
                   \(contact.displayName)
                   Send address:    \(contact.sendAddress?.address ?? "nil")

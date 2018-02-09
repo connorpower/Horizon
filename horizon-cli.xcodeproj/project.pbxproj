@@ -22,6 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		D2A4A465202DD38600DFA79D /* ContactTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4A464202DD38600DFA79D /* ContactTests.swift */; };
+		D2A4A467202DD70D00DFA79D /* FileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4A466202DD70D00DFA79D /* FileTests.swift */; };
 		OBJ_109 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_115 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_63 /* Package.swift */; };
 		OBJ_121 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_65 /* Package.swift */; };
@@ -36,7 +37,7 @@
 		OBJ_141 /* IPFSWebService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "IPFSWebService::IPFSWebService::Product" /* IPFSWebService.framework */; };
 		OBJ_142 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "PromiseKit::PromiseKit::Product" /* PromiseKit.framework */; };
 		OBJ_143 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Alamofire::Alamofire::Product" /* Alamofire.framework */; };
-		OBJ_157 /* FileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* FileTests.swift */; };
+		OBJ_157 /* FileListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* FileListTests.swift */; };
 		OBJ_159 /* HorizonCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "horizon-cli::HorizonCore::Product" /* HorizonCore.framework */; };
 		OBJ_160 /* IPFSWebService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "IPFSWebService::IPFSWebService::Product" /* IPFSWebService.framework */; };
 		OBJ_161 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "PromiseKit::PromiseKit::Product" /* PromiseKit.framework */; };
@@ -211,6 +212,7 @@
 /* Begin PBXFileReference section */
 		"Alamofire::Alamofire::Product" /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2A4A464202DD38600DFA79D /* ContactTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTests.swift; sourceTree = "<group>"; };
+		D2A4A466202DD70D00DFA79D /* FileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTests.swift; sourceTree = "<group>"; };
 		"IPFSWebService::IPFSWebService::Product" /* IPFSWebService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IPFSWebService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_12 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		OBJ_13 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -228,7 +230,7 @@
 		OBJ_27 /* Loggers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loggers.swift; sourceTree = "<group>"; };
 		OBJ_28 /* Program.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
 		OBJ_29 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		OBJ_32 /* FileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTests.swift; sourceTree = "<group>"; };
+		OBJ_32 /* FileListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListTests.swift; sourceTree = "<group>"; };
 		OBJ_41 /* APIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHelper.swift; sourceTree = "<group>"; };
 		OBJ_42 /* APIs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIs.swift; sourceTree = "<group>"; };
 		OBJ_44 /* DefaultAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAPI.swift; sourceTree = "<group>"; };
@@ -351,8 +353,9 @@
 		D2A4A463202DD33900DFA79D /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_32 /* FileTests.swift */,
+				OBJ_32 /* FileListTests.swift */,
 				D2A4A464202DD38600DFA79D /* ContactTests.swift */,
+				D2A4A466202DD70D00DFA79D /* FileTests.swift */,
 			);
 			path = Model;
 			sourceTree = SOURCE_ROOT;
@@ -851,8 +854,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				D2A4A467202DD70D00DFA79D /* FileTests.swift in Sources */,
 				D2A4A465202DD38600DFA79D /* ContactTests.swift in Sources */,
-				OBJ_157 /* FileTests.swift in Sources */,
+				D2A4A46B202DDC9500DFA79D /* ModelTests.swift in Sources */,
+				OBJ_157 /* FileListTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

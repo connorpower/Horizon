@@ -70,4 +70,104 @@ class ContactTests: XCTestCase {
         XCTAssertNil(nilReceiveAddressContact.receiveAddress)
     }
 
+    func testEquality0() {
+        let contact1 = Contact(identifier: UUID(uuidString: "14D15E2B-8B5C-4404-96C6-67245A011903")!,
+                               displayName: "My Display Name", sendAddress: nil, receiveAddress: nil)
+        let contact2 = Contact(identifier: UUID.init(uuidString: "14D15E2B-8B5C-4404-96C6-67245A011903")!,
+                               displayName: "My Display Name", sendAddress: nil, receiveAddress: nil)
+
+        XCTAssertTrue(contact1 == contact2)
+    }
+
+    func testEquality1() {
+        let contact1 = Contact(identifier: UUID(uuidString: "14D15E2B-8B5C-4404-96C6-67245A011903")!,
+                               displayName: "My Display Name",
+                               sendAddress: SendAddress(address: "AAA", keypairName: "KeyPairName"),
+                               receiveAddress: "AAA")
+        let contact2 = Contact(identifier: UUID.init(uuidString: "14D15E2B-8B5C-4404-96C6-67245A011903")!,
+                               displayName: "My Display Name",
+                               sendAddress: SendAddress(address: "AAA", keypairName: "KeyPairName"),
+                               receiveAddress: "AAA")
+
+        XCTAssertTrue(contact1 == contact2)
+    }
+
+    func testEquality2() {
+        let contact1 = Contact(identifier: UUID(uuidString: "14D15E2B-8B5C-4404-96C6-67245A011903")!,
+                               displayName: "My Display Name",
+                               sendAddress: SendAddress(address: "AAA", keypairName: "KeyPairName"),
+                               receiveAddress: "AAA")
+        let contact2 = Contact(identifier: UUID(uuidString: "14D15E2B-8B5C-4404-96C6-67245A011903")!,
+                               displayName: "My Other Name",
+                               sendAddress: SendAddress(address: "AAA", keypairName: "KeyPairName"),
+                               receiveAddress: "AAA")
+
+        XCTAssertTrue(contact1 != contact2)
+    }
+
+    func testEquality3() {
+        let contact1 = Contact(identifier: UUID(uuidString: "14D15E2B-8B5C-4404-96C6-67245A011903")!,
+                               displayName: "My Display Name",
+                               sendAddress: SendAddress(address: "AAA", keypairName: "KeyPairName"),
+                               receiveAddress: "AAA")
+        let contact2 = Contact(identifier: UUID(uuidString: "14D15E2B-8B5C-4404-96C6-67245A011903")!,
+                               displayName: "My Display Name",
+                               sendAddress: SendAddress(address: "XXXXXXXXXXXXXXXXX", keypairName: "KeyPairName"),
+                               receiveAddress: "AAA")
+
+        XCTAssertTrue(contact1 != contact2)
+    }
+
+    func testEquality4() {
+        let contact1 = Contact(identifier: UUID(uuidString: "14D15E2B-8B5C-4404-96C6-67245A011903")!,
+                               displayName: "My Display Name",
+                               sendAddress: SendAddress(address: "AAA", keypairName: "KeyPairName"),
+                               receiveAddress: "AAA")
+        let contact2 = Contact(identifier: UUID(uuidString: "14D15E2B-8B5C-4404-96C6-67245A011903")!,
+                               displayName: "My Display Name",
+                               sendAddress: SendAddress(address: "AAA", keypairName: "MY OTHER KEY PAIR NAME"),
+                               receiveAddress: "AAA")
+
+        XCTAssertTrue(contact1 != contact2)
+    }
+
+    func testEquality5() {
+        let contact1 = Contact(identifier: UUID(uuidString: "14D15E2B-8B5C-4404-96C6-67245A011903")!,
+                               displayName: "My Display Name",
+                               sendAddress: SendAddress(address: "AAA", keypairName: "KeyPairName"),
+                               receiveAddress: "AAA")
+        let contact2 = Contact(identifier: UUID(uuidString: "14D15E2B-8B5C-4404-96C6-67245A011903")!,
+                               displayName: "My Display Name",
+                               sendAddress: nil,
+                               receiveAddress: "AAA")
+
+        XCTAssertTrue(contact1 != contact2)
+    }
+
+    func testEquality6() {
+        let contact1 = Contact(identifier: UUID(uuidString: "14D15E2B-8B5C-4404-96C6-67245A011903")!,
+                               displayName: "My Display Name",
+                               sendAddress: SendAddress(address: "AAA", keypairName: "KeyPairName"),
+                               receiveAddress: "AAA")
+        let contact2 = Contact(identifier: UUID(uuidString: "14D15E2B-8B5C-4404-96C6-67245A011903")!,
+                               displayName: "My Display Name",
+                               sendAddress: SendAddress(address: "AAA", keypairName: "KeyPairName"),
+                               receiveAddress: "XXXXXXXXXXXXXXXXX")
+
+        XCTAssertTrue(contact1 != contact2)
+    }
+
+    func testEquality7() {
+        let contact1 = Contact(identifier: UUID(uuidString: "14D15E2B-8B5C-4404-96C6-67245A011903")!,
+                               displayName: "My Display Name",
+                               sendAddress: SendAddress(address: "AAA", keypairName: "KeyPairName"),
+                               receiveAddress: "AAA")
+        let contact2 = Contact(identifier: UUID(uuidString: "14D15E2B-8B5C-4404-96C6-67245A011903")!,
+                               displayName: "My Display Name",
+                               sendAddress: SendAddress(address: "AAA", keypairName: "KeyPairName"),
+                               receiveAddress: nil)
+
+        XCTAssertTrue(contact1 != contact2)
+    }
+
 }

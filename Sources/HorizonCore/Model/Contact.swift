@@ -107,3 +107,19 @@ public struct Contact: Codable {
     }
 
 }
+
+extension Contact: Equatable {
+    public static func == (lhs: Contact, rhs: Contact) -> Bool {
+        return lhs.identifier == rhs.identifier &&
+            lhs.displayName == rhs.displayName &&
+            lhs.sendAddress?.address == rhs.sendAddress?.address &&
+            lhs.sendAddress?.keypairName == rhs.sendAddress?.keypairName &&
+            lhs.receiveAddress == rhs.receiveAddress
+    }
+}
+
+extension Contact: Hashable {
+    public var hashValue: Int {
+        return identifier.hashValue ^ displayName.hashValue &* 16777619
+    }
+}

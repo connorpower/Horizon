@@ -18,38 +18,25 @@ public class Model {
         static let keypairPrefix = "com.semantical.Horizon.contact"
     }
 
-    // MARK: - Public Properties
+    // MARK: - Properties
 
-    public var contacts: [Contact] {
-        return persistentStore.contacts
-    }
+    private let persistentStore: PersistentStore
 
-    // MARK: - Private Properties
-
-    private let persistentStore = PersistentStore()
     private let api: IPFSAPI
 
     private let eventCallback: ((Event) -> Void)?
 
-    // [(receiveAddress, Contact)]
     private var syncState = [(receiveHashList: String, contact: Contact)]()
 
     // MARK: - Initialization
 
-    public init(api: IPFSAPI, eventCallback: ((Event) -> Void)?) {
+    public init(api: IPFSAPI, persistentStore: PersistentStore, eventCallback: ((Event) -> Void)?) {
         self.api = api
+        self.persistentStore = persistentStore
         self.eventCallback = eventCallback
     }
 
     // MARK: - API
-
-    public func contact(named name: String) -> Contact? {
-        return contacts.filter({ $0.displayName == name }).first
-    }
-
-    public func updateReceiveAddress(for contact: Contact, to receiveAddress: String) {
-        persistentStore.createOrUpdateContact(contact.updatingReceiveAddress(receiveAddress))
-    }
 
     public func sync() {
         guard syncState.isEmpty else { return }
@@ -78,100 +65,6 @@ public class Model {
             }.catch { error in
                 self.eventCallback?(.errorEvent(HorizonError.syncFailed(reason: .unknown(error))))
             }
-        }
-    }
-
-    public func addContact(name: String) -> Promise<Contact> {
-        let keypairName = "\(Constants.keypairPrefix).\(name)"
-
-        return firstly {
-            return self.api.listKeys()
-        }.then { listKeysResponse  -> Promise<KeygenResponse> in
-            if listKeysResponse.keys.map({ $0.name }).contains(keypairName) {
-                throw HorizonError.contactOperationFailed(reason: .contactAlreadyExists)
-            }
-
-            self.eventCallback?(.keygenDidStart(keypairName))
-            return self.api.keygen(keypairName: keypairName, type: .rsa, size: 2048)
-        }.then { keygenResponse in
-            let sendAddress = SendAddress(address: keygenResponse.id, keypairName: keygenResponse.name)
-            let contact = Contact(identifier: UUID(), displayName: name,
-                                  sendAddress: sendAddress, receiveAddress: nil)
-
-            self.persistentStore.createOrUpdateContact(contact)
-            self.eventCallback?(.propertiesDidChange(contact))
-            return Promise(value: contact)
-        }.catch { error in
-            let horizonError: HorizonError = error is HorizonError
-                ? error as! HorizonError : HorizonError.contactOperationFailed(reason: .unknown(error))
-            self.eventCallback?(.errorEvent(horizonError))
-        }
-    }
-
-    public func removeContact(name: String) -> Promise<Void> {
-        // Dont rely entirely on the keypair name or the contact. The
-        // contact was potentially deleted, leaving behind a dangling IPNS keypair or vice versa.
-        let contact = self.contact(named: name)
-        let keypairName = "\(Constants.keypairPrefix).\(name)"
-
-        return firstly {
-            return self.api.listKeys()
-        }.then { listKeysResponse  -> Promise<RemoveKeyResponse> in
-            guard listKeysResponse.keys.map({ $0.name }).contains(keypairName) else {
-                throw HorizonError.contactOperationFailed(reason: .contactDoesNotExist)
-            }
-
-            self.eventCallback?(.removeKeyDidStart(name))
-            return self.api.removeKey(keypairName: keypairName)
-        }.then { _ in
-            // If we reach this block, then we have at least removed an IPFS key: therefor
-            // do not throw an error even if there is no matching Contact in Horizon.
-            //
-            if let contact = contact {
-                self.persistentStore.removeContact(contact)
-                self.eventCallback?(.propertiesDidChange(contact))
-            }
-
-            return Promise(value: ())
-        }.catch { error in
-            let horizonError: HorizonError = error is HorizonError
-                ? error as! HorizonError : HorizonError.contactOperationFailed(reason: .unknown(error))
-            self.eventCallback?(.errorEvent(horizonError))
-        }
-    }
-
-    public func renameContact(_ name: String, to newName: String) -> Promise<Contact> {
-        let keypairName = "\(Constants.keypairPrefix).\(name)"
-        let newKeypairName = "\(Constants.keypairPrefix).\(newName)"
-
-        return firstly {
-            return self.api.listKeys()
-        }.then { listKeysResponse  -> Promise<RenameKeyResponse> in
-            let currentNames = listKeysResponse.keys.map({ $0.name })
-            if !currentNames.contains(keypairName) {
-                throw HorizonError.contactOperationFailed(reason: .contactDoesNotExist)
-            }
-            if currentNames.contains(newKeypairName) {
-                throw HorizonError.contactOperationFailed(reason: .contactAlreadyExists)
-            }
-
-            self.eventCallback?(.renameKeyDidStart(keypairName, newKeypairName))
-            return self.api.renameKey(keypairName: keypairName, to: newKeypairName)
-        }.then { renameKeyResponse in
-            guard let contact = self.contact(named: name) else {
-                throw HorizonError.contactOperationFailed(reason: .contactDoesNotExist)
-            }
-
-            let sendAddress = SendAddress(address: renameKeyResponse.id, keypairName: renameKeyResponse.now)
-            let updatedContact = contact.updatingDisplayName(newName).updatingSendAddress(sendAddress)
-
-            self.persistentStore.createOrUpdateContact(updatedContact)
-            self.eventCallback?(.propertiesDidChange(contact))
-            return Promise(value: contact)
-        }.catch { error in
-            let horizonError: HorizonError = error is HorizonError
-                ? error as! HorizonError : HorizonError.contactOperationFailed(reason: .unknown(error))
-            self.eventCallback?(.errorEvent(horizonError))
         }
     }
 
@@ -267,6 +160,184 @@ public class Model {
 
         if syncState.isEmpty {
             eventCallback?(.syncDidEnd)
+        }
+    }
+
+}
+
+// MARK: - Contact Functionality
+
+/**
+ An extension which groups all contact related model functionality into
+ one place.
+ */
+public extension Model {
+
+    /**
+     Returns an unordered list of all contacts.
+     */
+    public var contacts: [Contact] {
+        return persistentStore.contacts
+    }
+
+    /**
+     Searches for a contact based on display name.
+
+     - parameter name: The display name of the contact to search for.
+     - returns: Returns a contact matching the given display name or
+     nil if no match could be found.
+     */
+    public func contact(named name: String) -> Contact? {
+        return contacts.filter({ $0.displayName == name }).first
+    }
+
+    /**
+     Updates the receive address of a given contact.
+
+     - paramter contact: The contact to update.
+     - parameter receiveAddress: The new receive address to set.
+     */
+    public func updateReceiveAddress(for contact: Contact, to receiveAddress: String) {
+        persistentStore.createOrUpdateContact(contact.updatingReceiveAddress(receiveAddress))
+    }
+
+    /**
+     Adds a new contact. A send address for the contact will be automatically
+     generated.
+
+     **Note:** IPFS must be online.
+
+     - paramter name: The display name of the contact to create.
+     - returns: Returns either a promise which, when fulfilled, will contain
+     the newly created contact or require handling of an
+     `HorizonError.contactOperationFailed` error.
+     */
+    public func addContact(name: String) -> Promise<Contact> {
+        let keypairName = "\(Constants.keypairPrefix).\(name)"
+
+        guard contact(named: name) == nil else {
+            return Promise(error: HorizonError.contactOperationFailed(reason: .contactAlreadyExists))
+        }
+
+        return firstly {
+            return self.api.listKeys()
+        }.then { listKeysResponse  -> Promise<KeygenResponse> in
+            if listKeysResponse.keys.map({ $0.name }).contains(keypairName) {
+                throw HorizonError.contactOperationFailed(reason: .contactAlreadyExists)
+            }
+
+            self.eventCallback?(.keygenDidStart(keypairName))
+            return self.api.keygen(keypairName: keypairName, type: .rsa, size: 2048)
+        }.then { keygenResponse in
+            let sendAddress = SendAddress(address: keygenResponse.id, keypairName: keygenResponse.name)
+            let contact = Contact(identifier: UUID(), displayName: name,
+                                  sendAddress: sendAddress, receiveAddress: nil)
+
+            self.persistentStore.createOrUpdateContact(contact)
+            self.eventCallback?(.propertiesDidChange(contact))
+            return Promise(value: contact)
+        }.catch { error in
+            let horizonError: HorizonError = error is HorizonError
+                ? error as! HorizonError : HorizonError.contactOperationFailed(reason: .unknown(error))
+            self.eventCallback?(.errorEvent(horizonError))
+        }
+    }
+
+    /**
+     Removes a contact. This function is tolerant - an orphaned IPFS key
+     for a nonexistent contact will be removed and reported as success.
+
+     **Note:** IPFS must be online.
+
+     - paramter name: The display name of the contact to remove.
+     - returns: Returns either a promise which, when fulfilled, will indicate
+     successful removal or require handling of an `HorizonError.contactOperationFailed`
+     error.
+     */
+    public func removeContact(name: String) -> Promise<Void> {
+        // Dont rely entirely on the keypair name or the contact. The
+        // contact was potentially deleted, leaving behind a dangling IPNS keypair or vice versa.
+        let contact = self.contact(named: name)
+        let keypairName = "\(Constants.keypairPrefix).\(name)"
+
+        return firstly {
+            return self.api.listKeys()
+        }.then { listKeysResponse -> Promise<Void> in
+
+            // Branch 1: the underlying IPFS key is missing, but we may have a model contact object.
+            guard listKeysResponse.keys.map({ $0.name }).contains(keypairName) else {
+                if let contact = contact {
+                    self.persistentStore.removeContact(contact)
+                    self.eventCallback?(.propertiesDidChange(contact))
+
+                    return Promise(value: ())
+                } else {
+                    throw HorizonError.contactOperationFailed(reason: .contactDoesNotExist)
+                }
+            }
+
+            // Branch 2: the underlying IPFS key present, and we may have a model contact object.
+            self.eventCallback?(.removeKeyDidStart(name))
+            return firstly {
+                return self.api.removeKey(keypairName: keypairName)
+            }.then { _ in
+                if let contact = contact {
+                    self.persistentStore.removeContact(contact)
+                    self.eventCallback?(.propertiesDidChange(contact))
+                }
+                return Promise(value: ())
+            }
+        }.catch { error in
+            let horizonError: HorizonError = error is HorizonError
+                ? error as! HorizonError : HorizonError.contactOperationFailed(reason: .unknown(error))
+            self.eventCallback?(.errorEvent(horizonError))
+        }
+    }
+
+    /**
+     Renames a contact. This function will refuse to rename a contact
+     if a contact aleady exists for the proposed new name.
+
+     **Note:** IPFS must be online.
+
+     - paramter name: The display name of the contact to rename.
+     - paramter newName: The new display name for the contact.
+     - returns: Returns either a promise which, when fulfilled, will contain
+     the new `Contact` object or require handling of an
+     `HorizonError.contactOperationFailed` error.
+     */
+    public func renameContact(_ name: String, to newName: String) -> Promise<Contact> {
+        let keypairName = "\(Constants.keypairPrefix).\(name)"
+        let newKeypairName = "\(Constants.keypairPrefix).\(newName)"
+
+        return firstly {
+            return self.api.listKeys()
+        }.then { listKeysResponse  -> Promise<RenameKeyResponse> in
+            let currentNames = listKeysResponse.keys.map({ $0.name })
+            if !currentNames.contains(keypairName) {
+                throw HorizonError.contactOperationFailed(reason: .contactDoesNotExist)
+            }
+            if currentNames.contains(newKeypairName) {
+                throw HorizonError.contactOperationFailed(reason: .contactAlreadyExists)
+            }
+
+            self.eventCallback?(.renameKeyDidStart(keypairName, newKeypairName))
+            return self.api.renameKey(keypairName: keypairName, to: newKeypairName)
+        }.then { renameKeyResponse in
+            guard let contact = self.contact(named: name) else {
+                throw HorizonError.contactOperationFailed(reason: .contactDoesNotExist)
+            }
+
+            let sendAddress = SendAddress(address: renameKeyResponse.id, keypairName: renameKeyResponse.now)
+            let updatedContact = contact.updatingDisplayName(newName).updatingSendAddress(sendAddress)
+
+            self.persistentStore.createOrUpdateContact(updatedContact)
+            self.eventCallback?(.propertiesDidChange(contact))
+            return Promise(value: contact)
+        }.catch { error in
+            let horizonError: HorizonError = error is HorizonError
+                ? error as! HorizonError : HorizonError.contactOperationFailed(reason: .unknown(error))
+            self.eventCallback?(.errorEvent(horizonError))
         }
     }
 

@@ -56,7 +56,9 @@ struct Program {
 
     """
 
-    let model: Model = Model(api: IPFSWebserviceAPI(logProvider: Loggers()), eventCallback: nil)
+    let model: Model = Model(api: IPFSWebserviceAPI(logProvider: Loggers()),
+                             persistentStore: UserDefaultsStore(),
+                             eventCallback: nil)
 
     // MARK: - Functions
 

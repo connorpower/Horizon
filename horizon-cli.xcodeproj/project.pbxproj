@@ -22,6 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		D2867A03202DE22C00D3900C /* MockPersistentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2867A02202DE22C00D3900C /* MockPersistentStore.swift */; };
+		D2867A06202E12AC00D3900C /* SharesHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2867A05202E12AC00D3900C /* SharesHandler.swift */; };
 		D2A4A465202DD38600DFA79D /* ContactTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4A464202DD38600DFA79D /* ContactTests.swift */; };
 		D2A4A467202DD70D00DFA79D /* FileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4A466202DD70D00DFA79D /* FileTests.swift */; };
 		D2A4A469202DD8F300DFA79D /* MockIPFSAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4A468202DD8F300DFA79D /* MockIPFSAPI.swift */; };
@@ -216,6 +217,7 @@
 /* Begin PBXFileReference section */
 		"Alamofire::Alamofire::Product" /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2867A02202DE22C00D3900C /* MockPersistentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPersistentStore.swift; sourceTree = "<group>"; };
+		D2867A05202E12AC00D3900C /* SharesHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharesHandler.swift; sourceTree = "<group>"; };
 		D2A4A464202DD38600DFA79D /* ContactTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTests.swift; sourceTree = "<group>"; };
 		D2A4A466202DD70D00DFA79D /* FileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTests.swift; sourceTree = "<group>"; };
 		D2A4A468202DD8F300DFA79D /* MockIPFSAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockIPFSAPI.swift; sourceTree = "<group>"; };
@@ -419,6 +421,7 @@
 			children = (
 				OBJ_24 /* Command.swift */,
 				OBJ_25 /* ContactsHandler.swift */,
+				D2867A05202E12AC00D3900C /* SharesHandler.swift */,
 				OBJ_26 /* Handler.swift */,
 				OBJ_27 /* Loggers.swift */,
 				OBJ_28 /* Program.swift */,
@@ -865,6 +868,7 @@
 				OBJ_134 /* ContactsHandler.swift in Sources */,
 				OBJ_135 /* Handler.swift in Sources */,
 				OBJ_136 /* Loggers.swift in Sources */,
+				D2867A06202E12AC00D3900C /* SharesHandler.swift in Sources */,
 				OBJ_137 /* Program.swift in Sources */,
 				OBJ_138 /* main.swift in Sources */,
 			);

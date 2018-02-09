@@ -197,6 +197,10 @@ struct ContactsHandler: Handler {
             let name = commandArguments[0]
             let newName = commandArguments[1]
             renameContact(name, to: newName)
+        case "set-rcv-addr":
+            let name = commandArguments[0]
+            let recieveAddress = commandArguments[1]
+            setReceiveAddress(of: name, to: recieveAddress)
         default:
             print(command.help)
             errorHandler()
@@ -274,6 +278,16 @@ struct ContactsHandler: Handler {
            print("Failed to rename contact. Is IPFS running?")
            self.errorHandler()
         }
+    }
+
+    private func setReceiveAddress(of name: String, to recieveAddress: String) {
+        guard let contact = model.contact(named: name) else {
+            print("Contact does not exist.")
+            self.errorHandler()
+        }
+
+        model.updateReceiveAddress(for: contact, to: recieveAddress)
+        self.completionHandler()
     }
 
 }

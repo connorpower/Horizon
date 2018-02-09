@@ -47,6 +47,10 @@ public class Model {
         return contacts.filter({ $0.displayName == name }).first
     }
 
+    public func updateReceiveAddress(for contact: Contact, to receiveAddress: String) {
+        persistentStore.createOrUpdateContact(contact.updatingReceiveAddress(receiveAddress))
+    }
+
     public func sync() {
         guard syncState.isEmpty else { return }
 
@@ -157,8 +161,7 @@ public class Model {
             }
 
             let sendAddress = SendAddress(address: renameKeyResponse.id, keypairName: renameKeyResponse.now)
-            let updatedContact = Contact(identifier: contact.identifier, displayName: newName,
-                                         sendAddress: sendAddress, receiveAddress: contact.receiveAddress)
+            let updatedContact = contact.updatingDisplayName(newName).updatingSendAddress(sendAddress)
 
             self.persistentStore.createOrUpdateContact(updatedContact)
             self.eventCallback?(.propertiesDidChange(contact))

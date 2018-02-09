@@ -43,6 +43,10 @@ public class Model {
 
     // MARK: - API
 
+    public func contact(named name: String) -> Contact? {
+        return contacts.filter({ $0.displayName == name }).first
+    }
+
     public func sync() {
         guard syncState.isEmpty else { return }
 
@@ -103,7 +107,7 @@ public class Model {
     public func removeContact(name: String) -> Promise<Void> {
         // Dont rely entirely on the keypair name or the contact. The
         // contact was potentially deleted, leaving behind a dangling IPNS keypair or vice versa.
-        let contact = contacts.filter({ $0.displayName == name }).first
+        let contact = self.contact(named: name)
         let keypairName = "\(Constants.keypairPrefix).\(name)"
 
         return firstly {
@@ -148,7 +152,7 @@ public class Model {
             self.eventCallback?(.renameKeyDidStart(keypairName, newKeypairName))
             return self.api.renameKey(keypairName: keypairName, to: newKeypairName)
         }.then { renameKeyResponse in
-            guard let contact = self.contacts.filter({ $0.displayName == name }).first else {
+            guard let contact = self.contact(named: name) else {
                 throw HorizonError.renameContactFailed(reason: .contactDoesNotExist)
             }
 

@@ -259,4 +259,36 @@ class ModelTests: XCTestCase {
         wait(for: [keyRemovedExpectation, contactRemovedExpectation], timeout: 1.0)
     }
 
+    /**
+     Expect failure when attempting to remove a contact which neither exists nor has
+     an orphaned IPFS key.
+     */
+    func testRemoveContact_DoesNotExist() {
+        mockStore.contacts = []
+        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+
+        let errorThrownExpectation = expectation(description: "errorThrownExpectation")
+
+        mockAPI.listKeysResponse = {
+            ListKeysResponse(keys: [Key]())
+        }
+
+        firstly {
+            model.removeContact(name: "Contact1")
+        }.catch { error in
+            if case HorizonError.contactOperationFailed(let reason) = error {
+                if case .contactDoesNotExist = reason {
+                    XCTAssertTrue(true)
+                } else {
+                    XCTFail()
+                }
+            } else {
+                XCTFail()
+            }
+            errorThrownExpectation.fulfill()
+        }
+
+        wait(for: [errorThrownExpectation], timeout: 1.0)
+    }
+
 }

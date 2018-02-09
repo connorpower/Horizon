@@ -84,7 +84,7 @@ public class Model {
             return self.api.listKeys()
         }.then { listKeysResponse  -> Promise<KeygenResponse> in
             if listKeysResponse.keys.map({ $0.name }).contains(keypairName) {
-                throw HorizonError.addContactFailed(reason: .contactAlreadyExists)
+                throw HorizonError.contactOperationFailed(reason: .contactAlreadyExists)
             }
 
             self.eventCallback?(.keygenDidStart(keypairName))
@@ -99,7 +99,7 @@ public class Model {
             return Promise(value: contact)
         }.catch { error in
             let horizonError: HorizonError = error is HorizonError
-                ? error as! HorizonError : HorizonError.addContactFailed(reason: .unknown(error))
+                ? error as! HorizonError : HorizonError.contactOperationFailed(reason: .unknown(error))
             self.eventCallback?(.errorEvent(horizonError))
         }
     }
@@ -114,14 +114,14 @@ public class Model {
             return self.api.listKeys()
         }.then { listKeysResponse  -> Promise<RemoveKeyResponse> in
             guard listKeysResponse.keys.map({ $0.name }).contains(keypairName) else {
-                throw HorizonError.removeContactFailed(reason: .contactDoesNotExist)
+                throw HorizonError.contactOperationFailed(reason: .contactDoesNotExist)
             }
 
             self.eventCallback?(.removeKeyDidStart(name))
             return self.api.removeKey(keypairName: keypairName)
         }.then { _ in
             guard let contact = contact else {
-                throw HorizonError.removeContactFailed(reason: .contactDoesNotExist)
+                throw HorizonError.contactOperationFailed(reason: .contactDoesNotExist)
             }
 
             self.persistentStore.removeContact(contact)
@@ -129,7 +129,7 @@ public class Model {
             return Promise(value: ())
         }.catch { error in
             let horizonError: HorizonError = error is HorizonError
-                ? error as! HorizonError : HorizonError.removeContactFailed(reason: .unknown(error))
+                ? error as! HorizonError : HorizonError.contactOperationFailed(reason: .unknown(error))
             self.eventCallback?(.errorEvent(horizonError))
         }
     }
@@ -143,17 +143,17 @@ public class Model {
         }.then { listKeysResponse  -> Promise<RenameKeyResponse> in
             let currentNames = listKeysResponse.keys.map({ $0.name })
             if !currentNames.contains(keypairName) {
-                throw HorizonError.renameContactFailed(reason: .contactDoesNotExist)
+                throw HorizonError.contactOperationFailed(reason: .contactDoesNotExist)
             }
             if currentNames.contains(newKeypairName) {
-                throw HorizonError.renameContactFailed(reason: .newNameAlreadyExists)
+                throw HorizonError.contactOperationFailed(reason: .contactAlreadyExists)
             }
 
             self.eventCallback?(.renameKeyDidStart(keypairName, newKeypairName))
             return self.api.renameKey(keypairName: keypairName, to: newKeypairName)
         }.then { renameKeyResponse in
             guard let contact = self.contact(named: name) else {
-                throw HorizonError.renameContactFailed(reason: .contactDoesNotExist)
+                throw HorizonError.contactOperationFailed(reason: .contactDoesNotExist)
             }
 
             let sendAddress = SendAddress(address: renameKeyResponse.id, keypairName: renameKeyResponse.now)
@@ -165,7 +165,7 @@ public class Model {
             return Promise(value: contact)
         }.catch { error in
             let horizonError: HorizonError = error is HorizonError
-                ? error as! HorizonError : HorizonError.addContactFailed(reason: .unknown(error))
+                ? error as! HorizonError : HorizonError.contactOperationFailed(reason: .unknown(error))
             self.eventCallback?(.errorEvent(horizonError))
         }
     }

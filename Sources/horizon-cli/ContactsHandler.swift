@@ -211,7 +211,7 @@ struct ContactsHandler: Handler {
         }.then { contact in
             self.completionHandler()
         }.catch { error in
-            if case HorizonError.addContactFailed(let reason) = error {
+            if case HorizonError.contactOperationFailed(let reason) = error {
                 if case .contactAlreadyExists = reason {
                     print("Contact already exists.")
                     self.errorHandler()
@@ -243,7 +243,7 @@ struct ContactsHandler: Handler {
         }.then {
             self.completionHandler()
         }.catch { error in
-            if case HorizonError.removeContactFailed(let reason) = error {
+            if case HorizonError.contactOperationFailed(let reason) = error {
                 if case .contactDoesNotExist = reason {
                     print("Contact does not exist.")
                     self.errorHandler()
@@ -261,11 +261,11 @@ struct ContactsHandler: Handler {
         }.then { _ in
             self.completionHandler()
         }.catch { error in
-            if case HorizonError.renameContactFailed(let reason) = error {
+            if case HorizonError.contactOperationFailed(let reason) = error {
                 if case .contactDoesNotExist = reason {
                     print("Contact does not exist.")
                     self.errorHandler()
-                } else if case .newNameAlreadyExists = reason {
+                } else if case .contactAlreadyExists = reason {
                     print("Another contact already exists with the name \(newName).")
                     self.errorHandler()
                 }

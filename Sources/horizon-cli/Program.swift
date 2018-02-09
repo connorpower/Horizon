@@ -92,6 +92,11 @@ struct Program {
                             arguments: commandArgs,
                             completion: { exit(EXIT_SUCCESS) },
                             error: { exit(EXIT_FAILURE) }).run()
+        case "shares":
+            SharesHandler(model: model,
+                            arguments: commandArgs,
+                            completion: { exit(EXIT_SUCCESS) },
+                            error: { exit(EXIT_FAILURE) }).run()
         case "-h", "--help", "help":
             print(help)
             exit(EXIT_SUCCESS)

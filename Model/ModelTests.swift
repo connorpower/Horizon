@@ -74,7 +74,7 @@ class ModelTests: XCTestCase {
     }
 
     /**
-     Expect that an adding a contact under normal circumstances succeeds.
+     Expect that adding a contact under normal circumstances succeeds.
      */
     func testAddContact_NoPreviousContact() {
         let contact1 = Contact(identifier: UUID(), displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
@@ -104,7 +104,7 @@ class ModelTests: XCTestCase {
 
     /**
      Expect that an attempt to add a contact with the same name as an
-     contact fails. The presense of a key in IPFS need not be taken
+     exiting contact fails. The presense of a key in IPFS need not be taken
      into consideration.
      */
     func testAddContact_PreExistingContact_MissingKey() {
@@ -173,6 +173,92 @@ class ModelTests: XCTestCase {
         }
 
         wait(for: [contactAddedExpectation], timeout: 1.0)
+    }
+
+    /**
+     Expect that removing a contact under normal circumstances succeeds.
+     */
+    func testRemoveContact() {
+        let contact1 = Contact(identifier: UUID(), displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
+        mockStore.contacts = [contact1]
+        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+
+        let contactUnpersistedExpectation = expectation(description: "contactUnpersistedExpectation")
+        let contactRemovedExpectation = expectation(description: "contactRemovedExpectation")
+
+        mockAPI.listKeysResponse = {
+            ListKeysResponse(keys: [Key(name: "\(Model.Constants.keypairPrefix).Contact1", id: "XXXX")])
+        }
+        mockAPI.removeKeyResponse = { RemoveKeyResponse(keys: [Key]()) }
+        mockStore.removeContactHook = { contact in
+            XCTAssertEqual(contact.displayName, "Contact1")
+            contactUnpersistedExpectation.fulfill()
+        }
+
+        firstly {
+            model.removeContact(name: "Contact1")
+        }.then {
+            contactRemovedExpectation.fulfill()
+        }
+
+        wait(for: [contactUnpersistedExpectation, contactRemovedExpectation], timeout: 1.0)
+    }
+
+    /**
+     Expect that an attempt to remove an existing contact succeeds if the
+     underlying key in IPFS is missing.
+     */
+    func testRemoveContact_PreExistingContact_MissingKey() {
+        let contact1 = Contact(identifier: UUID(), displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
+        mockStore.contacts = [contact1]
+        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+
+        let contactUnpersistedExpectation = expectation(description: "contactUnpersistedExpectation")
+        let contactRemovedExpectation = expectation(description: "contactRemovedExpectation")
+
+        mockAPI.listKeysResponse = { ListKeysResponse(keys: [Key]()) }
+        mockAPI.removeKeyResponse = { RemoveKeyResponse(keys: [Key]()) }
+        mockStore.removeContactHook = { contact in
+            XCTAssertEqual(contact.displayName, "Contact1")
+            contactUnpersistedExpectation.fulfill()
+        }
+
+        firstly {
+            model.removeContact(name: "Contact1")
+        }.then {
+            contactRemovedExpectation.fulfill()
+        }
+
+        wait(for: [contactUnpersistedExpectation, contactRemovedExpectation], timeout: 1.0)
+    }
+
+    /**
+     Expect that an attempt to remove a contact succeeds if there was an orphaned
+     key in IPFS, regardless of whether there was a contact in Horizon.
+     */
+    func testRemoveContact_MissingContact_PreExistingKey() {
+        mockStore.contacts = []
+        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+
+        let keyRemovedExpectation = expectation(description: "keyRemovedExpectation")
+        let contactRemovedExpectation = expectation(description: "contactRemovedExpectation")
+
+        mockAPI.listKeysResponse = {
+            ListKeysResponse(keys: [Key(name: "\(Model.Constants.keypairPrefix).Contact1", id: "XXXX")])
+        }
+        mockAPI.removeKeyResponse = {
+            keyRemovedExpectation.fulfill()
+            return RemoveKeyResponse(keys: [Key]())
+        }
+        mockStore.removeContactHook = { _ in }
+
+        firstly {
+            model.removeContact(name: "Contact1")
+        }.then {
+            contactRemovedExpectation.fulfill()
+        }
+
+        wait(for: [keyRemovedExpectation, contactRemovedExpectation], timeout: 1.0)
     }
 
 }

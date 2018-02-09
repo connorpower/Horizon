@@ -7,6 +7,8 @@
 //
 
 import XCTest
+import IPFSWebService
+import PromiseKit
 @testable import HorizonCore
 
 class ModelTests: XCTestCase {
@@ -69,6 +71,108 @@ class ModelTests: XCTestCase {
         XCTAssertEqual(foundContact?.receiveAddress, "28EA684E-FF5C-4793-8B8D-66C68527E62F")
         XCTAssertEqual(model.contacts.count, 2)
         XCTAssertTrue(model.contacts.contains(contact1))
+    }
+
+    /**
+     Expect that an adding a contact under normal circumstances succeeds.
+     */
+    func testAddContact_NoPreviousContact() {
+        let contact1 = Contact(identifier: UUID(), displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
+        mockStore.contacts = [contact1]
+        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+
+        let contactPersistedExpectation = expectation(description: "contactPersistedExpectation")
+        let contactAddedExpectation = expectation(description: "contactAddedExpectation")
+
+        mockAPI.listKeysResponse = { ListKeysResponse(keys: [Key]()) }
+        mockAPI.keygenResponse = { KeygenResponse(name: "My Key", id: "My Key ID") }
+        mockStore.createOrUpdateContactHook = { contact in
+            XCTAssertEqual(contact.displayName, "Added Contact Display Name")
+            contactPersistedExpectation.fulfill()
+        }
+
+        firstly {
+            model.addContact(name: "Added Contact Display Name")
+        }.then { contact in
+            XCTAssertEqual(contact.displayName, "Added Contact Display Name")
+            XCTAssertNotNil(model.contact(named: "Added Contact Display Name"))
+            contactAddedExpectation.fulfill()
+        }
+
+        wait(for: [contactPersistedExpectation, contactAddedExpectation], timeout: 1.0)
+    }
+
+    /**
+     Expect that an attempt to add a contact with the same name as an
+     contact fails. The presense of a key in IPFS need not be taken
+     into consideration.
+     */
+    func testAddContact_PreExistingContact_MissingKey() {
+        let contact1 = Contact(identifier: UUID(), displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
+        mockStore.contacts = [contact1]
+        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+
+        let contactAddedExpectation = expectation(description: "contactAddedExpectation")
+
+        mockAPI.listKeysResponse = { ListKeysResponse(keys: [Key]()) }
+        mockAPI.keygenResponse = { KeygenResponse(name: "XXX", id: "XXX") }
+
+        firstly {
+            model.addContact(name: "Contact1")
+        }.then { _ in
+            XCTFail("Should have thrown a duplicate contact error")
+            contactAddedExpectation.fulfill()
+        }.catch { error in
+            if case HorizonError.contactOperationFailed(let reason) = error {
+                if case .contactAlreadyExists = reason {
+                    XCTAssertTrue(true)
+                } else {
+                    XCTFail()
+                }
+            } else {
+                XCTFail()
+            }
+            contactAddedExpectation.fulfill()
+        }
+
+        wait(for: [contactAddedExpectation], timeout: 1.0)
+    }
+
+    /**
+     Expect that an attempt to add a contact fails if an orphaned key exists in IPFS.
+     */
+    func testAddContact_MissingContact_PreExistingKey() {
+        mockStore.contacts = []
+        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+
+        let contactAddedExpectation = expectation(description: "contactAddedExpectation")
+
+        mockAPI.listKeysResponse = {
+            ListKeysResponse(keys: [Key(name: "\(Model.Constants.keypairPrefix).Contact1", id: "XXXX")])
+        }
+        mockAPI.keygenResponse = {
+            KeygenResponse(name: "XXX", id: "XXX")
+        }
+
+        firstly {
+            model.addContact(name: "Contact1")
+        }.then { _ in
+            XCTFail("Should have thrown a duplicate contact error")
+            contactAddedExpectation.fulfill()
+        }.catch { error in
+            if case HorizonError.contactOperationFailed(let reason) = error {
+                if case .contactAlreadyExists = reason {
+                    XCTAssertTrue(true)
+                } else {
+                    XCTFail()
+                }
+            } else {
+                XCTFail()
+            }
+            contactAddedExpectation.fulfill()
+        }
+
+        wait(for: [contactAddedExpectation], timeout: 1.0)
     }
 
 }

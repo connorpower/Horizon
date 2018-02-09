@@ -33,17 +33,23 @@ struct Program {
 
     SUBCOMMANDS
       BASIC COMMANDS
-        help                          Prints this help menu
-        sync                          Syncs the receive lists from all contacts
-        stat                          Prints statistics
+        help                                   Prints this help menu
+        sync                                   Syncs the receive lists from all contacts
+        stat                                   Prints statistics
 
       CONTACT COMMANDS
-        add <name>                    Create a new contact
-        ls                            List all contacts
-        info <name>                   Prints contact and associated details
-        rm <name>                     Removes contact
-        rename <name> <new-name>      Renames contact
-        set-rcv-addr <name> <hash>    Sets the receive address for a contact
+        contacts add <name>                    Create a new contact
+        contacts ls                            List all contacts
+        contacts info <name>                   Prints contact and associated details
+        contacts rm <name>                     Removes contact
+        contacts rename <name> <new-name>      Renames contact
+        contacts set-rcv-addr <name> <hash>    Sets the receive address for a contact
+
+      SHARE COMMANDS
+        shares help                            Displays detailed help information
+        shares add <contact-name> <file>       Adds a new file to be shared with a contact
+        shares ls [<contact-name>]             Lists all shared files (optionally for a given contact)
+        shares rm <contact-name> <file>        Removes a file which was shared with a contact
 
       Use 'horizon-cli <command> --help' to learn more about each command.
 

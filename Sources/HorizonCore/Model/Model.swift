@@ -85,6 +85,10 @@ public class Model {
     public func addContact(name: String) -> Promise<Contact> {
         let keypairName = "\(Constants.keypairPrefix).\(name)"
 
+        guard contact(named: name) == nil else {
+            return Promise(error: HorizonError.contactOperationFailed(reason: .contactAlreadyExists))
+        }
+
         return firstly {
             return self.api.listKeys()
         }.then { listKeysResponse  -> Promise<KeygenResponse> in

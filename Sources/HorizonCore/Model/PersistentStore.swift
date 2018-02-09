@@ -12,7 +12,7 @@ import Foundation
  The persistent store acts a simple abstraction between the
  model and persistence technology du jour.
  */
-public struct PersistentStore {
+struct PersistentStore {
 
     // MARK: - Constants
 
@@ -30,7 +30,7 @@ public struct PersistentStore {
      Returns the array of all contacts which whom data is
      shared.
      */
-    public var contacts: [Contact] {
+    var contacts: [Contact] {
         if let jsonString = UserDefaults.standard.string(forKey: UserDefaultsKeys.contactList),
             let jsonData = jsonString.data(using: .utf8) {
             let contacts = try? JSONDecoder().decode([Contact].self, from: jsonData)
@@ -48,7 +48,7 @@ public struct PersistentStore {
      - parameter contact: The contact to write to the persistent
        store.
      */
-    public func createOrUpdateContact(_ contact: Contact) {
+    func createOrUpdateContact(_ contact: Contact) {
         let newContacts = contacts.filter({ $0.identifier != contact.identifier }) + [contact]
 
         guard let jsonData = try? JSONEncoder().encode(newContacts) else {
@@ -65,7 +65,7 @@ public struct PersistentStore {
      - parameter contact: The contact to remove from the persistent
      store.
      */
-    public func removeContact(_ contact: Contact) {
+    func removeContact(_ contact: Contact) {
         let newContacts = contacts.filter({ $0.identifier != contact.identifier })
 
         guard let jsonData = try? JSONEncoder().encode(newContacts) else {

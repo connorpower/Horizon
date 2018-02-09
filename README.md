@@ -92,6 +92,26 @@ Automated tests exist only in the form of unit tests run by the continuous
 integration server. Due to the distributed nature of the app few other tests
 make sense.
 
+## Database
+
+Horizon uses the inbuilt macOS UserDefaults as a simple form of persistence
+for contacts and file lists. During development, the contents of UserDefaults
+can be easily inspected on the terminal:
+
+    # Show all entries for the command line tool
+    > defaults read horizon-cli
+
+    # Show the current contact list
+    > defaults read horizon-cli com.semantical.Horizon.contactList
+
+Care is taken to ensure that the entries are JSON formatted strings, so the
+following command will be more useful in most circumstances.
+
+    > output=$(defaults read horizon-cli com.semantical.Horizon.contactList) && echo -n $output | jsonlint
+
+Why not just a straightforward pipe? If the key is not present in the UserDefaults
+we end up trying to feed gabarge into `jsonLint`.
+
 ## Deployment
 
 Horizon is deployed amongst testers using [App Center](https://appcenter.ms).

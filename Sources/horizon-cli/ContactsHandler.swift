@@ -14,7 +14,7 @@ struct ContactsHandler: Handler {
 
     // MARK: - Constants
 
-    let help = """
+    let longHelp = """
     USAGE
       horizon-cli contacts - Create and manage Horizon contacts
 
@@ -73,6 +73,27 @@ struct ContactsHandler: Handler {
         > horizon-cli contacts set-rcv-addr mmusterman QmSomeHash
 
       SUBCOMMANDS
+        horizon-cli contacts help                          - Displays detailed help information
+        horizon-cli contacts add <name>                    - Create a new contact
+        horizon-cli contacts ls                            - List all contacts
+        horizon-cli contacts info <name>                   - Prints contact and associated details
+        horizon-cli contacts rm <name>                     - Removes contact
+        horizon-cli contacts rename <name> <new-name>      - Renames contact
+        horizon-cli contacts set-rcv-addr <name> <hash>    - Sets the receive address for a contact
+
+        Use 'horizon-cli contacts <subcmd> --help' for more information about each command.
+
+    """
+
+    private let shortHelp = """
+    USAGE
+      horizon-cli contacts - Create and manage Horizon contacts
+
+    SYNOPSIS
+      horizon-cli contacts
+
+    SUBCOMMANDS
+        horizon-cli contacts help                          - Displays detailed help information
         horizon-cli contacts add <name>                    - Create a new contact
         horizon-cli contacts ls                            - List all contacts
         horizon-cli contacts info <name>                   - Prints contact and associated details
@@ -175,8 +196,13 @@ struct ContactsHandler: Handler {
     }
 
     func run() {
-        guard !arguments.isEmpty, let command = commands.filter({$0.name == arguments.first}).first else {
-            print(help)
+        if !arguments.isEmpty, ["help", "-h", "--help"].contains(arguments[0]) {
+            print(longHelp)
+            completionHandler()
+        }
+
+        guard !arguments.isEmpty, let command = commands.filter({$0.name == arguments[0]}).first else {
+            print(shortHelp)
             errorHandler()
         }
 

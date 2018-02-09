@@ -217,7 +217,6 @@ class ModelTests: XCTestCase {
         let contactRemovedExpectation = expectation(description: "contactRemovedExpectation")
 
         mockAPI.listKeysResponse = { ListKeysResponse(keys: [Key]()) }
-        mockAPI.removeKeyResponse = { RemoveKeyResponse(keys: [Key]()) }
         mockStore.removeContactHook = { contact in
             XCTAssertEqual(contact.displayName, "Contact1")
             contactUnpersistedExpectation.fulfill()
@@ -250,7 +249,6 @@ class ModelTests: XCTestCase {
             keyRemovedExpectation.fulfill()
             return RemoveKeyResponse(keys: [Key]())
         }
-        mockStore.removeContactHook = { _ in }
 
         firstly {
             model.removeContact(name: "Contact1")

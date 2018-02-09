@@ -121,23 +121,31 @@ public class Model {
 
         return firstly {
             return self.api.listKeys()
-        }.then { listKeysResponse  -> Promise<RemoveKeyResponse> in
+        }.then { listKeysResponse -> Promise<Void> in
+
+            // Branch 1: the underlying IPFS key is missing, but we may have a model contact object.
             guard listKeysResponse.keys.map({ $0.name }).contains(keypairName) else {
-                throw HorizonError.contactOperationFailed(reason: .contactDoesNotExist)
+                if let contact = contact {
+                    self.persistentStore.removeContact(contact)
+                    self.eventCallback?(.propertiesDidChange(contact))
+
+                    return Promise(value: ())
+                } else {
+                    throw HorizonError.contactOperationFailed(reason: .contactDoesNotExist)
+                }
             }
 
+            // Branch 2: the underlying IPFS key present, and we may have a model contact object.
             self.eventCallback?(.removeKeyDidStart(name))
-            return self.api.removeKey(keypairName: keypairName)
-        }.then { _ in
-            // If we reach this block, then we have at least removed an IPFS key: therefor
-            // do not throw an error even if there is no matching Contact in Horizon.
-            //
-            if let contact = contact {
-                self.persistentStore.removeContact(contact)
-                self.eventCallback?(.propertiesDidChange(contact))
+            return firstly {
+                return self.api.removeKey(keypairName: keypairName)
+            }.then { _ in
+                if let contact = contact {
+                    self.persistentStore.removeContact(contact)
+                    self.eventCallback?(.propertiesDidChange(contact))
+                }
+                return Promise(value: ())
             }
-
-            return Promise(value: ())
         }.catch { error in
             let horizonError: HorizonError = error is HorizonError
                 ? error as! HorizonError : HorizonError.contactOperationFailed(reason: .unknown(error))

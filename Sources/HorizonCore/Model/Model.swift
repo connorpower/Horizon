@@ -124,12 +124,14 @@ public class Model {
             self.eventCallback?(.removeKeyDidStart(name))
             return self.api.removeKey(keypairName: keypairName)
         }.then { _ in
-            guard let contact = contact else {
-                throw HorizonError.contactOperationFailed(reason: .contactDoesNotExist)
+            // If we reach this block, then we have at least removed an IPFS key: therefor
+            // do not throw an error even if there is no matching Contact in Horizon.
+            //
+            if let contact = contact {
+                self.persistentStore.removeContact(contact)
+                self.eventCallback?(.propertiesDidChange(contact))
             }
 
-            self.persistentStore.removeContact(contact)
-            self.eventCallback?(.propertiesDidChange(contact))
             return Promise(value: ())
         }.catch { error in
             let horizonError: HorizonError = error is HorizonError

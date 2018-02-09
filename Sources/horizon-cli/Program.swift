@@ -92,12 +92,9 @@ struct Program {
                             arguments: commandArgs,
                             completion: { exit(EXIT_SUCCESS) },
                             error: { exit(EXIT_FAILURE) }).run()
-        case "-h":
-            fallthrough
-        case "--help":
-            fallthrough
-        case "help":
-            fallthrough
+        case "-h", "--help", "help":
+            print(help)
+            exit(EXIT_SUCCESS)
         default:
             print(help)
             exit(EXIT_FAILURE)

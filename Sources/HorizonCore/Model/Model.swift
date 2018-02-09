@@ -165,7 +165,7 @@ public class Model {
 
 }
 
-// MARK: - Contacts
+// MARK: - Contact Functionality
 
 /**
  An extension which groups all contact related model functionality into

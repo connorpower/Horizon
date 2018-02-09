@@ -1,5 +1,5 @@
 //
-//  ModelTests.swift
+//  ModelTests_Contacts.swift
 //  HorizonCoreTests
 //
 //  Created by Connor Power on 09.02.18.
@@ -11,7 +11,7 @@ import IPFSWebService
 import PromiseKit
 @testable import HorizonCore
 
-class ModelTests: XCTestCase {
+class ModelTests_Contacts: XCTestCase {
 
     var mockAPI: MockIPFSAPI!
     var mockStore: MockPersistentStore!
@@ -26,11 +26,6 @@ class ModelTests: XCTestCase {
         mockAPI = nil
         mockStore = nil
         super.tearDown()
-    }
-    
-    func testInitialization() {
-        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
-        XCTAssertNotNil(model)
     }
 
     func testContacts() {

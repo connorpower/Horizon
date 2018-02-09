@@ -83,4 +83,27 @@ public struct Contact: Codable {
         self.receiveAddress = receiveAddress
     }
 
+    // MARK: - Internal Framework Functions
+
+    func updatingReceiveAddress(_ newReceiveAddress: String?) -> Contact {
+        return Contact(identifier: identifier,
+                       displayName: displayName,
+                       sendAddress: sendAddress,
+                       receiveAddress: newReceiveAddress)
+    }
+
+    func updatingDisplayName(_ newDisplayName: String) -> Contact {
+        return Contact(identifier: identifier,
+                       displayName: newDisplayName,
+                       sendAddress: sendAddress,
+                       receiveAddress: receiveAddress)
+    }
+
+    func updatingSendAddress(_ newSendAddress: SendAddress?) -> Contact {
+        return Contact(identifier: identifier,
+                       displayName: displayName,
+                       sendAddress: newSendAddress,
+                       receiveAddress: receiveAddress)
+    }
+
 }

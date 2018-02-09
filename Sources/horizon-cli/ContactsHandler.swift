@@ -14,7 +14,7 @@ struct ContactsHandler: Handler {
 
     // MARK: - Constants
 
-    let help = """
+    let longHelp = """
     USAGE
       horizon-cli contacts - Create and manage Horizon contacts
 
@@ -73,6 +73,27 @@ struct ContactsHandler: Handler {
         > horizon-cli contacts set-rcv-addr mmusterman QmSomeHash
 
       SUBCOMMANDS
+        horizon-cli contacts help                          - Displays detailed help information
+        horizon-cli contacts add <name>                    - Create a new contact
+        horizon-cli contacts ls                            - List all contacts
+        horizon-cli contacts info <name>                   - Prints contact and associated details
+        horizon-cli contacts rm <name>                     - Removes contact
+        horizon-cli contacts rename <name> <new-name>      - Renames contact
+        horizon-cli contacts set-rcv-addr <name> <hash>    - Sets the receive address for a contact
+
+        Use 'horizon-cli contacts <subcmd> --help' for more information about each command.
+
+    """
+
+    private let shortHelp = """
+    USAGE
+      horizon-cli contacts - Create and manage Horizon contacts
+
+    SYNOPSIS
+      horizon-cli contacts
+
+    SUBCOMMANDS
+        horizon-cli contacts help                          - Displays detailed help information
         horizon-cli contacts add <name>                    - Create a new contact
         horizon-cli contacts ls                            - List all contacts
         horizon-cli contacts info <name>                   - Prints contact and associated details
@@ -175,8 +196,13 @@ struct ContactsHandler: Handler {
     }
 
     func run() {
-        guard !arguments.isEmpty, let command = commands.filter({$0.name == arguments.first}).first else {
-            print(help)
+        if !arguments.isEmpty, ["help", "-h", "--help"].contains(arguments[0]) {
+            print(longHelp)
+            completionHandler()
+        }
+
+        guard !arguments.isEmpty, let command = commands.filter({$0.name == arguments[0]}).first else {
+            print(shortHelp)
             errorHandler()
         }
 
@@ -197,6 +223,10 @@ struct ContactsHandler: Handler {
             let name = commandArguments[0]
             let newName = commandArguments[1]
             renameContact(name, to: newName)
+        case "set-rcv-addr":
+            let name = commandArguments[0]
+            let recieveAddress = commandArguments[1]
+            setReceiveAddress(of: name, to: recieveAddress)
         default:
             print(command.help)
             errorHandler()
@@ -211,7 +241,7 @@ struct ContactsHandler: Handler {
         }.then { contact in
             self.completionHandler()
         }.catch { error in
-            if case HorizonError.addContactFailed(let reason) = error {
+            if case HorizonError.contactOperationFailed(let reason) = error {
                 if case .contactAlreadyExists = reason {
                     print("Contact already exists.")
                     self.errorHandler()
@@ -224,7 +254,14 @@ struct ContactsHandler: Handler {
     }
 
     private func listContacts() {
-        for contact in model.contacts {
+        let contacts = model.contacts
+
+        guard !contacts.isEmpty else {
+            print("No contacts")
+            completionHandler()
+        }
+
+        for contact in contacts {
             print("""
                   \(contact.displayName)
                   Send address:    \(contact.sendAddress?.address ?? "nil")
@@ -243,7 +280,7 @@ struct ContactsHandler: Handler {
         }.then {
             self.completionHandler()
         }.catch { error in
-            if case HorizonError.removeContactFailed(let reason) = error {
+            if case HorizonError.contactOperationFailed(let reason) = error {
                 if case .contactDoesNotExist = reason {
                     print("Contact does not exist.")
                     self.errorHandler()
@@ -261,11 +298,11 @@ struct ContactsHandler: Handler {
         }.then { _ in
             self.completionHandler()
         }.catch { error in
-            if case HorizonError.renameContactFailed(let reason) = error {
+            if case HorizonError.contactOperationFailed(let reason) = error {
                 if case .contactDoesNotExist = reason {
                     print("Contact does not exist.")
                     self.errorHandler()
-                } else if case .newNameAlreadyExists = reason {
+                } else if case .contactAlreadyExists = reason {
                     print("Another contact already exists with the name \(newName).")
                     self.errorHandler()
                 }
@@ -274,6 +311,16 @@ struct ContactsHandler: Handler {
            print("Failed to rename contact. Is IPFS running?")
            self.errorHandler()
         }
+    }
+
+    private func setReceiveAddress(of name: String, to recieveAddress: String) {
+        guard let contact = model.contact(named: name) else {
+            print("Contact does not exist.")
+            self.errorHandler()
+        }
+
+        model.updateReceiveAddress(for: contact, to: recieveAddress)
+        self.completionHandler()
     }
 
 }

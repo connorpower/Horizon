@@ -10,31 +10,18 @@ import Foundation
 public enum HorizonError: Error {
 
     /**
-     The underlying reason the add contact command failed.
+     The underlying reason a contact-related command failed.
+
      - unknown: An unknown reason caused the command to fail.
+     - contactAlreadyExists: A contact of the same name already
+     exists and would have been overwritten by the operation.
+     - contactDoesNotExist: No contact of the specified name
+     could be found.
      */
-    public enum AddContactFailureReason {
+    public enum ContactOperationFailureReason {
         case unknown(Error)
         case contactAlreadyExists
-    }
-
-    /**
-     The underlying reason the remove contact command failed.
-     - unknown: An unknown reason caused the command to fail.
-     */
-    public enum RemoveContactFailureReason {
-        case unknown(Error)
         case contactDoesNotExist
-    }
-
-    /**
-     The underlying reason the rename contact command failed.
-     - unknown: An unknown reason caused the command to fail.
-     */
-    public enum RenameContactFailureReason {
-        case unknown(Error)
-        case contactDoesNotExist
-        case newNameAlreadyExists
     }
 
     /**
@@ -73,9 +60,7 @@ public enum HorizonError: Error {
         case failedToEncodeFileList
     }
 
-    case addContactFailed(reason: AddContactFailureReason)
-    case removeContactFailed(reason: RemoveContactFailureReason)
-    case renameContactFailed(reason: RenameContactFailureReason)
+    case contactOperationFailed(reason: ContactOperationFailureReason)
     case syncFailed(reason: SyncFailureReason)
     case addFileFailed(reason: AddFileFailureReason)
     case retrieveFileListFailed(reason: RetrieveFileListFailureReason)

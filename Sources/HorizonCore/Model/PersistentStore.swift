@@ -31,7 +31,8 @@ public struct PersistentStore {
      shared.
      */
     public var contacts: [Contact] {
-        if let jsonData = UserDefaults.standard.data(forKey: UserDefaultsKeys.contactList) {
+        if let jsonString = UserDefaults.standard.string(forKey: UserDefaultsKeys.contactList),
+            let jsonData = jsonString.data(using: .utf8) {
             let contacts = try? JSONDecoder().decode([Contact].self, from: jsonData)
             return contacts ?? [Contact]()
         } else {
@@ -53,7 +54,9 @@ public struct PersistentStore {
         guard let jsonData = try? JSONEncoder().encode(newContacts) else {
             fatalError("JSON Encoding failure. Failed to save new contacts list.")
         }
-        UserDefaults.standard.set(jsonData, forKey: UserDefaultsKeys.contactList)
+
+        let jsonString = String(bytes: jsonData, encoding: .utf8)
+        UserDefaults.standard.set(jsonString, forKey: UserDefaultsKeys.contactList)
     }
 
     /**
@@ -68,7 +71,9 @@ public struct PersistentStore {
         guard let jsonData = try? JSONEncoder().encode(newContacts) else {
             fatalError("JSON Encoding failure. Failed to save new contacts list.")
         }
-        UserDefaults.standard.set(jsonData, forKey: UserDefaultsKeys.contactList)
+
+        let jsonString = String(bytes: jsonData, encoding: .utf8)
+        UserDefaults.standard.set(jsonString, forKey: UserDefaultsKeys.contactList)
     }
 
 }

@@ -2,43 +2,21 @@
 //  PersistentStore.swift
 //  HorizonCore
 //
-//  Created by Connor Power on 03.11.17.
-//  Copyright © 2017 Semantical GmbH & Co. KG. All rights reserved.
+//  Created by Connor Power on 09.02.18.
 //
 
 import Foundation
 
 /**
- The persistent store acts a simple abstraction between the
- model and persistence technology du jour.
+ The `PersistentStore` groups the various kinds of persistent stores
+ (including mocks for unit testing) under a single protocol.
  */
-struct PersistentStore {
-
-    // MARK: - Constants
-
-    private struct UserDefaultsKeys {
-
-        /**
-         The NSUserDefaults key for the list of contacts.
-         */
-        static let contactList = "com.semantical.Horizon.contactList"
-    }
-
-    // MARK: - Functions
+public protocol PersistentStore {
 
     /**
-     Returns the array of all contacts which whom data is
-     shared.
+     Returns the array of all contacts which whom data is shared.
      */
-    var contacts: [Contact] {
-        if let jsonString = UserDefaults.standard.string(forKey: UserDefaultsKeys.contactList),
-            let jsonData = jsonString.data(using: .utf8) {
-            let contacts = try? JSONDecoder().decode([Contact].self, from: jsonData)
-            return contacts ?? [Contact]()
-        } else {
-            return [Contact]()
-        }
-    }
+    var contacts: [Contact] { get }
 
     /**
      A simple function which either creates a new contact
@@ -46,18 +24,9 @@ struct PersistentStore {
      same identifier.
 
      - parameter contact: The contact to write to the persistent
-       store.
+     store.
      */
-    func createOrUpdateContact(_ contact: Contact) {
-        let newContacts = contacts.filter({ $0.identifier != contact.identifier }) + [contact]
-
-        guard let jsonData = try? JSONEncoder().encode(newContacts) else {
-            fatalError("JSON Encoding failure. Failed to save new contacts list.")
-        }
-
-        let jsonString = String(bytes: jsonData, encoding: .utf8)
-        UserDefaults.standard.set(jsonString, forKey: UserDefaultsKeys.contactList)
-    }
+    func createOrUpdateContact(_ contact: Contact)
 
     /**
      Removes a contact from the store.
@@ -65,15 +34,6 @@ struct PersistentStore {
      - parameter contact: The contact to remove from the persistent
      store.
      */
-    func removeContact(_ contact: Contact) {
-        let newContacts = contacts.filter({ $0.identifier != contact.identifier })
-
-        guard let jsonData = try? JSONEncoder().encode(newContacts) else {
-            fatalError("JSON Encoding failure. Failed to save new contacts list.")
-        }
-
-        let jsonString = String(bytes: jsonData, encoding: .utf8)
-        UserDefaults.standard.set(jsonString, forKey: UserDefaultsKeys.contactList)
-    }
+    func removeContact(_ contact: Contact)
 
 }

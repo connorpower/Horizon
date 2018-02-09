@@ -26,7 +26,7 @@ public class Model {
 
     // MARK: - Private Properties
 
-    private let persistentStore = PersistentStore()
+    private let persistentStore: PersistentStore
     private let api: IPFSAPI
 
     private let eventCallback: ((Event) -> Void)?
@@ -36,8 +36,9 @@ public class Model {
 
     // MARK: - Initialization
 
-    public init(api: IPFSAPI, eventCallback: ((Event) -> Void)?) {
+    public init(api: IPFSAPI, persistentStore: PersistentStore, eventCallback: ((Event) -> Void)?) {
         self.api = api
+        self.persistentStore = persistentStore
         self.eventCallback = eventCallback
     }
 

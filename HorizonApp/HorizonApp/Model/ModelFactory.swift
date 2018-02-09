@@ -13,8 +13,9 @@ struct ModelFactory {
 
     func model() -> Model {
         let api = IPFSWebserviceAPI(logProvider: Loggers())
+        let store = UserDefaultsStore()
 
-        let model = Model(api: api, eventCallback: { self.handleEvent($0) })
+        let model = Model(api: api, persistentStore: store, eventCallback: { self.handleEvent($0) })
 
         return model
     }

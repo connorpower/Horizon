@@ -25,6 +25,7 @@
 		D2A4A465202DD38600DFA79D /* ContactTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4A464202DD38600DFA79D /* ContactTests.swift */; };
 		D2A4A467202DD70D00DFA79D /* FileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4A466202DD70D00DFA79D /* FileTests.swift */; };
 		D2A4A469202DD8F300DFA79D /* MockIPFSAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4A468202DD8F300DFA79D /* MockIPFSAPI.swift */; };
+		D2A4A46B202DDC9500DFA79D /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4A46A202DDC9500DFA79D /* ModelTests.swift */; };
 		D2A4A46F202DE11E00DFA79D /* PersistentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4A46E202DE11E00DFA79D /* PersistentStore.swift */; };
 		D2A4A470202DE12600DFA79D /* UserDefaultsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4A46C202DE0EA00DFA79D /* UserDefaultsStore.swift */; };
 		OBJ_109 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
@@ -218,6 +219,7 @@
 		D2A4A464202DD38600DFA79D /* ContactTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTests.swift; sourceTree = "<group>"; };
 		D2A4A466202DD70D00DFA79D /* FileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTests.swift; sourceTree = "<group>"; };
 		D2A4A468202DD8F300DFA79D /* MockIPFSAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockIPFSAPI.swift; sourceTree = "<group>"; };
+		D2A4A46A202DDC9500DFA79D /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
 		D2A4A46C202DE0EA00DFA79D /* UserDefaultsStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsStore.swift; sourceTree = "<group>"; };
 		D2A4A46E202DE11E00DFA79D /* PersistentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStore.swift; sourceTree = "<group>"; };
 		"IPFSWebService::IPFSWebService::Product" /* IPFSWebService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IPFSWebService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -372,6 +374,7 @@
 				OBJ_32 /* FileListTests.swift */,
 				D2A4A464202DD38600DFA79D /* ContactTests.swift */,
 				D2A4A466202DD70D00DFA79D /* FileTests.swift */,
+				D2A4A46A202DDC9500DFA79D /* ModelTests.swift */,
 			);
 			path = Model;
 			sourceTree = SOURCE_ROOT;

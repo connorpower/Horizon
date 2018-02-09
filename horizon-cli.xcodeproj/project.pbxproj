@@ -23,6 +23,7 @@
 /* Begin PBXBuildFile section */
 		D2A4A465202DD38600DFA79D /* ContactTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4A464202DD38600DFA79D /* ContactTests.swift */; };
 		D2A4A467202DD70D00DFA79D /* FileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4A466202DD70D00DFA79D /* FileTests.swift */; };
+		D2A4A469202DD8F300DFA79D /* MockIPFSAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4A468202DD8F300DFA79D /* MockIPFSAPI.swift */; };
 		OBJ_109 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_115 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_63 /* Package.swift */; };
 		OBJ_121 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_65 /* Package.swift */; };
@@ -213,6 +214,7 @@
 		"Alamofire::Alamofire::Product" /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2A4A464202DD38600DFA79D /* ContactTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTests.swift; sourceTree = "<group>"; };
 		D2A4A466202DD70D00DFA79D /* FileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTests.swift; sourceTree = "<group>"; };
+		D2A4A468202DD8F300DFA79D /* MockIPFSAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockIPFSAPI.swift; sourceTree = "<group>"; };
 		"IPFSWebService::IPFSWebService::Product" /* IPFSWebService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IPFSWebService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_12 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		OBJ_13 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -356,6 +358,7 @@
 				OBJ_32 /* FileListTests.swift */,
 				D2A4A464202DD38600DFA79D /* ContactTests.swift */,
 				D2A4A466202DD70D00DFA79D /* FileTests.swift */,
+				D2A4A468202DD8F300DFA79D /* MockIPFSAPI.swift */,
 			);
 			path = Model;
 			sourceTree = SOURCE_ROOT;
@@ -855,6 +858,7 @@
 			buildActionMask = 0;
 			files = (
 				D2A4A467202DD70D00DFA79D /* FileTests.swift in Sources */,
+				D2A4A469202DD8F300DFA79D /* MockIPFSAPI.swift in Sources */,
 				D2A4A465202DD38600DFA79D /* ContactTests.swift in Sources */,
 				D2A4A46B202DDC9500DFA79D /* ModelTests.swift in Sources */,
 				OBJ_157 /* FileListTests.swift in Sources */,

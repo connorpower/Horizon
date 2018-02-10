@@ -80,7 +80,9 @@ class ModelTests_Contacts: XCTestCase {
         let contactAddedExpectation = expectation(description: "contactAddedExpectation")
 
         mockAPI.listKeysResponse = { ListKeysResponse(keys: [Key]()) }
-        mockAPI.keygenResponse = { KeygenResponse(name: "My Key", id: "My Key ID") }
+        mockAPI.keygenResponse = { keypairName, _, _ in
+            KeygenResponse(name: keypairName, id: UUID().uuidString)
+        }
         mockStore.createOrUpdateContactHook = { contact in
             XCTAssertEqual(contact.displayName, "Added Contact Display Name")
             contactPersistedExpectation.fulfill()
@@ -110,7 +112,9 @@ class ModelTests_Contacts: XCTestCase {
         let contactAddedExpectation = expectation(description: "contactAddedExpectation")
 
         mockAPI.listKeysResponse = { ListKeysResponse(keys: [Key]()) }
-        mockAPI.keygenResponse = { KeygenResponse(name: "XXX", id: "XXX") }
+        mockAPI.keygenResponse = { keypairName, _, _ in
+            KeygenResponse(name: keypairName, id: UUID().uuidString)
+        }
 
         firstly {
             model.addContact(name: "Contact1")
@@ -145,8 +149,8 @@ class ModelTests_Contacts: XCTestCase {
         mockAPI.listKeysResponse = {
             ListKeysResponse(keys: [Key(name: "\(Model.Constants.keypairPrefix).Contact1", id: "XXXX")])
         }
-        mockAPI.keygenResponse = {
-            KeygenResponse(name: "XXX", id: "XXX")
+        mockAPI.keygenResponse = { keypairName, _, _ in
+            KeygenResponse(name: keypairName, id: UUID().uuidString)
         }
 
         firstly {
@@ -184,7 +188,9 @@ class ModelTests_Contacts: XCTestCase {
         mockAPI.listKeysResponse = {
             ListKeysResponse(keys: [Key(name: "\(Model.Constants.keypairPrefix).Contact1", id: "XXXX")])
         }
-        mockAPI.removeKeyResponse = { RemoveKeyResponse(keys: [Key]()) }
+        mockAPI.removeKeyResponse = { _ in
+            RemoveKeyResponse(keys: [Key]())
+        }
         mockStore.removeContactHook = { contact in
             XCTAssertEqual(contact.displayName, "Contact1")
             contactUnpersistedExpectation.fulfill()
@@ -240,7 +246,7 @@ class ModelTests_Contacts: XCTestCase {
         mockAPI.listKeysResponse = {
             ListKeysResponse(keys: [Key(name: "\(Model.Constants.keypairPrefix).Contact1", id: "XXXX")])
         }
-        mockAPI.removeKeyResponse = {
+        mockAPI.removeKeyResponse = { _ in
             keyRemovedExpectation.fulfill()
             return RemoveKeyResponse(keys: [Key]())
         }

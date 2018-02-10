@@ -25,6 +25,23 @@ public enum HorizonError: Error {
     }
 
     /**
+     The underlying reason the attempt to share a file or files failed.
+
+     - unknown: An unknown reason caused the command to fail.
+     - sendAddressNotSet: The contact does not have a send address set.
+     - fileDoesNotExist: The file either does not exist or is not readable.
+     - failedToEncodeFileListToTemporaryFile: Something went wrong
+     either with encoding the list of shared files to JSON, or with
+     writing the encoded result to a temp file for uploading into IPFS.
+     */
+    public enum ShareOperationFailureReason {
+        case unknown(Error)
+        case sendAddressNotSet
+        case fileDoesNotExist(String)
+        case failedToEncodeFileListToTemporaryFile
+    }
+
+    /**
      The underlying reason the sync command failed.
      - unknown: An unknown reason caused the command to fail.
      */
@@ -32,37 +49,7 @@ public enum HorizonError: Error {
         case unknown(Error)
     }
 
-    /**
-     The underlying reason the add file command failed.
-     - unknown: An unknown reason caused the command to fail.
-     */
-    public enum AddFileFailureReason {
-        case unknown(Error)
-    }
-
-    /**
-     The underlying reason the attempt to retrieve a contact's filelist failed.
-     - unknown: An unknown reason caused the command to fail.
-     */
-    public enum RetrieveFileListFailureReason {
-        case unknown(Error)
-        case invalidJSONAtPath(String)
-    }
-
-    /**
-     The underlying reason the attempt to send a filelist failed.
-     - unknown: An unknown reason caused the command to fail.
-     */
-    public enum SendFileListFailureReason {
-        case unknown(Error)
-        case failedToWriteTemporaryFile(URL)
-        case failedToCreateTemporaryDirectory
-        case failedToEncodeFileList
-    }
-
     case contactOperationFailed(reason: ContactOperationFailureReason)
+    case shareOperationFailed(reason: ShareOperationFailureReason)
     case syncFailed(reason: SyncFailureReason)
-    case addFileFailed(reason: AddFileFailureReason)
-    case retrieveFileListFailed(reason: RetrieveFileListFailureReason)
-    case sendFileListFailed(reason: SendFileListFailureReason)
 }

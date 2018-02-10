@@ -39,120 +39,59 @@ public class Model {
     // MARK: - API
 
     public func sync() {
-        guard syncState.isEmpty else { return }
-
-        let newSyncState = persistentStore.contacts.map({ contact -> (receiveHashList: String, contact: Contact)? in
-            guard let receiveAddress = contact.receiveAddress else {
-                return nil
-            }
-            return (receiveAddress, contact)
-        }).flatMap( {$0} )
-
-        guard !newSyncState.isEmpty else {
-            return
-        }
-
-        syncState += newSyncState
-        eventCallback?(.syncDidStart)
-
-        for (receiveAddress, contact) in syncState {
-            eventCallback?(.resolvingReceiveListDidStart(contact))
-
-            firstly {
-                return self.api.resolve(arg: receiveAddress, recursive: true)
-            }.then { response in
-                try self.getFileList(from: contact, at: response.path)
-            }.catch { error in
-                self.eventCallback?(.errorEvent(HorizonError.syncFailed(reason: .unknown(error))))
-            }
-        }
-    }
-
-    public func add(fileURLs: [URL], to contact: Contact) {
-        // TODO: Add files in loop using when(fulfilled:) and only upload new fileList when all are added
-        for url in fileURLs {
-            eventCallback?(.addingFileToIPFSDidStart(File(name: url.lastPathComponent, hash: nil)))
-
-            firstly {
-                return self.api.add(file: url)
-            }.then { response in
-                let newFile = File(name: response.name, hash: response.hash)
-                let sendListWithoutDuplicates = Array(Set(contact.sendList.files + [newFile]))
-                let sendList = FileList(hash: nil, files: sendListWithoutDuplicates)
-
-                var updatedContact = contact
-                updatedContact.sendList = sendList
-                self.persistentStore.createOrUpdateContact(updatedContact)
-
-                // WARNING: This will likely fail if multiple concurrent attempts are performed
-                // at once. Move commands into a background thread and perform in a blocking
-                // synchronious manner
-                //
-                try self.sendFileList(to: contact)
-            }.catch { error in
-                self.eventCallback?(.errorEvent(HorizonError.addFileFailed(reason: .unknown(error))))
-            }
-        }
+//        // TODO: Look for contacts which have send lists missing a hash for the send list itself, and correct.
+//        // TODO: Look for contacts which have send lists missing an IPFS published flag, and correct.
+//        guard syncState.isEmpty else { return }
+//
+//        let newSyncState = persistentStore.contacts.map({ contact -> (receiveHashList: String, contact: Contact)? in
+//            guard let receiveAddress = contact.receiveAddress else {
+//                return nil
+//            }
+//            return (receiveAddress, contact)
+//        }).flatMap( {$0} )
+//
+//        guard !newSyncState.isEmpty else {
+//            return
+//        }
+//
+//        syncState += newSyncState
+//        eventCallback?(.syncDidStart)
+//
+//        for (receiveAddress, contact) in syncState {
+//            eventCallback?(.resolvingReceiveListDidStart(contact))
+//
+//            firstly {
+//                return self.api.resolve(arg: receiveAddress, recursive: true)
+//            }.then { response in
+//                try self.getFileList(from: contact, at: response.path)
+//            }.catch { error in
+//                self.eventCallback?(.errorEvent(HorizonError.syncFailed(reason: .unknown(error))))
+//            }
+//        }
     }
 
     // MARK: Private Functions
 
     private func getFileList(from contact: Contact, at path: String) throws {
-        eventCallback?(.downloadingReceiveListDidStart(contact))
-
-        firstly {
-            return api.cat(arg: path)
-        }.then { data in
-            self.eventCallback?(.processingReceiveListDidStart(contact))
-
-            if let files = try? JSONDecoder().decode([File].self, from: data) {
-                var updatedContact = contact
-                updatedContact.receiveList = FileList(hash: path, files: files)
-                self.persistentStore.createOrUpdateContact(updatedContact)
-
-                self.eventCallback?(.propertiesDidChange(contact))
-            } else {
-                throw HorizonError.retrieveFileListFailed(reason: .invalidJSONAtPath(path))
-            }
-        }.always {
-            self.removeContactFromSyncState(contact)
-        }
-    }
-
-    private func sendFileList(to contact: Contact) throws {
-        guard let data = try? JSONEncoder().encode(contact.sendList.files) else {
-            throw HorizonError.sendFileListFailed(reason: .failedToEncodeFileList)
-        }
-
-        guard let tempDir = try? FileManager.default.url(for: .itemReplacementDirectory,
-                                                         in: .userDomainMask,
-                                                         appropriateFor: URL(fileURLWithPath: "/"),
-                                                         create: true) else {
-            throw HorizonError.sendFileListFailed(reason: .failedToCreateTemporaryDirectory)
-        }
-
-        let temporaryFile = tempDir.appendingPathComponent(UUID().uuidString + ".json")
-        do {
-            try data.write(to: temporaryFile)
-        } catch {
-            throw HorizonError.sendFileListFailed(reason: .failedToWriteTemporaryFile(temporaryFile))
-        }
-
-        eventCallback?(.addingProvidedFileListToIPFSDidStart(contact))
-
-        firstly {
-            return api.add(file: temporaryFile)
-        }.then { (addFileFesponse: AddResponse) -> Promise<PublishResponse> in
-            self.eventCallback?(.publishingFileListToIPNSDidStart(contact))
-
-            return self.api.publish(arg: addFileFesponse.hash, key: contact.sendAddress?.keypairName)
-        }.then { (publishResponse: PublishResponse) -> Void in
-            var updatedContact = contact
-            updatedContact.sendList = FileList(hash: publishResponse.value, files: contact.sendList.files)
-            self.persistentStore.createOrUpdateContact(updatedContact)
-        }.recover { error -> Void in
-            throw HorizonError.sendFileListFailed(reason: .unknown(error))
-        }
+//        eventCallback?(.downloadingReceiveListDidStart(contact))
+//
+//        firstly {
+//            return api.cat(arg: path)
+//        }.then { data in
+//            self.eventCallback?(.processingReceiveListDidStart(contact))
+//
+//            if let files = try? JSONDecoder().decode([File].self, from: data) {
+//                var updatedContact = contact
+//                updatedContact.receiveList = FileList(hash: path, files: files)
+//                self.persistentStore.createOrUpdateContact(updatedContact)
+//
+//                self.eventCallback?(.propertiesDidChange(contact))
+//            } else {
+//                throw HorizonError.retrieveFileListFailed(reason: .invalidJSONAtPath(path))
+//            }
+//        }.always {
+//            self.removeContactFromSyncState(contact)
+//        }
     }
 
     private func removeContactFromSyncState(_ contact: Contact) {
@@ -337,6 +276,84 @@ public extension Model {
         }.catch { error in
             let horizonError: HorizonError = error is HorizonError
                 ? error as! HorizonError : HorizonError.contactOperationFailed(reason: .unknown(error))
+            self.eventCallback?(.errorEvent(horizonError))
+        }
+    }
+
+}
+
+// MARK: - File Sharing Functionality (Outbound)
+
+/**
+ An extension which groups all related outbound file sharing functionality
+ into one place.
+ */
+public extension Model {
+
+    /**
+     Shares one or more files with a contact.
+
+     The list if files must first be uploaded individually to IPFS. When all
+     files are uploaded, the contact's shareList with be updated and itself
+     uploaded as a new file to IPFS (having been serialized to a temporary
+     file), then finally the newly uploaded shareList will be published
+     on the contact's sendAddress using IPFS.
+
+     **Note:** IPFS must be online.
+
+     - parameter files: An array of URLs to files on the local system which
+     will be shared with the contact.
+     - parameter contact: The contact with which to share the files.
+     - returns: Returns either a promise which, when fulfilled, will contain either:
+       1. a new `Contact` object complete with updated share lists, or;
+       2. require handling of an `HorizonError.shareOperationFailed` error.
+     */
+    public func shareFiles(_ files: [URL], with contact: Contact) -> Promise<Contact> {
+        guard let sendAddress = contact.sendAddress else {
+            return Promise(error: HorizonError.shareOperationFailed(reason: .sendAddressNotSet))
+        }
+
+        for file in files {
+            let absoluteFileString = file.standardized.absoluteString
+            if !FileManager.default.isReadableFile(atPath: absoluteFileString) {
+                return Promise(error: HorizonError.shareOperationFailed(reason: .fileDoesNotExist(absoluteFileString)))
+            }
+        }
+
+        return firstly {
+            when(fulfilled: files.map({ file -> Promise<AddResponse> in
+                self.eventCallback?(.addingFileToIPFSDidStart(file))
+                return self.api.add(file: file)
+            }))
+        }.then { addFileResponses -> Promise<(AddResponse, Contact)> in
+            let newFiles = addFileResponses.map({ return File(name: $0.name, hash: $0.hash) })
+            let updatedSendList = FileList(hash: nil, files: Array(Set(contact.sendList.files + newFiles)))
+            let updatedContact = contact.updatingSendList(updatedSendList)
+            self.persistentStore.createOrUpdateContact(updatedContact)
+
+            guard let newSendListURL = FileManager.default.encodeAsJSONInTemporaryFile(contact.sendList.files) else {
+                throw HorizonError.shareOperationFailed(reason: .failedToEncodeFileListToTemporaryFile)
+            }
+
+            self.eventCallback?(.addingProvidedFileListToIPFSDidStart(contact))
+
+            // Keep passing the updated contact forward
+            return self.api.add(file: newSendListURL).then { ($0, updatedContact) }
+        }.then { addFileFesponse, contact -> Promise<(PublishResponse, Contact)> in
+            self.eventCallback?(.publishingFileListToIPNSDidStart(contact))
+
+            let sendListHash = addFileFesponse.hash
+            let updatedSendList = contact.sendList.updatingHash(sendListHash)
+            let updatedContact = contact.updatingSendList(updatedSendList)
+            self.persistentStore.createOrUpdateContact(updatedContact)
+
+            // Keep passing the updated contact forward
+            return self.api.publish(arg: sendListHash, key: sendAddress.keypairName).then { ($0, updatedContact) }
+        }.then { _, contact in
+            return Promise(value: contact)
+        }.catch { error in
+            let horizonError: HorizonError = error is HorizonError
+                ? error as! HorizonError : HorizonError.shareOperationFailed(reason: .unknown(error))
             self.eventCallback?(.errorEvent(horizonError))
         }
     }

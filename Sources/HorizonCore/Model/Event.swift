@@ -16,7 +16,7 @@ public enum Event {
     case propertiesDidChange(Contact)
 
     case resolvingReceiveListDidStart(Contact)
-    case addingFileToIPFSDidStart(File)
+    case addingFileToIPFSDidStart(URL)
     case keygenDidStart(String)
     case removeKeyDidStart(String)
     case renameKeyDidStart(String, String)

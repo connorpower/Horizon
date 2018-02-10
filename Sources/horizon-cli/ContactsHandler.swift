@@ -206,7 +206,7 @@ struct ContactsHandler: Handler {
             errorHandler()
         }
 
-        let commandArguments = arguments[1..<arguments.count]
+        let commandArguments = Array(arguments.dropFirst())
         if !command.allowableNumberOfArguments.contains(commandArguments.count) {
             print(command.help)
             errorHandler()

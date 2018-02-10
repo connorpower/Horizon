@@ -106,7 +106,7 @@ struct ContactsHandler: Handler {
     """
 
     private let commands = [
-        Command(name: "add", expectedNumArgs: 1, help: """
+        Command(name: "add", allowableNumberOfArguments: [1], help: """
             horizon-cli contacts add <name>
               'horizon-cli contacts add' adds a new contact for usage with Horizon.
               An address for the send channel will be immediately created. This address
@@ -121,7 +121,7 @@ struct ContactsHandler: Handler {
                 > horizon-cli contacts set-rcv-addr mmusterman QmSomeHash
 
             """),
-        Command(name: "ls", expectedNumArgs: 0, help: """
+        Command(name: "ls", allowableNumberOfArguments: [0], help: """
             horizon-cli contacts ls
               'horizon-cli contacts ls' lists the available contacts by their short
               display names.
@@ -131,7 +131,7 @@ struct ContactsHandler: Handler {
                 mmusterman
 
             """),
-        Command(name: "info", expectedNumArgs: 0, help: """
+        Command(name: "info", allowableNumberOfArguments: [0], help: """
             horizon-cli contacts info <name>
               'horizon-cli contacts info <name>' prints a given contact to the screen,
               showing the current values for the send address and receive address.
@@ -148,7 +148,7 @@ struct ContactsHandler: Handler {
                 IPFS keypair:     com-semantical.horizon-cli.joe
 
             """),
-        Command(name: "rm", expectedNumArgs: 1, help: """
+        Command(name: "rm", allowableNumberOfArguments: [1], help: """
             horizon-cli contacts rm <name>
               'horizon-cli contacts rm <name>' removes a given contact from Horizon.
               All files shared with the contact until this point remain available to
@@ -157,7 +157,7 @@ struct ContactsHandler: Handler {
                 > horizon-cli contacts rm mmusterman
 
             """),
-        Command(name: "rename", expectedNumArgs: 2, help: """
+        Command(name: "rename", allowableNumberOfArguments: [2], help: """
             horizon-cli contacts rename <name> <new-name>
               'horizon-cli contacts rename <name> <new-name>' renames a given contact
               but otherwise keeps all information and addresses the same.
@@ -165,7 +165,7 @@ struct ContactsHandler: Handler {
                 > horizon-cli contacts rename mmusterman max
 
             """),
-        Command(name: "set-rcv-addr", expectedNumArgs: 2, help: """
+        Command(name: "set-rcv-addr", allowableNumberOfArguments: [2], help: """
             horizon-cli contacts set-rcv-addr <name> <hash>
               'horizon-cli contacts set-rcv-addr <name> <hash>' sets the
               receive address for a given contact. The contact should provide you
@@ -207,7 +207,7 @@ struct ContactsHandler: Handler {
         }
 
         let commandArguments = Array(arguments.dropFirst())
-        if command.expectedNumArgs != commandArguments.count {
+        if !command.allowableNumberOfArguments.contains(commandArguments.count) {
             print(command.help)
             errorHandler()
         }

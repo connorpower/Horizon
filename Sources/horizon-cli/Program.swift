@@ -90,7 +90,7 @@ struct Program {
         }
 
         let command = arguments[0]
-        let commandArgs = Array(arguments[1..<arguments.count])
+        let commandArgs = Array(arguments.dropFirst())
 
         switch command {
         case "contacts":

@@ -22,11 +22,15 @@ struct Command {
     let name: String
 
     /**
-     The expected number of arguments for the command.
-     In the case of `$ horizon-cli contacts list`, the
-     expected number of argumnets would be `0`.
+     The allowable number of arguments for the command.
+
+     In the case of `$ horizon-cli contacts list`, the allowable
+     number of argumnets would be `0`.
+
+     In the case of `$ horizon-cli shares ls [<contact-name>]`,
+     the allowable number of arguments would be either `0` or `1`.
      */
-    let expectedNumArgs: Int
+    let allowableNumberOfArguments: [Int]
 
     /**
      The help string, as it would be output to the terminal

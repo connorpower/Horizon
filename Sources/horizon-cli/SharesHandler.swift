@@ -83,7 +83,7 @@ struct SharesHandler: Handler {
     """
 
     private let commands = [
-        Command(name: "add", expectedNumArgs: 2, help: """
+        Command(name: "add", allowableNumberOfArguments: [2], help: """
             horizon-cli shares add <contact-name> <file>
               'horizon-cli shares add' adds a new file to be shared with a contact.
               The file will be added to IPFS. The list of files shared with the
@@ -92,7 +92,7 @@ struct SharesHandler: Handler {
                 > horizon-cli shares add mmusterman "./The Byzantine Generals Problem.pdf"
 
             """),
-        Command(name: "ls", expectedNumArgs: 0, help: """
+        Command(name: "ls", allowableNumberOfArguments: [0], help: """
             horizon-cli shares ls [<contact-name>]
               'horizon-cli shares ls [<contact-name>]' lists all files you are sharing
               with other contacts.
@@ -111,7 +111,7 @@ struct SharesHandler: Handler {
                 QmSomeHash: "IPFS - Content Addressed, Versioned, P2P File System (DRAFT 3).pdf"
 
             """),
-        Command(name: "rm", expectedNumArgs: 2, help: """
+        Command(name: "rm", allowableNumberOfArguments: [2], help: """
             horizon-cli shares rm <contact-name> <file>
               'horizon-cli shares rm <contact-name> <file>' unshares a file with
               the given contact, and if the file is shared with no other contacts
@@ -155,9 +155,54 @@ struct SharesHandler: Handler {
             print(shortHelp)
             errorHandler()
         }
+
+        let commandArguments = Array(arguments.dropFirst())
+        if !command.allowableNumberOfArguments.contains(commandArguments.count) {
+            print(command.help)
+            errorHandler()
+        }
+
+        switch command.name {
+        case "add":
+            let contact = commandArguments[0]
+            let file = commandArguments[1]
+
+            shareFile(file, with: contact)
+        default:
+            print(command.help)
+            errorHandler()
+        }
     }
 
     // MARK: - Private Functions
 
-}
+    private func shareFile(_ file: String, with contactName: String) {
+        guard let contact = model.contact(named: contactName) else {
+            print("Contact does not exist.")
+            self.errorHandler()
+        }
 
+        let fileURL = URL(fileURLWithPath: (file as NSString).expandingTildeInPath).standardized
+
+        firstly {
+            return model.shareFiles([fileURL], with: contact)
+        }.then { contact in
+            self.completionHandler()
+        }.catch { error in
+            if case HorizonError.shareOperationFailed(let reason) = error {
+                if case .fileDoesNotExist(let file) = reason {
+                    print("\(file): No such file or directory.")
+                    self.errorHandler()
+                }
+                if case .sendAddressNotSet = reason {
+                    print("\(contactName): No send address set. Cannot share files.")
+                    self.errorHandler()
+                }
+            }
+
+            print("Failed to share file. Is IPFS running?")
+            self.errorHandler()
+        }
+    }
+
+}

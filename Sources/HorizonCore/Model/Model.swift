@@ -319,9 +319,8 @@ public extension Model {
         // Parsing the AFErrors should probably be encapsulated in a helper extension
         // so we can react to a failure rather than check in advance – as apple suggests.
         for file in files {
-            let absoluteFileString = file.standardized.absoluteString
-            if !FileManager.default.isReadableFile(atPath: absoluteFileString) {
-                return Promise(error: HorizonError.shareOperationFailed(reason: .fileDoesNotExist(absoluteFileString)))
+            if !FileManager.default.isReadableFile(atPath: file.path) {
+                return Promise(error: HorizonError.shareOperationFailed(reason: .fileDoesNotExist(file.path)))
             }
         }
 

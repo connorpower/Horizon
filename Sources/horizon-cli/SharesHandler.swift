@@ -182,7 +182,7 @@ struct SharesHandler: Handler {
             self.errorHandler()
         }
 
-        let fileURL = URL(fileURLWithPath: file).standardized
+        let fileURL = URL(fileURLWithPath: (file as NSString).expandingTildeInPath).standardized
 
         firstly {
             return model.shareFiles([fileURL], with: contact)

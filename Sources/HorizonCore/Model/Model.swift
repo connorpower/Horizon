@@ -301,7 +301,7 @@ public extension Model {
      **Note:** IPFS must be online.
 
      - paramter name: The display name of the contact to rename.
-     - paramter newName: The new display name for the contact.
+     - parameter newName: The new display name for the contact.
      - returns: Returns either a promise which, when fulfilled, will contain
      the new `Contact` object or require handling of an
      `HorizonError.contactOperationFailed` error.
@@ -312,7 +312,7 @@ public extension Model {
 
         return firstly {
             return self.api.listKeys()
-        }.then { listKeysResponse  -> Promise<RenameKeyResponse> in
+        }.then { listKeysResponse -> Promise<RenameKeyResponse> in
             let currentNames = listKeysResponse.keys.map({ $0.name })
             if !currentNames.contains(keypairName) {
                 throw HorizonError.contactOperationFailed(reason: .contactDoesNotExist)

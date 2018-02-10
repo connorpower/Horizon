@@ -54,12 +54,12 @@ public struct Contact: Codable {
     /**
      The list of files which are to be shared with the contact.
      */
-    public var sendList = FileList(hash: nil, files: [])
+    public let sendList: FileList
 
     /**
      The last known file list from the contact.
      */
-    public var receiveList = FileList(hash: nil, files: [])
+    public let receiveList: FileList
 
     // MARK: - Initializer
 
@@ -76,11 +76,18 @@ public struct Contact: Codable {
      - parameter receiveAddress: An IPNS hash provided by the contact,
        through which their current list of shared files can be resolved.
      */
-    public init(identifier: UUID, displayName: String, sendAddress: SendAddress?, receiveAddress: String?) {
+    public init(identifier: UUID,
+                displayName: String,
+                sendAddress: SendAddress?,
+                receiveAddress: String?,
+                sendList: FileList = FileList(hash: nil, files: []),
+                receiveList: FileList = FileList(hash: nil, files: [])) {
         self.identifier = identifier
         self.displayName = displayName
         self.sendAddress = sendAddress
         self.receiveAddress = receiveAddress
+        self.sendList = sendList
+        self.receiveList = receiveList
     }
 
     // MARK: - Internal Framework Functions
@@ -89,21 +96,36 @@ public struct Contact: Codable {
         return Contact(identifier: identifier,
                        displayName: displayName,
                        sendAddress: sendAddress,
-                       receiveAddress: newReceiveAddress)
+                       receiveAddress: newReceiveAddress,
+                       sendList: sendList,
+                       receiveList: receiveList)
     }
 
     func updatingDisplayName(_ newDisplayName: String) -> Contact {
         return Contact(identifier: identifier,
                        displayName: newDisplayName,
                        sendAddress: sendAddress,
-                       receiveAddress: receiveAddress)
+                       receiveAddress: receiveAddress,
+                       sendList: sendList,
+                       receiveList: receiveList)
     }
 
     func updatingSendAddress(_ newSendAddress: SendAddress?) -> Contact {
         return Contact(identifier: identifier,
                        displayName: displayName,
                        sendAddress: newSendAddress,
-                       receiveAddress: receiveAddress)
+                       receiveAddress: receiveAddress,
+                       sendList: sendList,
+                       receiveList: receiveList)
+    }
+
+    func updatingSendList(_ newSendList: FileList) -> Contact {
+        return Contact(identifier: identifier,
+                       displayName: displayName,
+                       sendAddress: sendAddress,
+                       receiveAddress: receiveAddress,
+                       sendList: newSendList,
+                       receiveList: receiveList)
     }
 
 }

@@ -29,6 +29,7 @@
 		D2A4A46B202DDC9500DFA79D /* ModelTests_Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4A46A202DDC9500DFA79D /* ModelTests_Contacts.swift */; };
 		D2A4A46F202DE11E00DFA79D /* PersistentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4A46E202DE11E00DFA79D /* PersistentStore.swift */; };
 		D2A4A470202DE12600DFA79D /* UserDefaultsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4A46C202DE0EA00DFA79D /* UserDefaultsStore.swift */; };
+		D2E68D33202F590A002CB293 /* FileManager+TempFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E68D32202F590A002CB293 /* FileManager+TempFiles.swift */; };
 		OBJ_109 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_115 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_63 /* Package.swift */; };
 		OBJ_121 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_65 /* Package.swift */; };
@@ -224,6 +225,7 @@
 		D2A4A46A202DDC9500DFA79D /* ModelTests_Contacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests_Contacts.swift; sourceTree = "<group>"; };
 		D2A4A46C202DE0EA00DFA79D /* UserDefaultsStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsStore.swift; sourceTree = "<group>"; };
 		D2A4A46E202DE11E00DFA79D /* PersistentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStore.swift; sourceTree = "<group>"; };
+		D2E68D32202F590A002CB293 /* FileManager+TempFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+TempFiles.swift"; sourceTree = "<group>"; };
 		"IPFSWebService::IPFSWebService::Product" /* IPFSWebService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IPFSWebService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_12 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		OBJ_13 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -412,6 +414,7 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_22 /* LogProvider.swift */,
+				D2E68D32202F590A002CB293 /* FileManager+TempFiles.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -892,6 +895,7 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_171 /* Contact.swift in Sources */,
+				D2E68D33202F590A002CB293 /* FileManager+TempFiles.swift in Sources */,
 				OBJ_172 /* Event.swift in Sources */,
 				OBJ_173 /* File.swift in Sources */,
 				D2A4A470202DE12600DFA79D /* UserDefaultsStore.swift in Sources */,

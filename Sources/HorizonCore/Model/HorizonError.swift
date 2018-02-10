@@ -30,6 +30,8 @@ public enum HorizonError: Error {
      - unknown: An unknown reason caused the command to fail.
      - sendAddressNotSet: The contact does not have a send address set.
      - fileDoesNotExist: The file either does not exist or is not readable.
+     - fileNotShared: The file was never shared, and the requested
+     operation therefore did not make sense (unsharing, etc.)
      - failedToEncodeFileListToTemporaryFile: Something went wrong
      either with encoding the list of shared files to JSON, or with
      writing the encoded result to a temp file for uploading into IPFS.
@@ -38,6 +40,7 @@ public enum HorizonError: Error {
         case unknown(Error)
         case sendAddressNotSet
         case fileDoesNotExist(String)
+        case fileNotShared
         case failedToEncodeFileListToTemporaryFile
     }
 

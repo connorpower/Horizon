@@ -53,13 +53,13 @@ struct SharesHandler: Handler {
       the removed file, or that the contact could not simply access the file
       via its direct IPFS hash.
 
-        > horizon-cli shares rm "./La cryptographie militaire, Auguste Kerckhoffs.txt"
+        > horizon-cli shares rm QmSomeHash
 
       SUBCOMMANDS
-        horizon-cli shares help                          - Displays detailed help information
-        horizon-cli shares add <contact-name> <file>     - Adds a new file to be shared with a contact
-        horizon-cli shares ls [<contact-name>]           - Lists all shared files (optionally for a given contact)
-        horizon-cli shares rm <contact-name> <file>      - Removes a file which was shared with a contact
+        horizon-cli shares help                             - Displays detailed help information
+        horizon-cli shares add <contact-name> <file>        - Adds a new file to be shared with a contact
+        horizon-cli shares ls [<contact-name>]              - Lists all shared files (optionally for a given contact)
+        horizon-cli shares rm <contact-name> <file-hash>    - Removes a file which was shared with a contact
 
         Use 'horizon-cli shares <subcmd> --help' for more information about each command.
 
@@ -73,10 +73,10 @@ struct SharesHandler: Handler {
       horizon-cli shares
 
       SUBCOMMANDS
-        horizon-cli shares help                          - Displays detailed help information
-        horizon-cli shares add <contact-name> <file>     - Adds a new file to be shared with a contact
-        horizon-cli shares ls [<contact-name>]           - Lists all shared files (optionally for a given contact)
-        horizon-cli shares rm <contact-name> <file>      - Removes a file which was shared with a contact
+        horizon-cli shares help                             - Displays detailed help information
+        horizon-cli shares add <contact-name> <file>        - Adds a new file to be shared with a contact
+        horizon-cli shares ls [<contact-name>]              - Lists all shared files (optionally for a given contact)
+        horizon-cli shares rm <contact-name> <file-hash>    - Removes a file which was shared with a contact
 
         Use 'horizon-cli shares <subcmd> --help' for more information about each command.
 
@@ -113,7 +113,7 @@ struct SharesHandler: Handler {
             """),
         Command(name: "rm", allowableNumberOfArguments: [2], help: """
             horizon-cli shares rm <contact-name> <file>
-              'horizon-cli shares rm <contact-name> <file>' unshares a file with
+              'horizon-cli shares rm <contact-name> <file-hash>' unshares a file with
               the given contact, and if the file is shared with no other contacts
               - removes the file from IPFS.
 
@@ -122,7 +122,7 @@ struct SharesHandler: Handler {
               the removed file, or that the contact could not simply access the file
               via its direct IPFS hash.
 
-                > horizon-cli shares rm "./La cryptographie militaire, Auguste Kerckhoffs.txt"
+                > horizon-cli shares rm QmSomeHash
 
             """),
     ]
@@ -168,6 +168,11 @@ struct SharesHandler: Handler {
             let file = commandArguments[1]
 
             shareFile(file, with: contact)
+        case "rm":
+            let contact = commandArguments[0]
+            let fileHash = commandArguments[1]
+
+            unshareFile(fileHash, with: contact)
         default:
             print(command.help)
             errorHandler()
@@ -196,6 +201,34 @@ struct SharesHandler: Handler {
                 }
                 if case .sendAddressNotSet = reason {
                     print("\(contactName): No send address set. Cannot share files.")
+                    self.errorHandler()
+                }
+            }
+
+            print("Failed to share file. Is IPFS running?")
+            self.errorHandler()
+        }
+    }
+
+    private func unshareFile(_ fileHash: String, with contactName: String) {
+        guard let contact = model.contact(named: contactName) else {
+            print("Contact does not exist.")
+            self.errorHandler()
+        }
+
+        guard let file = contact.sendList.files.filter({ $0.hash == fileHash }).first else {
+            print("File does not exist.")
+            self.errorHandler()
+        }
+
+        firstly {
+            return model.unshareFiles([file], with: contact)
+        }.then { contact in
+            self.completionHandler()
+        }.catch { error in
+            if case HorizonError.shareOperationFailed(let reason) = error {
+                if case .sendAddressNotSet = reason {
+                    print("\(contactName): No send address set. Cannot unshare files.")
                     self.errorHandler()
                 }
             }

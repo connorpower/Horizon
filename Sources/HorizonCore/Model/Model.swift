@@ -362,4 +362,63 @@ public extension Model {
         }
     }
 
+    /**
+     Remove one or more files from the list of files shared with a contact.
+
+     1. The contact's share list with be updated to remove the given files
+     2. The updated share list will be uploaded as a new file to IPFS
+     3. The updated share list will be published to the contact's send address
+         using IPNS
+
+     **Note:** IPFS must be online.
+
+     - parameter files: An array of `Files` to stop sharing with the contact.
+     - parameter contact: The contact with which to stop sharing the files.
+     - returns: Returns either a promise which, when fulfilled, will contain either:
+       1. a new `Contact` object complete with updated share lists, or;
+       2. require handling of an `HorizonError.shareOperationFailed` error.
+     */
+    public func unshareFiles(_ files: [File], with contact: Contact) -> Promise<Contact> {
+        guard let sendAddress = contact.sendAddress else {
+            return Promise(error: HorizonError.shareOperationFailed(reason: .sendAddressNotSet))
+        }
+
+        guard contact.sendList.files.filter({ files.contains($0) }).first != nil else {
+            return Promise(error: HorizonError.shareOperationFailed(reason: .fileNotShared))
+        }
+
+        return firstly { () -> Promise<(AddResponse, Contact)> in
+            let filteredFiles = contact.sendList.files.filter() { !files.contains($0) }
+            let updatedSendList = FileList(hash: nil, files: filteredFiles)
+            let updatedContact = contact.updatingSendList(updatedSendList)
+
+            guard let newSendListURL = FileManager.default.encodeAsJSONInTemporaryFile(contact.sendList.files) else {
+                throw HorizonError.shareOperationFailed(reason: .failedToEncodeFileListToTemporaryFile)
+            }
+
+            self.eventCallback?(.addingProvidedFileListToIPFSDidStart(contact))
+
+            // Keep passing the updated contact forward
+            return self.api.add(file: newSendListURL).then { ($0, updatedContact) }
+        }.then { addFileFesponse, contact -> Promise<(PublishResponse, Contact)> in
+            self.eventCallback?(.publishingFileListToIPNSDidStart(contact))
+
+            let sendListHash = addFileFesponse.hash
+            let updatedSendList = contact.sendList.updatingHash(sendListHash)
+            let updatedContact = contact.updatingSendList(updatedSendList)
+
+            // Keep passing the updated contact forward
+            return self.api.publish(arg: sendListHash, key: sendAddress.keypairName).then { ($0, updatedContact) }
+        }.then { _, contact in
+            // Persist the changes only after re-publishing the share list
+            self.persistentStore.createOrUpdateContact(contact)
+
+            return Promise(value: contact)
+        }.catch { error in
+            let horizonError: HorizonError = error is HorizonError
+                ? error as! HorizonError : HorizonError.shareOperationFailed(reason: .unknown(error))
+            self.eventCallback?(.errorEvent(horizonError))
+        }
+    }
+
 }

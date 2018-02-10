@@ -387,7 +387,6 @@ public extension Model {
             let filteredFiles = contact.sendList.files.filter() { !files.contains($0) }
             let updatedSendList = FileList(hash: nil, files: filteredFiles)
             let updatedContact = contact.updatingSendList(updatedSendList)
-            self.persistentStore.createOrUpdateContact(updatedContact)
 
             guard let newSendListURL = FileManager.default.encodeAsJSONInTemporaryFile(contact.sendList.files) else {
                 throw HorizonError.shareOperationFailed(reason: .failedToEncodeFileListToTemporaryFile)
@@ -403,11 +402,13 @@ public extension Model {
             let sendListHash = addFileFesponse.hash
             let updatedSendList = contact.sendList.updatingHash(sendListHash)
             let updatedContact = contact.updatingSendList(updatedSendList)
-            self.persistentStore.createOrUpdateContact(updatedContact)
 
             // Keep passing the updated contact forward
             return self.api.publish(arg: sendListHash, key: sendAddress.keypairName).then { ($0, updatedContact) }
         }.then { _, contact in
+            // Persist the changes only after re-publishing the share list
+            self.persistentStore.createOrUpdateContact(contact)
+
             return Promise(value: contact)
         }.catch { error in
             let horizonError: HorizonError = error is HorizonError

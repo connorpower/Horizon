@@ -383,6 +383,10 @@ public extension Model {
             return Promise(error: HorizonError.shareOperationFailed(reason: .sendAddressNotSet))
         }
 
+        guard contact.sendList.files.filter({ files.contains($0) }).first != nil else {
+            return Promise(error: HorizonError.shareOperationFailed(reason: .fileNotShared))
+        }
+
         return firstly { () -> Promise<(AddResponse, Contact)> in
             let filteredFiles = contact.sendList.files.filter() { !files.contains($0) }
             let updatedSendList = FileList(hash: nil, files: filteredFiles)

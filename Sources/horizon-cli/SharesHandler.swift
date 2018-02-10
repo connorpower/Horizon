@@ -168,6 +168,11 @@ struct SharesHandler: Handler {
             let file = commandArguments[1]
 
             shareFile(file, with: contact)
+        case "rm":
+            let contact = commandArguments[0]
+            let fileHash = commandArguments[1]
+
+            unshareFile(fileHash, with: contact)
         default:
             print(command.help)
             errorHandler()
@@ -196,6 +201,34 @@ struct SharesHandler: Handler {
                 }
                 if case .sendAddressNotSet = reason {
                     print("\(contactName): No send address set. Cannot share files.")
+                    self.errorHandler()
+                }
+            }
+
+            print("Failed to share file. Is IPFS running?")
+            self.errorHandler()
+        }
+    }
+
+    private func unshareFile(_ fileHash: String, with contactName: String) {
+        guard let contact = model.contact(named: contactName) else {
+            print("Contact does not exist.")
+            self.errorHandler()
+        }
+
+        guard let file = contact.sendList.files.filter({ $0.hash == fileHash }).first else {
+            print("File does not exist.")
+            self.errorHandler()
+        }
+
+        firstly {
+            return model.unshareFiles([file], with: contact)
+        }.then { contact in
+            self.completionHandler()
+        }.catch { error in
+            if case HorizonError.shareOperationFailed(let reason) = error {
+                if case .sendAddressNotSet = reason {
+                    print("\(contactName): No send address set. Cannot unshare files.")
                     self.errorHandler()
                 }
             }

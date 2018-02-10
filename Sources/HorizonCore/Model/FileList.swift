@@ -28,4 +28,17 @@ public struct FileList: Codable {
      */
     public let files: [File]
 
+    // MARK: - Initializer
+
+    public init(hash: String?, files: [File]) {
+        self.hash = hash
+        self.files = files
+    }
+
+    // MARK: - Functions
+
+    public func updatingHash(_ newHash: String) -> FileList {
+        return FileList(hash: newHash, files: files)
+    }
+
 }

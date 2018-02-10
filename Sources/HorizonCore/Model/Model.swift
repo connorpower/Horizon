@@ -313,6 +313,11 @@ public extension Model {
             return Promise(error: HorizonError.shareOperationFailed(reason: .sendAddressNotSet))
         }
 
+        // It is ill-advised to check for the presence of a file **before** peforming
+        // an operation, but unfortunately the errors we receive from Alamofire are
+        // relatively well buried and obtuse, so we peform the sanity checking here.
+        // Parsing the AFErrors should probably be encapsulated in a helper extension
+        // so we can react to a failure rather than check in advance – as apple suggests.
         for file in files {
             let absoluteFileString = file.standardized.absoluteString
             if !FileManager.default.isReadableFile(atPath: absoluteFileString) {

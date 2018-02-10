@@ -155,9 +155,54 @@ struct SharesHandler: Handler {
             print(shortHelp)
             errorHandler()
         }
+
+        let commandArguments = arguments[1..<arguments.count]
+        if !command.allowableNumberOfArguments.contains(commandArguments.count) {
+            print(command.help)
+            errorHandler()
+        }
+
+        switch command.name {
+        case "add":
+            let contact = commandArguments[0]
+            let file = commandArguments[1]
+
+            shareFile(file, with: contact)
+        default:
+            print(command.help)
+            errorHandler()
+        }
     }
 
     // MARK: - Private Functions
 
-}
+    private func shareFile(_ file: String, with contactName: String) {
+        guard let contact = model.contact(named: contactName) else {
+            print("Contact does not exist.")
+            self.errorHandler()
+        }
 
+        let fileURL = URL(fileURLWithPath: file).standardized
+
+        firstly {
+            return model.shareFiles([fileURL], with: contact)
+        }.then { contact in
+            self.completionHandler()
+        }.catch { error in
+            if case HorizonError.shareOperationFailed(let reason) = error {
+                if case .fileDoesNotExist(let file) = reason {
+                    print("\(file): No such file or directory.")
+                    self.errorHandler()
+                }
+                if case .sendAddressNotSet = reason {
+                    print("\(contactName): No send address set. Cannot share files.")
+                    self.errorHandler()
+                }
+            }
+
+            print("Failed to share file. Is IPFS running?")
+            self.errorHandler()
+        }
+    }
+
+}

@@ -46,10 +46,10 @@ class ModelTests_Shares: XCTestCase {
         let shareAddedExpectation = expectation(description: "shareAddedExpectation")
 
         mockAPI.addResponse = { url in
-            return AddResponse(name: url.lastPathComponent, hash: UUID().uuidString, size: "12345")
+            Promise(value: AddResponse(name: url.lastPathComponent, hash: UUID().uuidString, size: "12345"))
         }
         mockAPI.publishResponse = { hash, keypair in
-            PublishResponse(name: keypair!, value: UUID().uuidString)
+            Promise(value: PublishResponse(name: keypair!, value: UUID().uuidString))
         }
 
         firstly {

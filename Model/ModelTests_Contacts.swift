@@ -79,9 +79,11 @@ class ModelTests_Contacts: XCTestCase {
         let contactPersistedExpectation = expectation(description: "contactPersistedExpectation")
         let contactAddedExpectation = expectation(description: "contactAddedExpectation")
 
-        mockAPI.listKeysResponse = { ListKeysResponse(keys: [Key]()) }
+        mockAPI.listKeysResponse = {
+            Promise(value: ListKeysResponse(keys: [Key]()))
+        }
         mockAPI.keygenResponse = { keypairName, _, _ in
-            KeygenResponse(name: keypairName, id: UUID().uuidString)
+            Promise(value: KeygenResponse(name: keypairName, id: UUID().uuidString))
         }
         mockStore.createOrUpdateContactHook = { contact in
             XCTAssertEqual(contact.displayName, "Added Contact Display Name")
@@ -111,9 +113,11 @@ class ModelTests_Contacts: XCTestCase {
 
         let contactAddedExpectation = expectation(description: "contactAddedExpectation")
 
-        mockAPI.listKeysResponse = { ListKeysResponse(keys: [Key]()) }
+        mockAPI.listKeysResponse = {
+            Promise(value: ListKeysResponse(keys: [Key]()))
+        }
         mockAPI.keygenResponse = { keypairName, _, _ in
-            KeygenResponse(name: keypairName, id: UUID().uuidString)
+            Promise(value: KeygenResponse(name: keypairName, id: UUID().uuidString))
         }
 
         firstly {
@@ -147,10 +151,11 @@ class ModelTests_Contacts: XCTestCase {
         let contactAddedExpectation = expectation(description: "contactAddedExpectation")
 
         mockAPI.listKeysResponse = {
-            ListKeysResponse(keys: [Key(name: "\(Model.Constants.keypairPrefix).Contact1", id: "XXXX")])
+            let key = Key(name: "\(Model.Constants.keypairPrefix).Contact1", id: "XXXX")
+            return Promise(value: ListKeysResponse(keys: [key]))
         }
         mockAPI.keygenResponse = { keypairName, _, _ in
-            KeygenResponse(name: keypairName, id: UUID().uuidString)
+            Promise(value: KeygenResponse(name: keypairName, id: UUID().uuidString))
         }
 
         firstly {
@@ -186,10 +191,11 @@ class ModelTests_Contacts: XCTestCase {
         let contactRemovedExpectation = expectation(description: "contactRemovedExpectation")
 
         mockAPI.listKeysResponse = {
-            ListKeysResponse(keys: [Key(name: "\(Model.Constants.keypairPrefix).Contact1", id: "XXXX")])
+            let key = Key(name: "\(Model.Constants.keypairPrefix).Contact1", id: "XXXX")
+            return Promise(value: ListKeysResponse(keys: [key]))
         }
         mockAPI.removeKeyResponse = { _ in
-            RemoveKeyResponse(keys: [Key]())
+            Promise(value: RemoveKeyResponse(keys: [Key]()))
         }
         mockStore.removeContactHook = { contact in
             XCTAssertEqual(contact.displayName, "Contact1")
@@ -217,7 +223,9 @@ class ModelTests_Contacts: XCTestCase {
         let contactUnpersistedExpectation = expectation(description: "contactUnpersistedExpectation")
         let contactRemovedExpectation = expectation(description: "contactRemovedExpectation")
 
-        mockAPI.listKeysResponse = { ListKeysResponse(keys: [Key]()) }
+        mockAPI.listKeysResponse = {
+            Promise(value: ListKeysResponse(keys: [Key]()))
+        }
         mockStore.removeContactHook = { contact in
             XCTAssertEqual(contact.displayName, "Contact1")
             contactUnpersistedExpectation.fulfill()
@@ -244,11 +252,12 @@ class ModelTests_Contacts: XCTestCase {
         let contactRemovedExpectation = expectation(description: "contactRemovedExpectation")
 
         mockAPI.listKeysResponse = {
-            ListKeysResponse(keys: [Key(name: "\(Model.Constants.keypairPrefix).Contact1", id: "XXXX")])
+            let key = Key(name: "\(Model.Constants.keypairPrefix).Contact1", id: "XXXX")
+            return Promise(value: ListKeysResponse(keys: [key]))
         }
         mockAPI.removeKeyResponse = { _ in
             keyRemovedExpectation.fulfill()
-            return RemoveKeyResponse(keys: [Key]())
+            return Promise(value: RemoveKeyResponse(keys: [Key]()))
         }
 
         firstly {
@@ -271,7 +280,7 @@ class ModelTests_Contacts: XCTestCase {
         let errorThrownExpectation = expectation(description: "errorThrownExpectation")
 
         mockAPI.listKeysResponse = {
-            ListKeysResponse(keys: [Key]())
+            Promise(value: ListKeysResponse(keys: [Key]()))
         }
 
         firstly {

@@ -13,69 +13,69 @@ import PromiseKit
 
 class MockIPFSAPI: IPFSAPI {
 
-    var addResponse: ((URL) -> AddResponse)?
-    var catResponse: ((String) -> Data)?
-    var keygenResponse: ((String, DefaultAPI.ModelType_keygen, Int) -> KeygenResponse)?
-    var listKeysResponse: (() -> ListKeysResponse)?
-    var removeKeyResponse: ((String) -> RemoveKeyResponse)?
-    var renameKeyResponse: ((String, String) -> RenameKeyResponse)?
-    var publishResponse: ((String, String?) -> PublishResponse)?
-    var resolveResponse: ((String, Bool?) -> ResolveResponse)?
+    var addResponse: ((URL) -> Promise<AddResponse>)?
+    var catResponse: ((String) -> Promise<Data>)?
+    var keygenResponse: ((String, DefaultAPI.ModelType_keygen, Int) -> Promise<KeygenResponse>)?
+    var listKeysResponse: (() -> Promise<ListKeysResponse>)?
+    var removeKeyResponse: ((String) -> Promise<RemoveKeyResponse>)?
+    var renameKeyResponse: ((String, String) -> Promise<RenameKeyResponse>)?
+    var publishResponse: ((String, String?) -> Promise<PublishResponse>)?
+    var resolveResponse: ((String, Bool?) -> Promise<ResolveResponse>)?
 
     func add(file: URL) -> Promise<AddResponse> {
         guard let addResponse = addResponse else {
             fatalError()
         }
-        return Promise(value: addResponse(file))
+        return addResponse(file)
     }
 
     func cat(arg: String) -> Promise<Data> {
         guard let catResponse = catResponse else {
             fatalError()
         }
-        return Promise(value: catResponse(arg))
+        return catResponse(arg)
     }
 
     func keygen(keypairName: String, type: DefaultAPI.ModelType_keygen, size: Int) -> Promise<KeygenResponse> {
         guard let keygenResponse = keygenResponse else {
             fatalError()
         }
-        return Promise(value: keygenResponse(keypairName, type, size))
+        return keygenResponse(keypairName, type, size)
     }
 
     func listKeys() -> Promise<ListKeysResponse> {
         guard let listKeysResponse = listKeysResponse else {
             fatalError()
         }
-        return Promise(value: listKeysResponse())
+        return listKeysResponse()
     }
 
     func removeKey(keypairName: String) -> Promise<RemoveKeyResponse> {
         guard let removeKeyResponse = removeKeyResponse else {
             fatalError()
         }
-        return Promise(value: removeKeyResponse(keypairName))
+        return removeKeyResponse(keypairName)
     }
 
     func renameKey(keypairName: String, to newKeypairName: String) -> Promise<RenameKeyResponse> {
         guard let renameKeyResponse = renameKeyResponse else {
             fatalError()
         }
-        return Promise(value: renameKeyResponse(keypairName, newKeypairName))
+        return renameKeyResponse(keypairName, newKeypairName)
     }
 
     func publish(arg: String, key: String?) -> Promise<PublishResponse> {
         guard let publishResponse = publishResponse else {
             fatalError()
         }
-        return Promise(value: publishResponse(arg, key))
+        return publishResponse(arg, key)
     }
 
     func resolve(arg: String, recursive: Bool?) -> Promise<ResolveResponse> {
         guard let resolveResponse = resolveResponse else {
             fatalError()
         }
-        return Promise(value: resolveResponse(arg, recursive))
+        return resolveResponse(arg, recursive)
     }
 
 }

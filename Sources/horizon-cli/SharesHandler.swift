@@ -176,7 +176,7 @@ struct SharesHandler: Handler {
         case "ls":
             let contactFilter = ContactFilter(optionalContact: commandArguments.first)
 
-            listFiles(for: contactFilter)
+            listSharedFiles(for: contactFilter)
         default:
             print(command.help)
             errorHandler()
@@ -242,7 +242,7 @@ struct SharesHandler: Handler {
         }
     }
 
-    private func listFiles(for contactFilter: ContactFilter) {
+    private func listSharedFiles(for contactFilter: ContactFilter) {
         let contacts:[Contact]
 
         switch contactFilter {
@@ -258,10 +258,11 @@ struct SharesHandler: Handler {
 
         for contact in contacts {
             print(contact.displayName)
-            if contact.receiveList.files.isEmpty {
+            let files = contact.sendList.files
+            if files.isEmpty {
                 print("(no files)")
             } else {
-                for file in contact.receiveList.files {
+                for file in files {
                     print("\(file.hash ?? "nil"): \(file.name)")
                 }
             }

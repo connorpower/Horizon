@@ -36,19 +36,27 @@ struct DaemonHandler: Handler {
 
         > horizon-cli daemon start
         > horizon-cli daemon status
-        Running – PID: 12345
+        Running (PID: 12345)
 
         > horizon-cli daemon stop
         > horizon-cli daemon status
-        Not running
+        Stopped
 
       'horizon-cli daemon status' prints the status of the background daemon.
       'horizon-cli daemon stop' stops the background daemon.
+
+      'horizon-cli daemon ls' lists the status of the daemon for each identity.
+
+        > horizon-cli daemon ls
+        'default': Running (PID: 12345)
+        'work': Running (PID: 67890)
+        'test': Stopped
 
       SUBCOMMANDS
         horizon-cli daemon help     - Displays detailed help information
         horizon-cli daemon start    - Starts the horizon daemon in the background
         horizon-cli daemon status   - Prints the current status of the background daemon
+        horizon-cli daemon ls       - Lists the status of the daemons for each identity
         horizon-cli daemon stop     - Starts the horizon daemon in the background
 
         Use 'horizon-cli daemon <subcmd> --help' for more information about each command.
@@ -66,6 +74,7 @@ struct DaemonHandler: Handler {
         horizon-cli daemon help     - Displays detailed help information
         horizon-cli daemon start    - Starts the horizon daemon in the background
         horizon-cli daemon status   - Prints the current status of the background daemon
+        horizon-cli daemon ls       - Lists the status of the daemons for each identity
         horizon-cli daemon stop     - Starts the horizon daemon in the background
 
         Use 'horizon-cli daemon <subcmd> --help' for more information about each command.
@@ -96,11 +105,11 @@ struct DaemonHandler: Handler {
 
                 > horizon-cli daemon start
                 > horizon-cli daemon status
-                Running – PID: 12345
+                Running (PID: 12345)
 
                 > horizon-cli daemon stop
                 > horizon-cli daemon status
-                Not running
+                Stopped
 
             """),
         Command(name: "stop", allowableNumberOfArguments: [0], help: """
@@ -116,6 +125,21 @@ struct DaemonHandler: Handler {
               If the daemon hangs for some reason, the PID can be found in written
               to a file at `~/.horizon/<identity>/PID`, from which you can issue a
               manual `kill` command.
+
+            """),
+        Command(name: "ls", allowableNumberOfArguments: [0], help: """
+            horizon-cli daemon ls
+              'horizon-cli daemon ls' lists the status of the daemon for each
+              identity. This is extremely useful to quickly check if any unwanted
+              horizon instances are running, or to potentially clean up after an
+              unclean shutdown.
+
+                > horizon-cli daemon ls
+                'default': Running (PID: 12345)
+                'work': Running (PID: 67890)
+                'test': Stopped
+                'old-test': Error (PID: 6666 not running but PID file remains at ~/.horizon/old-test/PID)
+
             """),
     ]
 
@@ -164,6 +188,8 @@ struct DaemonHandler: Handler {
             printDaemonStatus(config: config)
         case "stop":
             stopDaemon(config: config)
+        case "ls":
+            listDaemons()
         default:
             print(command.help)
             errorHandler()
@@ -240,18 +266,30 @@ struct DaemonHandler: Handler {
     }
 
     private func printDaemonStatus(config: Configuration) {
-        if let daemonPID = pid(for: config) {
-            print("Running – PID: \(daemonPID)")
-            completionHandler()
-        } else {
-            print("Not running")
-            completionHandler()
+        printStatus(for: config, withIdentityPrefix: false)
+        completionHandler()
+    }
+
+    private func listDaemons() {
+        let maybeIdentites = try? FileManager.default.contentsOfDirectory(at: config.horizonDirectory,
+                                                                          includingPropertiesForKeys: [.isDirectoryKey],
+                                                                          options: .skipsSubdirectoryDescendants)
+
+        guard let identities = maybeIdentites else {
+            print("Could not read directory \(config.horizonDirectory.path)")
+            errorHandler()
         }
 
+        for identity in identities {
+            let config = Configuration(identity: identity.lastPathComponent)
+            printStatus(for: config, withIdentityPrefix: true)
+        }
+
+        completionHandler()
     }
 
     private func stopDaemon(config: Configuration) {
-        if let daemonPID = pid(for: config) {
+        if let daemonPID = pid(at: config.daemonPIDPath) {
             kill(daemonPID, SIGKILL)
             try! FileManager.default.removeItem(at: config.daemonPIDPath)
             completionHandler()
@@ -262,8 +300,8 @@ struct DaemonHandler: Handler {
 
     }
 
-    private func pid(for config: Configuration) -> Int32? {
-        if let pidString = try? String(contentsOf: config.daemonPIDPath), let pid = Int32(pidString) {
+    private func pid(at path: URL) -> Int32? {
+        if let pidString = try? String(contentsOf: path), let pid = Int32(pidString) {
             return pid
         } else {
             return nil
@@ -280,6 +318,25 @@ struct DaemonHandler: Handler {
         task.standardInput = nil
         task.environment = environment
         return task
+    }
+
+    private func printStatus(for config: Configuration, withIdentityPrefix: Bool = false) {
+        let identityPrefix = withIdentityPrefix ? "Identity '\(config.identity)': " : ""
+
+        if let daemonPID = pid(at: config.daemonPIDPath) {
+            // Sending a signal of 0 to a process tests for existence
+            let isDaemonRunning = (kill(daemonPID, 0) == 0)
+
+
+            if !isDaemonRunning {
+                print("\(identityPrefix)Error (PID: \(daemonPID.description) not running but PID file " +
+                      "remains at \(config.daemonPIDPath.path))")
+            } else {
+                print("\(identityPrefix)Running (PID: \(daemonPID.description))")
+            }
+        } else {
+            print("\(identityPrefix)Stopped")
+        }
     }
 
 }

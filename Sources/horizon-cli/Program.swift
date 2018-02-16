@@ -48,6 +48,7 @@ class Program {
         daemon help                             Displays detailed help information
         daemon start                            Starts the horizon daemon in the background
         daemon status                           Prints the current status of the background daemon
+        daemon ls                               Lists the status of the daemons for each identity
         daemon stop                             Starts the horizon daemon in the background
 
       CONTACT COMMANDS

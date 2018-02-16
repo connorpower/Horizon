@@ -24,6 +24,7 @@ public struct Configuration {
 
     // MARK: - Properties
 
+    public let horizonDirectory = URL(fileURLWithPath: ("~/.horizon" as NSString).expandingTildeInPath)
     public let identity: String
     public let path: URL
     public let daemonPIDPath: URL
@@ -48,7 +49,7 @@ public struct Configuration {
         }
 
         self.identity = identity
-        self.path = URL(fileURLWithPath: ("~/.horizon/\(identity)" as NSString).expandingTildeInPath)
+        self.path = self.horizonDirectory.appendingPathComponent(identity)
         self.daemonPIDPath = self.path.appendingPathComponent("PID")
         self.apiPort = randomSafePort(for: identity, basePort: 5001)
         self.gatewayPort = randomSafePort(for: identity, basePort: 8080)

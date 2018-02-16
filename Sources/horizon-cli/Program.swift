@@ -38,10 +38,13 @@ class Program {
         sync                                    Syncs the receive lists from all contacts
 
       DAEMON COMMANDS
-        daemon start                            Starts the background horizon daemon
-        daemon stop                             Stops the background horizon daemon
+        daemon help                             Displays detailed help information
+        daemon start                            Starts the horizon daemon in the background
+        daemon status                           Prints the current status of the background daemon
+        daemon stop                             Starts the horizon daemon in the background
 
       CONTACT COMMANDS
+        contacts help                           Displays detailed help information
         contacts add <name>                     Create a new contact
         contacts ls                             List all contacts
         contacts info [<name>]                  Prints contact and associated details

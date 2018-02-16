@@ -101,13 +101,19 @@ can be easily inspected on the terminal:
     # Show all entries for the command line tool
     > defaults read horizon-cli
 
-    # Show the current contact list
-    > defaults read horizon-cli com.semantical.Horizon.contactList
+    # Show the contact list for the default identity
+    > defaults read horizon-cli com.semantical.Horizon.default.contactList
+
+Horizon supports multiple independent and simultaneous identities. Presuming
+you have (in addition to the 'default' identity) a 'work' identitiy:
+
+    # Show the contact list for the 'work' identity
+    > defaults read horizon-cli com.semantical.Horizon.work.contactList
 
 Care is taken to ensure that the entries are JSON formatted strings, so the
 following command will be more useful in most circumstances.
 
-    > output=$(defaults read horizon-cli com.semantical.Horizon.contactList) && echo -n $output | jsonlint
+    > output=$(defaults read horizon-cli com.semantical.Horizon.default.contactList) && echo -n $output | jsonlint
 
 Why not just a straightforward pipe? If the key is not present in the UserDefaults
 we end up trying to feed gabarge into `jsonLint`.

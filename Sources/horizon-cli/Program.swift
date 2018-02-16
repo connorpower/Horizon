@@ -26,11 +26,12 @@ class Program {
       horizon-cli - An encrypted fileshare for the decentralized web.
 
     SYNOPSIS
-      horizon-cli [--help | -h] <command> ...
+      horizon-cli [--help | -h] [--identity <identity>] <command> ...
 
     OPTIONS
 
-      --help, -h      - Show the full command help text.
+      --identity                                Use a self-contained and indepenedent identity other than 'default'
+      --help, -h                                Show the full command help text.
 
     SUBCOMMANDS
       BASIC COMMANDS
@@ -75,9 +76,7 @@ class Program {
 
     """
 
-    let model: Model = Model(api: IPFSWebserviceAPI(logProvider: Loggers()),
-                             persistentStore: UserDefaultsStore(),
-                             eventCallback: nil)
+    var model: Model!
 
     // MARK: - Functions
 
@@ -89,16 +88,37 @@ class Program {
      processing has completed.
      */
     func main() {
-        let config = IPFSConfiguration(instanceNumber: 1)
-        SwaggerClientAPI.basePath = config.apiBasePath
-
-        let arguments: [String]
+        var arguments: [String]
         if CommandLine.arguments.count == 1 {
             print("> ", separator: "", terminator: "")
             arguments = readLine(strippingNewline: true)?.split(separator: " ").map({String($0)}) ?? [String]()
         } else {
             arguments = Array(CommandLine.arguments.dropFirst())
         }
+
+        var identity = "default"
+
+        switch arguments.first ?? "" {
+        case "-h", "--help", "help":
+            print(help)
+            exit(EXIT_SUCCESS)
+        case "--identity":
+            if arguments.count >= 2 {
+                identity = arguments[1]
+                arguments = Array(arguments[2..<arguments.count])
+            } else {
+                print(help)
+                exit(EXIT_FAILURE)
+            }
+        default:
+            break
+        }
+
+        let config = Configuration(identity: identity)
+        SwaggerClientAPI.basePath = config.apiBasePath
+        model = Model(api: IPFSWebserviceAPI(logProvider: Loggers()),
+                      persistentStore: UserDefaultsStore(config: config),
+                      eventCallback: nil)
 
         guard arguments.count >= 1 else {
             print(help)
@@ -111,27 +131,28 @@ class Program {
         switch command {
         case "contacts":
             ContactsHandler(model: model,
+                            config: config,
                             arguments: commandArgs,
                             completion: { exit(EXIT_SUCCESS) },
                             error: { exit(EXIT_FAILURE) }).run()
         case "shares":
             SharesHandler(model: model,
+                          config: config,
                           arguments: commandArgs,
                           completion: { exit(EXIT_SUCCESS) },
                           error: { exit(EXIT_FAILURE) }).run()
         case "files":
             FilesHandler(model: model,
+                         config: config,
                          arguments: commandArgs,
                          completion: { exit(EXIT_SUCCESS) },
                          error: { exit(EXIT_FAILURE) }).run()
         case "daemon":
             DaemonHandler(model: model,
+                          config: config,
                           arguments: commandArgs,
                           completion: { exit(EXIT_SUCCESS) },
                           error: { exit(EXIT_FAILURE) }).run()
-        case "-h", "--help", "help":
-            print(help)
-            exit(EXIT_SUCCESS)
         default:
             print(help)
             exit(EXIT_FAILURE)

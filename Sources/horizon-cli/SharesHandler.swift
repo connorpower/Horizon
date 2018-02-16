@@ -130,6 +130,7 @@ struct SharesHandler: Handler {
     // MARK: - Properties
 
     private let model: Model
+    private let config: Configuration
 
     private let arguments: [String]
 
@@ -138,8 +139,10 @@ struct SharesHandler: Handler {
 
     // MARK: - Handler Protocol
 
-    init(model: Model, arguments: [String], completion: @escaping () -> Never, error: @escaping () -> Never) {
+    init(model: Model, config: Configuration, arguments: [String],
+         completion: @escaping () -> Never, error: @escaping () -> Never) {
         self.model = model
+        self.config = config
         self.arguments = arguments
         self.completionHandler = completion
         self.errorHandler = error
@@ -209,7 +212,7 @@ struct SharesHandler: Handler {
                 }
             }
 
-            print("Failed to share file. Is IPFS running?")
+            print("Failed to share file. Have you started the horizon daemon?")
             self.errorHandler()
         }
     }
@@ -237,7 +240,7 @@ struct SharesHandler: Handler {
                 }
             }
 
-            print("Failed to share file. Is IPFS running?")
+            print("Failed to share file. Have you started the horizon daemon?")
             self.errorHandler()
         }
     }

@@ -122,6 +122,7 @@ struct DaemonHandler: Handler {
     // MARK: - Properties
 
     private let model: Model
+    private let config: Configuration
 
     private let arguments: [String]
 
@@ -130,8 +131,10 @@ struct DaemonHandler: Handler {
 
     // MARK: - Handler Protocol
 
-    init(model: Model, arguments: [String], completion: @escaping () -> Never, error: @escaping () -> Never) {
+    init(model: Model, config: Configuration, arguments: [String],
+         completion: @escaping () -> Never, error: @escaping () -> Never) {
         self.model = model
+        self.config = config
         self.arguments = arguments
         self.completionHandler = completion
         self.errorHandler = error
@@ -156,13 +159,10 @@ struct DaemonHandler: Handler {
 
         switch command.name {
         case "start":
-            let config = IPFSConfiguration(instanceNumber: 1)
             startDaemon(config: config)
         case "status":
-            let config = IPFSConfiguration(instanceNumber: 1)
             printDaemonStatus(config: config)
         case "stop":
-            let config = IPFSConfiguration(instanceNumber: 1)
             stopDaemon(config: config)
         default:
             print(command.help)
@@ -172,7 +172,7 @@ struct DaemonHandler: Handler {
 
     // MARK: - Private Functions
 
-    private func startDaemon(config: IPFSConfiguration) {
+    private func startDaemon(config: Configuration) {
 
         if !FileManager.default.fileExists(atPath: config.path.path) {
             try! FileManager.default.createDirectory(at: config.path.deletingLastPathComponent(),
@@ -230,9 +230,6 @@ struct DaemonHandler: Handler {
         let daemonProcess = ipfsCommand(for: config)
         daemonProcess.launchPath = "/usr/local/bin/ipfs"
         daemonProcess.arguments = ["daemon"]
-        daemonProcess.standardError = nil
-        daemonProcess.standardOutput = nil
-        daemonProcess.standardInput = nil
         daemonProcess.launch()
 
         if let pidData = daemonProcess.processIdentifier.description.data(using: .utf8, allowLossyConversion: false) {
@@ -242,7 +239,7 @@ struct DaemonHandler: Handler {
         completionHandler()
     }
 
-    private func printDaemonStatus(config: IPFSConfiguration) {
+    private func printDaemonStatus(config: Configuration) {
         if let daemonPID = pid(for: config) {
             print("Running – PID: \(daemonPID)")
             completionHandler()
@@ -253,7 +250,7 @@ struct DaemonHandler: Handler {
 
     }
 
-    private func stopDaemon(config: IPFSConfiguration) {
+    private func stopDaemon(config: Configuration) {
         if let daemonPID = pid(for: config) {
             kill(daemonPID, SIGKILL)
             try! FileManager.default.removeItem(at: config.daemonPIDPath)
@@ -265,7 +262,7 @@ struct DaemonHandler: Handler {
 
     }
 
-    private func pid(for config: IPFSConfiguration) -> Int32? {
+    private func pid(for config: Configuration) -> Int32? {
         if let pidString = try? String(contentsOf: config.daemonPIDPath), let pid = Int32(pidString) {
             return pid
         } else {
@@ -273,11 +270,14 @@ struct DaemonHandler: Handler {
         }
     }
 
-    private func ipfsCommand(for config: IPFSConfiguration) -> Process {
+    private func ipfsCommand(for config: Configuration) -> Process {
         var environment = ProcessInfo().environment
         environment["IPFS_PATH"] = config.path.path
 
         let task = Process()
+        task.standardError = nil
+        task.standardOutput = nil
+        task.standardInput = nil
         task.environment = environment
         return task
     }

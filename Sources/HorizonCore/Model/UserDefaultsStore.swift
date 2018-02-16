@@ -14,19 +14,15 @@ import Foundation
  */
 public struct UserDefaultsStore: PersistentStore {
 
-    // MARK: - Constants
+    // MARK: - Properties
 
-    private struct UserDefaultsKeys {
-
-        /**
-         The NSUserDefaults key for the list of contacts.
-         */
-        static let contactList = "com.semantical.Horizon.contactList"
-    }
+    private let config: Configuration
 
     // MARK: - Initialization
 
-    public init() {}
+    public init(config: Configuration) {
+        self.config = config
+    }
 
     // MARK: - Functions
 
@@ -35,7 +31,7 @@ public struct UserDefaultsStore: PersistentStore {
      shared.
      */
     public var contacts: [Contact] {
-        if let jsonString = UserDefaults.standard.string(forKey: UserDefaultsKeys.contactList),
+        if let jsonString = UserDefaults.standard.string(forKey: config.persistentStoreKeys.contactList),
             let jsonData = jsonString.data(using: .utf8) {
             let contacts = try? JSONDecoder().decode([Contact].self, from: jsonData)
             return contacts ?? [Contact]()
@@ -60,7 +56,7 @@ public struct UserDefaultsStore: PersistentStore {
         }
 
         let jsonString = String(bytes: jsonData, encoding: .utf8)
-        UserDefaults.standard.set(jsonString, forKey: UserDefaultsKeys.contactList)
+        UserDefaults.standard.set(jsonString, forKey: config.persistentStoreKeys.contactList)
     }
 
     /**
@@ -77,7 +73,7 @@ public struct UserDefaultsStore: PersistentStore {
         }
 
         let jsonString = String(bytes: jsonData, encoding: .utf8)
-        UserDefaults.standard.set(jsonString, forKey: UserDefaultsKeys.contactList)
+        UserDefaults.standard.set(jsonString, forKey: config.persistentStoreKeys.contactList)
     }
 
 }

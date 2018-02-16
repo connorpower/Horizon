@@ -47,7 +47,6 @@
 		OBJ_134 /* ContactsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* ContactsHandler.swift */; };
 		OBJ_135 /* Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* Handler.swift */; };
 		OBJ_136 /* Loggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* Loggers.swift */; };
-		OBJ_137 /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_28 /* Program.swift */; };
 		OBJ_138 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_29 /* main.swift */; };
 		OBJ_140 /* HorizonCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "horizon-cli::HorizonCore::Product" /* HorizonCore.framework */; };
 		OBJ_141 /* IPFSWebService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "IPFSWebService::IPFSWebService::Product" /* IPFSWebService.framework */; };
@@ -258,7 +257,6 @@
 		OBJ_25 /* ContactsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsHandler.swift; sourceTree = "<group>"; };
 		OBJ_26 /* Handler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Handler.swift; sourceTree = "<group>"; };
 		OBJ_27 /* Loggers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loggers.swift; sourceTree = "<group>"; };
-		OBJ_28 /* Program.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
 		OBJ_29 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		OBJ_32 /* FileListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListTests.swift; sourceTree = "<group>"; };
 		OBJ_41 /* APIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHelper.swift; sourceTree = "<group>"; };
@@ -461,7 +459,6 @@
 				D217E3C520376CFE00F3EDE8 /* SyncHandler.swift */,
 				OBJ_26 /* Handler.swift */,
 				OBJ_27 /* Loggers.swift */,
-				OBJ_28 /* Program.swift */,
 				OBJ_29 /* main.swift */,
 			);
 			name = "horizon-cli";
@@ -921,7 +918,6 @@
 				D2867A06202E12AC00D3900C /* SharesHandler.swift in Sources */,
 				D217E3C620376CFE00F3EDE8 /* SyncHandler.swift in Sources */,
 				D217E3C02037398400F3EDE8 /* DaemonHandler.swift in Sources */,
-				OBJ_137 /* Program.swift in Sources */,
 				D2474ABA2036D00500AE46AF /* FilesHandler.swift in Sources */,
 				OBJ_138 /* main.swift in Sources */,
 			);

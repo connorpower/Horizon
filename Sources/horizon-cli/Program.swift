@@ -40,7 +40,7 @@ struct Program {
       CONTACT COMMANDS
         contacts add <name>                     Create a new contact
         contacts ls                             List all contacts
-        contacts info <name>                    Prints contact and associated details
+        contacts info [<name>]                  Prints contact and associated details
         contacts rm <name>                      Removes contact
         contacts rename <name> <new-name>       Renames contact
         contacts set-rcv-addr <name> <hash>     Sets the receive address for a contact

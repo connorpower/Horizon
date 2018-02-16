@@ -96,7 +96,7 @@ struct ContactsHandler: Handler {
         horizon-cli contacts help                          - Displays detailed help information
         horizon-cli contacts add <name>                    - Create a new contact
         horizon-cli contacts ls                            - List all contacts
-        horizon-cli contacts info <name>                   - Prints contact and associated details
+        horizon-cli contacts info [<name>]                 - Prints contact and associated details
         horizon-cli contacts rm <name>                     - Removes contact
         horizon-cli contacts rename <name> <new-name>      - Renames contact
         horizon-cli contacts set-rcv-addr <name> <hash>    - Sets the receive address for a contact
@@ -131,8 +131,8 @@ struct ContactsHandler: Handler {
                 mmusterman
 
             """),
-        Command(name: "info", allowableNumberOfArguments: [0], help: """
-            horizon-cli contacts info <name>
+        Command(name: "info", allowableNumberOfArguments: [0, 1], help: """
+            horizon-cli contacts info [<name>]
               'horizon-cli contacts info <name>' prints a given contact to the screen,
               showing the current values for the send address and receive address.
 
@@ -141,11 +141,6 @@ struct ContactsHandler: Handler {
                 Send address:     QmSomeHash
                 Receive address:  QmSomeHash
                 IPFS keypair:     com-semantical.horizon-cli.mmusterman
-
-                joe
-                Send address:     QmSomeHash
-                Receive address:  QmSomeHash
-                IPFS keypair:     com-semantical.horizon-cli.joe
 
             """),
         Command(name: "rm", allowableNumberOfArguments: [1], help: """
@@ -217,6 +212,10 @@ struct ContactsHandler: Handler {
             addContact(name: commandArguments[0])
         case "ls":
             listContacts()
+        case "info":
+            let contactFilter = ContactFilter(optionalContact: commandArguments.first)
+
+            listContactInfo(for: contactFilter)
         case "rm":
             removeContact(name: commandArguments[0])
         case "rename":
@@ -253,22 +252,35 @@ struct ContactsHandler: Handler {
         }
     }
 
-    private func listContacts() {
-        let contacts = model.contacts
+    private func listContactInfo(for contactFilter: ContactFilter) {
+        let contacts:[Contact]
 
-        guard !contacts.isEmpty else {
-            print("No contacts")
-            completionHandler()
+        switch contactFilter {
+        case .specificContact(let name):
+            guard let specificContact = model.contact(named: name) else {
+                print("Contact does not exist.")
+                errorHandler()
+            }
+            contacts = [specificContact]
+        case .allContacts:
+            contacts = model.contacts
         }
 
         for contact in contacts {
             print("""
-                  \(contact.displayName)
-                  Send address:    \(contact.sendAddress?.address ?? "nil")
-                  Receive address: \(contact.receiveAddress ?? "nil")
-                  IPFS keypair:    \(contact.sendAddress?.keypairName ?? "nil")
+                \(contact.displayName)
+                Send address:    \(contact.sendAddress?.address ?? "nil")
+                Receive address: \(contact.receiveAddress ?? "nil")
+                IPFS keypair:    \(contact.sendAddress?.keypairName ?? "nil")
 
-                  """)
+                """)
+        }
+        completionHandler()
+    }
+
+    private func listContacts() {
+        for contact in model.contacts {
+            print(contact.displayName)
         }
 
         completionHandler()

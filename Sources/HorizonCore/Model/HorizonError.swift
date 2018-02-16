@@ -45,6 +45,20 @@ public enum HorizonError: Error {
     }
 
     /**
+     The underlying reason the attempt to retreive a file or files failed.
+
+     - unknown: An unknown reason caused the command to fail.
+     - fileHashNotSet: The requested file was missing a hash address.
+     - fileNotFound: The file could not be found in IPFS. Most likely
+     the contact who shared the file is not online and it is not present
+     in any IPFS caches.
+     */
+    public enum FileOperationFailureReason {
+        case unknown(Error)
+        case fileHashNotSet
+    }
+
+    /**
      The underlying reason the sync command failed.
      - unknown: An unknown reason caused the command to fail.
      */
@@ -54,5 +68,7 @@ public enum HorizonError: Error {
 
     case contactOperationFailed(reason: ContactOperationFailureReason)
     case shareOperationFailed(reason: ShareOperationFailureReason)
+    case fileOperationFailed(reason: FileOperationFailureReason)
     case syncFailed(reason: SyncFailureReason)
+
 }

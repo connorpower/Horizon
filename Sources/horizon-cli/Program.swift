@@ -28,8 +28,14 @@ class Program {
     SYNOPSIS
       horizon-cli [--help | -h] [--identity <identity>] <command> ...
 
-    OPTIONS
+    IDENTITIES
+      Horizon allows for multiple independent 'identities'. Each is namespaced
+      with it's own list of contacts, shares and entirely separate version of
+      IPFS. If no entity is provided, horizon will default to the 'default'
+      entity – this is effectively the same as having provided `--identity default`
+      as a comand line option.
 
+    OPTIONS
       --identity                                Use a self-contained and indepenedent identity other than 'default'
       --help, -h                                Show the full command help text.
 

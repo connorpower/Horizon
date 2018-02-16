@@ -26,80 +26,12 @@ public class Model {
 
     private let eventCallback: ((Event) -> Void)?
 
-    private var syncState = [(receiveHashList: String, contact: Contact)]()
-
     // MARK: - Initialization
 
     public init(api: IPFSAPI, persistentStore: PersistentStore, eventCallback: ((Event) -> Void)?) {
         self.api = api
         self.persistentStore = persistentStore
         self.eventCallback = eventCallback
-    }
-
-    // MARK: - API
-
-    public func sync() {
-//        // TODO: Look for contacts which have send lists missing a hash for the send list itself, and correct.
-//        // TODO: Look for contacts which have send lists missing an IPFS published flag, and correct.
-//        guard syncState.isEmpty else { return }
-//
-//        let newSyncState = persistentStore.contacts.map({ contact -> (receiveHashList: String, contact: Contact)? in
-//            guard let receiveAddress = contact.receiveAddress else {
-//                return nil
-//            }
-//            return (receiveAddress, contact)
-//        }).flatMap( {$0} )
-//
-//        guard !newSyncState.isEmpty else {
-//            return
-//        }
-//
-//        syncState += newSyncState
-//        eventCallback?(.syncDidStart)
-//
-//        for (receiveAddress, contact) in syncState {
-//            eventCallback?(.resolvingReceiveListDidStart(contact))
-//
-//            firstly {
-//                return self.api.resolve(arg: receiveAddress, recursive: true)
-//            }.then { response in
-//                try self.getFileList(from: contact, at: response.path)
-//            }.catch { error in
-//                self.eventCallback?(.errorEvent(HorizonError.syncFailed(reason: .unknown(error))))
-//            }
-//        }
-    }
-
-    // MARK: Private Functions
-
-    private func getFileList(from contact: Contact, at path: String) throws {
-//        eventCallback?(.downloadingReceiveListDidStart(contact))
-//
-//        firstly {
-//            return api.cat(arg: path)
-//        }.then { data in
-//            self.eventCallback?(.processingReceiveListDidStart(contact))
-//
-//            if let files = try? JSONDecoder().decode([File].self, from: data) {
-//                var updatedContact = contact
-//                updatedContact.receiveList = FileList(hash: path, files: files)
-//                self.persistentStore.createOrUpdateContact(updatedContact)
-//
-//                self.eventCallback?(.propertiesDidChange(contact))
-//            } else {
-//                throw HorizonError.retrieveFileListFailed(reason: .invalidJSONAtPath(path))
-//            }
-//        }.always {
-//            self.removeContactFromSyncState(contact)
-//        }
-    }
-
-    private func removeContactFromSyncState(_ contact: Contact) {
-        syncState = syncState.filter({ $0.contact.identifier != contact.identifier })
-
-        if syncState.isEmpty {
-            eventCallback?(.syncDidEnd)
-        }
     }
 
 }
@@ -460,6 +392,69 @@ public extension Model {
                 ? error as! HorizonError : HorizonError.fileOperationFailed(reason: .unknown(error))
             self.eventCallback?(.errorEvent(horizonError))
         }
+    }
+
+}
+
+// MARK: - Sync
+
+public extension Model {
+
+    public func sync() -> Promise<[Contact]> {
+        //        // TODO: Look for contacts which have send lists missing a hash for the send list itself, and correct.
+        //        // TODO: Look for contacts which have send lists missing an IPFS published flag, and correct.
+        //        guard syncState.isEmpty else { return }
+        //
+        //        let newSyncState = persistentStore.contacts.map({ contact -> (receiveHashList: String, contact: Contact)? in
+        //            guard let receiveAddress = contact.receiveAddress else {
+        //                return nil
+        //            }
+        //            return (receiveAddress, contact)
+        //        }).flatMap( {$0} )
+        //
+        //        guard !newSyncState.isEmpty else {
+        //            return
+        //        }
+        //
+        //        syncState += newSyncState
+        //        eventCallback?(.syncDidStart)
+        //
+        //        for (receiveAddress, contact) in syncState {
+        //            eventCallback?(.resolvingReceiveListDidStart(contact))
+        //
+        //            firstly {
+        //                return self.api.resolve(arg: receiveAddress, recursive: true)
+        //            }.then { response in
+        //                try self.getFileList(from: contact, at: response.path)
+        //            }.catch { error in
+        //                self.eventCallback?(.errorEvent(HorizonError.syncFailed(reason: .unknown(error))))
+        //            }
+        //        }
+        return Promise<[Contact]>(value: [Contact]())
+    }
+
+    // MARK: Private Functions
+
+    private func getFileList(from contact: Contact, at path: String) throws {
+        //        eventCallback?(.downloadingReceiveListDidStart(contact))
+        //
+        //        firstly {
+        //            return api.cat(arg: path)
+        //        }.then { data in
+        //            self.eventCallback?(.processingReceiveListDidStart(contact))
+        //
+        //            if let files = try? JSONDecoder().decode([File].self, from: data) {
+        //                var updatedContact = contact
+        //                updatedContact.receiveList = FileList(hash: path, files: files)
+        //                self.persistentStore.createOrUpdateContact(updatedContact)
+        //
+        //                self.eventCallback?(.propertiesDidChange(contact))
+        //            } else {
+        //                throw HorizonError.retrieveFileListFailed(reason: .invalidJSONAtPath(path))
+        //            }
+        //        }.always {
+        //            self.removeContactFromSyncState(contact)
+        //        }
     }
 
 }

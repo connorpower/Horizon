@@ -23,6 +23,7 @@
 /* Begin PBXBuildFile section */
 		D217E3C02037398400F3EDE8 /* DaemonHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D217E3BF2037398400F3EDE8 /* DaemonHandler.swift */; };
 		D217E3C220373BF300F3EDE8 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D217E3C120373BF300F3EDE8 /* Configuration.swift */; };
+		D217E3C620376CFE00F3EDE8 /* SyncHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D217E3C520376CFE00F3EDE8 /* SyncHandler.swift */; };
 		D2474AB82036C9E400AE46AF /* ContactFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2474AB72036C9E400AE46AF /* ContactFilter.swift */; };
 		D2474ABA2036D00500AE46AF /* FilesHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2474AB92036D00500AE46AF /* FilesHandler.swift */; };
 		D2867A03202DE22C00D3900C /* MockPersistentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2867A02202DE22C00D3900C /* MockPersistentStore.swift */; };
@@ -225,6 +226,7 @@
 		"Alamofire::Alamofire::Product" /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D217E3BF2037398400F3EDE8 /* DaemonHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaemonHandler.swift; sourceTree = "<group>"; };
 		D217E3C120373BF300F3EDE8 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		D217E3C520376CFE00F3EDE8 /* SyncHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncHandler.swift; sourceTree = "<group>"; };
 		D2474AB72036C9E400AE46AF /* ContactFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactFilter.swift; sourceTree = "<group>"; };
 		D2474AB92036D00500AE46AF /* FilesHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesHandler.swift; sourceTree = "<group>"; };
 		D2867A02202DE22C00D3900C /* MockPersistentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPersistentStore.swift; sourceTree = "<group>"; };
@@ -450,6 +452,7 @@
 				D2867A05202E12AC00D3900C /* SharesHandler.swift */,
 				D2474AB92036D00500AE46AF /* FilesHandler.swift */,
 				D217E3BF2037398400F3EDE8 /* DaemonHandler.swift */,
+				D217E3C520376CFE00F3EDE8 /* SyncHandler.swift */,
 				OBJ_26 /* Handler.swift */,
 				OBJ_27 /* Loggers.swift */,
 				OBJ_28 /* Program.swift */,
@@ -910,6 +913,7 @@
 				OBJ_135 /* Handler.swift in Sources */,
 				OBJ_136 /* Loggers.swift in Sources */,
 				D2867A06202E12AC00D3900C /* SharesHandler.swift in Sources */,
+				D217E3C620376CFE00F3EDE8 /* SyncHandler.swift in Sources */,
 				D217E3C02037398400F3EDE8 /* DaemonHandler.swift in Sources */,
 				OBJ_137 /* Program.swift in Sources */,
 				D2474ABA2036D00500AE46AF /* FilesHandler.swift in Sources */,

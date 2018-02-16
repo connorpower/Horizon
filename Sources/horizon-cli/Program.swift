@@ -160,6 +160,12 @@ class Program {
                           arguments: commandArgs,
                           completion: { exit(EXIT_SUCCESS) },
                           error: { exit(EXIT_FAILURE) }).run()
+        case "sync":
+            SyncHandler(model: model,
+                        config: config,
+                        arguments: commandArgs,
+                        completion: { exit(EXIT_SUCCESS) },
+                        error: { exit(EXIT_FAILURE) }).run()
         default:
             print(help)
             exit(EXIT_FAILURE)

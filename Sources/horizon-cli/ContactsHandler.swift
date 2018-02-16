@@ -175,6 +175,7 @@ struct ContactsHandler: Handler {
     // MARK: - Properties
 
     private let model: Model
+    private let config: Configuration
 
     private let arguments: [String]
 
@@ -183,8 +184,10 @@ struct ContactsHandler: Handler {
 
     // MARK: - Handler Protocol
 
-    init(model: Model, arguments: [String], completion: @escaping () -> Never, error: @escaping () -> Never) {
+    init(model: Model, config: Configuration, arguments: [String],
+         completion: @escaping () -> Never, error: @escaping () -> Never) {
         self.model = model
+        self.config = config
         self.arguments = arguments
         self.completionHandler = completion
         self.errorHandler = error
@@ -247,7 +250,7 @@ struct ContactsHandler: Handler {
                 }
             }
 
-            print("Failed to add contact. Is IPFS running?")
+            print("Failed to add contact. Have you started the horizon daemon?")
             self.errorHandler()
         }
     }
@@ -299,7 +302,7 @@ struct ContactsHandler: Handler {
                 }
             }
 
-            print("Failed to remove contact. Is IPFS running?")
+            print("Failed to remove contact. Have you started the horizon daemon?")
             self.errorHandler()
         }
     }
@@ -320,7 +323,7 @@ struct ContactsHandler: Handler {
                 }
             }
 
-           print("Failed to rename contact. Is IPFS running?")
+           print("Failed to rename contact. Have you started the horizon daemon?")
            self.errorHandler()
         }
     }

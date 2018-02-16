@@ -8,6 +8,7 @@
 
 import Foundation
 import HorizonCore
+import IPFSWebService
 
 /**
  In the absensce of any required program structure enforced by
@@ -16,7 +17,7 @@ import HorizonCore
  handlers, program exit on success or failure and run-loop
  management.
  */
-struct Program {
+class Program {
 
     // MARK: - Properties
 
@@ -25,19 +26,33 @@ struct Program {
       horizon-cli - An encrypted fileshare for the decentralized web.
 
     SYNOPSIS
-      horizon-cli [--help | -h] <command> ...
+      horizon-cli [--help | -h] [--identity <identity>] <command> ...
+
+    IDENTITIES
+      Horizon allows for multiple independent 'identities'. Each is namespaced
+      with it's own list of contacts, shares and entirely separate version of
+      IPFS. If no entity is provided, horizon will default to the 'default'
+      entity – this is effectively the same as having provided `--identity default`
+      as a comand line option.
 
     OPTIONS
-
-      --help, -h      - Show the full command help text.
+      --identity                                Use a self-contained and indepenedent identity other than 'default'
+      --help, -h                                Show the full command help text.
 
     SUBCOMMANDS
       BASIC COMMANDS
         help                                    Prints this help menu
         sync                                    Syncs the receive lists from all contacts
-        stat                                    Prints statistics
+
+      DAEMON COMMANDS
+        daemon help                             Displays detailed help information
+        daemon start                            Starts the horizon daemon in the background
+        daemon status                           Prints the current status of the background daemon
+        daemon ls                               Lists the status of the daemons for each identity
+        daemon stop                             Starts the horizon daemon in the background
 
       CONTACT COMMANDS
+        contacts help                           Displays detailed help information
         contacts add <name>                     Create a new contact
         contacts ls                             List all contacts
         contacts info [<name>]                  Prints contact and associated details
@@ -68,9 +83,7 @@ struct Program {
 
     """
 
-    let model: Model = Model(api: IPFSWebserviceAPI(logProvider: Loggers()),
-                             persistentStore: UserDefaultsStore(),
-                             eventCallback: nil)
+    var model: Model!
 
     // MARK: - Functions
 
@@ -82,13 +95,37 @@ struct Program {
      processing has completed.
      */
     func main() {
-        let arguments: [String]
+        var arguments: [String]
         if CommandLine.arguments.count == 1 {
             print("> ", separator: "", terminator: "")
             arguments = readLine(strippingNewline: true)?.split(separator: " ").map({String($0)}) ?? [String]()
         } else {
             arguments = Array(CommandLine.arguments.dropFirst())
         }
+
+        var identity = "default"
+
+        switch arguments.first ?? "" {
+        case "-h", "--help", "help":
+            print(help)
+            exit(EXIT_SUCCESS)
+        case "--identity":
+            if arguments.count >= 2 {
+                identity = arguments[1]
+                arguments = Array(arguments[2..<arguments.count])
+            } else {
+                print(help)
+                exit(EXIT_FAILURE)
+            }
+        default:
+            break
+        }
+
+        let config = Configuration(identity: identity)
+        SwaggerClientAPI.basePath = config.apiBasePath
+        model = Model(api: IPFSWebserviceAPI(logProvider: Loggers()),
+                      persistentStore: UserDefaultsStore(config: config),
+                      eventCallback: nil)
 
         guard arguments.count >= 1 else {
             print(help)
@@ -101,22 +138,28 @@ struct Program {
         switch command {
         case "contacts":
             ContactsHandler(model: model,
+                            config: config,
                             arguments: commandArgs,
                             completion: { exit(EXIT_SUCCESS) },
                             error: { exit(EXIT_FAILURE) }).run()
         case "shares":
             SharesHandler(model: model,
+                          config: config,
                           arguments: commandArgs,
                           completion: { exit(EXIT_SUCCESS) },
                           error: { exit(EXIT_FAILURE) }).run()
         case "files":
             FilesHandler(model: model,
+                         config: config,
                          arguments: commandArgs,
                          completion: { exit(EXIT_SUCCESS) },
                          error: { exit(EXIT_FAILURE) }).run()
-        case "-h", "--help", "help":
-            print(help)
-            exit(EXIT_SUCCESS)
+        case "daemon":
+            DaemonHandler(model: model,
+                          config: config,
+                          arguments: commandArgs,
+                          completion: { exit(EXIT_SUCCESS) },
+                          error: { exit(EXIT_FAILURE) }).run()
         default:
             print(help)
             exit(EXIT_FAILURE)

@@ -47,6 +47,8 @@ protocol Handler {
      Required initializer for a command handler.
 
      - parameter model: The dependency injected model.
+     - parameter config: The configuration used for this particular run
+     of the command line tool.
      - parameter arguments: All remaining command line arguments, excluding
      the name of the top-level command itself.
      - parameter completion: A completion block to be called when the
@@ -56,7 +58,8 @@ protocol Handler {
      command has been unable to complete sucessfully. The app will block
      on a run loop until this completion block is called.
      */
-    init(model: Model, arguments: [String], completion: @escaping () -> Never, error: @escaping () -> Never)
+    init(model: Model, config: Configuration, arguments: [String],
+         completion: @escaping () -> Never, error: @escaping () -> Never)
 
     /**
      Run the command handler as appopriate, calling the completion

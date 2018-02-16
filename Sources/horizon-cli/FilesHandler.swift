@@ -119,6 +119,7 @@ struct FilesHandler: Handler {
     // MARK: - Properties
 
     private let model: Model
+    private let config: Configuration
 
     private let arguments: [String]
 
@@ -127,8 +128,10 @@ struct FilesHandler: Handler {
 
     // MARK: - Handler Protocol
 
-    init(model: Model, arguments: [String], completion: @escaping () -> Never, error: @escaping () -> Never) {
+    init(model: Model, config: Configuration, arguments: [String],
+         completion: @escaping () -> Never, error: @escaping () -> Never) {
         self.model = model
+        self.config = config
         self.arguments = arguments
         self.completionHandler = completion
         self.errorHandler = error
@@ -157,8 +160,9 @@ struct FilesHandler: Handler {
 
             listReceivedFiles(for: contactFilter)
         case "cat":
-            print(command.help)
-            errorHandler()
+            let hash = commandArguments[0]
+
+            printData(for: hash)
         case "cp":
             print(command.help)
             errorHandler()
@@ -197,6 +201,24 @@ struct FilesHandler: Handler {
             print("")
         }
         completionHandler()
+    }
+
+    private func printData(for hash: String) {
+        guard let file = model.file(matching: hash) else {
+            print("File does not exist.")
+            self.errorHandler()
+        }
+
+        firstly {
+            return model.data(for: file)
+        }.then { data in
+            print(String(data: data, encoding: .utf8) ?? "<failed to cat>")
+            self.completionHandler()
+        }.catch { error in
+            print("Failed to retrieve file. Is IPFS running and is the contact from which the file was shared " +
+                "on the network?")
+            self.errorHandler()
+        }
     }
 
 }

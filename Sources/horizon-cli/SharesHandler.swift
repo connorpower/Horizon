@@ -89,7 +89,7 @@ struct SharesHandler: Handler {
               The file will be added to IPFS. The list of files shared with the
               contacted will be updated and in turn also re-published to IPFS.
 
-                > horizon-cli shares add mmusterman "./The Byzantine Generals Problem.pdf"
+                > horizon-cli shares add mmusterman './The Byzantine Generals Problem.pdf'
 
             """),
         Command(name: "ls", allowableNumberOfArguments: [0], help: """
@@ -99,16 +99,16 @@ struct SharesHandler: Handler {
 
                 > horizon-cli shares ls
                 mmusterman
-                QmSomeHash: "The Byzantine Generals Problem.pdf"
-                QmSomeHash: "This is Water, David Foster Wallace.pdf"
+                QmSomeHash: 'The Byzantine Generals Problem.pdf'
+                QmSomeHash: 'This is Water, David Foster Wallace.pdf'
 
                 jbloggs
-                QmSomeHash: "IPFS - Content Addressed, Versioned, P2P File System (DRAFT 3).pdf"
+                QmSomeHash: 'IPFS - Content Addressed, Versioned, P2P File System (DRAFT 3).pdf'
 
               You may optionally filter by only a given contact.
 
                 > horizon-cli shares ls jbloggs
-                QmSomeHash: "IPFS - Content Addressed, Versioned, P2P File System (DRAFT 3).pdf"
+                QmSomeHash: 'IPFS - Content Addressed, Versioned, P2P File System (DRAFT 3).pdf'
 
             """),
         Command(name: "rm", allowableNumberOfArguments: [2], help: """
@@ -130,6 +130,7 @@ struct SharesHandler: Handler {
     // MARK: - Properties
 
     private let model: Model
+    private let config: Configuration
 
     private let arguments: [String]
 
@@ -138,8 +139,10 @@ struct SharesHandler: Handler {
 
     // MARK: - Handler Protocol
 
-    init(model: Model, arguments: [String], completion: @escaping () -> Never, error: @escaping () -> Never) {
+    init(model: Model, config: Configuration, arguments: [String],
+         completion: @escaping () -> Never, error: @escaping () -> Never) {
         self.model = model
+        self.config = config
         self.arguments = arguments
         self.completionHandler = completion
         self.errorHandler = error
@@ -209,7 +212,7 @@ struct SharesHandler: Handler {
                 }
             }
 
-            print("Failed to share file. Is IPFS running?")
+            print("Failed to share file. Have you started the horizon daemon?")
             self.errorHandler()
         }
     }
@@ -237,7 +240,7 @@ struct SharesHandler: Handler {
                 }
             }
 
-            print("Failed to share file. Is IPFS running?")
+            print("Failed to share file. Have you started the horizon daemon?")
             self.errorHandler()
         }
     }
@@ -263,7 +266,7 @@ struct SharesHandler: Handler {
                 print("(no files)")
             } else {
                 for file in files {
-                    print("\(file.hash ?? "nil"): \(file.name)")
+                    print("\(file.hash ?? "nil"): '\(file.name)'")
                 }
             }
             print("")

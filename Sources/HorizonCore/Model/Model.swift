@@ -422,3 +422,44 @@ public extension Model {
     }
 
 }
+
+// MARK: - Files Functionality (Inbound)
+
+/**
+ An extension which groups all related inbound file sharing functionality
+ into one place.
+ */
+public extension Model {
+
+    /**
+     Returns an unordered list of received files and their associated contacts.
+     */
+    public var receivedFiles: [(File, Contact)] {
+        return persistentStore.contacts.flatMap( { contact in
+            return contact.receiveList.files.map { ($0, contact) }
+        })
+    }
+
+    public func file(matching hash: String) -> File? {
+        let matches = receivedFiles.filter { file, contact in
+            return file.hash == hash
+        }
+
+        return matches.first?.0
+    }
+
+    public func data(for file: File) -> Promise<Data> {
+        guard let hash = file.hash else {
+            return Promise<Data>(error: HorizonError.fileOperationFailed(reason: .fileHashNotSet))
+        }
+
+        return firstly {
+            return self.api.cat(arg: hash)
+        }.catch { error in
+            let horizonError: HorizonError = error is HorizonError
+                ? error as! HorizonError : HorizonError.fileOperationFailed(reason: .unknown(error))
+            self.eventCallback?(.errorEvent(horizonError))
+        }
+    }
+
+}

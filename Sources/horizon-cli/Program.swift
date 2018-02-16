@@ -9,8 +9,6 @@
 import Foundation
 import HorizonCore
 import IPFSWebService
-import Darwin
-
 
 /**
  In the absensce of any required program structure enforced by
@@ -20,26 +18,6 @@ import Darwin
  management.
  */
 class Program {
-
-    // MARK: - IPFSConfiguration
-
-    struct IPFSConfiguration {
-        let instanceNumber: Int
-        let path: String
-        let apiPort: Int
-        let gatewayPort: Int
-        let swarmPort: Int
-        let apiBasePath: String
-
-        init(instanceNumber: Int) {
-            self.instanceNumber = instanceNumber
-            self.path = "~/.horizon/instance\(instanceNumber)"
-            self.apiPort = 5001 + instanceNumber
-            self.gatewayPort = 8080 + instanceNumber
-            self.swarmPort = 4001 + instanceNumber
-            self.apiBasePath = "http://127.0.0.1:\(5001 + instanceNumber)/api/v0"
-        }
-    }
 
     // MARK: - Properties
 
@@ -57,8 +35,11 @@ class Program {
     SUBCOMMANDS
       BASIC COMMANDS
         help                                    Prints this help menu
-        daemon                                  Starts the horizon daemon
         sync                                    Syncs the receive lists from all contacts
+
+      DAEMON COMMANDS
+        daemon start                            Starts the background horizon daemon
+        daemon stop                             Stops the background horizon daemon
 
       CONTACT COMMANDS
         contacts add <name>                     Create a new contact
@@ -141,7 +122,10 @@ class Program {
                          completion: { exit(EXIT_SUCCESS) },
                          error: { exit(EXIT_FAILURE) }).run()
         case "daemon":
-            startDaemon(instanceNumber: 1)
+            DaemonHandler(model: model,
+                          arguments: commandArgs,
+                          completion: { exit(EXIT_SUCCESS) },
+                          error: { exit(EXIT_FAILURE) }).run()
         case "-h", "--help", "help":
             print(help)
             exit(EXIT_SUCCESS)
@@ -151,79 +135,6 @@ class Program {
         }
 
         dispatchMain()
-    }
-
-    // MARK: - Private Functions
-
-    private func ipfsCommand(for config: IPFSConfiguration) -> Process {
-        var environment = ProcessInfo().environment
-        environment["IPFS_PATH"] = config.path
-
-        let task = Process()
-        task.environment = environment
-        return task
-    }
-
-    private func startDaemon(instanceNumber instance: Int = 1) {
-        let config = IPFSConfiguration(instanceNumber: instance)
-
-        let configDir = URL(fileURLWithPath: (config.path as NSString).expandingTildeInPath).deletingLastPathComponent()
-        var isDir: ObjCBool = ObjCBool(false)
-        if !FileManager.default.fileExists(atPath: configDir.absoluteString, isDirectory: &isDir) {
-            try! FileManager.default.createDirectory(at: configDir, withIntermediateDirectories: true, attributes: nil)
-
-            let initialize = ipfsCommand(for: config)
-            initialize.launchPath = "/usr/local/bin/ipfs"
-            initialize.arguments = ["init"]
-            initialize.launch()
-            initialize.waitUntilExit()
-            guard initialize.terminationStatus == 0 else {
-                fatalError("Failed to initialize IPFS instance")
-            }
-
-            let configAPI = ipfsCommand(for: config)
-            configAPI.launchPath = "/usr/local/bin/ipfs"
-            configAPI.arguments = ["config", "Addresses.API", "/ip4/127.0.0.1/tcp/\(config.apiPort)"]
-            configAPI.launch()
-            configAPI.waitUntilExit()
-            guard configAPI.terminationStatus == 0 else {
-                fatalError("Failed to configure IPFS API address")
-            }
-
-            let configGateway = ipfsCommand(for: config)
-            configGateway.launchPath = "/usr/local/bin/ipfs"
-            configGateway.arguments = ["config", "Addresses.Gateway" ,"/ip4/127.0.0.1/tcp/\(config.gatewayPort)"]
-            configGateway.launch()
-            configGateway.waitUntilExit()
-            guard configGateway.terminationStatus == 0 else {
-                fatalError("Failed to configure IPFS gateway address")
-            }
-
-            let configSwarm = ipfsCommand(for: config)
-            configSwarm.launchPath = "/usr/local/bin/ipfs"
-            configSwarm.arguments = ["config", "--json", "Addresses.Swarm", "[\"/ip4/0.0.0.0/tcp/\(config.swarmPort)\", \"/ip6/::/tcp/\(config.swarmPort)\"]"]
-            configSwarm.launch()
-            configSwarm.waitUntilExit()
-            guard configSwarm.terminationStatus == 0 else {
-                fatalError("Failed to configure IPFS swarm addresses")
-            }
-        }
-
-        var group = setsid()
-        if group == -1 {
-            print("setsid() == -1")
-            group = getpgrp()
-        }
-
-        let daemonProcess = ipfsCommand(for: config)
-        daemonProcess.launchPath = "/usr/local/bin/ipfs"
-        daemonProcess.arguments = ["daemon"]
-
-        if setpgid(daemonProcess.processIdentifier, group) == -1 {
-            print("unable to put task into same group as self: errno = %i", errno)
-        }
-
-        daemonProcess.launch()
     }
 
 }

@@ -51,6 +51,12 @@ struct Program {
         shares ls [<contact-name>]              Lists all shared files (optionally for a given contact)
         shares rm <contact-name> <file-hahs>    Removes a file which was shared with a contact
 
+      FILE COMMANDS
+        files help                              Displays detailed help information
+        files ls [<contact-name>]               Lists all received files (optionally from a given contact)
+        files cat <hash>                        Outputs the contents of a file to the command line
+        files cp <hash> <target-file>           Copies a shared file to a given location on the local machine
+
       Use 'horizon-cli <command> --help' to learn more about each command.
 
     EXIT STATUS
@@ -100,9 +106,14 @@ struct Program {
                             error: { exit(EXIT_FAILURE) }).run()
         case "shares":
             SharesHandler(model: model,
-                            arguments: commandArgs,
-                            completion: { exit(EXIT_SUCCESS) },
-                            error: { exit(EXIT_FAILURE) }).run()
+                          arguments: commandArgs,
+                          completion: { exit(EXIT_SUCCESS) },
+                          error: { exit(EXIT_FAILURE) }).run()
+        case "files":
+            FilesHandler(model: model,
+                         arguments: commandArgs,
+                         completion: { exit(EXIT_SUCCESS) },
+                         error: { exit(EXIT_FAILURE) }).run()
         case "-h", "--help", "help":
             print(help)
             exit(EXIT_SUCCESS)

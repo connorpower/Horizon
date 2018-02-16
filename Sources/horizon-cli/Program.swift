@@ -124,6 +124,7 @@ class Program {
         let config = Configuration(identity: identity)
         SwaggerClientAPI.basePath = config.apiBasePath
         model = Model(api: IPFSWebserviceAPI(logProvider: Loggers()),
+                      config: config,
                       persistentStore: UserDefaultsStore(config: config),
                       eventCallback: nil)
 

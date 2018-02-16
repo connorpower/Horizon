@@ -19,7 +19,11 @@ public struct Configuration {
     // MARK: - Data Types
 
     public struct PersistentStoreKeys {
+        // The contact list name as stored in UserDefaults
         public let contactList: String
+
+        // The keypair name given to an IPFS keypair with `ipfs key gen`
+        public let keypairPrefix: String
     }
 
     // MARK: - Properties
@@ -34,7 +38,8 @@ public struct Configuration {
     public let apiBasePath: String
 
     public var persistentStoreKeys: PersistentStoreKeys {
-        return PersistentStoreKeys(contactList: "com.semantical.Horizon.\(identity).contactList")
+        return PersistentStoreKeys(contactList: "com.semantical.Horizon.\(identity).contactList",
+                                   keypairPrefix: "com.semantical.Horizon.\(identity).contact")
     }
 
     // MARK: - Initialization

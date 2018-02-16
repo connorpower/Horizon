@@ -12,24 +12,24 @@ import IPFSWebService
 
 public class Model {
 
-    // MARK: - Constants
-
-    struct Constants {
-        static let keypairPrefix = "com.semantical.Horizon.contact"
-    }
-
     // MARK: - Properties
 
     private let persistentStore: PersistentStore
 
     private let api: IPFSAPI
 
+    private let config: Configuration
+
     private let eventCallback: ((Event) -> Void)?
 
     // MARK: - Initialization
 
-    public init(api: IPFSAPI, persistentStore: PersistentStore, eventCallback: ((Event) -> Void)?) {
+    public init(api: IPFSAPI,
+                config: Configuration,
+                persistentStore: PersistentStore,
+                eventCallback: ((Event) -> Void)?) {
         self.api = api
+        self.config = config
         self.persistentStore = persistentStore
         self.eventCallback = eventCallback
     }
@@ -84,7 +84,7 @@ public extension Model {
      `HorizonError.contactOperationFailed` error.
      */
     public func addContact(name: String) -> Promise<Contact> {
-        let keypairName = "\(Constants.keypairPrefix).\(name)"
+        let keypairName = "\(config.persistentStoreKeys.keypairPrefix).\(name)"
 
         guard contact(named: name) == nil else {
             return Promise(error: HorizonError.contactOperationFailed(reason: .contactAlreadyExists))
@@ -129,7 +129,7 @@ public extension Model {
         // Dont rely entirely on the keypair name or the contact. The
         // contact was potentially deleted, leaving behind a dangling IPNS keypair or vice versa.
         let contact = self.contact(named: name)
-        let keypairName = "\(Constants.keypairPrefix).\(name)"
+        let keypairName = "\(config.persistentStoreKeys.keypairPrefix).\(name)"
 
         return firstly {
             return self.api.listKeys()
@@ -178,8 +178,8 @@ public extension Model {
      `HorizonError.contactOperationFailed` error.
      */
     public func renameContact(_ name: String, to newName: String) -> Promise<Contact> {
-        let keypairName = "\(Constants.keypairPrefix).\(name)"
-        let newKeypairName = "\(Constants.keypairPrefix).\(newName)"
+        let keypairName = "\(config.persistentStoreKeys.keypairPrefix).\(name)"
+        let newKeypairName = "\(config.persistentStoreKeys.keypairPrefix).\(newName)"
 
         return firstly {
             return self.api.listKeys()

@@ -173,6 +173,10 @@ struct SharesHandler: Handler {
             let fileHash = commandArguments[1]
 
             unshareFile(fileHash, with: contact)
+        case "ls":
+            let contactFilter = ContactFilter(optionalContact: commandArguments.first)
+
+            listFiles(for: contactFilter)
         default:
             print(command.help)
             errorHandler()
@@ -236,6 +240,34 @@ struct SharesHandler: Handler {
             print("Failed to share file. Is IPFS running?")
             self.errorHandler()
         }
+    }
+
+    private func listFiles(for contactFilter: ContactFilter) {
+        let contacts:[Contact]
+
+        switch contactFilter {
+        case .specificContact(let name):
+            guard let specificContact = model.contact(named: name) else {
+                print("Contact does not exist.")
+                errorHandler()
+            }
+            contacts = [specificContact]
+        case .allContacts:
+            contacts = model.contacts
+        }
+
+        for contact in contacts {
+            print(contact.displayName)
+            if contact.receiveList.files.isEmpty {
+                print("(no files)")
+            } else {
+                for file in contact.receiveList.files {
+                    print("\(file.hash ?? "nil"): \(file.name)")
+                }
+            }
+            print("")
+        }
+        completionHandler()
     }
 
 }

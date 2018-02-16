@@ -146,7 +146,7 @@ struct DaemonHandler: Handler {
     // MARK: - Properties
 
     private let model: Model
-    private let config: Configuration
+    private let config: ConfigurationProvider
 
     private let arguments: [String]
 
@@ -155,7 +155,7 @@ struct DaemonHandler: Handler {
 
     // MARK: - Handler Protocol
 
-    init(model: Model, config: Configuration, arguments: [String],
+    init(model: Model, config: ConfigurationProvider, arguments: [String],
          completion: @escaping () -> Never, error: @escaping () -> Never) {
         self.model = model
         self.config = config
@@ -183,11 +183,11 @@ struct DaemonHandler: Handler {
 
         switch command.name {
         case "start":
-            startDaemon(config: config)
+            startDaemon()
         case "status":
-            printDaemonStatus(config: config)
+            printDaemonStatus()
         case "stop":
-            stopDaemon(config: config)
+            stopDaemon()
         case "ls":
             listDaemons()
         default:
@@ -198,7 +198,7 @@ struct DaemonHandler: Handler {
 
     // MARK: - Private Functions
 
-    private func startDaemon(config: Configuration) {
+    private func startDaemon() {
 
         if !FileManager.default.fileExists(atPath: config.path.path) {
             try! FileManager.default.createDirectory(at: config.path.deletingLastPathComponent(),
@@ -265,7 +265,7 @@ struct DaemonHandler: Handler {
         completionHandler()
     }
 
-    private func printDaemonStatus(config: Configuration) {
+    private func printDaemonStatus() {
         printStatus(for: config, withIdentityPrefix: false)
         completionHandler()
     }
@@ -288,7 +288,7 @@ struct DaemonHandler: Handler {
         completionHandler()
     }
 
-    private func stopDaemon(config: Configuration) {
+    private func stopDaemon() {
         if let daemonPID = pid(at: config.daemonPIDPath) {
             kill(daemonPID, SIGKILL)
             try! FileManager.default.removeItem(at: config.daemonPIDPath)
@@ -308,7 +308,7 @@ struct DaemonHandler: Handler {
         }
     }
 
-    private func ipfsCommand(for config: Configuration) -> Process {
+    private func ipfsCommand(for config: ConfigurationProvider) -> Process {
         var environment = ProcessInfo().environment
         environment["IPFS_PATH"] = config.path.path
 
@@ -320,7 +320,7 @@ struct DaemonHandler: Handler {
         return task
     }
 
-    private func printStatus(for config: Configuration, withIdentityPrefix: Bool = false) {
+    private func printStatus(for config: ConfigurationProvider, withIdentityPrefix: Bool = false) {
         let identityPrefix = withIdentityPrefix ? "Identity '\(config.identity)': " : ""
 
         if let daemonPID = pid(at: config.daemonPIDPath) {

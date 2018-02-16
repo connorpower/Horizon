@@ -119,7 +119,7 @@ struct FilesHandler: Handler {
     // MARK: - Properties
 
     private let model: Model
-    private let config: Configuration
+    private let config: ConfigurationProvider
 
     private let arguments: [String]
 
@@ -128,7 +128,7 @@ struct FilesHandler: Handler {
 
     // MARK: - Handler Protocol
 
-    init(model: Model, config: Configuration, arguments: [String],
+    init(model: Model, config: ConfigurationProvider, arguments: [String],
          completion: @escaping () -> Never, error: @escaping () -> Never) {
         self.model = model
         self.config = config

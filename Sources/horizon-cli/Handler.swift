@@ -58,7 +58,7 @@ protocol Handler {
      command has been unable to complete sucessfully. The app will block
      on a run loop until this completion block is called.
      */
-    init(model: Model, config: Configuration, arguments: [String],
+    init(model: Model, config: ConfigurationProvider, arguments: [String],
          completion: @escaping () -> Never, error: @escaping () -> Never)
 
     /**

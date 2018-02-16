@@ -24,6 +24,8 @@
 		D217E3C02037398400F3EDE8 /* DaemonHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D217E3BF2037398400F3EDE8 /* DaemonHandler.swift */; };
 		D217E3C220373BF300F3EDE8 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D217E3C120373BF300F3EDE8 /* Configuration.swift */; };
 		D217E3C620376CFE00F3EDE8 /* SyncHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D217E3C520376CFE00F3EDE8 /* SyncHandler.swift */; };
+		D217E3C8203777A200F3EDE8 /* ConfigurationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D217E3C7203777A200F3EDE8 /* ConfigurationProvider.swift */; };
+		D217E3CA2037792000F3EDE8 /* MockConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D217E3C92037792000F3EDE8 /* MockConfiguration.swift */; };
 		D2474AB82036C9E400AE46AF /* ContactFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2474AB72036C9E400AE46AF /* ContactFilter.swift */; };
 		D2474ABA2036D00500AE46AF /* FilesHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2474AB92036D00500AE46AF /* FilesHandler.swift */; };
 		D2867A03202DE22C00D3900C /* MockPersistentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2867A02202DE22C00D3900C /* MockPersistentStore.swift */; };
@@ -227,6 +229,8 @@
 		D217E3BF2037398400F3EDE8 /* DaemonHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaemonHandler.swift; sourceTree = "<group>"; };
 		D217E3C120373BF300F3EDE8 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		D217E3C520376CFE00F3EDE8 /* SyncHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncHandler.swift; sourceTree = "<group>"; };
+		D217E3C7203777A200F3EDE8 /* ConfigurationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationProvider.swift; sourceTree = "<group>"; };
+		D217E3C92037792000F3EDE8 /* MockConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockConfiguration.swift; sourceTree = "<group>"; };
 		D2474AB72036C9E400AE46AF /* ContactFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactFilter.swift; sourceTree = "<group>"; };
 		D2474AB92036D00500AE46AF /* FilesHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesHandler.swift; sourceTree = "<group>"; };
 		D2867A02202DE22C00D3900C /* MockPersistentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPersistentStore.swift; sourceTree = "<group>"; };
@@ -381,6 +385,7 @@
 			children = (
 				D2A4A468202DD8F300DFA79D /* MockIPFSAPI.swift */,
 				D2867A02202DE22C00D3900C /* MockPersistentStore.swift */,
+				D217E3C92037792000F3EDE8 /* MockConfiguration.swift */,
 			);
 			path = Mocks;
 			sourceTree = SOURCE_ROOT;
@@ -431,6 +436,7 @@
 				D2A4A46E202DE11E00DFA79D /* PersistentStore.swift */,
 				D2474AB72036C9E400AE46AF /* ContactFilter.swift */,
 				D217E3C120373BF300F3EDE8 /* Configuration.swift */,
+				D217E3C7203777A200F3EDE8 /* ConfigurationProvider.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -929,6 +935,7 @@
 				D2E68D35202F768C002CB293 /* ModelTests_Shares.swift in Sources */,
 				D2A4A467202DD70D00DFA79D /* FileTests.swift in Sources */,
 				D2A4A469202DD8F300DFA79D /* MockIPFSAPI.swift in Sources */,
+				D217E3CA2037792000F3EDE8 /* MockConfiguration.swift in Sources */,
 				D2A4A465202DD38600DFA79D /* ContactTests.swift in Sources */,
 				D2A4A46B202DDC9500DFA79D /* ModelTests_Contacts.swift in Sources */,
 				OBJ_157 /* FileListTests.swift in Sources */,
@@ -946,6 +953,7 @@
 				D2A4A470202DE12600DFA79D /* UserDefaultsStore.swift in Sources */,
 				OBJ_174 /* FileList.swift in Sources */,
 				OBJ_175 /* HorizonError.swift in Sources */,
+				D217E3C8203777A200F3EDE8 /* ConfigurationProvider.swift in Sources */,
 				OBJ_176 /* IPFSAPI.swift in Sources */,
 				D2A4A46F202DE11E00DFA79D /* PersistentStore.swift in Sources */,
 				OBJ_177 /* IPFSWebserviceAPI.swift in Sources */,

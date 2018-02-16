@@ -32,7 +32,7 @@ class ModelTests_Contacts: XCTestCase {
         let contact1 = Contact(identifier: UUID(), displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
         let contact2 = Contact(identifier: UUID(), displayName: "Contact2", sendAddress: nil, receiveAddress: nil)
         mockStore.contacts = [contact1, contact2]
-        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         XCTAssertEqual(2, model.contacts.count)
         XCTAssertTrue(model.contacts.contains(contact1))
@@ -46,7 +46,7 @@ class ModelTests_Contacts: XCTestCase {
         let contact4 = Contact(identifier: UUID(), displayName: "Foo", sendAddress: nil, receiveAddress: nil)
 
         mockStore.contacts = [contact1, contact2, contact3, contact4]
-        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let foundContact = model.contact(named: "Foo")
         XCTAssertNotNil(foundContact)
@@ -57,7 +57,7 @@ class ModelTests_Contacts: XCTestCase {
         let contact1 = Contact(identifier: UUID(), displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
         let contact2 = Contact(identifier: UUID(), displayName: "Contact2", sendAddress: nil, receiveAddress: nil)
         mockStore.contacts = [contact1, contact2]
-        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         model.updateReceiveAddress(for: contact2, to: "28EA684E-FF5C-4793-8B8D-66C68527E62F")
 
@@ -74,7 +74,7 @@ class ModelTests_Contacts: XCTestCase {
     func testAddContact_NoPreviousContact() {
         let contact1 = Contact(identifier: UUID(), displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
         mockStore.contacts = [contact1]
-        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let contactPersistedExpectation = expectation(description: "contactPersistedExpectation")
         let contactAddedExpectation = expectation(description: "contactAddedExpectation")
@@ -109,7 +109,7 @@ class ModelTests_Contacts: XCTestCase {
     func testAddContact_PreExistingContact_MissingKey() {
         let contact1 = Contact(identifier: UUID(), displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
         mockStore.contacts = [contact1]
-        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let contactAddedExpectation = expectation(description: "contactAddedExpectation")
 
@@ -146,12 +146,12 @@ class ModelTests_Contacts: XCTestCase {
      */
     func testAddContact_MissingContact_PreExistingKey() {
         mockStore.contacts = []
-        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let contactAddedExpectation = expectation(description: "contactAddedExpectation")
 
         mockAPI.listKeysResponse = {
-            let key = Key(name: "\(Model.Constants.keypairPrefix).Contact1", id: "XXXX")
+            let key = Key(name: "\(MockConfiguration().persistentStoreKeys.keypairPrefix).Contact1", id: "XXXX")
             return Promise(value: ListKeysResponse(keys: [key]))
         }
         mockAPI.keygenResponse = { keypairName, _, _ in
@@ -185,13 +185,13 @@ class ModelTests_Contacts: XCTestCase {
     func testRemoveContact() {
         let contact1 = Contact(identifier: UUID(), displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
         mockStore.contacts = [contact1]
-        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let contactUnpersistedExpectation = expectation(description: "contactUnpersistedExpectation")
         let contactRemovedExpectation = expectation(description: "contactRemovedExpectation")
 
         mockAPI.listKeysResponse = {
-            let key = Key(name: "\(Model.Constants.keypairPrefix).Contact1", id: "XXXX")
+            let key = Key(name: "\(MockConfiguration().persistentStoreKeys.keypairPrefix).Contact1", id: "XXXX")
             return Promise(value: ListKeysResponse(keys: [key]))
         }
         mockAPI.removeKeyResponse = { _ in
@@ -218,7 +218,7 @@ class ModelTests_Contacts: XCTestCase {
     func testRemoveContact_PreExistingContact_MissingKey() {
         let contact1 = Contact(identifier: UUID(), displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
         mockStore.contacts = [contact1]
-        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let contactUnpersistedExpectation = expectation(description: "contactUnpersistedExpectation")
         let contactRemovedExpectation = expectation(description: "contactRemovedExpectation")
@@ -246,13 +246,13 @@ class ModelTests_Contacts: XCTestCase {
      */
     func testRemoveContact_MissingContact_PreExistingKey() {
         mockStore.contacts = []
-        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let keyRemovedExpectation = expectation(description: "keyRemovedExpectation")
         let contactRemovedExpectation = expectation(description: "contactRemovedExpectation")
 
         mockAPI.listKeysResponse = {
-            let key = Key(name: "\(Model.Constants.keypairPrefix).Contact1", id: "XXXX")
+            let key = Key(name: "\(MockConfiguration().persistentStoreKeys.keypairPrefix).Contact1", id: "XXXX")
             return Promise(value: ListKeysResponse(keys: [key]))
         }
         mockAPI.removeKeyResponse = { _ in
@@ -275,7 +275,7 @@ class ModelTests_Contacts: XCTestCase {
      */
     func testRemoveContact_DoesNotExist() {
         mockStore.contacts = []
-        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let errorThrownExpectation = expectation(description: "errorThrownExpectation")
 

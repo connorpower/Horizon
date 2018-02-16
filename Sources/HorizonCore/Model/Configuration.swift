@@ -14,17 +14,7 @@ import Foundation
  Furthermore, horizon supports multiple identities, each of which
  may run simultaneously and independently from oneanother.
  */
-public struct Configuration {
-
-    // MARK: - Data Types
-
-    public struct PersistentStoreKeys {
-        // The contact list name as stored in UserDefaults
-        public let contactList: String
-
-        // The keypair name given to an IPFS keypair with `ipfs key gen`
-        public let keypairPrefix: String
-    }
+public struct Configuration: ConfigurationProvider {
 
     // MARK: - Properties
 

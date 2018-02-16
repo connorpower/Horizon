@@ -18,14 +18,14 @@ public class Model {
 
     private let api: IPFSAPI
 
-    private let config: Configuration
+    private let config: ConfigurationProvider
 
     private let eventCallback: ((Event) -> Void)?
 
     // MARK: - Initialization
 
     public init(api: IPFSAPI,
-                config: Configuration,
+                config: ConfigurationProvider,
                 persistentStore: PersistentStore,
                 eventCallback: ((Event) -> Void)?) {
         self.api = api

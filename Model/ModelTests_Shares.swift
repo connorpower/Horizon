@@ -41,7 +41,7 @@ class ModelTests_Shares: XCTestCase {
                                sendAddress: SendAddress(address: "7A5055A5-39A7-4CE4-8061-7C80F918229A",
                                                         keypairName: "my.keypair.name"), receiveAddress: nil)
         mockStore.contacts = [contact1]
-        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let shareAddedExpectation = expectation(description: "shareAddedExpectation")
 
@@ -72,7 +72,7 @@ class ModelTests_Shares: XCTestCase {
         let contact1 = Contact(identifier: UUID(), displayName: "Contact1",
                                sendAddress: nil, receiveAddress: nil)
         mockStore.contacts = [contact1]
-        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let errorThrownExpectation = expectation(description: "errorThrownExpectation")
 
@@ -105,7 +105,7 @@ class ModelTests_Shares: XCTestCase {
                                sendAddress: SendAddress(address: "7A5055A5-39A7-4CE4-8061-7C80F918229A",
                                                         keypairName: "my.keypair.name"), receiveAddress: nil)
         mockStore.contacts = [contact1]
-        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let errorThrownExpectation = expectation(description: "errorThrownExpectation")
 
@@ -140,7 +140,7 @@ class ModelTests_Shares: XCTestCase {
                                receiveAddress: nil,
                                sendList: FileList(hash: nil, files: [fileToRemove]))
         mockStore.contacts = [contact1]
-        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let shareRemovedExpectation = expectation(description: "shareRemovedExpectation")
 
@@ -172,7 +172,7 @@ class ModelTests_Shares: XCTestCase {
                                sendAddress: nil, receiveAddress: nil,
                                sendList: FileList(hash: nil, files: [fileToRemove]))
         mockStore.contacts = [contact1]
-        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let errorThrownExpectation = expectation(description: "errorThrownExpectation")
 
@@ -209,7 +209,7 @@ class ModelTests_Shares: XCTestCase {
                                receiveAddress: nil,
                                sendList: FileList(hash: nil, files: [otherFile]))
         mockStore.contacts = [contact1]
-        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let errorThrownExpectation = expectation(description: "errorThrownExpectation")
 
@@ -247,7 +247,7 @@ class ModelTests_Shares: XCTestCase {
                                receiveAddress: nil,
                                sendList: FileList(hash: nil, files: [fileToRemove]))
         mockStore.contacts = [contact1]
-        let model = Model(api: mockAPI, persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let errorThrownExpectation = expectation(description: "errorThrownExpectation")
 

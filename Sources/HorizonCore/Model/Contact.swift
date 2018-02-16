@@ -128,6 +128,15 @@ public struct Contact: Codable {
                        receiveList: receiveList)
     }
 
+    func updatingReceiveList(_ newReceiveList: FileList) -> Contact {
+        return Contact(identifier: identifier,
+                       displayName: displayName,
+                       sendAddress: sendAddress,
+                       receiveAddress: receiveAddress,
+                       sendList: sendList,
+                       receiveList: newReceiveList)
+    }
+
 }
 
 extension Contact: Equatable {

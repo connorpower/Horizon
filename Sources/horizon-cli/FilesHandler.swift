@@ -80,7 +80,7 @@ struct FilesHandler: Handler {
     """
 
     private let commands = [
-        Command(name: "ls", allowableNumberOfArguments: [1, 1], help: """
+        Command(name: "ls", allowableNumberOfArguments: [0, 1], help: """
             horizon-cli files ls [<contact-name>]
               'horizon-cli files ls [<contact-name>]' lists all files you have received,
               optionally restricted to a single contact.
@@ -153,8 +153,9 @@ struct FilesHandler: Handler {
 
         switch command.name {
         case "ls":
-            print(command.help)
-            errorHandler()
+            let contactFilter = ContactFilter(optionalContact: commandArguments.first)
+
+            listReceivedFiles(for: contactFilter)
         case "cat":
             print(command.help)
             errorHandler()
@@ -168,5 +169,34 @@ struct FilesHandler: Handler {
     }
 
     // MARK: - Private Functions
+
+    private func listReceivedFiles(for contactFilter: ContactFilter) {
+        let contacts:[Contact]
+
+        switch contactFilter {
+        case .specificContact(let name):
+            guard let specificContact = model.contact(named: name) else {
+                print("Contact does not exist.")
+                errorHandler()
+            }
+            contacts = [specificContact]
+        case .allContacts:
+            contacts = model.contacts
+        }
+
+        for contact in contacts {
+            print(contact.displayName)
+            let files = contact.receiveList.files
+            if files.isEmpty {
+                print("(no files)")
+            } else {
+                for file in files {
+                    print("\(file.hash ?? "nil"): \(file.name)")
+                }
+            }
+            print("")
+        }
+        completionHandler()
+    }
 
 }

@@ -191,7 +191,9 @@ struct DaemonHandler: Handler {
 
             let configAPI = ipfsCommand(for: config)
             configAPI.launchPath = "/usr/local/bin/ipfs"
-            configAPI.arguments = ["config", "Addresses.API", "/ip4/127.0.0.1/tcp/\(config.apiPort)"]
+            configAPI.arguments = ["config",
+                                   "Addresses.API",
+                                   "/ip4/127.0.0.1/tcp/\(config.apiPort)"]
             configAPI.launch()
             configAPI.waitUntilExit()
             guard configAPI.terminationStatus == 0 else {
@@ -201,7 +203,9 @@ struct DaemonHandler: Handler {
 
             let configGateway = ipfsCommand(for: config)
             configGateway.launchPath = "/usr/local/bin/ipfs"
-            configGateway.arguments = ["config", "Addresses.Gateway" ,"/ip4/127.0.0.1/tcp/\(config.gatewayPort)"]
+            configGateway.arguments = ["config",
+                                       "Addresses.Gateway",
+                                       "/ip4/127.0.0.1/tcp/\(config.gatewayPort)"]
             configGateway.launch()
             configGateway.waitUntilExit()
             guard configGateway.terminationStatus == 0 else {
@@ -211,7 +215,10 @@ struct DaemonHandler: Handler {
 
             let configSwarm = ipfsCommand(for: config)
             configSwarm.launchPath = "/usr/local/bin/ipfs"
-            configSwarm.arguments = ["config", "--json", "Addresses.Swarm", "[\"/ip4/0.0.0.0/tcp/\(config.swarmPort)\", \"/ip6/::/tcp/\(config.swarmPort)\"]"]
+            configSwarm.arguments = ["config",
+                                     "--json",
+                                     "Addresses.Swarm",
+                                     "[\"/ip4/0.0.0.0/tcp/\(config.swarmPort)\", \"/ip6/::/tcp/\(config.swarmPort)\"]"]
             configSwarm.launch()
             configSwarm.waitUntilExit()
             guard configSwarm.terminationStatus == 0 else {

@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		D2474AB82036C9E400AE46AF /* ContactFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2474AB72036C9E400AE46AF /* ContactFilter.swift */; };
 		D2867A03202DE22C00D3900C /* MockPersistentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2867A02202DE22C00D3900C /* MockPersistentStore.swift */; };
 		D2867A06202E12AC00D3900C /* SharesHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2867A05202E12AC00D3900C /* SharesHandler.swift */; };
 		D2A4A465202DD38600DFA79D /* ContactTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4A464202DD38600DFA79D /* ContactTests.swift */; };
@@ -219,6 +220,7 @@
 
 /* Begin PBXFileReference section */
 		"Alamofire::Alamofire::Product" /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2474AB72036C9E400AE46AF /* ContactFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactFilter.swift; sourceTree = "<group>"; };
 		D2867A02202DE22C00D3900C /* MockPersistentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPersistentStore.swift; sourceTree = "<group>"; };
 		D2867A05202E12AC00D3900C /* SharesHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharesHandler.swift; sourceTree = "<group>"; };
 		D2A4A464202DD38600DFA79D /* ContactTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTests.swift; sourceTree = "<group>"; };
@@ -419,6 +421,7 @@
 				OBJ_18 /* IPFSWebserviceAPI.swift */,
 				OBJ_19 /* Model.swift */,
 				D2A4A46E202DE11E00DFA79D /* PersistentStore.swift */,
+				D2474AB72036C9E400AE46AF /* ContactFilter.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -932,6 +935,7 @@
 				D2A4A46F202DE11E00DFA79D /* PersistentStore.swift in Sources */,
 				OBJ_177 /* IPFSWebserviceAPI.swift in Sources */,
 				OBJ_178 /* Model.swift in Sources */,
+				D2474AB82036C9E400AE46AF /* ContactFilter.swift in Sources */,
 				OBJ_180 /* LogProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

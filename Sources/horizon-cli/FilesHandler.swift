@@ -215,8 +215,7 @@ struct FilesHandler: Handler {
             print(String(data: data, encoding: .utf8) ?? "<failed to cat>")
             self.completionHandler()
         }.catch { error in
-            print("Failed to retrieve file. Is IPFS running and is the contact from which the file was shared " +
-                "on the network?")
+            print("Failed to retrieve file. Have you started the horizon daemon and is the contact online?")
             self.errorHandler()
         }
     }

@@ -3,9 +3,9 @@
 import PackageDescription
 
 let package = Package(
-    name: "horizon-cli",
+    name: "horizon",
     products: [
-        .executable(name: "horizon-cli", targets: ["horizon-cli"]),
+        .executable(name: "horizon", targets: ["horizon"]),
         .library(name: "HorizonCore", type: .static, targets: ["HorizonCore"]),
     ],
     dependencies: [
@@ -14,7 +14,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "horizon-cli",
+            name: "horizon",
             dependencies: ["HorizonCore"]),
         .target(
             name: "HorizonCore",

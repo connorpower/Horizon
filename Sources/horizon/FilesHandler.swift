@@ -1,6 +1,6 @@
 //
 //  FilesHandler.swift
-//  horizon-cli
+//  horizon
 //
 //  Created by Connor Power on 16.02.18.
 //
@@ -15,17 +15,17 @@ struct FilesHandler: Handler {
 
     let longHelp = """
     USAGE
-      horizon-cli files - Manipulate files shared with you by Horizon contacts
+      horizon files - Manipulate files shared with you by Horizon contacts
 
     SYNOPSIS
-      horizon-cli files
+      horizon files
 
     DESCRIPTION
 
-      'horizon-cli files ls [<contact-name>]' lists all files you have received,
+      'horizon files ls [<contact-name>]' lists all files you have received,
       optionally restricted to a single contact.
 
-        > horizon-cli files ls
+        > horizon files ls
         mmusterman
         QmSomeHash: "The Byzantine Generals Problem.pdf"
         QmSomeHash: "This is Water, David Foster Wallace.pdf"
@@ -35,57 +35,57 @@ struct FilesHandler: Handler {
 
       You may optionally filter by only a given contact.
 
-        > horizon-cli files ls jbloggs
+        > horizon files ls jbloggs
         QmSomeHash: "IPFS - Content Addressed, Versioned, P2P File System (DRAFT 3).pdf"
 
-      'horizon-cli files cat <hash>' outputs the contents of a file to the
+      'horizon files cat <hash>' outputs the contents of a file to the
       command line. Care should be taken with binary files, as the shell may
       interpret byte sequences in unpredictable ways. Most useful combined with
       a pipe.
 
-        > horizon-cli files cat QmSomeHash | gzip > received_file.gzip
+        > horizon files cat QmSomeHash | gzip > received_file.gzip
 
-      'horizon-cli files cp <target-file>' copies the contents of a received file
+      'horizon files cp <target-file>' copies the contents of a received file
       to a given location on the local machine. If <target-file> is a directory,
       the actual file will be written with it's Horizon name inside the directory.
       The following command would copy a file from Horizon onto your desktop.
 
-        > horizon-cli files cp QmSomeHash ~/Desktop
+        > horizon files cp QmSomeHash ~/Desktop
 
       SUBCOMMANDS
-        horizon-cli files help                       - Displays detailed help information
-        horizon-cli files ls [<contact-name>]        - Lists all received files (optionally from a given contact)
-        horizon-cli files cat <hash>                 - Outputs the contents of a file to the command line
-        horizon-cli files cp <hash> <target-file>    - Copies a shared file to a given location on the local machine
+        horizon files help                       - Displays detailed help information
+        horizon files ls [<contact-name>]        - Lists all received files (optionally from a given contact)
+        horizon files cat <hash>                 - Outputs the contents of a file to the command line
+        horizon files cp <hash> <target-file>    - Copies a shared file to a given location on the local machine
 
-        Use 'horizon-cli files <subcmd> --help' for more information about each command.
+        Use 'horizon files <subcmd> --help' for more information about each command.
 
     """
 
     private let shortHelp = """
     USAGE
-      horizon-cli files - Manipulate files shared with you by Horizon contacts
+      horizon files - Manipulate files shared with you by Horizon contacts
 
     SYNOPSIS
-      horizon-cli files
+      horizon files
 
       SUBCOMMANDS
-        horizon-cli files help                       - Displays detailed help information
-        horizon-cli files ls [<contact-name>]        - Lists all received files (optionally from a given contact)
-        horizon-cli files cat <hash>                 - Outputs the contents of a file to the command line
-        horizon-cli files cp <hash> <target-file>    - Copies a shared file to a given location on the local machine
+        horizon files help                       - Displays detailed help information
+        horizon files ls [<contact-name>]        - Lists all received files (optionally from a given contact)
+        horizon files cat <hash>                 - Outputs the contents of a file to the command line
+        horizon files cp <hash> <target-file>    - Copies a shared file to a given location on the local machine
 
-        Use 'horizon-cli files <subcmd> --help' for more information about each command.
+        Use 'horizon files <subcmd> --help' for more information about each command.
 
     """
 
     private let commands = [
         Command(name: "ls", allowableNumberOfArguments: [0, 1], help: """
-            horizon-cli files ls [<contact-name>]
-              'horizon-cli files ls [<contact-name>]' lists all files you have received,
+            horizon files ls [<contact-name>]
+              'horizon files ls [<contact-name>]' lists all files you have received,
               optionally restricted to a single contact.
 
-                > horizon-cli files ls
+                > horizon files ls
                 mmusterman
                 QmSomeHash: "The Byzantine Generals Problem.pdf"
                 QmSomeHash: "This is Water, David Foster Wallace.pdf"
@@ -95,24 +95,24 @@ struct FilesHandler: Handler {
 
             """),
         Command(name: "cat", allowableNumberOfArguments: [1], help: """
-            horizon-cli files cat <hash>
-              'horizon-cli files cat <hash>' outputs the contents of a file to the
+            horizon files cat <hash>
+              'horizon files cat <hash>' outputs the contents of a file to the
               command line. Care should be taken with binary files, as the shell may
               interpret byte sequences in unpredictable ways. Most useful combined with
               a pipe.
 
-                > horizon-cli files cat QmSomeHash | gzip > received_file.gzip
+                > horizon files cat QmSomeHash | gzip > received_file.gzip
 
             """),
         Command(name: "cp", allowableNumberOfArguments: [2], help: """
-            horizon-cli files cp <hash> <target-file>
-              'horizon-cli files cp <hash> <target-file>' copies the contents of a
+            horizon files cp <hash> <target-file>
+              'horizon files cp <hash> <target-file>' copies the contents of a
               received file to a given location on the local machine. If <target-file>
               is a directory, the actual file will be written with it's Horizon name
               inside the directory. The following command would copy a file from
               Horizon to your desktop.
 
-                > horizon-cli files cp QmSomeHash ~/Desktop
+                > horizon files cp QmSomeHash ~/Desktop
 
             """),
     ]

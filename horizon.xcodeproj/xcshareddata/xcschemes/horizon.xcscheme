@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "horizon-cli::horizon-cli"
-               BuildableName = "horizon-cli"
-               BlueprintName = "horizon-cli"
-               ReferencedContainer = "container:horizon-cli.xcodeproj">
+               BlueprintIdentifier = "horizon::horizon"
+               BuildableName = "horizon"
+               BlueprintName = "horizon"
+               ReferencedContainer = "container:horizon.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -28,10 +28,10 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "horizon-cli::HorizonCoreTests"
+               BlueprintIdentifier = "horizon::HorizonCoreTests"
                BuildableName = "HorizonCoreTests.xctest"
                BlueprintName = "HorizonCoreTests"
-               ReferencedContainer = "container:horizon-cli.xcodeproj">
+               ReferencedContainer = "container:horizon.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -41,27 +41,26 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       language = ""
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      codeCoverageEnabled = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "horizon-cli::HorizonCoreTests"
+               BlueprintIdentifier = "horizon::HorizonCoreTests"
                BuildableName = "HorizonCoreTests.xctest"
                BlueprintName = "HorizonCoreTests"
-               ReferencedContainer = "container:horizon-cli.xcodeproj">
+               ReferencedContainer = "container:horizon.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "horizon-cli::horizon-cli"
-            BuildableName = "horizon-cli"
-            BlueprintName = "horizon-cli"
-            ReferencedContainer = "container:horizon-cli.xcodeproj">
+            BlueprintIdentifier = "horizon::horizon"
+            BuildableName = "horizon"
+            BlueprintName = "horizon"
+            ReferencedContainer = "container:horizon.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -82,10 +81,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "horizon-cli::horizon-cli"
-            BuildableName = "horizon-cli"
-            BlueprintName = "horizon-cli"
-            ReferencedContainer = "container:horizon-cli.xcodeproj">
+            BlueprintIdentifier = "horizon::horizon"
+            BuildableName = "horizon"
+            BlueprintName = "horizon"
+            ReferencedContainer = "container:horizon.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -101,10 +100,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "horizon-cli::horizon-cli"
-            BuildableName = "horizon-cli"
-            BlueprintName = "horizon-cli"
-            ReferencedContainer = "container:horizon-cli.xcodeproj">
+            BlueprintIdentifier = "horizon::horizon"
+            BuildableName = "horizon"
+            BlueprintName = "horizon"
+            ReferencedContainer = "container:horizon.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

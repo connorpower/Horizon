@@ -1,6 +1,6 @@
 //
 //  main.swift
-//  horizon-cli
+//  horizon
 //
 //  Created by Connor Power on 22.01.18.
 //  Copyright © 2018 Semantical GmbH & Co. KG. All rights reserved.
@@ -24,10 +24,10 @@ class Program {
 
     let help = """
     USAGE
-      horizon-cli - An encrypted fileshare for the decentralized web.
+      horizon - An encrypted fileshare for the decentralized web.
 
     SYNOPSIS
-      horizon-cli [--help | -h] [--identity <identity>] <command> ...
+      horizon [--help | -h] [--identity <identity>] <command> ...
 
     IDENTITIES
       Horizon allows for multiple independent 'identities'. Each is namespaced
@@ -73,7 +73,7 @@ class Program {
         files cat <hash>                        Outputs the contents of a file to the command line
         files cp <hash> <target-file>           Copies a shared file to a given location on the local machine
 
-      Use 'horizon-cli <command> --help' to learn more about each command.
+      Use 'horizon <command> --help' to learn more about each command.
 
     EXIT STATUS
 

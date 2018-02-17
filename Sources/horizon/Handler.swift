@@ -1,6 +1,6 @@
 //
 //  Handler.swift
-//  horizon-cli
+//  horizon
 //
 //  Created by Connor Power on 22.01.18.
 //  Copyright © 2018 Semantical GmbH & Co. KG. All rights reserved.
@@ -12,9 +12,9 @@ import HorizonCore
 /**
  The CLI program has multiple top level commands, for instance:
 
-     $ horizon-cli sync
-     $ horizon-cli contacts list
-     $ horizon-cli share "Max Mustermann" ~/Desktop/The\ Cathedral\ and\ the\ Bazaar.pdf
+     $ horizon sync
+     $ horizon contacts list
+     $ horizon share "Max Mustermann" ~/Desktop/The\ Cathedral\ and\ the\ Bazaar.pdf
 
  In these examples above, there are three top level commands: `sync`,
  `contacts` and `share`. Each top level command has its own Handler which
@@ -24,19 +24,19 @@ import HorizonCore
 
  Sync:
 
-     $ horizon-cli sync
+     $ horizon sync
      Handler -> SyncHandler
      args -> []
 
  Contacts:
 
-     $ horizon-cli contacts list
+     $ horizon contacts list
      Handler -> ContactsHandler
      args -> ["list"]
 
  Share:
 
-     $ horizon-cli share "Max Mustermann" ~/Desktop/The\ Cathedral\ and\ the\ Bazaar.pdf
+     $ horizon share "Max Mustermann" ~/Desktop/The\ Cathedral\ and\ the\ Bazaar.pdf
      Handler -> ShareHandler
      args -> ["Max Mustermann", "~/Desktop/The Cathedral and the Bazaar.pdf"]
 

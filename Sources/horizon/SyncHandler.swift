@@ -1,6 +1,6 @@
 //
 //  SyncHandler.swift
-//  horizon-cli
+//  horizon
 //
 //  Created by Connor Power on 16.02.18.
 //
@@ -15,14 +15,14 @@ struct SyncHandler: Handler {
 
     let longHelp = """
     USAGE
-      horizon-cli sync - Sync the shared files from horizon contacts
+      horizon sync - Sync the shared files from horizon contacts
 
     SYNOPSIS
-      horizon-cli sync
+      horizon sync
 
     DESCRIPTION
 
-      'horizon-cli sync' syncs the lists of shared files from your horizon
+      'horizon sync' syncs the lists of shared files from your horizon
       contacts. Until this command is run, the newly shared files from
       other contacts are not visible in the local horizon instance.
 
@@ -30,32 +30,32 @@ struct SyncHandler: Handler {
       that your contacts are online and connected to a network.
 
       SUBCOMMANDS
-        horizon-cli sync help    - Displays detailed help information
-        horizon-cli sync         - Sync the shared files from horizon contacts
+        horizon sync help    - Displays detailed help information
+        horizon sync         - Sync the shared files from horizon contacts
 
-        Use 'horizon-cli sync <subcmd> --help' for more information about each command.
+        Use 'horizon sync <subcmd> --help' for more information about each command.
 
     """
 
     private let shortHelp = """
     USAGE
-      horizon-cli sync - Sync the shared files from horizon contacts
+      horizon sync - Sync the shared files from horizon contacts
 
     SYNOPSIS
-      horizon-cli sync
+      horizon sync
 
       SUBCOMMANDS
-        horizon-cli sync help    - Displays detailed help information
-        horizon-cli sync         - Sync the shared files from horizon contacts
+        horizon sync help    - Displays detailed help information
+        horizon sync         - Sync the shared files from horizon contacts
 
-        Use 'horizon-cli sync <subcmd> --help' for more information about each command.
+        Use 'horizon sync <subcmd> --help' for more information about each command.
 
     """
 
     private let commands = [
         Command(name: "sync", allowableNumberOfArguments: [0], help: """
-            horizon-cli sync
-              'horizon-cli sync' syncs the lists of shared files from your horizon
+            horizon sync
+              'horizon sync' syncs the lists of shared files from your horizon
               contacts. Until this command is run, the newly shared files from
               other contacts are not visible in the local horizon instance.
 

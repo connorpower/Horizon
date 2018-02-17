@@ -276,7 +276,7 @@ struct DaemonHandler: Handler {
                                                                           options: .skipsSubdirectoryDescendants)
 
         guard let identities = maybeIdentites else {
-            print("Could not read directory \(config.horizonDirectory.path)")
+            print("Identity 'default': Stopped")
             errorHandler()
         }
 

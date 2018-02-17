@@ -267,7 +267,7 @@ public extension Model {
             let updatedContact = contact.updatingSendList(updatedSendList)
             self.persistentStore.createOrUpdateContact(updatedContact)
 
-            guard let newSendListURL = FileManager.default.encodeAsJSONInTemporaryFile(contact.sendList.files) else {
+            guard let newSendListURL = FileManager.default.encodeAsJSONInTemporaryFile(updatedSendList.files) else {
                 throw HorizonError.shareOperationFailed(reason: .failedToEncodeFileListToTemporaryFile)
             }
 

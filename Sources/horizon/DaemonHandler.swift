@@ -291,7 +291,7 @@ struct DaemonHandler: Handler {
 
     private func stopDaemon() {
         if let daemonPID = pid(at: config.daemonPIDPath) {
-            kill(daemonPID, SIGKILL)
+            kill(daemonPID, SIGINT)
             try! FileManager.default.removeItem(at: config.daemonPIDPath)
             completionHandler()
         } else {

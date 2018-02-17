@@ -122,7 +122,8 @@ class Program {
             break
         }
 
-        let config = Configuration(identity: identity)
+        let horizonDirectory = URL(fileURLWithPath: ("~/.horizon" as NSString).expandingTildeInPath)
+        let config = Configuration(horizonDirectory: horizonDirectory, identity: identity)
         SwaggerClientAPI.basePath = config.apiBasePath
         model = Model(api: IPFSWebserviceAPI(logProvider: Loggers()),
                       config: config,

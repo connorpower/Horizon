@@ -281,7 +281,8 @@ struct DaemonHandler: Handler {
         }
 
         for identity in identities {
-            let config = Configuration(identity: identity.lastPathComponent)
+            let config = Configuration(horizonDirectory: self.config.horizonDirectory,
+                                       identity: identity.lastPathComponent)
             printStatus(for: config, withIdentityPrefix: true)
         }
 

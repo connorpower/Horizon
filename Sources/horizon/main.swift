@@ -135,6 +135,21 @@ class Program {
                       persistentStore: UserDefaultsStore(config: config),
                       eventCallback: nil)
 
+        switch DaemonManager().status(for: config) {
+        case .pidFilePresentButDaemonNotRunning(_), .stopped:
+            print("Horizon daemon not running. Starting...")
+            do {
+                try DaemonManager().startDaemon(for: config)
+            } catch {
+                print("Failed to start daemon.")
+                exit(EXIT_FAILURE)
+            }
+            let identityNotice = config.identity == "default" ? "" : "--identity \(config.identity) "
+            print("⚠️ Started. Remember to stop the daemon with 'horizon \(identityNotice)daemon stop'.")
+        default:
+            break
+        }
+
         guard arguments.count >= 1 else {
             print(help)
             exit(EXIT_FAILURE)

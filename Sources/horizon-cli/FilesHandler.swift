@@ -243,11 +243,14 @@ struct FilesHandler: Handler {
                     let filename = file.name + (counter == 1 ? "" : " (\(counter.description))")
                     maybeLocation = URL(fileURLWithPath: targetLocation).appendingPathComponent(filename)
                 } else {
-                    let pathExtension = counter == 1 ? "" : " (\(counter.description))"
-                    maybeLocation = URL(fileURLWithPath: targetLocation).appendingPathExtension(pathExtension)
+                    let newSuffix = counter == 1 ? "" : " (\(counter.description))"
+                    let baseBath = (targetLocation as NSString).deletingPathExtension
+                    let pathExtension = (targetLocation as NSString).pathExtension
+                    let newPath = baseBath + newSuffix + (pathExtension.isEmpty ? "" : ".") + pathExtension
+                    maybeLocation = URL(fileURLWithPath: newPath)
                 }
                 counter += 1
-            } while FileManager.default.fileExists(atPath: targetLocation)
+            } while FileManager.default.fileExists(atPath: maybeLocation!.path)
 
             location = maybeLocation!
         }

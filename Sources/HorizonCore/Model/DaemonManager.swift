@@ -22,11 +22,23 @@ public struct DaemonManager {
         case pidFilePresentButDaemonNotRunning(Int32)
     }
 
+    // MARK: - Properties
+
+    let ipfsPath = "/usr/local/bin/ipfs"
+
     // MARK: - Initializer
 
     public init() {}
 
     // MARK: - Public Functions
+
+    /**
+     A simple predicate which indicates whether IPFS can be found
+     on the current system.
+     */
+    public var isIPFSPresent: Bool {
+        return FileManager.default.isExecutableFile(atPath: ipfsPath)
+    }
 
     /**
      Start the daemon relavant for the given configuration. Each daemon
@@ -49,7 +61,7 @@ public struct DaemonManager {
                                                      attributes: nil)
 
             let initialize = ipfsCommand(for: config)
-            initialize.launchPath = "/usr/local/bin/ipfs"
+            initialize.launchPath = ipfsPath
             initialize.arguments = ["init"]
             initialize.launch()
             initialize.waitUntilExit()
@@ -58,7 +70,7 @@ public struct DaemonManager {
             }
 
             let configAPI = ipfsCommand(for: config)
-            configAPI.launchPath = "/usr/local/bin/ipfs"
+            configAPI.launchPath = ipfsPath
             configAPI.arguments = ["config",
                                    "Addresses.API",
                                    "/ip4/127.0.0.1/tcp/\(config.apiPort)"]
@@ -69,7 +81,7 @@ public struct DaemonManager {
             }
 
             let configGateway = ipfsCommand(for: config)
-            configGateway.launchPath = "/usr/local/bin/ipfs"
+            configGateway.launchPath = ipfsPath
             configGateway.arguments = ["config",
                                        "Addresses.Gateway",
                                        "/ip4/127.0.0.1/tcp/\(config.gatewayPort)"]
@@ -80,7 +92,7 @@ public struct DaemonManager {
             }
 
             let configSwarm = ipfsCommand(for: config)
-            configSwarm.launchPath = "/usr/local/bin/ipfs"
+            configSwarm.launchPath = ipfsPath
             configSwarm.arguments = ["config",
                                      "--json",
                                      "Addresses.Swarm",
@@ -93,7 +105,7 @@ public struct DaemonManager {
         }
 
         let daemonProcess = ipfsCommand(for: config)
-        daemonProcess.launchPath = "/usr/local/bin/ipfs"
+        daemonProcess.launchPath = ipfsPath
         daemonProcess.arguments = ["daemon"]
         daemonProcess.launch()
 

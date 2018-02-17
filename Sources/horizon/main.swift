@@ -96,6 +96,11 @@ class Program {
      processing has completed.
      */
     func main() {
+        if !DaemonManager().isIPFSPresent {
+            print("Required dependency IPFS not found. Please install with `brew install ipfs`")
+            exit(EXIT_FAILURE)
+        }
+
         var arguments: [String]
         if CommandLine.arguments.count == 1 {
             print("> ", separator: "", terminator: "")

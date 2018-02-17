@@ -28,6 +28,7 @@
 		D217E3CA2037792000F3EDE8 /* MockConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D217E3C92037792000F3EDE8 /* MockConfiguration.swift */; };
 		D2474AB82036C9E400AE46AF /* ContactFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2474AB72036C9E400AE46AF /* ContactFilter.swift */; };
 		D2474ABA2036D00500AE46AF /* FilesHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2474AB92036D00500AE46AF /* FilesHandler.swift */; };
+		D258726A20382D37005C69B8 /* ModelTests_Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = D258726920382D37005C69B8 /* ModelTests_Sync.swift */; };
 		D2867A03202DE22C00D3900C /* MockPersistentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2867A02202DE22C00D3900C /* MockPersistentStore.swift */; };
 		D2867A06202E12AC00D3900C /* SharesHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2867A05202E12AC00D3900C /* SharesHandler.swift */; };
 		D2A4A465202DD38600DFA79D /* ContactTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4A464202DD38600DFA79D /* ContactTests.swift */; };
@@ -232,6 +233,7 @@
 		D217E3C92037792000F3EDE8 /* MockConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockConfiguration.swift; sourceTree = "<group>"; };
 		D2474AB72036C9E400AE46AF /* ContactFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactFilter.swift; sourceTree = "<group>"; };
 		D2474AB92036D00500AE46AF /* FilesHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesHandler.swift; sourceTree = "<group>"; };
+		D258726920382D37005C69B8 /* ModelTests_Sync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests_Sync.swift; sourceTree = "<group>"; };
 		D2867A02202DE22C00D3900C /* MockPersistentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPersistentStore.swift; sourceTree = "<group>"; };
 		D2867A05202E12AC00D3900C /* SharesHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharesHandler.swift; sourceTree = "<group>"; };
 		D2A4A464202DD38600DFA79D /* ContactTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTests.swift; sourceTree = "<group>"; };
@@ -385,20 +387,22 @@
 				D2867A02202DE22C00D3900C /* MockPersistentStore.swift */,
 				D217E3C92037792000F3EDE8 /* MockConfiguration.swift */,
 			);
-			path = Mocks;
+			name = Mocks;
+			path = Tests/HorizonCoreTests/Mocks;
 			sourceTree = SOURCE_ROOT;
 		};
 		D2A4A463202DD33900DFA79D /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D2867A04202DE23300D3900C /* Mocks */,
 				OBJ_32 /* FileListTests.swift */,
 				D2A4A464202DD38600DFA79D /* ContactTests.swift */,
 				D2A4A466202DD70D00DFA79D /* FileTests.swift */,
 				D2A4A46A202DDC9500DFA79D /* ModelTests_Contacts.swift */,
 				D2E68D34202F768C002CB293 /* ModelTests_Shares.swift */,
+				D258726920382D37005C69B8 /* ModelTests_Sync.swift */,
 			);
-			path = Model;
+			name = Model;
+			path = Tests/HorizonCoreTests/Model;
 			sourceTree = SOURCE_ROOT;
 		};
 		D2E68D36202F7715002CB293 /* Test Resources */ = {
@@ -406,7 +410,8 @@
 			children = (
 				D2E68D37202F7722002CB293 /* The Byzantine Generals Problem.pdf */,
 			);
-			path = "Test Resources";
+			name = "Test Resources";
+			path = "Tests/HorizonCoreTests/Test Resources";
 			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_10 /* HorizonCore */ = {
@@ -477,6 +482,7 @@
 			isa = PBXGroup;
 			children = (
 				D2E68D36202F7715002CB293 /* Test Resources */,
+				D2867A04202DE23300D3900C /* Mocks */,
 				D2A4A463202DD33900DFA79D /* Model */,
 			);
 			name = HorizonCoreTests;
@@ -935,6 +941,7 @@
 				D2A4A465202DD38600DFA79D /* ContactTests.swift in Sources */,
 				D2A4A46B202DDC9500DFA79D /* ModelTests_Contacts.swift in Sources */,
 				OBJ_157 /* FileListTests.swift in Sources */,
+				D258726A20382D37005C69B8 /* ModelTests_Sync.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -69,9 +69,24 @@ public enum HorizonError: Error {
         case invalidJSONForIPFSObject(String)
     }
 
+    /**
+     The underlying reason the daemon command failed.
+     - unknown: An unknown reason caused the command to fail.
+     - ipfsInitFailed: Failed to initialize IPFS instance.
+     - failedToAlterConfigFile: Failed to configure IPFS (typically
+     to alter the bound addresses in order to allow multiple
+     instances of IPFS to run simultaneosly).
+     */
+    public enum DaemonOperationFailureReason {
+        case unknown(Error)
+        case ipfsInitFailed
+        case failedToAlterConfigFile
+    }
+
     case contactOperationFailed(reason: ContactOperationFailureReason)
     case shareOperationFailed(reason: ShareOperationFailureReason)
     case fileOperationFailed(reason: FileOperationFailureReason)
     case syncOperationFailed(reason: SyncOperationFailureReason)
+    case daemonOperationFailed(reason: DaemonOperationFailureReason)
 
 }

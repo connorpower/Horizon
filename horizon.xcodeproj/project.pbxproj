@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		D2D77A0F20389E8800ECD599 /* DaemonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D77A0E20389E8800ECD599 /* DaemonManager.swift */; };
 		OBJ_127 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_133 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_81 /* Package.swift */; };
 		OBJ_139 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_83 /* Package.swift */; };
@@ -225,6 +226,7 @@
 
 /* Begin PBXFileReference section */
 		"Alamofire::Alamofire::Product" /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2D77A0E20389E8800ECD599 /* DaemonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaemonManager.swift; sourceTree = "<group>"; };
 		"IPFSWebService::IPFSWebService::Product" /* IPFSWebService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IPFSWebService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_100 /* DispatchQueue+Alamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+Alamofire.swift"; sourceTree = "<group>"; };
 		OBJ_101 /* MultipartFormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartFormData.swift; sourceTree = "<group>"; };
@@ -406,6 +408,7 @@
 				OBJ_22 /* Model.swift */,
 				OBJ_23 /* PersistentStore.swift */,
 				OBJ_24 /* UserDefaultsStore.swift */,
+				D2D77A0E20389E8800ECD599 /* DaemonManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -490,7 +493,7 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -502,7 +505,6 @@
 				OBJ_53 /* Dependencies */,
 				OBJ_115 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_53 /* Dependencies */ = {
@@ -839,7 +841,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_115 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -941,6 +943,7 @@
 				OBJ_210 /* Model.swift in Sources */,
 				OBJ_211 /* PersistentStore.swift in Sources */,
 				OBJ_212 /* UserDefaultsStore.swift in Sources */,
+				D2D77A0F20389E8800ECD599 /* DaemonManager.swift in Sources */,
 				OBJ_213 /* FileManager+Utilities.swift in Sources */,
 				OBJ_214 /* LogProvider.swift in Sources */,
 			);

@@ -22,6 +22,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func refreshAction(_ sender: Any) {
-        model.sync()
+        _ = model.sync()
     }
 }

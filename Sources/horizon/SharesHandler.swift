@@ -1,6 +1,6 @@
 //
 //  SharesHandler.swift
-//  horizon-cli
+//  horizon
 //
 //  Created by Connor Power on 09.02.18.
 //
@@ -15,23 +15,23 @@ struct SharesHandler: Handler {
 
     let longHelp = """
     USAGE
-      horizon-cli shares - Share files with Horizon contacts
+      horizon shares - Share files with Horizon contacts
 
     SYNOPSIS
-      horizon-cli shares
+      horizon shares
 
     DESCRIPTION
 
-      'horizon-cli shares add' adds a new file to be shared with a contact.
+      'horizon shares add' adds a new file to be shared with a contact.
       The file will be added to IPFS. The list of files shared with the
       contacted will be updated and in turn also re-published to IPFS.
 
-        > horizon-cli shares add mmusterman "./The Byzantine Generals Problem.pdf"
+        > horizon shares add mmusterman "./The Byzantine Generals Problem.pdf"
 
-      'horizon-cli shares ls [<contact-name>]' lists all files you are sharing
+      'horizon shares ls [<contact-name>]' lists all files you are sharing
       with other contacts.
 
-        > horizon-cli shares ls
+        > horizon shares ls
         mmusterman
         QmSomeHash: "The Byzantine Generals Problem.pdf"
         QmSomeHash: "This is Water, David Foster Wallace.pdf"
@@ -41,10 +41,10 @@ struct SharesHandler: Handler {
 
       You may optionally filter by only a given contact.
 
-        > horizon-cli shares ls jbloggs
+        > horizon shares ls jbloggs
         QmSomeHash: "IPFS - Content Addressed, Versioned, P2P File System (DRAFT 3).pdf"
 
-      'horizon-cli shares rm <contact-name> <file>' unshares a file with
+      'horizon shares rm <contact-name> <file>' unshares a file with
       the given contact, and if the file is shared with no other contacts
       - removes the file from IPFS.
 
@@ -53,51 +53,51 @@ struct SharesHandler: Handler {
       the removed file, or that the contact could not simply access the file
       via its direct IPFS hash.
 
-        > horizon-cli shares rm QmSomeHash
+        > horizon shares rm QmSomeHash
 
       SUBCOMMANDS
-        horizon-cli shares help                             - Displays detailed help information
-        horizon-cli shares add <contact-name> <file>        - Adds a new file to be shared with a contact
-        horizon-cli shares ls [<contact-name>]              - Lists all shared files (optionally for a given contact)
-        horizon-cli shares rm <contact-name> <file-hash>    - Removes a file which was shared with a contact
+        horizon shares help                             - Displays detailed help information
+        horizon shares add <contact-name> <file>        - Adds a new file to be shared with a contact
+        horizon shares ls [<contact-name>]              - Lists all shared files (optionally for a given contact)
+        horizon shares rm <contact-name> <file-hash>    - Removes a file which was shared with a contact
 
-        Use 'horizon-cli shares <subcmd> --help' for more information about each command.
+        Use 'horizon shares <subcmd> --help' for more information about each command.
 
     """
 
     private let shortHelp = """
     USAGE
-      horizon-cli shares - Share files with Horizon contacts
+      horizon shares - Share files with Horizon contacts
 
     SYNOPSIS
-      horizon-cli shares
+      horizon shares
 
       SUBCOMMANDS
-        horizon-cli shares help                             - Displays detailed help information
-        horizon-cli shares add <contact-name> <file>        - Adds a new file to be shared with a contact
-        horizon-cli shares ls [<contact-name>]              - Lists all shared files (optionally for a given contact)
-        horizon-cli shares rm <contact-name> <file-hash>    - Removes a file which was shared with a contact
+        horizon shares help                             - Displays detailed help information
+        horizon shares add <contact-name> <file>        - Adds a new file to be shared with a contact
+        horizon shares ls [<contact-name>]              - Lists all shared files (optionally for a given contact)
+        horizon shares rm <contact-name> <file-hash>    - Removes a file which was shared with a contact
 
-        Use 'horizon-cli shares <subcmd> --help' for more information about each command.
+        Use 'horizon shares <subcmd> --help' for more information about each command.
 
     """
 
     private let commands = [
         Command(name: "add", allowableNumberOfArguments: [2], help: """
-            horizon-cli shares add <contact-name> <file>
-              'horizon-cli shares add' adds a new file to be shared with a contact.
+            horizon shares add <contact-name> <file>
+              'horizon shares add' adds a new file to be shared with a contact.
               The file will be added to IPFS. The list of files shared with the
               contacted will be updated and in turn also re-published to IPFS.
 
-                > horizon-cli shares add mmusterman './The Byzantine Generals Problem.pdf'
+                > horizon shares add mmusterman './The Byzantine Generals Problem.pdf'
 
             """),
         Command(name: "ls", allowableNumberOfArguments: [0], help: """
-            horizon-cli shares ls [<contact-name>]
-              'horizon-cli shares ls [<contact-name>]' lists all files you are sharing
+            horizon shares ls [<contact-name>]
+              'horizon shares ls [<contact-name>]' lists all files you are sharing
               with other contacts.
 
-                > horizon-cli shares ls
+                > horizon shares ls
                 mmusterman
                 QmSomeHash: 'The Byzantine Generals Problem.pdf'
                 QmSomeHash: 'This is Water, David Foster Wallace.pdf'
@@ -107,13 +107,13 @@ struct SharesHandler: Handler {
 
               You may optionally filter by only a given contact.
 
-                > horizon-cli shares ls jbloggs
+                > horizon shares ls jbloggs
                 QmSomeHash: 'IPFS - Content Addressed, Versioned, P2P File System (DRAFT 3).pdf'
 
             """),
         Command(name: "rm", allowableNumberOfArguments: [2], help: """
-            horizon-cli shares rm <contact-name> <file>
-              'horizon-cli shares rm <contact-name> <file-hash>' unshares a file with
+            horizon shares rm <contact-name> <file>
+              'horizon shares rm <contact-name> <file-hash>' unshares a file with
               the given contact, and if the file is shared with no other contacts
               - removes the file from IPFS.
 
@@ -122,7 +122,7 @@ struct SharesHandler: Handler {
               the removed file, or that the contact could not simply access the file
               via its direct IPFS hash.
 
-                > horizon-cli shares rm QmSomeHash
+                > horizon shares rm QmSomeHash
 
             """),
     ]

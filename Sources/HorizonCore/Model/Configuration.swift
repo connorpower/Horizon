@@ -18,7 +18,7 @@ public struct Configuration: ConfigurationProvider {
 
     // MARK: - Properties
 
-    public let horizonDirectory = URL(fileURLWithPath: ("~/.horizon" as NSString).expandingTildeInPath)
+    public let horizonDirectory: URL
     public let identity: String
     public let path: URL
     public let daemonPIDPath: URL
@@ -34,7 +34,7 @@ public struct Configuration: ConfigurationProvider {
 
     // MARK: - Initialization
 
-    public init(identity: String) {
+    public init(horizonDirectory: URL, identity: String) {
         // Generate a random port between 1024 and 65535
         func randomSafePort(for identity: String, basePort: Int) -> Int {
             let MAX_PORT = 65535
@@ -43,6 +43,7 @@ public struct Configuration: ConfigurationProvider {
             return (basePort.hashValue ^ identity.hashValue) % (MAX_PORT - PROTECTED_PORTS - 1) + PROTECTED_PORTS
         }
 
+        self.horizonDirectory = horizonDirectory
         self.identity = identity
         self.path = self.horizonDirectory.appendingPathComponent(identity)
         self.daemonPIDPath = self.path.appendingPathComponent("PID")

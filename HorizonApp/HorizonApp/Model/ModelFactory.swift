@@ -12,10 +12,13 @@ import HorizonCore
 struct ModelFactory {
 
     func model() -> Model {
-        let api = IPFSWebserviceAPI(logProvider: Loggers())
-        let store = UserDefaultsStore()
+        let horizonDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        let config = Configuration(horizonDirectory: horizonDirectory, identity: "default")
 
-        let model = Model(api: api, persistentStore: store, eventCallback: { self.handleEvent($0) })
+        let api = IPFSWebserviceAPI(logProvider: Loggers())
+        let store = UserDefaultsStore(config: config)
+
+        let model = Model(api: api, config: config, persistentStore: store, eventCallback: { self.handleEvent($0) })
 
         return model
     }
@@ -33,9 +36,9 @@ struct ModelFactory {
         case .resolvingReceiveListDidStart(let contact):
             Notifications.broadcastStatusMessage(
                 "Interplanetary Naming System: Resolving location of \(contact.displayName)...")
-        case .addingFileToIPFSDidStart(let file):
+        case .addingFileToIPFSDidStart(let url):
             Notifications.broadcastStatusMessage(
-                "Interplanetary File System: Adding \(file.name)...")
+                "Interplanetary File System: Adding \(url.path)...")
         case .addingProvidedFileListToIPFSDidStart(let contact):
             Notifications.broadcastStatusMessage(
                 "Interplanetary File System: Uploading file list for \(contact.displayName)...")

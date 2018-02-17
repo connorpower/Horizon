@@ -1,6 +1,6 @@
 //
 //  Loggers.swift
-//  horizon-cli
+//  horizon
 //
 //  Created by Connor Power on 02.02.18.
 //  Copyright © 2018 Semantical GmbH & Co. KG. All rights reserved.
@@ -20,6 +20,6 @@ struct Loggers: LogProvider {
     /**
      A logger to be used for network related log messages.
      */
-    let network = OSLog(subsystem: "com.semantical.horizon-cli", category: "network")
+    let network = OSLog(subsystem: "com.semantical.horizon", category: "network")
 
 }

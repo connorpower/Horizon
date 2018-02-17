@@ -14,13 +14,7 @@ import Foundation
  Furthermore, horizon supports multiple identities, each of which
  may run simultaneously and independently from oneanother.
  */
-public struct Configuration {
-
-    // MARK: - Data Types
-
-    public struct PersistentStoreKeys {
-        public let contactList: String
-    }
+public struct Configuration: ConfigurationProvider {
 
     // MARK: - Properties
 
@@ -34,7 +28,8 @@ public struct Configuration {
     public let apiBasePath: String
 
     public var persistentStoreKeys: PersistentStoreKeys {
-        return PersistentStoreKeys(contactList: "com.semantical.Horizon.\(identity).contactList")
+        return PersistentStoreKeys(contactList: "com.semantical.Horizon.\(identity).contactList",
+                                   keypairPrefix: "com.semantical.Horizon.\(identity).contact")
     }
 
     // MARK: - Initialization

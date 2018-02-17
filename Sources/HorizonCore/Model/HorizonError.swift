@@ -61,14 +61,17 @@ public enum HorizonError: Error {
     /**
      The underlying reason the sync command failed.
      - unknown: An unknown reason caused the command to fail.
+     - invalidJSONForIPFSObject: The IPFS object pointed to by the
+     associated data has did not contain valid JSON.
      */
-    public enum SyncFailureReason {
+    public enum SyncOperationFailureReason {
         case unknown(Error)
+        case invalidJSONForIPFSObject(String)
     }
 
     case contactOperationFailed(reason: ContactOperationFailureReason)
     case shareOperationFailed(reason: ShareOperationFailureReason)
     case fileOperationFailed(reason: FileOperationFailureReason)
-    case syncFailed(reason: SyncFailureReason)
+    case syncOperationFailed(reason: SyncOperationFailureReason)
 
 }

@@ -119,7 +119,7 @@ struct FilesHandler: Handler {
     // MARK: - Properties
 
     private let model: Model
-    private let config: Configuration
+    private let config: ConfigurationProvider
 
     private let arguments: [String]
 
@@ -128,7 +128,7 @@ struct FilesHandler: Handler {
 
     // MARK: - Handler Protocol
 
-    init(model: Model, config: Configuration, arguments: [String],
+    init(model: Model, config: ConfigurationProvider, arguments: [String],
          completion: @escaping () -> Never, error: @escaping () -> Never) {
         self.model = model
         self.config = config
@@ -215,8 +215,7 @@ struct FilesHandler: Handler {
             print(String(data: data, encoding: .utf8) ?? "<failed to cat>")
             self.completionHandler()
         }.catch { error in
-            print("Failed to retrieve file. Is IPFS running and is the contact from which the file was shared " +
-                "on the network?")
+            print("Failed to retrieve file. Have you started the horizon daemon and is the contact online?")
             self.errorHandler()
         }
     }

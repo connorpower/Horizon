@@ -229,31 +229,8 @@ struct FilesHandler: Handler {
             self.errorHandler()
         }
 
-        let targetLocation = (targetLocation as NSString).expandingTildeInPath
-        let location: URL
-        var isDir = ObjCBool(false)
-        if !FileManager.default.fileExists(atPath: targetLocation, isDirectory: &isDir) {
-            location = URL(fileURLWithPath: targetLocation)
-        } else {
-            var maybeLocation: URL?
-            var counter = 1
-
-            repeat {
-                if isDir.boolValue {
-                    let filename = file.name + (counter == 1 ? "" : " (\(counter.description))")
-                    maybeLocation = URL(fileURLWithPath: targetLocation).appendingPathComponent(filename)
-                } else {
-                    let newSuffix = counter == 1 ? "" : " (\(counter.description))"
-                    let baseBath = (targetLocation as NSString).deletingPathExtension
-                    let pathExtension = (targetLocation as NSString).pathExtension
-                    let newPath = baseBath + newSuffix + (pathExtension.isEmpty ? "" : ".") + pathExtension
-                    maybeLocation = URL(fileURLWithPath: newPath)
-                }
-                counter += 1
-            } while FileManager.default.fileExists(atPath: maybeLocation!.path)
-
-            location = maybeLocation!
-        }
+        let location = FileManager.default.finderStyleSafePath(for: file,
+                                                               atProposedPath: URL(fileURLWithPath: targetLocation))
 
         firstly {
             return model.data(for: file)

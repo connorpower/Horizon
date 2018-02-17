@@ -70,7 +70,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             }
 
         observers = [dataAvailableObserver, syncStartedObserver, syncEndedObserver, statusMessageObserver]
-        model.sync()
+        _ = model.sync()
     }
 
     deinit {
@@ -190,7 +190,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
                                           options: [NSPasteboard.ReadingOptionKey.urlReadingFileURLsOnly: true])
             if let fileURLs = data as? [URL] {
                 if let contact = contact(at: row) {
-                    model.add(fileURLs: fileURLs, to: contact)
+                    _ = model.shareFiles(fileURLs, with: contact)
                 }
                 return true
             }

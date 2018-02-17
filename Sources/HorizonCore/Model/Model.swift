@@ -324,7 +324,7 @@ public extension Model {
             let updatedSendList = FileList(hash: nil, files: filteredFiles)
             let updatedContact = contact.updatingSendList(updatedSendList)
 
-            guard let newSendListURL = FileManager.default.encodeAsJSONInTemporaryFile(contact.sendList.files) else {
+            guard let newSendListURL = FileManager.default.encodeAsJSONInTemporaryFile(updatedSendList.files) else {
                 throw HorizonError.shareOperationFailed(reason: .failedToEncodeFileListToTemporaryFile)
             }
 

@@ -3,6 +3,7 @@
 //  HorizonCore
 //
 //  Created by Connor Power on 10.02.18.
+//  Copyright © 2018 Semantical GmbH & Co. KG. All rights reserved.
 //
 
 import Foundation

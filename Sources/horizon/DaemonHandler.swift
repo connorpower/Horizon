@@ -3,6 +3,7 @@
 //  horizon
 //
 //  Created by Connor Power on 16.02.18.
+//  Copyright © 2018 Semantical GmbH & Co. KG. All rights reserved.
 //
 
 import Foundation
@@ -199,70 +200,13 @@ struct DaemonHandler: Handler {
     // MARK: - Private Functions
 
     private func startDaemon() {
-
-        if !FileManager.default.fileExists(atPath: config.path.path) {
-            try! FileManager.default.createDirectory(at: config.path.deletingLastPathComponent(),
-                                                     withIntermediateDirectories: true,
-                                                     attributes: nil)
-
-            let initialize = ipfsCommand(for: config)
-            initialize.launchPath = "/usr/local/bin/ipfs"
-            initialize.arguments = ["init"]
-            initialize.launch()
-            initialize.waitUntilExit()
-            guard initialize.terminationStatus == 0 else {
-                print("Failed to initialize IPFS instance")
-                errorHandler()
-            }
-
-            let configAPI = ipfsCommand(for: config)
-            configAPI.launchPath = "/usr/local/bin/ipfs"
-            configAPI.arguments = ["config",
-                                   "Addresses.API",
-                                   "/ip4/127.0.0.1/tcp/\(config.apiPort)"]
-            configAPI.launch()
-            configAPI.waitUntilExit()
-            guard configAPI.terminationStatus == 0 else {
-                print("Failed to configure IPFS API address")
-                errorHandler()
-            }
-
-            let configGateway = ipfsCommand(for: config)
-            configGateway.launchPath = "/usr/local/bin/ipfs"
-            configGateway.arguments = ["config",
-                                       "Addresses.Gateway",
-                                       "/ip4/127.0.0.1/tcp/\(config.gatewayPort)"]
-            configGateway.launch()
-            configGateway.waitUntilExit()
-            guard configGateway.terminationStatus == 0 else {
-                print("Failed to configure IPFS gateway address")
-                errorHandler()
-            }
-
-            let configSwarm = ipfsCommand(for: config)
-            configSwarm.launchPath = "/usr/local/bin/ipfs"
-            configSwarm.arguments = ["config",
-                                     "--json",
-                                     "Addresses.Swarm",
-                                     "[\"/ip4/0.0.0.0/tcp/\(config.swarmPort)\", \"/ip6/::/tcp/\(config.swarmPort)\"]"]
-            configSwarm.launch()
-            configSwarm.waitUntilExit()
-            guard configSwarm.terminationStatus == 0 else {
-                print("Failed to configure IPFS swarm addresses")
-                errorHandler()
-            }
+        do {
+            try DaemonManager().startDaemon(for: config)
+            completionHandler()
+        } catch {
+            print("Failed to start daemon")
+            errorHandler()
         }
-
-        let daemonProcess = ipfsCommand(for: config)
-        daemonProcess.launchPath = "/usr/local/bin/ipfs"
-        daemonProcess.arguments = ["daemon"]
-        daemonProcess.launch()
-
-        if let pidData = daemonProcess.processIdentifier.description.data(using: .utf8, allowLossyConversion: false) {
-            try! pidData.write(to: config.daemonPIDPath)
-        }
-
-        completionHandler()
     }
 
     private func printDaemonStatus() {
@@ -290,53 +234,25 @@ struct DaemonHandler: Handler {
     }
 
     private func stopDaemon() {
-        if let daemonPID = pid(at: config.daemonPIDPath) {
-            kill(daemonPID, SIGKILL)
-            try! FileManager.default.removeItem(at: config.daemonPIDPath)
+        if DaemonManager().stopDaemon(for: config) {
             completionHandler()
         } else {
             print("Daemon not running")
             completionHandler()
         }
-
-    }
-
-    private func pid(at path: URL) -> Int32? {
-        if let pidString = try? String(contentsOf: path), let pid = Int32(pidString) {
-            return pid
-        } else {
-            return nil
-        }
-    }
-
-    private func ipfsCommand(for config: ConfigurationProvider) -> Process {
-        var environment = ProcessInfo().environment
-        environment["IPFS_PATH"] = config.path.path
-
-        let task = Process()
-        task.standardError = nil
-        task.standardOutput = nil
-        task.standardInput = nil
-        task.environment = environment
-        return task
     }
 
     private func printStatus(for config: ConfigurationProvider, withIdentityPrefix: Bool = false) {
         let identityPrefix = withIdentityPrefix ? "Identity '\(config.identity)': " : ""
 
-        if let daemonPID = pid(at: config.daemonPIDPath) {
-            // Sending a signal of 0 to a process tests for existence
-            let isDaemonRunning = (kill(daemonPID, 0) == 0)
-
-
-            if !isDaemonRunning {
-                print("\(identityPrefix)Error (PID: \(daemonPID.description) not running but PID file " +
-                      "remains at \(config.daemonPIDPath.path))")
-            } else {
-                print("\(identityPrefix)Running (PID: \(daemonPID.description))")
-            }
-        } else {
+        switch DaemonManager().status(for: config) {
+        case .running(let pid):
+            print("\(identityPrefix)Running (PID: \(pid.description))")
+        case .stopped:
             print("\(identityPrefix)Stopped")
+        case .pidFilePresentButDaemonNotRunning(let pid):
+            print("\(identityPrefix)Error (PID: \(pid.description) not running but PID file " +
+                "remains at \(config.daemonPIDPath.path))")
         }
     }
 

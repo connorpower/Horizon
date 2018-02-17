@@ -96,6 +96,11 @@ class Program {
      processing has completed.
      */
     func main() {
+        if !DaemonManager().isIPFSPresent {
+            print("Required dependency IPFS not found. Please install with `brew install ipfs`")
+            exit(EXIT_FAILURE)
+        }
+
         var arguments: [String]
         if CommandLine.arguments.count == 1 {
             print("> ", separator: "", terminator: "")
@@ -129,6 +134,21 @@ class Program {
                       config: config,
                       persistentStore: UserDefaultsStore(config: config),
                       eventCallback: nil)
+
+        switch DaemonManager().status(for: config) {
+        case .pidFilePresentButDaemonNotRunning(_), .stopped:
+            print("Horizon daemon not running. Starting...")
+            do {
+                try DaemonManager().startDaemon(for: config)
+            } catch {
+                print("Failed to start daemon.")
+                exit(EXIT_FAILURE)
+            }
+            let identityNotice = config.identity == "default" ? "" : "--identity \(config.identity) "
+            print("⚠️ Started. Remember to stop the daemon with 'horizon \(identityNotice)daemon stop'.")
+        default:
+            break
+        }
 
         guard arguments.count >= 1 else {
             print(help)

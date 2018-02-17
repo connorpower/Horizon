@@ -105,11 +105,12 @@ struct FilesHandler: Handler {
 
             """),
         Command(name: "cp", allowableNumberOfArguments: [2], help: """
-            horizon-cli files cp <target-file>
-              'horizon-cli files cp <target-file>' copies the contents of a received file
-              to a given location on the local machine. If <target-file> is a directory,
-              the actual file will be written with it's Horizon name inside the directory.
-              The following command would copy a file from Horizon onto your desktop.
+            horizon-cli files cp <hash> <target-file>
+              'horizon-cli files cp <hash> <target-file>' copies the contents of a
+              received file to a given location on the local machine. If <target-file>
+              is a directory, the actual file will be written with it's Horizon name
+              inside the directory. The following command would copy a file from
+              Horizon to your desktop.
 
                 > horizon-cli files cp QmSomeHash ~/Desktop
 
@@ -164,8 +165,10 @@ struct FilesHandler: Handler {
 
             printData(for: hash)
         case "cp":
-            print(command.help)
-            errorHandler()
+            let hash = commandArguments[0]
+            let targetLocation = commandArguments[1]
+
+            copyFile(hash: hash, to: targetLocation)
         default:
             print(command.help)
             errorHandler()
@@ -213,6 +216,50 @@ struct FilesHandler: Handler {
             return model.data(for: file)
         }.then { data in
             print(String(data: data, encoding: .utf8) ?? "<failed to cat>")
+            self.completionHandler()
+        }.catch { error in
+            print("Failed to retrieve file. Have you started the horizon daemon and is the contact online?")
+            self.errorHandler()
+        }
+    }
+
+    private func copyFile(hash: String, to targetLocation: String) {
+        guard let file = model.file(matching: hash) else {
+            print("File does not exist.")
+            self.errorHandler()
+        }
+
+        let targetLocation = (targetLocation as NSString).expandingTildeInPath
+        let location: URL
+        var isDir = ObjCBool(false)
+        if !FileManager.default.fileExists(atPath: targetLocation, isDirectory: &isDir) {
+            location = URL(fileURLWithPath: targetLocation)
+        } else {
+            var maybeLocation: URL?
+            var counter = 1
+
+            repeat {
+                if isDir.boolValue {
+                    let filename = file.name + (counter == 1 ? "" : " (\(counter.description))")
+                    maybeLocation = URL(fileURLWithPath: targetLocation).appendingPathComponent(filename)
+                } else {
+                    let pathExtension = counter == 1 ? "" : " (\(counter.description))"
+                    maybeLocation = URL(fileURLWithPath: targetLocation).appendingPathExtension(pathExtension)
+                }
+                counter += 1
+            } while FileManager.default.fileExists(atPath: targetLocation)
+
+            location = maybeLocation!
+        }
+
+        firstly {
+            return model.data(for: file)
+        }.then { data in
+            do {
+                try data.write(to: location)
+            } catch {
+                print("\(location.path): Failed to write file")
+            }
             self.completionHandler()
         }.catch { error in
             print("Failed to retrieve file. Have you started the horizon daemon and is the contact online?")

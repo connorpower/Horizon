@@ -92,4 +92,51 @@ class ModelTests_Files: XCTestCase {
         XCTAssertNil(model.file(matching: "I do not exist"))
     }
 
+    func testDataForFile() {
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+
+        mockAPI.catResponse = { hash in
+            return Promise<Data>(value: "XX My Data XX".data(using: .utf8)!)
+        }
+
+        let dataReceivedExpectation = expectation(description: "dataReceivedExpectation")
+
+        firstly {
+            model.data(for: File(name: "File", hash: UUID().uuidString))
+        }.then { data in
+            XCTAssertEqual(data, "XX My Data XX".data(using: .utf8)!)
+            dataReceivedExpectation.fulfill()
+        }.catch { _ in
+            XCTFail()
+        }
+
+        wait(for: [dataReceivedExpectation], timeout: 1.0)
+    }
+
+    func testDataForFile_MissingHash() {
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+
+        let errorThrownExpectation = expectation(description: "errorThrownExpectation")
+
+        firstly {
+            model.data(for: File(name: "Contact2 File 1", hash: nil))
+        }.then { data in
+            XCTFail("Should not have succeeded")
+            errorThrownExpectation.fulfill()
+        }.catch { error in
+            if case HorizonError.fileOperationFailed(let reason) = error {
+                if case .fileHashNotSet = reason {
+                    XCTAssertTrue(true)
+                } else {
+                    XCTFail()
+                }
+            } else {
+                XCTFail()
+            }
+            errorThrownExpectation.fulfill()
+        }
+
+        wait(for: [errorThrownExpectation], timeout: 1.0)
+    }
+
 }

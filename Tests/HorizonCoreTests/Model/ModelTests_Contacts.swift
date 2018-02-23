@@ -455,4 +455,33 @@ class ModelTests_Contacts: XCTestCase {
         wait(for: [errorThrownExpectation], timeout: 1.0)
     }
 
+    /**
+     Expect that renaming a contact fails if there is no existing contact.
+     */
+    func testRenameContact_ContactDoesNotExist() {
+        mockStore.contacts = []
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+
+        let errorThrownExpectation = expectation(description: "errorThrownExpectation")
+
+        firstly {
+            model.renameContact("Contact1", to: "Contact2")
+            }.then { contact in
+                XCTFail("Should not have succeeded")
+            }.catch { error in
+                if case HorizonError.contactOperationFailed(let reason) = error {
+                    if case .contactDoesNotExist = reason {
+                        XCTAssertTrue(true)
+                    } else {
+                        XCTFail()
+                    }
+                } else {
+                    XCTFail()
+                }
+                errorThrownExpectation.fulfill()
+        }
+
+        wait(for: [errorThrownExpectation], timeout: 1.0)
+    }
+
 }

@@ -301,4 +301,187 @@ class ModelTests_Contacts: XCTestCase {
         wait(for: [errorThrownExpectation], timeout: 1.0)
     }
 
+    /**
+     Expect that renaming a contact under normal circumstances succeeds.
+     */
+    func testRenameContact() {
+        let identifier = UUID()
+        let contact1 = Contact(identifier: identifier, displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
+        mockStore.contacts = [contact1]
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+
+        let contactPersistedExpectation = expectation(description: "contactPersistedExpectation")
+        let contactRenamedExpectation = expectation(description: "contactRenamedExpectation")
+
+        mockAPI.listKeysResponse = {
+            let key = Key(name: "\(MockConfiguration().persistentStoreKeys.keypairPrefix).Contact1", id: "XXXX")
+            return Promise(value: ListKeysResponse(keys: [key]))
+        }
+        mockAPI.renameKeyResponse = { oldName, newName in
+            return Promise<RenameKeyResponse>(value: RenameKeyResponse(was: oldName, now: newName,
+                                                                       id: UUID().uuidString, overwrite: false))
+        }
+        mockStore.createOrUpdateContactHook = { contact in
+            XCTAssertEqual(contact.identifier, identifier)
+            XCTAssertEqual(contact.displayName, "Contact New Name")
+            contactPersistedExpectation.fulfill()
+        }
+
+        firstly {
+            model.renameContact("Contact1", to: "Contact New Name")
+        }.then { contact in
+            XCTAssertEqual(contact.identifier, identifier)
+            XCTAssertEqual(contact.displayName, "Contact New Name")
+            contactRenamedExpectation.fulfill()
+        }
+
+        wait(for: [contactPersistedExpectation, contactRenamedExpectation], timeout: 1.0)
+    }
+
+    /**
+     Expect that renaming a contact fails if the underlying IPFS keypair is missing.
+     */
+    func testRenameContact_MissingIPFSKeypair() {
+        let contact1 = Contact(identifier: UUID(), displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
+        mockStore.contacts = [contact1]
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+
+        let errorThrownExpectation = expectation(description: "errorThrownExpectation")
+
+        mockAPI.listKeysResponse = {
+            return Promise(value: ListKeysResponse(keys: []))
+        }
+        mockAPI.renameKeyResponse = { oldName, newName in
+            return Promise<RenameKeyResponse>(value: RenameKeyResponse(was: oldName, now: newName,
+                                                                       id: UUID().uuidString, overwrite: false))
+        }
+        mockStore.createOrUpdateContactHook = { contact in
+            XCTFail("Should not have modified the contact")
+        }
+
+        firstly {
+            model.renameContact("Contact1", to: "Contact New Name")
+        }.then { contact in
+            XCTFail("Should not have succeeded")
+        }.catch { error in
+            if case HorizonError.contactOperationFailed(let reason) = error {
+                if case .contactDoesNotExist = reason {
+                    XCTAssertTrue(true)
+                } else {
+                    XCTFail()
+                }
+            } else {
+                XCTFail()
+            }
+            errorThrownExpectation.fulfill()
+        }
+
+        wait(for: [errorThrownExpectation], timeout: 1.0)
+    }
+
+    /**
+     Expect that renaming a contact fails if there exists a contact or
+     keypair with the same name.
+     */
+    func testRenameContact_KeypairNameConflict() {
+        let contact1 = Contact(identifier: UUID(), displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
+        mockStore.contacts = [contact1]
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+
+        let errorThrownExpectation = expectation(description: "errorThrownExpectation")
+
+        mockAPI.listKeysResponse = {
+            let key1 = Key(name: "\(MockConfiguration().persistentStoreKeys.keypairPrefix).Contact1", id: "XXXX")
+            let key2 = Key(name: "\(MockConfiguration().persistentStoreKeys.keypairPrefix).Contact2", id: "XXXX")
+            return Promise(value: ListKeysResponse(keys: [key1, key2]))
+        }
+        mockAPI.renameKeyResponse = { oldName, newName in
+            return Promise<RenameKeyResponse>(value: RenameKeyResponse(was: oldName, now: newName,
+                                                                       id: UUID().uuidString, overwrite: false))
+        }
+        mockStore.createOrUpdateContactHook = { contact in
+            XCTFail("Should not have modified the contact")
+        }
+
+        firstly {
+            model.renameContact("Contact1", to: "Contact2")
+        }.then { contact in
+            XCTFail("Should not have succeeded")
+        }.catch { error in
+            if case HorizonError.contactOperationFailed(let reason) = error {
+                if case .contactAlreadyExists = reason {
+                    XCTAssertTrue(true)
+                } else {
+                    XCTFail()
+                }
+            } else {
+                XCTFail()
+            }
+            errorThrownExpectation.fulfill()
+        }
+
+        wait(for: [errorThrownExpectation], timeout: 1.0)
+    }
+
+    /**
+     Expect that renaming a contact fails if there exists a contact or
+     keypair with the same name.
+     */
+    func testRenameContact_NameConflict() {
+        let contact1 = Contact(identifier: UUID(), displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
+        let contact2 = Contact(identifier: UUID(), displayName: "Contact2", sendAddress: nil, receiveAddress: nil)
+        mockStore.contacts = [contact1, contact2]
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+
+        let errorThrownExpectation = expectation(description: "errorThrownExpectation")
+
+        firstly {
+            model.renameContact("Contact1", to: "Contact2")
+        }.then { contact in
+            XCTFail("Should not have succeeded")
+        }.catch { error in
+            if case HorizonError.contactOperationFailed(let reason) = error {
+                if case .contactAlreadyExists = reason {
+                    XCTAssertTrue(true)
+                } else {
+                    XCTFail()
+                }
+            } else {
+                XCTFail()
+            }
+            errorThrownExpectation.fulfill()
+        }
+
+        wait(for: [errorThrownExpectation], timeout: 1.0)
+    }
+
+    /**
+     Expect that renaming a contact fails if there is no existing contact.
+     */
+    func testRenameContact_ContactDoesNotExist() {
+        mockStore.contacts = []
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+
+        let errorThrownExpectation = expectation(description: "errorThrownExpectation")
+
+        firstly {
+            model.renameContact("Contact1", to: "Contact2")
+            }.then { contact in
+                XCTFail("Should not have succeeded")
+            }.catch { error in
+                if case HorizonError.contactOperationFailed(let reason) = error {
+                    if case .contactDoesNotExist = reason {
+                        XCTAssertTrue(true)
+                    } else {
+                        XCTFail()
+                    }
+                } else {
+                    XCTFail()
+                }
+                errorThrownExpectation.fulfill()
+        }
+
+        wait(for: [errorThrownExpectation], timeout: 1.0)
+    }
+
 }

@@ -181,6 +181,14 @@ public extension Model {
         let keypairName = "\(config.persistentStoreKeys.keypairPrefix).\(name)"
         let newKeypairName = "\(config.persistentStoreKeys.keypairPrefix).\(newName)"
 
+        guard let contact = self.contact(named: name) else {
+            return Promise<Contact>(error: HorizonError.contactOperationFailed(reason: .contactDoesNotExist))
+        }
+
+        guard self.contact(named: newName) == nil else {
+            return Promise<Contact>(error: HorizonError.contactOperationFailed(reason: .contactAlreadyExists))
+        }
+
         return firstly {
             return self.api.listKeys()
         }.then { listKeysResponse -> Promise<RenameKeyResponse> in
@@ -195,16 +203,12 @@ public extension Model {
             self.eventCallback?(.renameKeyDidStart(keypairName, newKeypairName))
             return self.api.renameKey(keypairName: keypairName, to: newKeypairName)
         }.then { renameKeyResponse in
-            guard let contact = self.contact(named: name) else {
-                throw HorizonError.contactOperationFailed(reason: .contactDoesNotExist)
-            }
-
             let sendAddress = SendAddress(address: renameKeyResponse.id, keypairName: renameKeyResponse.now)
             let updatedContact = contact.updatingDisplayName(newName).updatingSendAddress(sendAddress)
 
             self.persistentStore.createOrUpdateContact(updatedContact)
-            self.eventCallback?(.propertiesDidChange(contact))
-            return Promise(value: contact)
+            self.eventCallback?(.propertiesDidChange(updatedContact))
+            return Promise(value: updatedContact)
         }.catch { error in
             let horizonError: HorizonError = error is HorizonError
                 ? error as! HorizonError : HorizonError.contactOperationFailed(reason: .unknown(error))

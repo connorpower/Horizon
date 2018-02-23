@@ -202,11 +202,12 @@ struct DaemonHandler: Handler {
     private func startDaemon() {
         do {
             try DaemonManager().startDaemon(for: config)
-            completionHandler()
         } catch {
             print("Failed to start daemon")
             errorHandler()
         }
+
+        completionHandler()
     }
 
     private func printDaemonStatus() {

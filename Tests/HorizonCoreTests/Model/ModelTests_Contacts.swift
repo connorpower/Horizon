@@ -338,4 +338,46 @@ class ModelTests_Contacts: XCTestCase {
         wait(for: [contactPersistedExpectation, contactRenamedExpectation], timeout: 1.0)
     }
 
+    /**
+     Expect that renaming a contact fails if the underlying IPFS keypair is missing.
+     */
+    func testRenameContact_MissingIPFSKeypair() {
+        let identifier = UUID()
+        let contact1 = Contact(identifier: identifier, displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
+        mockStore.contacts = [contact1]
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+
+        let errorThrownExpectation = expectation(description: "errorThrownExpectation")
+
+        mockAPI.listKeysResponse = {
+            return Promise(value: ListKeysResponse(keys: []))
+        }
+        mockAPI.renameKeyResponse = { oldName, newName in
+            return Promise<RenameKeyResponse>(value: RenameKeyResponse(was: oldName, now: newName,
+                                                                       id: UUID().uuidString, overwrite: false))
+        }
+        mockStore.createOrUpdateContactHook = { contact in
+            XCTFail("Should not have modified the contact")
+        }
+
+        firstly {
+            model.renameContact("Contact1", to: "Contact New Name")
+        }.then { contact in
+            XCTFail("Should not have succeeded")
+        }.catch { error in
+            if case HorizonError.contactOperationFailed(let reason) = error {
+                if case .contactDoesNotExist = reason {
+                    XCTAssertTrue(true)
+                } else {
+                    XCTFail()
+                }
+            } else {
+                XCTFail()
+            }
+            errorThrownExpectation.fulfill()
+        }
+
+        wait(for: [errorThrownExpectation], timeout: 1.0)
+    }
+
 }

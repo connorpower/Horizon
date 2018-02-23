@@ -342,8 +342,7 @@ class ModelTests_Contacts: XCTestCase {
      Expect that renaming a contact fails if the underlying IPFS keypair is missing.
      */
     func testRenameContact_MissingIPFSKeypair() {
-        let identifier = UUID()
-        let contact1 = Contact(identifier: identifier, displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
+        let contact1 = Contact(identifier: UUID(), displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
         mockStore.contacts = [contact1]
         let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
@@ -385,8 +384,7 @@ class ModelTests_Contacts: XCTestCase {
      keypair with the same name.
      */
     func testRenameContact_KeypairNameConflict() {
-        let identifier = UUID()
-        let contact1 = Contact(identifier: identifier, displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
+        let contact1 = Contact(identifier: UUID(), displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
         mockStore.contacts = [contact1]
         let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
@@ -430,9 +428,8 @@ class ModelTests_Contacts: XCTestCase {
      keypair with the same name.
      */
     func testRenameContact_NameConflict() {
-        let identifier = UUID()
-        let contact1 = Contact(identifier: identifier, displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
-        let contact2 = Contact(identifier: identifier, displayName: "Contact2", sendAddress: nil, receiveAddress: nil)
+        let contact1 = Contact(identifier: UUID(), displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
+        let contact2 = Contact(identifier: UUID(), displayName: "Contact2", sendAddress: nil, receiveAddress: nil)
         mockStore.contacts = [contact1, contact2]
         let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 

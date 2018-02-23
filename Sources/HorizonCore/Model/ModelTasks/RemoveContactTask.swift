@@ -67,5 +67,4 @@ struct RemoveContactTask: ModelTask {
         }
     }
 
-
 }

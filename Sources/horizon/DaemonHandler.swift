@@ -141,7 +141,7 @@ struct DaemonHandler: Handler {
                 'test': Stopped
                 'old-test': Error (PID: 6666 not running but PID file remains at ~/.horizon/old-test/PID)
 
-            """),
+            """)
     ]
 
     // MARK: - Properties

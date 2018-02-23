@@ -81,7 +81,7 @@ class ModelTests_Shares: XCTestCase {
         }.then { contact in
             XCTFail("Should have thrown an error")
         }.catch { error in
-            if case HorizonError.shareOperationFailed(let reason) = error {
+            if case HorizonError.fileOperationFailed(let reason) = error {
                 if case .sendAddressNotSet = reason {
                     XCTAssertTrue(true)
                 } else {
@@ -114,7 +114,7 @@ class ModelTests_Shares: XCTestCase {
         }.then { contact in
             XCTFail("Should have thrown an error")
         }.catch { error in
-            if case HorizonError.shareOperationFailed(let reason) = error {
+            if case HorizonError.fileOperationFailed(let reason) = error {
                 if case .fileDoesNotExist = reason {
                     XCTAssertTrue(true)
                 } else {
@@ -181,7 +181,7 @@ class ModelTests_Shares: XCTestCase {
         }.then { contact in
             XCTFail("Should have thrown an error")
         }.catch { error in
-            if case HorizonError.shareOperationFailed(let reason) = error {
+            if case HorizonError.fileOperationFailed(let reason) = error {
                 if case .sendAddressNotSet = reason {
                     XCTAssertTrue(true)
                 } else {
@@ -218,7 +218,7 @@ class ModelTests_Shares: XCTestCase {
         }.then { contact in
             XCTFail("Should have thrown an error")
         }.catch { error in
-            if case HorizonError.shareOperationFailed(let reason) = error {
+            if case HorizonError.fileOperationFailed(let reason) = error {
                 if case .fileNotShared = reason {
                     XCTAssertTrue(true)
                 } else {

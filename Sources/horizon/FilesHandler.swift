@@ -174,7 +174,7 @@ struct FilesHandler: Handler {
 
                 > horizon files cp QmSomeHash ~/Desktop
 
-            """),
+            """)
     ]
 
     // MARK: - Properties
@@ -258,7 +258,7 @@ struct FilesHandler: Handler {
             }
         }
 
-        let contacts:[Contact]
+        let contacts: [Contact]
 
         switch contactFilter {
         case .specificContact(let name):
@@ -304,7 +304,7 @@ struct FilesHandler: Handler {
             }
 
             self.completionHandler()
-        }.catch { error in
+        }.catch { _ in
             print("Failed to retrieve file. Have you started the horizon daemon and is the contact online?")
             self.errorHandler()
         }
@@ -328,7 +328,7 @@ struct FilesHandler: Handler {
                 print("\(location.path): Failed to write file")
             }
             self.completionHandler()
-        }.catch { error in
+        }.catch { _ in
             print("Failed to retrieve file. Have you started the horizon daemon and is the contact online?")
             self.errorHandler()
         }
@@ -344,10 +344,10 @@ struct FilesHandler: Handler {
 
         firstly {
             return model.shareFiles([fileURL], with: contact)
-        }.then { contact in
+        }.then { _ in
             self.completionHandler()
         }.catch { error in
-            if case HorizonError.shareOperationFailed(let reason) = error {
+            if case HorizonError.fileOperationFailed(let reason) = error {
                 if case .fileDoesNotExist(let file) = reason {
                     print("\(file): No such file or directory.")
                     self.errorHandler()
@@ -376,10 +376,10 @@ struct FilesHandler: Handler {
 
         firstly {
             return model.unshareFiles([file], with: contact)
-        }.then { contact in
+        }.then { _ in
             self.completionHandler()
         }.catch { error in
-            if case HorizonError.shareOperationFailed(let reason) = error {
+            if case HorizonError.fileOperationFailed(let reason) = error {
                 if case .sendAddressNotSet = reason {
                     print("\(contactName): No send address set. Cannot unshare files.")
                     self.errorHandler()

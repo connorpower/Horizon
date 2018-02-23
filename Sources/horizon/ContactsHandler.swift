@@ -169,7 +169,7 @@ struct ContactsHandler: Handler {
 
                 > horizon contacts set-rcv-addr mmusterman QmSomeHash
 
-            """),
+            """)
     ]
 
     // MARK: - Properties
@@ -240,7 +240,7 @@ struct ContactsHandler: Handler {
     private func addContact(name: String) {
         firstly {
             return model.addContact(name: name)
-        }.then { contact in
+        }.then { _ in
             self.completionHandler()
         }.catch { error in
             if case HorizonError.contactOperationFailed(let reason) = error {
@@ -256,7 +256,7 @@ struct ContactsHandler: Handler {
     }
 
     private func listContactInfo(for contactFilter: ContactFilter) {
-        let contacts:[Contact]
+        let contacts: [Contact]
 
         switch contactFilter {
         case .specificContact(let name):

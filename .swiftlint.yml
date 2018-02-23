@@ -4,4 +4,3 @@ disabled_rules:
 excluded:
   - .build
   - Tests
-

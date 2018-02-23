@@ -77,7 +77,7 @@ struct SyncHandler: Handler {
               Note that a sync can take some quite some time. It's also important
               that your contacts are online and connected to a network.
 
-            """),
+            """)
     ]
 
     // MARK: - Properties
@@ -141,9 +141,8 @@ struct SyncHandler: Handler {
             if wasAReceiveAddressMissing {
                 print("\nSet a receive address using `horizon contacts set-rcv-addr <contact-name> <receive-hash>`")
             }
-            // TODO: Print changes
             self.completionHandler()
-        }.catch { error in
+        }.catch { _ in
             print("Failed to sync. Have you started the horizon daemon?")
             self.errorHandler()
         }

@@ -51,19 +51,17 @@ struct ModelFactory {
         case .processingReceiveListDidStart(let contact):
             Notifications.broadcastStatusMessage(
                 "Interplanetary File System: Processing file list from \(contact.displayName)...")
-        case .keygenDidStart(_):
+        case .keygenDidStart:
             break
         case .listKeysDidStart:
             break
-        case .removeKeyDidStart(_):
+        case .removeKeyDidStart:
             break
-        case .renameKeyDidStart(_, _):
+        case .renameKeyDidStart:
             break
         }
     }
 
-    private func handleErrorEvent(_ error: HorizonError) {
-        // TODO: log
-    }
+    private func handleErrorEvent(_ error: HorizonError) {}
 
 }

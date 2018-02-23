@@ -56,7 +56,7 @@ public struct DaemonManager {
      */
     public func startDaemon(for config: ConfigurationProvider) throws {
         if !FileManager.default.fileExists(atPath: config.path.path) {
-            try! FileManager.default.createDirectory(at: config.path.deletingLastPathComponent(),
+            try? FileManager.default.createDirectory(at: config.path.deletingLastPathComponent(),
                                                      withIntermediateDirectories: true,
                                                      attributes: nil)
 
@@ -110,7 +110,7 @@ public struct DaemonManager {
         daemonProcess.launch()
 
         if let pidData = daemonProcess.processIdentifier.description.data(using: .utf8, allowLossyConversion: false) {
-            try! pidData.write(to: config.daemonPIDPath)
+            try? pidData.write(to: config.daemonPIDPath)
         }
     }
 
@@ -130,7 +130,7 @@ public struct DaemonManager {
     public func stopDaemon(for config: ConfigurationProvider) -> Bool {
         if let daemonPID = pid(at: config.daemonPIDPath) {
             kill(daemonPID, SIGINT)
-            try! FileManager.default.removeItem(at: config.daemonPIDPath)
+            try? FileManager.default.removeItem(at: config.daemonPIDPath)
             return true
         } else {
             return false

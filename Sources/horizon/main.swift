@@ -6,7 +6,6 @@
 //  Copyright © 2018 Semantical GmbH & Co. KG. All rights reserved.
 //
 
-
 import Foundation
 import HorizonCore
 import IPFSWebService
@@ -133,7 +132,7 @@ class Program {
                       eventCallback: nil)
 
         switch DaemonManager().status(for: config) {
-        case .pidFilePresentButDaemonNotRunning(_), .stopped:
+        case .pidFilePresentButDaemonNotRunning, .stopped:
             print("Horizon daemon not running. Starting...")
             do {
                 try DaemonManager().startDaemon(for: config)

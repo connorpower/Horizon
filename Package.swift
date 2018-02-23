@@ -6,11 +6,11 @@ let package = Package(
     name: "horizon",
     products: [
         .executable(name: "horizon", targets: ["horizon"]),
-        .library(name: "HorizonCore", type: .static, targets: ["HorizonCore"]),
+        .library(name: "HorizonCore", type: .static, targets: ["HorizonCore"])
     ],
     dependencies: [
         .package(url: "https://github.com/connorpower/IPFSWebService.git", from: "4.1.1"),
-        .package(url: "https://github.com/mxcl/PromiseKit.git", from: "4.5.0"),
+        .package(url: "https://github.com/mxcl/PromiseKit.git", from: "4.5.0")
     ],
     targets: [
         .target(
@@ -21,6 +21,6 @@ let package = Package(
             dependencies: ["IPFSWebService"]),
         .testTarget(
             name: "HorizonCoreTests",
-            dependencies: ["HorizonCore"]),
+            dependencies: ["HorizonCore"])
     ]
 )

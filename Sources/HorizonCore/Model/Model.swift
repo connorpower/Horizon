@@ -108,8 +108,12 @@ public extension Model {
             self.eventCallback?(.propertiesDidChange(contact))
             return Promise(value: contact)
         }.catch { error in
-            let horizonError: HorizonError = error is HorizonError
-                ? error as! HorizonError : HorizonError.contactOperationFailed(reason: .unknown(error))
+            let horizonError: HorizonError
+            if let castError = error as? HorizonError {
+                horizonError = castError
+            } else {
+                horizonError = HorizonError.contactOperationFailed(reason: .unknown(error))
+            }
             self.eventCallback?(.errorEvent(horizonError))
         }
     }
@@ -159,8 +163,12 @@ public extension Model {
                 return Promise(value: ())
             }
         }.catch { error in
-            let horizonError: HorizonError = error is HorizonError
-                ? error as! HorizonError : HorizonError.contactOperationFailed(reason: .unknown(error))
+            let horizonError: HorizonError
+            if let castError = error as? HorizonError {
+                horizonError = castError
+            } else {
+                horizonError = HorizonError.contactOperationFailed(reason: .unknown(error))
+            }
             self.eventCallback?(.errorEvent(horizonError))
         }
     }
@@ -210,8 +218,12 @@ public extension Model {
             self.eventCallback?(.propertiesDidChange(updatedContact))
             return Promise(value: updatedContact)
         }.catch { error in
-            let horizonError: HorizonError = error is HorizonError
-                ? error as! HorizonError : HorizonError.contactOperationFailed(reason: .unknown(error))
+            let horizonError: HorizonError
+            if let castError = error as? HorizonError {
+                horizonError = castError
+            } else {
+                horizonError = HorizonError.contactOperationFailed(reason: .unknown(error))
+            }
             self.eventCallback?(.errorEvent(horizonError))
         }
     }
@@ -246,7 +258,7 @@ public extension Model {
      */
     public func shareFiles(_ files: [URL], with contact: Contact) -> Promise<Contact> {
         guard let sendAddress = contact.sendAddress else {
-            return Promise(error: HorizonError.shareOperationFailed(reason: .sendAddressNotSet))
+            return Promise(error: HorizonError.fileOperationFailed(reason: .sendAddressNotSet))
         }
 
         // It is ill-advised to check for the presence of a file **before** peforming
@@ -256,7 +268,7 @@ public extension Model {
         // so we can react to a failure rather than check in advance – as apple suggests.
         for file in files {
             if !FileManager.default.isReadableFile(atPath: file.path) {
-                return Promise(error: HorizonError.shareOperationFailed(reason: .fileDoesNotExist(file.path)))
+                return Promise(error: HorizonError.fileOperationFailed(reason: .fileDoesNotExist(file.path)))
             }
         }
 
@@ -272,7 +284,7 @@ public extension Model {
             self.persistentStore.createOrUpdateContact(updatedContact)
 
             guard let newSendListURL = FileManager.default.encodeAsJSONInTemporaryFile(updatedSendList.files) else {
-                throw HorizonError.shareOperationFailed(reason: .failedToEncodeFileListToTemporaryFile)
+                throw HorizonError.fileOperationFailed(reason: .failedToEncodeFileListToTemporaryFile)
             }
 
             self.eventCallback?(.addingProvidedFileListToIPFSDidStart(contact))
@@ -292,8 +304,12 @@ public extension Model {
         }.then { _, contact in
             return Promise(value: contact)
         }.catch { error in
-            let horizonError: HorizonError = error is HorizonError
-                ? error as! HorizonError : HorizonError.shareOperationFailed(reason: .unknown(error))
+            let horizonError: HorizonError
+            if let castError = error as? HorizonError {
+                horizonError = castError
+            } else {
+                horizonError = HorizonError.fileOperationFailed(reason: .unknown(error))
+            }
             self.eventCallback?(.errorEvent(horizonError))
         }
     }
@@ -316,20 +332,20 @@ public extension Model {
      */
     public func unshareFiles(_ files: [File], with contact: Contact) -> Promise<Contact> {
         guard let sendAddress = contact.sendAddress else {
-            return Promise(error: HorizonError.shareOperationFailed(reason: .sendAddressNotSet))
+            return Promise(error: HorizonError.fileOperationFailed(reason: .sendAddressNotSet))
         }
 
         guard contact.sendList.files.filter({ files.contains($0) }).first != nil else {
-            return Promise(error: HorizonError.shareOperationFailed(reason: .fileNotShared))
+            return Promise(error: HorizonError.fileOperationFailed(reason: .fileNotShared))
         }
 
         return firstly { () -> Promise<(AddResponse, Contact)> in
-            let filteredFiles = contact.sendList.files.filter() { !files.contains($0) }
+            let filteredFiles = contact.sendList.files.filter { !files.contains($0) }
             let updatedSendList = FileList(hash: nil, files: filteredFiles)
             let updatedContact = contact.updatingSendList(updatedSendList)
 
             guard let newSendListURL = FileManager.default.encodeAsJSONInTemporaryFile(updatedSendList.files) else {
-                throw HorizonError.shareOperationFailed(reason: .failedToEncodeFileListToTemporaryFile)
+                throw HorizonError.fileOperationFailed(reason: .failedToEncodeFileListToTemporaryFile)
             }
 
             self.eventCallback?(.addingProvidedFileListToIPFSDidStart(contact))
@@ -351,8 +367,12 @@ public extension Model {
 
             return Promise(value: contact)
         }.catch { error in
-            let horizonError: HorizonError = error is HorizonError
-                ? error as! HorizonError : HorizonError.shareOperationFailed(reason: .unknown(error))
+            let horizonError: HorizonError
+            if let castError = error as? HorizonError {
+                horizonError = castError
+            } else {
+                horizonError = HorizonError.fileOperationFailed(reason: .unknown(error))
+            }
             self.eventCallback?(.errorEvent(horizonError))
         }
     }
@@ -371,18 +391,18 @@ public extension Model {
      Returns an unordered list of received files and their associated contacts.
      */
     public var receivedFiles: [(File, Contact)] {
-        return persistentStore.contacts.flatMap( { contact in
+        return persistentStore.contacts.flatMap { contact in
             return contact.receiveList.files.map { ($0, contact) }
-        })
+        }
     }
 
     /**
      Returns an unordered list of sent files and their associated contacts.
      */
     public var sentFiles: [(File, Contact)] {
-        return persistentStore.contacts.flatMap( { contact in
+        return persistentStore.contacts.flatMap { contact in
             return contact.sendList.files.map { ($0, contact) }
-        })
+        }
     }
 
     /**
@@ -395,7 +415,7 @@ public extension Model {
      - returns: Returns a file if one was found, otherwise nil.
      */
     public func file(matching hash: String) -> File? {
-        let matches = (receivedFiles + sentFiles).filter { file, contact in
+        let matches = (receivedFiles + sentFiles).filter { file, _ in
             return file.hash == hash
         }
 
@@ -410,8 +430,12 @@ public extension Model {
         return firstly {
             return self.api.cat(arg: hash)
         }.catch { error in
-            let horizonError: HorizonError = error is HorizonError
-                ? error as! HorizonError : HorizonError.fileOperationFailed(reason: .unknown(error))
+            let horizonError: HorizonError
+            if let castError = error as? HorizonError {
+                horizonError = castError
+            } else {
+                horizonError = HorizonError.fileOperationFailed(reason: .unknown(error))
+            }
             self.eventCallback?(.errorEvent(horizonError))
         }
     }
@@ -452,12 +476,12 @@ public extension Model {
                         // Keep passing the contact forward, along with the new receive list data
                         (contact, (receiveListHash, data))
                     }
-                }.recover { error in
+                }.recover { _ in
                     Promise(value: (contact, nil))
                 }
             }))
         }.then { syncResponses in
-            return syncResponses.map{ (contact, maybeReceiveListData) in
+            return syncResponses.map { (contact, maybeReceiveListData) in
                 guard let receiveListData = maybeReceiveListData else {
                     let error: HorizonError
                     if contact.receiveAddress == nil {

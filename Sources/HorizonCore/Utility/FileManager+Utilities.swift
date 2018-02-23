@@ -17,7 +17,7 @@ public extension FileManager {
      - returns: A `URL` if the object was sucessfully encoded and written
      to a file, or `nil` otherwise.
      */
-    public func encodeAsJSONInTemporaryFile<T>(_ object: T) -> URL? where T : Encodable {
+    public func encodeAsJSONInTemporaryFile<T>(_ object: T) -> URL? where T: Encodable {
         guard let data = try? JSONEncoder().encode(object) else {
             return nil
         }
@@ -86,5 +86,5 @@ public extension FileManager {
 
         return location
     }
-    
+
 }

@@ -425,4 +425,37 @@ class ModelTests_Contacts: XCTestCase {
         wait(for: [errorThrownExpectation], timeout: 1.0)
     }
 
+    /**
+     Expect that renaming a contact fails if there exists a contact or
+     keypair with the same name.
+     */
+    func testRenameContact_NameConflict() {
+        let identifier = UUID()
+        let contact1 = Contact(identifier: identifier, displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
+        let contact2 = Contact(identifier: identifier, displayName: "Contact2", sendAddress: nil, receiveAddress: nil)
+        mockStore.contacts = [contact1, contact2]
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+
+        let errorThrownExpectation = expectation(description: "errorThrownExpectation")
+
+        firstly {
+            model.renameContact("Contact1", to: "Contact2")
+        }.then { contact in
+            XCTFail("Should not have succeeded")
+        }.catch { error in
+            if case HorizonError.contactOperationFailed(let reason) = error {
+                if case .contactAlreadyExists = reason {
+                    XCTAssertTrue(true)
+                } else {
+                    XCTFail()
+                }
+            } else {
+                XCTFail()
+            }
+            errorThrownExpectation.fulfill()
+        }
+
+        wait(for: [errorThrownExpectation], timeout: 1.0)
+    }
+
 }

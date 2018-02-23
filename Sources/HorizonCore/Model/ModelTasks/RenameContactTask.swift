@@ -24,8 +24,8 @@ struct RenameContactTask: ModelTask {
     // MARK: - Functions
 
     func renameContact(_ name: String, to newName: String) -> Promise<Contact> {
-        let keypairName = "\(model.config.persistentStoreKeys.keypairPrefix).\(name)"
-        let newKeypairName = "\(model.config.persistentStoreKeys.keypairPrefix).\(newName)"
+        let keypairName = "\(model.configuration.persistentStoreKeys.keypairPrefix).\(name)"
+        let newKeypairName = "\(model.configuration.persistentStoreKeys.keypairPrefix).\(newName)"
 
         guard let contact = self.model.contact(named: name) else {
             return Promise<Contact>(error: HorizonError.contactOperationFailed(reason: .contactDoesNotExist))

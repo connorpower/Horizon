@@ -49,27 +49,27 @@ public struct DaemonManager {
      in the config file, and the PID will be written to the path specified
      in the config file once the deamon is running.
 
-     - parameter config: The configuration for the daemon which
+     - parameter configuration: The configuration for the daemon which
      should be started.
      - throws: Throws a `HorizonError.daemonOperationFailed` error if
      an operation failed.
      */
-    public func startDaemon(for config: ConfigurationProvider) throws {
-        if !FileManager.default.fileExists(atPath: config.path.path) {
-            try? FileManager.default.createDirectory(at: config.path.deletingLastPathComponent(),
+    public func startDaemon(for configuration: ConfigurationProvider) throws {
+        if !FileManager.default.fileExists(atPath: configuration.path.path) {
+            try? FileManager.default.createDirectory(at: configuration.path.deletingLastPathComponent(),
                                                      withIntermediateDirectories: true,
                                                      attributes: nil)
-            try initializeNewIPFSNode(for: config)
-            try configureIPFSNode(for: config)
+            try initializeNewIPFSNode(for: configuration)
+            try configureIPFSNode(for: configuration)
         }
 
-        let daemonProcess = ipfsCommand(for: config)
+        let daemonProcess = ipfsCommand(for: configuration)
         daemonProcess.launchPath = ipfsPath
         daemonProcess.arguments = ["daemon"]
         daemonProcess.launch()
 
         if let pidData = daemonProcess.processIdentifier.description.data(using: .utf8, allowLossyConversion: false) {
-            try? pidData.write(to: config.daemonPIDPath)
+            try? pidData.write(to: configuration.daemonPIDPath)
         }
     }
 
@@ -79,17 +79,17 @@ public struct DaemonManager {
      PID file will be removed whether or not the daemon was
      running.
 
-     - parameter config: The configuration for the daemon which
+     - parameter configuration: The configuration for the daemon which
      should be stopped.
      - returns: Returns a boolean indicating whether start or stop
      was successful. If `false` is returned, then no PID file could
      be found for the daemon and hence it should be presumed that
      the daemon was not running.
      */
-    public func stopDaemon(for config: ConfigurationProvider) -> Bool {
-        if let daemonPID = pid(at: config.daemonPIDPath) {
+    public func stopDaemon(for configuration: ConfigurationProvider) -> Bool {
+        if let daemonPID = pid(at: configuration.daemonPIDPath) {
             kill(daemonPID, SIGINT)
-            try? FileManager.default.removeItem(at: config.daemonPIDPath)
+            try? FileManager.default.removeItem(at: configuration.daemonPIDPath)
             return true
         } else {
             return false
@@ -98,14 +98,14 @@ public struct DaemonManager {
     }
 
     /**
-     Returns the status of the daemon referred to by the config.
+     Returns the status of the daemon referred to by the configuration.
 
-     - parameter config: The configuration for the daemon whose
+     - parameter configuration: The configuration for the daemon whose
      status should be determined.
      - returns: Returns a `DaemonStatus` enum.
      */
-    public func status(for config: ConfigurationProvider) -> DaemonStatus {
-        if let daemonPID = pid(at: config.daemonPIDPath) {
+    public func status(for configuration: ConfigurationProvider) -> DaemonStatus {
+        if let daemonPID = pid(at: configuration.daemonPIDPath) {
             // Sending a signal of 0 to a process tests for existence
             let isDaemonRunning = (kill(daemonPID, 0) == 0)
 
@@ -121,8 +121,8 @@ public struct DaemonManager {
 
     // MARK: - private Functions
 
-    private func initializeNewIPFSNode(for config: ConfigurationProvider) throws {
-        let initialize = ipfsCommand(for: config)
+    private func initializeNewIPFSNode(for configuration: ConfigurationProvider) throws {
+        let initialize = ipfsCommand(for: configuration)
         initialize.launchPath = ipfsPath
         initialize.arguments = ["init"]
         initialize.launch()
@@ -132,35 +132,37 @@ public struct DaemonManager {
         }
     }
 
-    private func configureIPFSNode(for config: ConfigurationProvider) throws {
-        let configAPI = ipfsCommand(for: config)
+    private func configureIPFSNode(for configuration: ConfigurationProvider) throws {
+        let configAPI = ipfsCommand(for: configuration)
         configAPI.launchPath = ipfsPath
         configAPI.arguments = ["config",
                                "Addresses.API",
-                               "/ip4/127.0.0.1/tcp/\(config.apiPort)"]
+                               "/ip4/127.0.0.1/tcp/\(configuration.apiPort)"]
         configAPI.launch()
         configAPI.waitUntilExit()
         guard configAPI.terminationStatus == 0 else {
             throw HorizonError.daemonOperationFailed(reason: .failedToAlterConfigFile)
         }
 
-        let configGateway = ipfsCommand(for: config)
+        let configGateway = ipfsCommand(for: configuration)
         configGateway.launchPath = ipfsPath
         configGateway.arguments = ["config",
                                    "Addresses.Gateway",
-                                   "/ip4/127.0.0.1/tcp/\(config.gatewayPort)"]
+                                   "/ip4/127.0.0.1/tcp/\(configuration.gatewayPort)"]
         configGateway.launch()
         configGateway.waitUntilExit()
         guard configGateway.terminationStatus == 0 else {
             throw HorizonError.daemonOperationFailed(reason: .failedToAlterConfigFile)
         }
 
-        let configSwarm = ipfsCommand(for: config)
+        let ipv4SwarmAddr = "\"/ip4/0.0.0.0/tcp/\(configuration.swarmPort)\""
+        let ipv6SwarmAddr = "\"/ip6/::/tcp/\(configuration.swarmPort)\""
+        let configSwarm = ipfsCommand(for: configuration)
         configSwarm.launchPath = ipfsPath
         configSwarm.arguments = ["config",
                                  "--json",
                                  "Addresses.Swarm",
-                                 "[\"/ip4/0.0.0.0/tcp/\(config.swarmPort)\", \"/ip6/::/tcp/\(config.swarmPort)\"]"]
+                                 "[\(ipv4SwarmAddr), \(ipv6SwarmAddr)]"]
         configSwarm.launch()
         configSwarm.waitUntilExit()
         guard configSwarm.terminationStatus == 0 else {
@@ -168,9 +170,9 @@ public struct DaemonManager {
         }
     }
 
-    private func ipfsCommand(for config: ConfigurationProvider) -> Process {
+    private func ipfsCommand(for configuration: ConfigurationProvider) -> Process {
         var environment = ProcessInfo().environment
-        environment["IPFS_PATH"] = config.path.path
+        environment["IPFS_PATH"] = configuration.path.path
 
         let task = Process()
         task.standardError = nil

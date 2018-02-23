@@ -175,7 +175,7 @@ struct ContactsHandler: Handler {
     // MARK: - Properties
 
     private let model: Model
-    private let config: ConfigurationProvider
+    private let configuration: ConfigurationProvider
 
     private let arguments: [String]
 
@@ -184,10 +184,10 @@ struct ContactsHandler: Handler {
 
     // MARK: - Handler Protocol
 
-    init(model: Model, config: ConfigurationProvider, arguments: [String],
+    init(model: Model, configuration: ConfigurationProvider, arguments: [String],
          completion: @escaping () -> Never, error: @escaping () -> Never) {
         self.model = model
-        self.config = config
+        self.configuration = configuration
         self.arguments = arguments
         self.completionHandler = completion
         self.errorHandler = error

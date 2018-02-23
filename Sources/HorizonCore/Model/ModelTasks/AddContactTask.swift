@@ -24,7 +24,7 @@ struct AddContactTask: ModelTask {
     // MARK: - Functions
 
     func addContact(name: String) -> Promise<Contact> {
-        let keypairName = "\(model.config.persistentStoreKeys.keypairPrefix).\(name)"
+        let keypairName = "\(model.configuration.persistentStoreKeys.keypairPrefix).\(name)"
 
         guard model.contact(named: name) == nil else {
             return Promise(error: HorizonError.contactOperationFailed(reason: .contactAlreadyExists))

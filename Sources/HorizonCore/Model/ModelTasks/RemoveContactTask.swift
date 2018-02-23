@@ -27,7 +27,7 @@ struct RemoveContactTask: ModelTask {
         // Dont rely entirely on the keypair name or the contact. The
         // contact was potentially deleted, leaving behind a dangling IPNS keypair or vice versa.
         let contact = self.model.contact(named: name)
-        let keypairName = "\(model.config.persistentStoreKeys.keypairPrefix).\(name)"
+        let keypairName = "\(model.configuration.persistentStoreKeys.keypairPrefix).\(name)"
 
         return firstly {
             return self.model.api.listKeys()

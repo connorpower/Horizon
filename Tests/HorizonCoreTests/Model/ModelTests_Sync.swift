@@ -39,7 +39,7 @@ class ModelTests_Sync: XCTestCase {
                                                         keypairName: "my.keypair.name"),
                                receiveAddress: "XX-MY-RECEIVE-ADDRESS-XX")
         mockStore.contacts = [contact1]
-        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, configuration: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let resolveReceiveListExpectation = expectation(description: "resolveReceiveListExpectation")
         let catReceiveListExpectation = expectation(description: "catReceiveListExpectation")
@@ -95,7 +95,7 @@ class ModelTests_Sync: XCTestCase {
                                                         keypairName: "my.keypair.name"),
                                receiveAddress: "XX-MY-RECEIVE-ADDRESS-XX")
         mockStore.contacts = [contact1]
-        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, configuration: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let syncCompletedExpectation = expectation(description: "syncCompletedExpectation")
 
@@ -133,7 +133,7 @@ class ModelTests_Sync: XCTestCase {
      */
     func testSync_NoContacts() {
         mockStore.contacts = []
-        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, configuration: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let syncCompletedExpectation = expectation(description: "syncCompletedExpectation")
 
@@ -160,7 +160,7 @@ class ModelTests_Sync: XCTestCase {
                                sendAddress: SendAddress(address: "7A5055A5-39A7-4CE4-8061-7C80F918229A",
                                                         keypairName: "my.keypair.name"), receiveAddress: nil)
         mockStore.contacts = [contact1]
-        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, configuration: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let syncCompletedExpectation = expectation(description: "syncCompletedExpectation")
 
@@ -205,7 +205,7 @@ class ModelTests_Sync: XCTestCase {
                                                         keypairName: "my.keypair.name"),
                                receiveAddress: "XX-MY-RECEIVE-ADDRESS-XX")
         mockStore.contacts = [contact1]
-        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, configuration: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let syncCompletedExpectation = expectation(description: "syncCompletedExpectation")
 
@@ -262,7 +262,7 @@ class ModelTests_Sync: XCTestCase {
                                                         keypairName: "my.keypair.name2"),
                                receiveAddress: "XX-MY-RECEIVE-ADDRESS2-XX")
         mockStore.contacts = [contact1, contact2]
-        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, configuration: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let syncCompletedExpectation = expectation(description: "syncCompletedExpectation")
 

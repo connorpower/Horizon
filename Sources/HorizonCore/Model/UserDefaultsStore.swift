@@ -16,12 +16,12 @@ public struct UserDefaultsStore: PersistentStore {
 
     // MARK: - Properties
 
-    private let config: Configuration
+    private let configuration: Configuration
 
     // MARK: - Initialization
 
-    public init(config: Configuration) {
-        self.config = config
+    public init(configuration: Configuration) {
+        self.configuration = configuration
     }
 
     // MARK: - Functions
@@ -31,7 +31,7 @@ public struct UserDefaultsStore: PersistentStore {
      shared.
      */
     public var contacts: [Contact] {
-        if let jsonString = UserDefaults.standard.string(forKey: config.persistentStoreKeys.contactList),
+        if let jsonString = UserDefaults.standard.string(forKey: configuration.persistentStoreKeys.contactList),
             let jsonData = jsonString.data(using: .utf8) {
             let contacts = try? JSONDecoder().decode([Contact].self, from: jsonData)
             return contacts ?? [Contact]()
@@ -56,7 +56,7 @@ public struct UserDefaultsStore: PersistentStore {
         }
 
         let jsonString = String(bytes: jsonData, encoding: .utf8)
-        UserDefaults.standard.set(jsonString, forKey: config.persistentStoreKeys.contactList)
+        UserDefaults.standard.set(jsonString, forKey: configuration.persistentStoreKeys.contactList)
     }
 
     /**
@@ -73,7 +73,7 @@ public struct UserDefaultsStore: PersistentStore {
         }
 
         let jsonString = String(bytes: jsonData, encoding: .utf8)
-        UserDefaults.standard.set(jsonString, forKey: config.persistentStoreKeys.contactList)
+        UserDefaults.standard.set(jsonString, forKey: configuration.persistentStoreKeys.contactList)
     }
 
 }

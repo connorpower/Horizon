@@ -13,12 +13,15 @@ struct ModelFactory {
 
     func model() -> Model {
         let horizonDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
-        let config = Configuration(horizonDirectory: horizonDirectory, identity: "default")
+        let configuration = Configuration(horizonDirectory: horizonDirectory, identity: "default")
 
         let api = IPFSWebserviceAPI(logProvider: Loggers())
-        let store = UserDefaultsStore(config: config)
+        let store = UserDefaultsStore(configuration: configuration)
 
-        let model = Model(api: api, config: config, persistentStore: store, eventCallback: { self.handleEvent($0) })
+        let model = Model(api: api,
+                          configuration: configuration,
+                          persistentStore: store,
+                          eventCallback: { self.handleEvent($0) })
 
         return model
     }

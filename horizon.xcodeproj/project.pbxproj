@@ -24,6 +24,18 @@
 		D29431592040398100BCA7E6 /* The Byzantine Generals Problem.pdf in CopyFiles */ = {isa = PBXBuildFile; fileRef = D29431572040394D00BCA7E6 /* The Byzantine Generals Problem.pdf */; };
 		D294315B204041BF00BCA7E6 /* ModelTests_Files.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294315A204041BF00BCA7E6 /* ModelTests_Files.swift */; };
 		D294315D20404FF800BCA7E6 /* SyncState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294315C20404FF800BCA7E6 /* SyncState.swift */; };
+		D294316620408FEC00BCA7E6 /* ShareFileTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294316520408FEC00BCA7E6 /* ShareFileTask.swift */; };
+		D29431682040923D00BCA7E6 /* UnshareFileTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29431672040923D00BCA7E6 /* UnshareFileTask.swift */; };
+		D294316A204092B400BCA7E6 /* SyncTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2943169204092B400BCA7E6 /* SyncTask.swift */; };
+		D294316C2040933100BCA7E6 /* GetDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294316B2040933100BCA7E6 /* GetDataTask.swift */; };
+		D294316E2040938900BCA7E6 /* RenameContactTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294316D2040938900BCA7E6 /* RenameContactTask.swift */; };
+		D29431702040940400BCA7E6 /* RemoveContactTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294316F2040940400BCA7E6 /* RemoveContactTask.swift */; };
+		D29431722040947B00BCA7E6 /* AddContactTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29431712040947B00BCA7E6 /* AddContactTask.swift */; };
+		D2943174204094FA00BCA7E6 /* ModelTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2943173204094FA00BCA7E6 /* ModelTask.swift */; };
+		D294317720409A8800BCA7E6 /* ContactsHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294317620409A8800BCA7E6 /* ContactsHelp.swift */; };
+		D294317920409AF600BCA7E6 /* HelpProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294317820409AF600BCA7E6 /* HelpProvider.swift */; };
+		D294317B20409B4B00BCA7E6 /* SyncHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294317A20409B4B00BCA7E6 /* SyncHelp.swift */; };
+		D294317D20409BBC00BCA7E6 /* FilesHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294317C20409BBC00BCA7E6 /* FilesHelp.swift */; };
 		D2D77A0F20389E8800ECD599 /* DaemonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D77A0E20389E8800ECD599 /* DaemonManager.swift */; };
 		OBJ_127 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_133 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_81 /* Package.swift */; };
@@ -244,6 +256,18 @@
 		D29431572040394D00BCA7E6 /* The Byzantine Generals Problem.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "The Byzantine Generals Problem.pdf"; sourceTree = "<group>"; };
 		D294315A204041BF00BCA7E6 /* ModelTests_Files.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests_Files.swift; sourceTree = "<group>"; };
 		D294315C20404FF800BCA7E6 /* SyncState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncState.swift; sourceTree = "<group>"; };
+		D294316520408FEC00BCA7E6 /* ShareFileTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareFileTask.swift; sourceTree = "<group>"; };
+		D29431672040923D00BCA7E6 /* UnshareFileTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnshareFileTask.swift; sourceTree = "<group>"; };
+		D2943169204092B400BCA7E6 /* SyncTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncTask.swift; sourceTree = "<group>"; };
+		D294316B2040933100BCA7E6 /* GetDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDataTask.swift; sourceTree = "<group>"; };
+		D294316D2040938900BCA7E6 /* RenameContactTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenameContactTask.swift; sourceTree = "<group>"; };
+		D294316F2040940400BCA7E6 /* RemoveContactTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveContactTask.swift; sourceTree = "<group>"; };
+		D29431712040947B00BCA7E6 /* AddContactTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactTask.swift; sourceTree = "<group>"; };
+		D2943173204094FA00BCA7E6 /* ModelTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTask.swift; sourceTree = "<group>"; };
+		D294317620409A8800BCA7E6 /* ContactsHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsHelp.swift; sourceTree = "<group>"; };
+		D294317820409AF600BCA7E6 /* HelpProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpProvider.swift; sourceTree = "<group>"; };
+		D294317A20409B4B00BCA7E6 /* SyncHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncHelp.swift; sourceTree = "<group>"; };
+		D294317C20409BBC00BCA7E6 /* FilesHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesHelp.swift; sourceTree = "<group>"; };
 		D2D77A0E20389E8800ECD599 /* DaemonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaemonManager.swift; sourceTree = "<group>"; };
 		"IPFSWebService::IPFSWebService::Product" /* IPFSWebService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IPFSWebService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_100 /* DispatchQueue+Alamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+Alamofire.swift"; sourceTree = "<group>"; };
@@ -405,6 +429,33 @@
 			path = "Test Resources";
 			sourceTree = "<group>";
 		};
+		D294316420408FEC00BCA7E6 /* ModelTasks */ = {
+			isa = PBXGroup;
+			children = (
+				D294316520408FEC00BCA7E6 /* ShareFileTask.swift */,
+				D29431672040923D00BCA7E6 /* UnshareFileTask.swift */,
+				D2943169204092B400BCA7E6 /* SyncTask.swift */,
+				D294316B2040933100BCA7E6 /* GetDataTask.swift */,
+				D294316D2040938900BCA7E6 /* RenameContactTask.swift */,
+				D294316F2040940400BCA7E6 /* RemoveContactTask.swift */,
+				D29431712040947B00BCA7E6 /* AddContactTask.swift */,
+				D2943173204094FA00BCA7E6 /* ModelTask.swift */,
+			);
+			path = ModelTasks;
+			sourceTree = "<group>";
+		};
+		D294317520409A5000BCA7E6 /* Help */ = {
+			isa = PBXGroup;
+			children = (
+				D294317620409A8800BCA7E6 /* ContactsHelp.swift */,
+				D294317820409AF600BCA7E6 /* HelpProvider.swift */,
+				D294317A20409B4B00BCA7E6 /* SyncHelp.swift */,
+				D294317C20409BBC00BCA7E6 /* FilesHelp.swift */,
+			);
+			name = Help;
+			path = Sources/horizon/Help;
+			sourceTree = SOURCE_ROOT;
+		};
 		OBJ_10 /* HorizonCore */ = {
 			isa = PBXGroup;
 			children = (
@@ -418,6 +469,7 @@
 		OBJ_11 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D294316420408FEC00BCA7E6 /* ModelTasks */,
 				OBJ_12 /* Configuration.swift */,
 				OBJ_13 /* ConfigurationProvider.swift */,
 				OBJ_14 /* Contact.swift */,
@@ -462,6 +514,7 @@
 		OBJ_28 /* horizon */ = {
 			isa = PBXGroup;
 			children = (
+				D294317520409A5000BCA7E6 /* Help */,
 				OBJ_29 /* Command.swift */,
 				OBJ_30 /* ContactsHandler.swift */,
 				OBJ_31 /* DaemonHandler.swift */,
@@ -836,6 +889,7 @@
 			buildPhases = (
 				OBJ_177 /* Sources */,
 				OBJ_187 /* Frameworks */,
+				D294315F20408B0C00BCA7E6 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -884,6 +938,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D294315F20408B0C00BCA7E6 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "PATH=$PATH:/usr/local/bin\n\nif which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		OBJ_126 /* Sources */ = {
@@ -941,11 +1012,15 @@
 			files = (
 				OBJ_178 /* Command.swift in Sources */,
 				OBJ_179 /* ContactsHandler.swift in Sources */,
+				D294317B20409B4B00BCA7E6 /* SyncHelp.swift in Sources */,
 				OBJ_180 /* DaemonHandler.swift in Sources */,
+				D294317920409AF600BCA7E6 /* HelpProvider.swift in Sources */,
 				OBJ_181 /* FilesHandler.swift in Sources */,
 				OBJ_182 /* Handler.swift in Sources */,
 				OBJ_183 /* Loggers.swift in Sources */,
 				OBJ_185 /* SyncHandler.swift in Sources */,
+				D294317720409A8800BCA7E6 /* ContactsHelp.swift in Sources */,
+				D294317D20409BBC00BCA7E6 /* FilesHelp.swift in Sources */,
 				OBJ_186 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -955,18 +1030,26 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_200 /* Configuration.swift in Sources */,
+				D294316E2040938900BCA7E6 /* RenameContactTask.swift in Sources */,
 				OBJ_201 /* ConfigurationProvider.swift in Sources */,
 				OBJ_202 /* Contact.swift in Sources */,
 				OBJ_203 /* ContactFilter.swift in Sources */,
 				OBJ_204 /* Event.swift in Sources */,
 				OBJ_205 /* File.swift in Sources */,
+				D294316620408FEC00BCA7E6 /* ShareFileTask.swift in Sources */,
 				OBJ_206 /* FileList.swift in Sources */,
 				OBJ_207 /* HorizonError.swift in Sources */,
+				D294316A204092B400BCA7E6 /* SyncTask.swift in Sources */,
 				OBJ_208 /* IPFSAPI.swift in Sources */,
+				D2943174204094FA00BCA7E6 /* ModelTask.swift in Sources */,
 				OBJ_209 /* IPFSWebserviceAPI.swift in Sources */,
 				OBJ_210 /* Model.swift in Sources */,
 				OBJ_211 /* PersistentStore.swift in Sources */,
+				D29431722040947B00BCA7E6 /* AddContactTask.swift in Sources */,
 				OBJ_212 /* UserDefaultsStore.swift in Sources */,
+				D29431682040923D00BCA7E6 /* UnshareFileTask.swift in Sources */,
+				D29431702040940400BCA7E6 /* RemoveContactTask.swift in Sources */,
+				D294316C2040933100BCA7E6 /* GetDataTask.swift in Sources */,
 				D294315D20404FF800BCA7E6 /* SyncState.swift in Sources */,
 				D2D77A0F20389E8800ECD599 /* DaemonManager.swift in Sources */,
 				OBJ_213 /* FileManager+Utilities.swift in Sources */,

@@ -26,9 +26,13 @@ public enum HorizonError: Error {
     }
 
     /**
-     The underlying reason the attempt to share a file or files failed.
+     The underlying reason the attempt to retreive a file or files failed.
 
      - unknown: An unknown reason caused the command to fail.
+     - fileHashNotSet: The requested file was missing a hash address.
+     - fileNotFound: The file could not be found in IPFS. Most likely
+     the contact who shared the file is not online and it is not present
+     in any IPFS caches.
      - sendAddressNotSet: The contact does not have a send address set.
      - fileDoesNotExist: The file either does not exist or is not readable.
      - fileNotShared: The file was never shared, and the requested
@@ -37,26 +41,13 @@ public enum HorizonError: Error {
      either with encoding the list of shared files to JSON, or with
      writing the encoded result to a temp file for uploading into IPFS.
      */
-    public enum ShareOperationFailureReason {
+    public enum FileOperationFailureReason {
         case unknown(Error)
+        case fileHashNotSet
         case sendAddressNotSet
         case fileDoesNotExist(String)
         case fileNotShared
         case failedToEncodeFileListToTemporaryFile
-    }
-
-    /**
-     The underlying reason the attempt to retreive a file or files failed.
-
-     - unknown: An unknown reason caused the command to fail.
-     - fileHashNotSet: The requested file was missing a hash address.
-     - fileNotFound: The file could not be found in IPFS. Most likely
-     the contact who shared the file is not online and it is not present
-     in any IPFS caches.
-     */
-    public enum FileOperationFailureReason {
-        case unknown(Error)
-        case fileHashNotSet
     }
 
     /**
@@ -93,7 +84,6 @@ public enum HorizonError: Error {
     }
 
     case contactOperationFailed(reason: ContactOperationFailureReason)
-    case shareOperationFailed(reason: ShareOperationFailureReason)
     case fileOperationFailed(reason: FileOperationFailureReason)
     case syncOperationFailed(reason: SyncOperationFailureReason)
     case daemonOperationFailed(reason: DaemonOperationFailureReason)

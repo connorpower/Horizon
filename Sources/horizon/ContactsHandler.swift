@@ -14,97 +14,6 @@ struct ContactsHandler: Handler {
 
     // MARK: - Constants
 
-    let longHelp = """
-    USAGE
-      horizon contacts - Create and manage Horizon contacts
-
-    SYNOPSIS
-      horizon contacts
-
-    DESCRIPTION
-
-      'horizon contacts add' adds a new contact for usage with Horizon.
-      An address for the send channel will be immediately created. This address
-      consists of an IPNS hash and can be shared with the contact to allow
-      them to receive files from you.
-      The contact should run the same procedure on their side and provide you
-      with the address of their shared list.
-      This becomes the receive-address which you can set manually later using
-      'horizon contacts set-receive-addr <name> <receive-address>'
-
-        > horizon contacts add mmusterman
-        > horizon contacts set-rcv-addr mmusterman QmSomeHash
-
-      'horizon contacts ls' lists the available contacts.
-
-        > horizon contacts ls
-        joe
-        mmusterman
-
-      'horizon contacts info <name>' prints a given contact to the screen,
-      showing the current values for the send address and receive address.
-
-        > horizon contacts info mmusterman
-        mmusterman
-        Send address:     QmSomeHash
-        Receive address:  QmSomeHash
-        IPFS keypair:     com-semantical.horizon.mmusterman
-
-        joe
-        Send address:     QmSomeHash
-        Receive address:  QmSomeHash
-        IPFS keypair:     com-semantical.horizon.joe
-
-      'horizon contacts rm <name>' removes a given contact from Horizon.
-      All files shared with the contact until this point remain available to
-      the contact.
-
-        > horizon contacts rm mmusterman
-
-      'horizon contacts rename <name> <new-name>' renames a given contact
-      but otherwise keeps all information and addresses the same.
-
-        > horizon contacts rename mmusterman max
-
-      'horizon contacts set-rcv-addr <name> <hash>' sets the receive address
-      for a given contact. The contact should provide you with this address –
-      the result of them adding you as a contact to their horizon instance.
-
-        > horizon contacts set-rcv-addr mmusterman QmSomeHash
-
-      SUBCOMMANDS
-        horizon contacts help                          - Displays detailed help information
-        horizon contacts add <name>                    - Create a new contact
-        horizon contacts ls                            - List all contacts
-        horizon contacts info <name>                   - Prints contact and associated details
-        horizon contacts rm <name>                     - Removes contact
-        horizon contacts rename <name> <new-name>      - Renames contact
-        horizon contacts set-rcv-addr <name> <hash>    - Sets the receive address for a contact
-
-        Use 'horizon contacts <subcmd> --help' for more information about each command.
-
-    """
-
-    private let shortHelp = """
-    USAGE
-      horizon contacts - Create and manage Horizon contacts
-
-    SYNOPSIS
-      horizon contacts
-
-    SUBCOMMANDS
-        horizon contacts help                          - Displays detailed help information
-        horizon contacts add <name>                    - Create a new contact
-        horizon contacts ls                            - List all contacts
-        horizon contacts info [<name>]                 - Prints contact and associated details
-        horizon contacts rm <name>                     - Removes contact
-        horizon contacts rename <name> <new-name>      - Renames contact
-        horizon contacts set-rcv-addr <name> <hash>    - Sets the receive address for a contact
-
-        Use 'horizon contacts <subcmd> --help' for more information about each command.
-
-    """
-
     private let commands = [
         Command(name: "add", allowableNumberOfArguments: [1], help: """
             horizon contacts add <name>
@@ -169,13 +78,13 @@ struct ContactsHandler: Handler {
 
                 > horizon contacts set-rcv-addr mmusterman QmSomeHash
 
-            """),
+            """)
     ]
 
     // MARK: - Properties
 
     private let model: Model
-    private let config: ConfigurationProvider
+    private let configuration: ConfigurationProvider
 
     private let arguments: [String]
 
@@ -184,10 +93,10 @@ struct ContactsHandler: Handler {
 
     // MARK: - Handler Protocol
 
-    init(model: Model, config: ConfigurationProvider, arguments: [String],
+    init(model: Model, configuration: ConfigurationProvider, arguments: [String],
          completion: @escaping () -> Never, error: @escaping () -> Never) {
         self.model = model
-        self.config = config
+        self.configuration = configuration
         self.arguments = arguments
         self.completionHandler = completion
         self.errorHandler = error
@@ -195,12 +104,12 @@ struct ContactsHandler: Handler {
 
     func run() {
         if !arguments.isEmpty, ["help", "-h", "--help"].contains(arguments[0]) {
-            print(longHelp)
+            print(ContactsHelp.longHelp)
             completionHandler()
         }
 
         guard !arguments.isEmpty, let command = commands.filter({$0.name == arguments[0]}).first else {
-            print(shortHelp)
+            print(ContactsHelp.shortHelp)
             errorHandler()
         }
 
@@ -216,19 +125,13 @@ struct ContactsHandler: Handler {
         case "ls":
             listContacts()
         case "info":
-            let contactFilter = ContactFilter(optionalContact: commandArguments.first)
-
-            listContactInfo(for: contactFilter)
+            listContactInfo(for: ContactFilter(optionalContact: commandArguments.first))
         case "rm":
             removeContact(name: commandArguments[0])
         case "rename":
-            let name = commandArguments[0]
-            let newName = commandArguments[1]
-            renameContact(name, to: newName)
+            renameContact(commandArguments[0], to: commandArguments[1])
         case "set-rcv-addr":
-            let name = commandArguments[0]
-            let recieveAddress = commandArguments[1]
-            setReceiveAddress(of: name, to: recieveAddress)
+            setReceiveAddress(of: commandArguments[0], to: commandArguments[1])
         default:
             print(command.help)
             errorHandler()
@@ -240,7 +143,7 @@ struct ContactsHandler: Handler {
     private func addContact(name: String) {
         firstly {
             return model.addContact(name: name)
-        }.then { contact in
+        }.then { _ in
             self.completionHandler()
         }.catch { error in
             if case HorizonError.contactOperationFailed(let reason) = error {
@@ -256,7 +159,7 @@ struct ContactsHandler: Handler {
     }
 
     private func listContactInfo(for contactFilter: ContactFilter) {
-        let contacts:[Contact]
+        let contacts: [Contact]
 
         switch contactFilter {
         case .specificContact(let name):

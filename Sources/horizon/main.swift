@@ -6,7 +6,6 @@
 //  Copyright © 2018 Semantical GmbH & Co. KG. All rights reserved.
 //
 
-
 import Foundation
 import HorizonCore
 import IPFSWebService
@@ -92,61 +91,39 @@ class Program {
      processing has completed.
      */
     func main() {
-        if !DaemonManager().isIPFSPresent {
-            print("Required dependency IPFS not found. Please install with `brew install ipfs`")
-            exit(EXIT_FAILURE)
-        }
-
-        var arguments: [String]
-        if CommandLine.arguments.count == 1 {
-            print("> ", separator: "", terminator: "")
-            arguments = readLine(strippingNewline: true)?.split(separator: " ").map({String($0)}) ?? [String]()
-        } else {
-            arguments = Array(CommandLine.arguments.dropFirst())
-        }
-
-        var identity = "default"
+        assertIPFSIsPresent()
+        var arguments = readArguments()
 
         if ["-h", "--help", "help"].contains(arguments[0]) {
             print(help)
             exit(EXIT_SUCCESS)
         }
 
-        if arguments[0].hasPrefix("--identity") {
-            let splitString = arguments[0].split(separator: "=")
-
-            guard splitString.count == 2 else {
-                print(help)
-                exit(EXIT_FAILURE)
-            }
-
-            identity = String(splitString[1])
+        let identity: String
+        if let parsedIdentity = parseIdentity(from: arguments) {
+            identity = parsedIdentity
             arguments = Array(arguments[1..<arguments.count])
+        } else {
+            identity = "default"
         }
 
         let horizonDirectory = URL(fileURLWithPath: ("~/.horizon" as NSString).expandingTildeInPath)
-        let config = Configuration(horizonDirectory: horizonDirectory, identity: identity)
-        SwaggerClientAPI.basePath = config.apiBasePath
+        let configuration = Configuration(horizonDirectory: horizonDirectory, identity: identity)
+        SwaggerClientAPI.basePath = configuration.apiBasePath
         model = Model(api: IPFSWebserviceAPI(logProvider: Loggers()),
-                      config: config,
-                      persistentStore: UserDefaultsStore(config: config),
+                      configuration: configuration,
+                      persistentStore: UserDefaultsStore(configuration: configuration),
                       eventCallback: nil)
 
-        switch DaemonManager().status(for: config) {
-        case .pidFilePresentButDaemonNotRunning(_), .stopped:
-            print("Horizon daemon not running. Starting...")
-            do {
-                try DaemonManager().startDaemon(for: config)
-            } catch {
-                print("Failed to start daemon.")
-                exit(EXIT_FAILURE)
-            }
-            let identityNotice = config.identity == "default" ? "" : "--identity=\(config.identity) "
-            print("⚠️ Started. Remember to stop the daemon with 'horizon \(identityNotice)daemon stop'.")
-        default:
-            break
-        }
+        startDaemonIfNecessary(configuration)
 
+        runCommand(from: arguments, with: configuration, model: model)
+        dispatchMain()
+    }
+
+    // MARK: - Private Functions
+
+    private func runCommand(from arguments: [String], with configuration: ConfigurationProvider, model: Model) {
         guard arguments.count >= 1 else {
             print(help)
             exit(EXIT_FAILURE)
@@ -158,25 +135,25 @@ class Program {
         switch command {
         case "contacts":
             ContactsHandler(model: model,
-                            config: config,
+                            configuration: configuration,
                             arguments: commandArgs,
                             completion: { exit(EXIT_SUCCESS) },
                             error: { exit(EXIT_FAILURE) }).run()
         case "files":
             FilesHandler(model: model,
-                         config: config,
+                         configuration: configuration,
                          arguments: commandArgs,
                          completion: { exit(EXIT_SUCCESS) },
                          error: { exit(EXIT_FAILURE) }).run()
         case "daemon":
             DaemonHandler(model: model,
-                          config: config,
+                          configuration: configuration,
                           arguments: commandArgs,
                           completion: { exit(EXIT_SUCCESS) },
                           error: { exit(EXIT_FAILURE) }).run()
         case "sync":
             SyncHandler(model: model,
-                        config: config,
+                        configuration: configuration,
                         arguments: commandArgs,
                         completion: { exit(EXIT_SUCCESS) },
                         error: { exit(EXIT_FAILURE) }).run()
@@ -184,8 +161,54 @@ class Program {
             print(help)
             exit(EXIT_FAILURE)
         }
+    }
 
-        dispatchMain()
+    private func assertIPFSIsPresent() {
+        if !DaemonManager().isIPFSPresent {
+            print("Required dependency IPFS not found. Please install with `brew install ipfs`")
+            exit(EXIT_FAILURE)
+        }
+    }
+
+    private func readArguments() -> [String] {
+        if CommandLine.arguments.count == 1 {
+            print("> ", separator: "", terminator: "")
+            return readLine(strippingNewline: true)?.split(separator: " ").map({String($0)}) ?? [String]()
+        } else {
+            return Array(CommandLine.arguments.dropFirst())
+        }
+    }
+
+    private func parseIdentity(from arguments: [String]) -> String? {
+        if arguments[0].hasPrefix("--identity") {
+            let splitString = arguments[0].split(separator: "=")
+
+            guard splitString.count == 2 else {
+                print(help)
+                exit(EXIT_FAILURE)
+            }
+
+            return String(splitString[1])
+        }
+
+        return nil
+    }
+
+    private func startDaemonIfNecessary(_ configuration: ConfigurationProvider) {
+        switch DaemonManager().status(for: configuration) {
+        case .pidFilePresentButDaemonNotRunning, .stopped:
+            print("Horizon daemon not running. Starting...")
+            do {
+                try DaemonManager().startDaemon(for: configuration)
+            } catch {
+                print("Failed to start daemon.")
+                exit(EXIT_FAILURE)
+            }
+            let identityNotice = configuration.identity == "default" ? "" : "--identity=\(configuration.identity) "
+            print("⚠️ Started. Remember to stop the daemon with 'horizon \(identityNotice)daemon stop'.")
+        default:
+            break
+        }
     }
 
 }

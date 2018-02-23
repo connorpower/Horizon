@@ -14,102 +14,6 @@ struct FilesHandler: Handler {
 
     // MARK: - Constants
 
-    let longHelp = """
-    USAGE
-      horizon files - Manipulate files in horizon.
-
-    SYNOPSIS
-      horizon files
-
-    DESCRIPTION
-
-      'horizon files add' adds a new file to be shared with a contact.
-      The file will be added to IPFS. The list of files shared with the
-      contacted will be updated and in turn also re-published to IPFS.
-
-        > horizon shares add mmusterman "./The Byzantine Generals Problem.pdf"
-
-      'horizon shares rm <contact-name> <file>' unshares a file with
-      the given contact, and if the file is shared with no other contacts
-      - removes the file from IPFS.
-
-      Note that unsharing a file is not a security mechanism. There is no
-      guarantee that your contact will receive the updated file list sans
-      the removed file, or that the contact could not simply access the file
-      via its direct IPFS hash.
-
-        > horizon shares rm QmSomeHash
-
-      'horizon files ls [<contact>]' lists all files which you have
-      sent or received, optionally restricted to a single contact.
-
-        > horizon files ls
-        mmusterman
-          sent
-            QmSomeHash - "The Byzantine Generals Problem.pdf"
-            QmSomeHash - "This is Water, David Foster Wallace.pdf"
-          received:
-            QmSomeHash - "IPFS - Content Addressed, Versioned, P2P File System (DRAFT 3).pdf"
-
-        jbloggs
-          sent
-            (no files)
-          received
-            QmSomeHash: "Bitcoin: A Peer-to-Peer Electronic Cash System, Satoshi Nakamoto.pdf"
-
-      You may optionally filter by only a given contact.
-
-        > horizon files ls jbloggs
-          sent
-            (no files)
-          received
-            QmSomeHash: "Bitcoin: A Peer-to-Peer Electronic Cash System, Satoshi Nakamoto.pdf"
-
-      'horizon files cat <hash>' outputs the contents of a file to the
-      command line. Care should be taken with binary files, as the shell may
-      interpret byte sequences in unpredictable ways. This command is most
-      useful when combined with a pipe.
-
-        > horizon files cat QmSomeHash | gzip > received_file.gzip
-
-      'horizon files cp <target-file>' copies the contents of a file to a
-      location on the local machine. If <target-file> is a directory,
-      the actual file will be written with it's Horizon name inside the directory.
-      The following command would copy a file from Horizon onto your desktop.
-
-        > horizon files cp QmSomeHash ~/Desktop
-
-      SUBCOMMANDS
-        horizon files help                        - Displays detailed help information
-        horizon files share <contact> <file>      - Adds a new file to be shared with a contact
-        horizon files unshare <contact> <file>    - Unshares a file which was shared with a contact
-        horizon files ls [<contact>]              - Lists all files (optionally filtered by a given contact)
-        horizon files cat <hash>                  - Outputs the contents of a file to the command line
-        horizon files cp <hash> <target-file>     - Copies a file to a location on the local machine
-
-        Use 'horizon files <subcmd> --help' for more information about each command.
-
-    """
-
-    private let shortHelp = """
-    USAGE
-      horizon files - Manipulate files shared with you by Horizon contacts
-
-    SYNOPSIS
-      horizon files
-
-      SUBCOMMANDS
-        horizon files help                        - Displays detailed help information
-        horizon files share <contact> <file>      - Adds a new file to be shared with a contact
-        horizon files unshare <contact> <file>    - Unshares a file which was shared with a contact
-        horizon files ls [<contact>]              - Lists all files (optionally filtered by a given contact)
-        horizon files cat <hash>                  - Outputs the contents of a file to the command line
-        horizon files cp <hash> <target-file>     - Copies a file to a location on the local machine
-
-        Use 'horizon files <subcmd> --help' for more information about each command.
-
-    """
-
     private let commands = [
         Command(name: "share", allowableNumberOfArguments: [2], help: """
             horizon files share <contact> <file>
@@ -174,13 +78,13 @@ struct FilesHandler: Handler {
 
                 > horizon files cp QmSomeHash ~/Desktop
 
-            """),
+            """)
     ]
 
     // MARK: - Properties
 
     private let model: Model
-    private let config: ConfigurationProvider
+    private let configuration: ConfigurationProvider
 
     private let arguments: [String]
 
@@ -189,10 +93,10 @@ struct FilesHandler: Handler {
 
     // MARK: - Handler Protocol
 
-    init(model: Model, config: ConfigurationProvider, arguments: [String],
+    init(model: Model, configuration: ConfigurationProvider, arguments: [String],
          completion: @escaping () -> Never, error: @escaping () -> Never) {
         self.model = model
-        self.config = config
+        self.configuration = configuration
         self.arguments = arguments
         self.completionHandler = completion
         self.errorHandler = error
@@ -200,12 +104,12 @@ struct FilesHandler: Handler {
 
     func run() {
         if !arguments.isEmpty, ["help", "-h", "--help"].contains(arguments[0]) {
-            print(longHelp)
+            print(FilesHelp.longHelp)
             completionHandler()
         }
 
         guard !arguments.isEmpty, let command = commands.filter({$0.name == arguments[0]}).first else {
-            print(shortHelp)
+            print(FilesHelp.shortHelp)
             errorHandler()
         }
 
@@ -217,28 +121,15 @@ struct FilesHandler: Handler {
 
         switch command.name {
         case "share":
-            let contact = commandArguments[0]
-            let file = commandArguments[1]
-
-            shareFile(file, with: contact)
+            shareFile(commandArguments[1], with: commandArguments[0])
         case "unshare":
-            let contact = commandArguments[0]
-            let fileHash = commandArguments[1]
-
-            unshareFile(fileHash, with: contact)
+            unshareFile(commandArguments[1], with: commandArguments[0])
         case "ls":
-            let contactFilter = ContactFilter(optionalContact: commandArguments.first)
-
-            listReceivedFiles(for: contactFilter)
+            listReceivedFiles(for: ContactFilter(optionalContact: commandArguments.first))
         case "cat":
-            let hash = commandArguments[0]
-
-            printData(for: hash)
+            printData(for: commandArguments[0])
         case "cp":
-            let hash = commandArguments[0]
-            let targetLocation = commandArguments[1]
-
-            copyFile(hash: hash, to: targetLocation)
+            copyFile(hash: commandArguments[0], to: commandArguments[1])
         default:
             print(command.help)
             errorHandler()
@@ -258,7 +149,7 @@ struct FilesHandler: Handler {
             }
         }
 
-        let contacts:[Contact]
+        let contacts: [Contact]
 
         switch contactFilter {
         case .specificContact(let name):
@@ -304,7 +195,7 @@ struct FilesHandler: Handler {
             }
 
             self.completionHandler()
-        }.catch { error in
+        }.catch { _ in
             print("Failed to retrieve file. Have you started the horizon daemon and is the contact online?")
             self.errorHandler()
         }
@@ -328,7 +219,7 @@ struct FilesHandler: Handler {
                 print("\(location.path): Failed to write file")
             }
             self.completionHandler()
-        }.catch { error in
+        }.catch { _ in
             print("Failed to retrieve file. Have you started the horizon daemon and is the contact online?")
             self.errorHandler()
         }
@@ -344,10 +235,10 @@ struct FilesHandler: Handler {
 
         firstly {
             return model.shareFiles([fileURL], with: contact)
-        }.then { contact in
+        }.then { _ in
             self.completionHandler()
         }.catch { error in
-            if case HorizonError.shareOperationFailed(let reason) = error {
+            if case HorizonError.fileOperationFailed(let reason) = error {
                 if case .fileDoesNotExist(let file) = reason {
                     print("\(file): No such file or directory.")
                     self.errorHandler()
@@ -376,10 +267,10 @@ struct FilesHandler: Handler {
 
         firstly {
             return model.unshareFiles([file], with: contact)
-        }.then { contact in
+        }.then { _ in
             self.completionHandler()
         }.catch { error in
-            if case HorizonError.shareOperationFailed(let reason) = error {
+            if case HorizonError.fileOperationFailed(let reason) = error {
                 if case .sendAddressNotSet = reason {
                     print("\(contactName): No send address set. Cannot unshare files.")
                     self.errorHandler()

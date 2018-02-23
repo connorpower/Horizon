@@ -48,7 +48,7 @@ class ModelTests_Files: XCTestCase {
         let contact3 = Contact(identifier: UUID(), displayName: "Contact3",
                                sendAddress: nil, receiveAddress: nil)
         mockStore.contacts = [contact1, contact2, contact3]
-        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, configuration: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let files = model.receivedFiles
 
@@ -85,7 +85,7 @@ class ModelTests_Files: XCTestCase {
         let contact3 = Contact(identifier: UUID(), displayName: "Contact3",
                                sendAddress: nil, receiveAddress: nil)
         mockStore.contacts = [contact1, contact2, contact3]
-        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, configuration: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         XCTAssertEqual(File(name: "Contact2 File 2", hash: contact2File2Identifier),
                        model.file(matching: contact2File2Identifier))
@@ -93,7 +93,7 @@ class ModelTests_Files: XCTestCase {
     }
 
     func testDataForFile() {
-        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, configuration: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         mockAPI.catResponse = { hash in
             return Promise<Data>(value: "XX My Data XX".data(using: .utf8)!)
@@ -114,7 +114,7 @@ class ModelTests_Files: XCTestCase {
     }
 
     func testDataForFile_MissingHash() {
-        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+        let model = Model(api: mockAPI, configuration: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let errorThrownExpectation = expectation(description: "errorThrownExpectation")
 

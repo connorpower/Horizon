@@ -141,13 +141,13 @@ struct DaemonHandler: Handler {
                 'test': Stopped
                 'old-test': Error (PID: 6666 not running but PID file remains at ~/.horizon/old-test/PID)
 
-            """),
+            """)
     ]
 
     // MARK: - Properties
 
     private let model: Model
-    private let config: ConfigurationProvider
+    private let configuration: ConfigurationProvider
 
     private let arguments: [String]
 
@@ -156,10 +156,10 @@ struct DaemonHandler: Handler {
 
     // MARK: - Handler Protocol
 
-    init(model: Model, config: ConfigurationProvider, arguments: [String],
+    init(model: Model, configuration: ConfigurationProvider, arguments: [String],
          completion: @escaping () -> Never, error: @escaping () -> Never) {
         self.model = model
-        self.config = config
+        self.configuration = configuration
         self.arguments = arguments
         self.completionHandler = completion
         self.errorHandler = error
@@ -201,7 +201,7 @@ struct DaemonHandler: Handler {
 
     private func startDaemon() {
         do {
-            try DaemonManager().startDaemon(for: config)
+            try DaemonManager().startDaemon(for: configuration)
         } catch {
             print("Failed to start daemon")
             errorHandler()
@@ -211,12 +211,12 @@ struct DaemonHandler: Handler {
     }
 
     private func printDaemonStatus() {
-        printStatus(for: config, withIdentityPrefix: false)
+        printStatus(for: configuration, withIdentityPrefix: false)
         completionHandler()
     }
 
     private func listDaemons() {
-        let maybeIdentites = try? FileManager.default.contentsOfDirectory(at: config.horizonDirectory,
+        let maybeIdentites = try? FileManager.default.contentsOfDirectory(at: configuration.horizonDirectory,
                                                                           includingPropertiesForKeys: [.isDirectoryKey],
                                                                           options: .skipsSubdirectoryDescendants)
 
@@ -226,7 +226,7 @@ struct DaemonHandler: Handler {
         }
 
         for identity in identities {
-            let config = Configuration(horizonDirectory: self.config.horizonDirectory,
+            let config = Configuration(horizonDirectory: self.configuration.horizonDirectory,
                                        identity: identity.lastPathComponent)
             printStatus(for: config, withIdentityPrefix: true)
         }
@@ -235,7 +235,7 @@ struct DaemonHandler: Handler {
     }
 
     private func stopDaemon() {
-        if DaemonManager().stopDaemon(for: config) {
+        if DaemonManager().stopDaemon(for: configuration) {
             completionHandler()
         } else {
             print("Daemon not running")
@@ -243,17 +243,17 @@ struct DaemonHandler: Handler {
         }
     }
 
-    private func printStatus(for config: ConfigurationProvider, withIdentityPrefix: Bool = false) {
-        let identityPrefix = withIdentityPrefix ? "Identity '\(config.identity)': " : ""
+    private func printStatus(for configuration: ConfigurationProvider, withIdentityPrefix: Bool = false) {
+        let identityPrefix = withIdentityPrefix ? "Identity '\(configuration.identity)': " : ""
 
-        switch DaemonManager().status(for: config) {
+        switch DaemonManager().status(for: configuration) {
         case .running(let pid):
             print("\(identityPrefix)Running (PID: \(pid.description))")
         case .stopped:
             print("\(identityPrefix)Stopped")
         case .pidFilePresentButDaemonNotRunning(let pid):
             print("\(identityPrefix)Error (PID: \(pid.description) not running but PID file " +
-                "remains at \(config.daemonPIDPath.path))")
+                "remains at \(configuration.daemonPIDPath.path))")
         }
     }
 

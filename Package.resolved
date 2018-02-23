@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Alamofire",
+        "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
+        "state": {
+          "branch": null,
+          "revision": "bc973c5311ce3db3f01a9fcde027fb11fa2254bf",
+          "version": "4.6.0"
+        }
+      },
+      {
+        "package": "IPFSWebService",
+        "repositoryURL": "git@github.com:connorpower/IPFSWebService.git",
+        "state": {
+          "branch": "4.1.1",
+          "revision": "a7b95aa89dba63c845ee249f479caaa814319e35",
+          "version": null
+        }
+      },
+      {
+        "package": "PromiseKit",
+        "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
+        "state": {
+          "branch": null,
+          "revision": "c70677a12b8367a808af7049a94096370f7cda0d",
+          "version": "4.5.2"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

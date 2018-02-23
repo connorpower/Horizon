@@ -1,0 +1,6 @@
+disabled_rules:
+  - large_tuple
+
+excluded:
+  - .build
+  - Tests

@@ -1,0 +1,662 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D27825FE202601FC00550CAB /* HorizonAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27825FD202601FC00550CAB /* HorizonAppTests.swift */; };
+		D2782609202601FC00550CAB /* HorizonAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2782608202601FC00550CAB /* HorizonAppUITests.swift */; };
+		D278262B2026024A00550CAB /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D27826182026024A00550CAB /* AppCenterCrashes.framework */; };
+		D278262C2026024A00550CAB /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D27826192026024A00550CAB /* AppCenterPush.framework */; };
+		D278262D2026024A00550CAB /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D278261A2026024A00550CAB /* AppCenterAnalytics.framework */; };
+		D278262E2026024A00550CAB /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D278261B2026024A00550CAB /* AppCenter.framework */; };
+		D278262F2026024A00550CAB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D278261C2026024A00550CAB /* AppDelegate.swift */; };
+		D27826302026024B00550CAB /* Loggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D278261F2026024A00550CAB /* Loggers.swift */; };
+		D27826312026024B00550CAB /* ModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27826202026024A00550CAB /* ModelFactory.swift */; };
+		D27826322026024B00550CAB /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27826212026024A00550CAB /* Notifications.swift */; };
+		D27826342026024B00550CAB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27826242026024A00550CAB /* ViewController.swift */; };
+		D27826352026024B00550CAB /* ShowContactSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27826252026024A00550CAB /* ShowContactSegue.swift */; };
+		D27826362026024B00550CAB /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27826262026024A00550CAB /* ProgressView.swift */; };
+		D27826372026024B00550CAB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D27826272026024A00550CAB /* Assets.xcassets */; };
+		D27826382026024B00550CAB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D27826282026024A00550CAB /* Main.storyboard */; };
+		D27826392026024B00550CAB /* AddContactController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D278262A2026024A00550CAB /* AddContactController.swift */; };
+		D278263D2026027D00550CAB /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D278263E2026027D00550CAB /* PromiseKit.framework */; };
+		D29FA5CF20278E3E0009FFAC /* HorizonCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D278263C2026027800550CAB /* HorizonCore.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D27825FA202601FC00550CAB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D27825DF202601FC00550CAB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D27825E6202601FC00550CAB;
+			remoteInfo = HorizonApp;
+		};
+		D2782605202601FC00550CAB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D27825DF202601FC00550CAB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D27825E6202601FC00550CAB;
+			remoteInfo = HorizonApp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D27825E7202601FC00550CAB /* HorizonApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HorizonApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D27825F9202601FC00550CAB /* HorizonAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HorizonAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D27825FD202601FC00550CAB /* HorizonAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizonAppTests.swift; sourceTree = "<group>"; };
+		D27825FF202601FC00550CAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D2782604202601FC00550CAB /* HorizonAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HorizonAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2782608202601FC00550CAB /* HorizonAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizonAppUITests.swift; sourceTree = "<group>"; };
+		D278260A202601FC00550CAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D27826182026024A00550CAB /* AppCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppCenterCrashes.framework; sourceTree = "<group>"; };
+		D27826192026024A00550CAB /* AppCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppCenterPush.framework; sourceTree = "<group>"; };
+		D278261A2026024A00550CAB /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppCenterAnalytics.framework; sourceTree = "<group>"; };
+		D278261B2026024A00550CAB /* AppCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppCenter.framework; sourceTree = "<group>"; };
+		D278261C2026024A00550CAB /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D278261D2026024A00550CAB /* HorizonApp.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = HorizonApp.entitlements; sourceTree = "<group>"; };
+		D278261F2026024A00550CAB /* Loggers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loggers.swift; sourceTree = "<group>"; };
+		D27826202026024A00550CAB /* ModelFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelFactory.swift; sourceTree = "<group>"; };
+		D27826212026024A00550CAB /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		D27826222026024A00550CAB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D27826242026024A00550CAB /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D27826252026024A00550CAB /* ShowContactSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowContactSegue.swift; sourceTree = "<group>"; };
+		D27826262026024A00550CAB /* ProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		D27826272026024A00550CAB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D27826292026024A00550CAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D278262A2026024A00550CAB /* AddContactController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddContactController.swift; sourceTree = "<group>"; };
+		D278263C2026027800550CAB /* HorizonCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HorizonCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D278263E2026027D00550CAB /* PromiseKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PromiseKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D29FA5CE20278E3E0009FFAC /* IPFSWebService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IPFSWebService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D27825E4202601FC00550CAB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D29FA5CF20278E3E0009FFAC /* HorizonCore.framework in Frameworks */,
+				D278263D2026027D00550CAB /* PromiseKit.framework in Frameworks */,
+				D278262B2026024A00550CAB /* AppCenterCrashes.framework in Frameworks */,
+				D278262E2026024A00550CAB /* AppCenter.framework in Frameworks */,
+				D278262D2026024A00550CAB /* AppCenterAnalytics.framework in Frameworks */,
+				D278262C2026024A00550CAB /* AppCenterPush.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D27825F6202601FC00550CAB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2782601202601FC00550CAB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D27825DE202601FC00550CAB = {
+			isa = PBXGroup;
+			children = (
+				D27825E9202601FC00550CAB /* HorizonApp */,
+				D27825FC202601FC00550CAB /* HorizonAppTests */,
+				D2782607202601FC00550CAB /* HorizonAppUITests */,
+				D27825E8202601FC00550CAB /* Products */,
+				D278263A2026027800550CAB /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		D27825E8202601FC00550CAB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D27825E7202601FC00550CAB /* HorizonApp.app */,
+				D27825F9202601FC00550CAB /* HorizonAppTests.xctest */,
+				D2782604202601FC00550CAB /* HorizonAppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D27825E9202601FC00550CAB /* HorizonApp */ = {
+			isa = PBXGroup;
+			children = (
+				D278261C2026024A00550CAB /* AppDelegate.swift */,
+				D27826162026024A00550CAB /* Dependencies */,
+				D278261D2026024A00550CAB /* HorizonApp.entitlements */,
+				D27826222026024A00550CAB /* Info.plist */,
+				D278261E2026024A00550CAB /* Model */,
+				D27826232026024A00550CAB /* UI */,
+			);
+			path = HorizonApp;
+			sourceTree = "<group>";
+		};
+		D27825FC202601FC00550CAB /* HorizonAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				D27825FD202601FC00550CAB /* HorizonAppTests.swift */,
+				D27825FF202601FC00550CAB /* Info.plist */,
+			);
+			path = HorizonAppTests;
+			sourceTree = "<group>";
+		};
+		D2782607202601FC00550CAB /* HorizonAppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				D2782608202601FC00550CAB /* HorizonAppUITests.swift */,
+				D278260A202601FC00550CAB /* Info.plist */,
+			);
+			path = HorizonAppUITests;
+			sourceTree = "<group>";
+		};
+		D27826162026024A00550CAB /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				D27826172026024A00550CAB /* AppCenter 1.3.0 */,
+			);
+			path = Dependencies;
+			sourceTree = "<group>";
+		};
+		D27826172026024A00550CAB /* AppCenter 1.3.0 */ = {
+			isa = PBXGroup;
+			children = (
+				D27826182026024A00550CAB /* AppCenterCrashes.framework */,
+				D27826192026024A00550CAB /* AppCenterPush.framework */,
+				D278261A2026024A00550CAB /* AppCenterAnalytics.framework */,
+				D278261B2026024A00550CAB /* AppCenter.framework */,
+			);
+			path = "AppCenter 1.3.0";
+			sourceTree = "<group>";
+		};
+		D278261E2026024A00550CAB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D278261F2026024A00550CAB /* Loggers.swift */,
+				D27826202026024A00550CAB /* ModelFactory.swift */,
+				D27826212026024A00550CAB /* Notifications.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D27826232026024A00550CAB /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				D27826242026024A00550CAB /* ViewController.swift */,
+				D27826252026024A00550CAB /* ShowContactSegue.swift */,
+				D27826262026024A00550CAB /* ProgressView.swift */,
+				D27826272026024A00550CAB /* Assets.xcassets */,
+				D27826282026024A00550CAB /* Main.storyboard */,
+				D278262A2026024A00550CAB /* AddContactController.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		D278263A2026027800550CAB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D29FA5CE20278E3E0009FFAC /* IPFSWebService.framework */,
+				D278263E2026027D00550CAB /* PromiseKit.framework */,
+				D278263C2026027800550CAB /* HorizonCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D27825E6202601FC00550CAB /* HorizonApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D278260D202601FC00550CAB /* Build configuration list for PBXNativeTarget "HorizonApp" */;
+			buildPhases = (
+				D27825E3202601FC00550CAB /* Sources */,
+				D27825E4202601FC00550CAB /* Frameworks */,
+				D27825E5202601FC00550CAB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HorizonApp;
+			productName = HorizonApp;
+			productReference = D27825E7202601FC00550CAB /* HorizonApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D27825F8202601FC00550CAB /* HorizonAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D2782610202601FC00550CAB /* Build configuration list for PBXNativeTarget "HorizonAppTests" */;
+			buildPhases = (
+				D27825F5202601FC00550CAB /* Sources */,
+				D27825F6202601FC00550CAB /* Frameworks */,
+				D27825F7202601FC00550CAB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D27825FB202601FC00550CAB /* PBXTargetDependency */,
+			);
+			name = HorizonAppTests;
+			productName = HorizonAppTests;
+			productReference = D27825F9202601FC00550CAB /* HorizonAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D2782603202601FC00550CAB /* HorizonAppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D2782613202601FC00550CAB /* Build configuration list for PBXNativeTarget "HorizonAppUITests" */;
+			buildPhases = (
+				D2782600202601FC00550CAB /* Sources */,
+				D2782601202601FC00550CAB /* Frameworks */,
+				D2782602202601FC00550CAB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D2782606202601FC00550CAB /* PBXTargetDependency */,
+			);
+			name = HorizonAppUITests;
+			productName = HorizonAppUITests;
+			productReference = D2782604202601FC00550CAB /* HorizonAppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D27825DF202601FC00550CAB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = "Semantical GmbH & Co KG";
+				TargetAttributes = {
+					D27825E6202601FC00550CAB = {
+						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
+						ProvisioningStyle = Automatic;
+					};
+					D27825F8202601FC00550CAB = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = D27825E6202601FC00550CAB;
+					};
+					D2782603202601FC00550CAB = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = D27825E6202601FC00550CAB;
+					};
+				};
+			};
+			buildConfigurationList = D27825E2202601FC00550CAB /* Build configuration list for PBXProject "HorizonApp" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D27825DE202601FC00550CAB;
+			productRefGroup = D27825E8202601FC00550CAB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D27825E6202601FC00550CAB /* HorizonApp */,
+				D27825F8202601FC00550CAB /* HorizonAppTests */,
+				D2782603202601FC00550CAB /* HorizonAppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D27825E5202601FC00550CAB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D27826382026024B00550CAB /* Main.storyboard in Resources */,
+				D27826372026024B00550CAB /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D27825F7202601FC00550CAB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2782602202601FC00550CAB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D27825E3202601FC00550CAB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D27826342026024B00550CAB /* ViewController.swift in Sources */,
+				D27826322026024B00550CAB /* Notifications.swift in Sources */,
+				D278262F2026024A00550CAB /* AppDelegate.swift in Sources */,
+				D27826302026024B00550CAB /* Loggers.swift in Sources */,
+				D27826362026024B00550CAB /* ProgressView.swift in Sources */,
+				D27826312026024B00550CAB /* ModelFactory.swift in Sources */,
+				D27826392026024B00550CAB /* AddContactController.swift in Sources */,
+				D27826352026024B00550CAB /* ShowContactSegue.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D27825F5202601FC00550CAB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D27825FE202601FC00550CAB /* HorizonAppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2782600202601FC00550CAB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2782609202601FC00550CAB /* HorizonAppUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D27825FB202601FC00550CAB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D27825E6202601FC00550CAB /* HorizonApp */;
+			targetProxy = D27825FA202601FC00550CAB /* PBXContainerItemProxy */;
+		};
+		D2782606202601FC00550CAB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D27825E6202601FC00550CAB /* HorizonApp */;
+			targetProxy = D2782605202601FC00550CAB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D27826282026024A00550CAB /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D27826292026024A00550CAB /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D278260B202601FC00550CAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D278260C202601FC00550CAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+			};
+			name = Release;
+		};
+		D278260E202601FC00550CAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = HorizonApp/HorizonApp.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = MJ4T58LF5M;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HorizonApp/Dependencies/AppCenter\\ 1.3.0",
+					"$(PROJECT_DIR)/HorizonApp/Dependencies/AppCenter\\ 1.3.0",
+					"$(PROJECT_DIR)/HorizonApp/Dependencies/AppCenter\\ 1.3.0",
+					"$(PROJECT_DIR)/HorizonApp/Dependencies/AppCenter\\ 1.3.0",
+				);
+				INFOPLIST_FILE = HorizonApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.semantical.HorizonApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		D278260F202601FC00550CAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = HorizonApp/HorizonApp.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = MJ4T58LF5M;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HorizonApp/Dependencies/AppCenter\\ 1.3.0",
+					"$(PROJECT_DIR)/HorizonApp/Dependencies/AppCenter\\ 1.3.0",
+					"$(PROJECT_DIR)/HorizonApp/Dependencies/AppCenter\\ 1.3.0",
+					"$(PROJECT_DIR)/HorizonApp/Dependencies/AppCenter\\ 1.3.0",
+				);
+				INFOPLIST_FILE = HorizonApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.semantical.HorizonApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		D2782611202601FC00550CAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = MJ4T58LF5M;
+				INFOPLIST_FILE = HorizonAppTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.semantical.HorizonAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HorizonApp.app/Contents/MacOS/HorizonApp";
+			};
+			name = Debug;
+		};
+		D2782612202601FC00550CAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = MJ4T58LF5M;
+				INFOPLIST_FILE = HorizonAppTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.semantical.HorizonAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HorizonApp.app/Contents/MacOS/HorizonApp";
+			};
+			name = Release;
+		};
+		D2782614202601FC00550CAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = MJ4T58LF5M;
+				INFOPLIST_FILE = HorizonAppUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.semantical.HorizonAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TEST_TARGET_NAME = HorizonApp;
+			};
+			name = Debug;
+		};
+		D2782615202601FC00550CAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = MJ4T58LF5M;
+				INFOPLIST_FILE = HorizonAppUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.semantical.HorizonAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TEST_TARGET_NAME = HorizonApp;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D27825E2202601FC00550CAB /* Build configuration list for PBXProject "HorizonApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D278260B202601FC00550CAB /* Debug */,
+				D278260C202601FC00550CAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D278260D202601FC00550CAB /* Build configuration list for PBXNativeTarget "HorizonApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D278260E202601FC00550CAB /* Debug */,
+				D278260F202601FC00550CAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D2782610202601FC00550CAB /* Build configuration list for PBXNativeTarget "HorizonAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D2782611202601FC00550CAB /* Debug */,
+				D2782612202601FC00550CAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D2782613202601FC00550CAB /* Build configuration list for PBXNativeTarget "HorizonAppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D2782614202601FC00550CAB /* Debug */,
+				D2782615202601FC00550CAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D27825DF202601FC00550CAB /* Project object */;
+}

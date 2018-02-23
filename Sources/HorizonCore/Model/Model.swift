@@ -181,6 +181,10 @@ public extension Model {
         let keypairName = "\(config.persistentStoreKeys.keypairPrefix).\(name)"
         let newKeypairName = "\(config.persistentStoreKeys.keypairPrefix).\(newName)"
 
+        guard self.contact(named: newName) == nil else {
+            return Promise<Contact>(error: HorizonError.contactOperationFailed(reason: .contactAlreadyExists))
+        }
+
         return firstly {
             return self.api.listKeys()
         }.then { listKeysResponse -> Promise<RenameKeyResponse> in

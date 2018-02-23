@@ -16,11 +16,6 @@ class ModelTests_Shares: XCTestCase {
     var mockAPI: MockIPFSAPI!
     var mockStore: MockPersistentStore!
 
-    var testFile: URL {
-        return Bundle(for: type(of: self) as AnyClass).url(forResource: "The Byzantine Generals Problem",
-                                                           withExtension: "pdf")!
-    }
-
     override func setUp() {
         super.setUp()
         mockAPI = MockIPFSAPI()
@@ -56,10 +51,10 @@ class ModelTests_Shares: XCTestCase {
         }
 
         firstly {
-            model.shareFiles([testFile], with: contact1)
+            model.shareFiles([Bundle.main.executableURL!], with: contact1)
         }.then { contact in
             XCTAssertEqual(1, contact.sendList.files.count)
-            XCTAssertEqual("The Byzantine Generals Problem.pdf", contact.sendList.files.first?.name)
+            XCTAssertEqual("xctest", contact.sendList.files.first?.name)
             XCTAssertNotNil(contact.sendList.hash)
             shareAddedExpectation.fulfill()
         }
@@ -80,7 +75,7 @@ class ModelTests_Shares: XCTestCase {
         let errorThrownExpectation = expectation(description: "errorThrownExpectation")
 
         firstly {
-            model.shareFiles([testFile], with: contact1)
+            model.shareFiles([Bundle.main.executableURL!], with: contact1)
         }.then { contact in
             XCTFail("Should have thrown an error")
         }.catch { error in

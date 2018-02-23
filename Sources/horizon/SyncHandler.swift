@@ -29,7 +29,7 @@ struct SyncHandler: Handler {
 
           > horizon sync
           contact-x: synced
-          contact-y: failed (no receive address)
+          contact-y: failed (receive address not set)
           contact-z: synced
 
           Set a receive address using `horizon contacts set-rcv-addr <contact-name> <receive-hash>`
@@ -69,7 +69,7 @@ struct SyncHandler: Handler {
 
                    > horizon sync
                    contact-x: synced
-                   contact-y: failed (no receive address)
+                   contact-y: failed (receive address not set)
                    contact-z: synced
 
                    Set a receive address using `horizon contacts set-rcv-addr <contact-name> <receive-hash>`
@@ -115,7 +115,32 @@ struct SyncHandler: Handler {
     private func sync() {
         firstly {
             model.sync()
-        }.then { _ in
+        }.then { syncStates in
+            var wasAReceiveAddressMissing = false
+
+            for syncState in syncStates {
+                if case .synced(let contact, _) = syncState {
+                    print("\(contact.displayName): synced")
+                } else if case .failed(let contact, let error) = syncState {
+                    if case HorizonError.syncOperationFailed(let reason) = error {
+                        switch reason {
+                        case .failedToRetrieveSharedFileList:
+                            print("\(contact.displayName): failed (contact most likely offline)")
+                        case .receiveAddressNotSet:
+                            wasAReceiveAddressMissing = true
+                            print("\(contact.displayName): failed (receive address not set)")
+                        default:
+                            print("\(contact.displayName): failed (unknown error)")
+                        }
+                    } else {
+                        print("\(contact.displayName): failed (unknown error)")
+                    }
+                }
+            }
+
+            if wasAReceiveAddressMissing {
+                print("\nSet a receive address using `horizon contacts set-rcv-addr <contact-name> <receive-hash>`")
+            }
             // TODO: Print changes
             self.completionHandler()
         }.catch { error in

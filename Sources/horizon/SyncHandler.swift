@@ -27,6 +27,13 @@ struct SyncHandler: Handler {
       contacts. Until this command is run, the newly shared files from
       other contacts are not visible in the local horizon instance.
 
+          > horizon sync
+          contact-x: synced
+          contact-y: failed (no receive address)
+          contact-z: synced
+
+          Set a receive address using `horizon contacts set-rcv-addr <contact-name> <receive-hash>`
+
       Note that a sync can take some quite some time. It's also important
       that your contacts are online and connected to a network.
 
@@ -59,6 +66,13 @@ struct SyncHandler: Handler {
               'horizon sync' syncs the lists of shared files from your horizon
               contacts. Until this command is run, the newly shared files from
               other contacts are not visible in the local horizon instance.
+
+                   > horizon sync
+                   contact-x: synced
+                   contact-y: failed (no receive address)
+                   contact-z: synced
+
+                   Set a receive address using `horizon contacts set-rcv-addr <contact-name> <receive-hash>`
 
               Note that a sync can take some quite some time. It's also important
               that your contacts are online and connected to a network.

@@ -1,9 +1,7 @@
+disabled_rules:
+  - large_tuple
+
 excluded:
-  # Ignore the Tests. We use force casts and other techniques which fail
-  # swiftlint in order to reduce verbosity. Since crashed unit tests are
-  # handled the same as failed unit tests and the test harness automatically
-  # relaunches and continues - this behaviour is intentional.
+  - .build
   - Tests
 
-  # Test only our code, not that of included pods
-  - Pods

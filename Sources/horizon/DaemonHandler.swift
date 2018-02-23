@@ -28,7 +28,7 @@ struct DaemonHandler: Handler {
       daemon remains running so that contacts can access your shared files.
 
       The root directory for the daemon is located at `~/.horizon/<identity>`.
-      If no particular identity was provided to horizon with the `--identity`
+      If no particular identity was provided to horizon with the `--identity=`
       flag, then the root for the daemon will be `~/.horizon/default`.
 
       If the daemon hangs for some reason, the PID can be found in written
@@ -90,7 +90,7 @@ struct DaemonHandler: Handler {
               shared files.
 
               The root directory for the daemon is located at `~/.horizon/<identity>`.
-              If no particular identity was provided to horizon with the `--identity`
+              If no particular identity was provided to horizon with the `--identity=`
               flag, then the root for the daemon will be `~/.horizon/default`.
 
               If the daemon hangs for some reason, the PID can be found in written
@@ -120,7 +120,7 @@ struct DaemonHandler: Handler {
               shared files.
 
               The root directory for the daemon is located at `~/.horizon/<identity>`.
-              If no particular identity was provided to horizon with the `--identity`
+              If no particular identity was provided to horizon with the `--identity=`
               flag, then the root for the daemon will be `~/.horizon/default`.
 
               If the daemon hangs for some reason, the PID can be found in written

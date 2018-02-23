@@ -160,7 +160,7 @@ class ModelTests_Sync: XCTestCase {
         firstly {
             model.sync()
         }.then { contacts in
-            XCTAssertEqual(1,contacts.count)
+            XCTAssertEqual(1, contacts.count)
             let contact = contacts[0]
             XCTAssertEqual(0, contact.receiveList.files.count)
             syncCompletedExpectation.fulfill()
@@ -212,6 +212,62 @@ class ModelTests_Sync: XCTestCase {
             } else {
                 XCTFail("Incorrect error type received")
             }
+            syncCompletedExpectation.fulfill()
+        }
+
+        wait(for: [syncCompletedExpectation], timeout: 1.0)
+    }
+
+    /**
+     Expect that syncing multiple contacts works under normal circumstances.
+     */
+    func testSync_MultipleContacts() {
+        let contact1 = Contact(identifier: UUID(), displayName: "Contact1",
+                               sendAddress: SendAddress(address: "7A5055A5-39A7-4CE4-8061-7C80F918229A",
+                                                        keypairName: "my.keypair.name1"),
+                               receiveAddress: "XX-MY-RECEIVE-ADDRESS1-XX")
+        let contact2 = Contact(identifier: UUID(), displayName: "Contact2",
+                               sendAddress: SendAddress(address: "4EF888D5-1FE4-4D73-AFAF-2438573543C8",
+                                                        keypairName: "my.keypair.name2"),
+                               receiveAddress: "XX-MY-RECEIVE-ADDRESS2-XX")
+        mockStore.contacts = [contact1, contact2]
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+
+        let syncCompletedExpectation = expectation(description: "syncCompletedExpectation")
+
+        mockAPI.resolveResponse = { ipnsKey, _ in
+            if ipnsKey == "XX-MY-RECEIVE-ADDRESS1-XX" {
+                return Promise(value: ResolveResponse(path: "XX-MY-RESOLVED-IPFS-ADDRESS1-XX"))
+            } else {
+                return Promise(value: ResolveResponse(path: "XX-MY-RESOLVED-IPFS-ADDRESS2-XX"))
+            }
+        }
+        mockAPI.catResponse = { ipfsHash in
+            if ipfsHash == "XX-MY-RESOLVED-IPFS-ADDRESS1-XX" {
+                return Promise(value: "[{\"name\": \"My File Name1\", \"hash\": \"EFGH1\"}]".data(using: .utf8)!)
+            } else {
+                return Promise(value: "[{\"name\": \"My File Name2\", \"hash\": \"EFGH2\"}]".data(using: .utf8)!)
+            }
+        }
+
+        firstly {
+            model.sync()
+        }.then { contacts in
+            XCTAssertEqual(2, contacts.count)
+
+            let contact1 = contacts[0]
+            XCTAssertEqual(1, contact1.receiveList.files.count)
+            XCTAssertEqual("My File Name1", contact1.receiveList.files[0].name)
+            XCTAssertEqual("EFGH1", contact1.receiveList.files[0].hash)
+
+            let contact2 = contacts[1]
+            XCTAssertEqual(1, contact2.receiveList.files.count)
+            XCTAssertEqual("My File Name2", contact2.receiveList.files[0].name)
+            XCTAssertEqual("EFGH2", contact2.receiveList.files[0].hash)
+
+            syncCompletedExpectation.fulfill()
+        }.catch { error in
+            XCTFail("Sync operation should not have failed")
             syncCompletedExpectation.fulfill()
         }
 

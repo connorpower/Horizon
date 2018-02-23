@@ -68,12 +68,15 @@ class ModelTests_Sync: XCTestCase {
 
         firstly {
             model.sync()
-        }.then { contacts in
-            XCTAssertEqual(1,contacts.count)
+        }.then { syncStates in
+            XCTAssertEqual(1, syncStates.count)
 
-            let contact = contacts[0]
-            XCTAssertEqual("XX-MY-RESOLVED-IPFS-ADDRESS-XX", contact.receiveList.hash,
-                           "The receive list's hash should be updated after being resolved to a new file.")
+            if case .synced(let contact, _) = syncStates[0] {
+                XCTAssertEqual("XX-MY-RESOLVED-IPFS-ADDRESS-XX", contact.receiveList.hash,
+                               "The receive list's hash should be updated after being resolved to a new file.")
+            } else {
+                XCTFail()
+            }
             syncCompletedExpectation.fulfill()
         }.catch { error in
             XCTFail("Sync operation should not have failed")
@@ -105,13 +108,17 @@ class ModelTests_Sync: XCTestCase {
 
         firstly {
             model.sync()
-        }.then { contacts in
-            XCTAssertEqual(1,contacts.count)
+        }.then { syncStates in
+            XCTAssertEqual(1, syncStates.count)
 
-            let contact = contacts[0]
-            XCTAssertEqual(1, contact.receiveList.files.count)
-            XCTAssertEqual("My File Name", contact.receiveList.files[0].name)
-            XCTAssertEqual("EFGH", contact.receiveList.files[0].hash)
+            if case .synced(let contact, _) = syncStates[0] {
+                XCTAssertEqual(1, contact.receiveList.files.count)
+                XCTAssertEqual("My File Name", contact.receiveList.files[0].name)
+                XCTAssertEqual("EFGH", contact.receiveList.files[0].hash)
+            } else {
+                XCTFail()
+            }
+
             syncCompletedExpectation.fulfill()
         }.catch { error in
             XCTFail("Sync operation should not have failed")
@@ -132,8 +139,8 @@ class ModelTests_Sync: XCTestCase {
 
         firstly {
             model.sync()
-        }.then { contacts in
-            XCTAssertEqual(0, contacts.count)
+        }.then { syncStates in
+            XCTAssertEqual(0, syncStates.count)
             syncCompletedExpectation.fulfill()
         }.catch { error in
             XCTFail("Sync operation should not have failed")
@@ -159,13 +166,29 @@ class ModelTests_Sync: XCTestCase {
 
         firstly {
             model.sync()
-        }.then { contacts in
-            XCTAssertEqual(1,contacts.count)
-            let contact = contacts[0]
-            XCTAssertEqual(0, contact.receiveList.files.count)
+        }.then { syncStates in
+            XCTAssertEqual(1, syncStates.count)
+
+            if case .failed(let contact, let error) = syncStates[0] {
+                XCTAssertEqual(0, contact.receiveList.files.count)
+
+                if case HorizonError.syncOperationFailed(let reason) = error {
+                    if case .receiveAddressNotSet = reason {
+                        XCTAssertTrue(true)
+                    } else {
+                        XCTFail("Sync should have failed due to a missing receive address")
+                    }
+                } else {
+                    XCTFail("Error should be a sync failed error")
+                }
+            } else {
+                XCTFail("Sync should have failed")
+            }
+
             syncCompletedExpectation.fulfill()
         }.catch { error in
-            XCTFail("Sync operation should not have failed")
+            XCTFail("Sync operation should not have thrown and error. We handle sync errors differently to allow " +
+                    "the process to continue")
             syncCompletedExpectation.fulfill()
         }
 
@@ -199,19 +222,89 @@ class ModelTests_Sync: XCTestCase {
 
         firstly {
             model.sync()
-        }.then { contacts in
-            XCTFail("Sync shouldnot have completed without throwing an error")
-            syncCompletedExpectation.fulfill()
-        }.catch { error in
-            if case HorizonError.syncOperationFailed(let reason) = error {
-                if case HorizonError.SyncOperationFailureReason.invalidJSONForIPFSObject(let ipfsHash) = reason {
-                    XCTAssertEqual( "XX-MY-RESOLVED-IPFS-ADDRESS-XX", ipfsHash)
+        }.then { syncStates in
+            XCTAssertEqual(1, syncStates.count)
+
+            if case .failed(_, let error) = syncStates[0] {
+                if case HorizonError.syncOperationFailed(let reason) = error {
+                    if case .invalidJSONForIPFSObject(let ipfsHash) = reason {
+                        XCTAssertEqual( "XX-MY-RESOLVED-IPFS-ADDRESS-XX", ipfsHash)
+                    } else {
+                        XCTFail("Incorrect error type received")
+                    }
                 } else {
-                    XCTFail("Incorrect error type received")
+                    XCTFail("Error should be a sync failed error")
                 }
             } else {
-                XCTFail("Incorrect error type received")
+                XCTFail("Sync should have failed")
             }
+
+            syncCompletedExpectation.fulfill()
+        }.catch { error in
+            XCTFail("Sync operation should not have thrown and error. We handle sync errors differently to allow " +
+                "the process to continue")
+            syncCompletedExpectation.fulfill()
+        }
+
+        wait(for: [syncCompletedExpectation], timeout: 1.0)
+    }
+
+    /**
+     Expect that syncing multiple contacts works under normal circumstances.
+     */
+    func testSync_MultipleContacts() {
+        let contact1 = Contact(identifier: UUID(), displayName: "Contact1",
+                               sendAddress: SendAddress(address: "7A5055A5-39A7-4CE4-8061-7C80F918229A",
+                                                        keypairName: "my.keypair.name1"),
+                               receiveAddress: "XX-MY-RECEIVE-ADDRESS1-XX")
+        let contact2 = Contact(identifier: UUID(), displayName: "Contact2",
+                               sendAddress: SendAddress(address: "4EF888D5-1FE4-4D73-AFAF-2438573543C8",
+                                                        keypairName: "my.keypair.name2"),
+                               receiveAddress: "XX-MY-RECEIVE-ADDRESS2-XX")
+        mockStore.contacts = [contact1, contact2]
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+
+        let syncCompletedExpectation = expectation(description: "syncCompletedExpectation")
+
+        mockAPI.resolveResponse = { ipnsKey, _ in
+            if ipnsKey == "XX-MY-RECEIVE-ADDRESS1-XX" {
+                return Promise(value: ResolveResponse(path: "XX-MY-RESOLVED-IPFS-ADDRESS1-XX"))
+            } else {
+                return Promise(value: ResolveResponse(path: "XX-MY-RESOLVED-IPFS-ADDRESS2-XX"))
+            }
+        }
+        mockAPI.catResponse = { ipfsHash in
+            if ipfsHash == "XX-MY-RESOLVED-IPFS-ADDRESS1-XX" {
+                return Promise(value: "[{\"name\": \"My File Name1\", \"hash\": \"EFGH1\"}]".data(using: .utf8)!)
+            } else {
+                return Promise(value: "[{\"name\": \"My File Name2\", \"hash\": \"EFGH2\"}]".data(using: .utf8)!)
+            }
+        }
+
+        firstly {
+            model.sync()
+        }.then { syncStates in
+            XCTAssertEqual(2, syncStates.count)
+
+            if case .synced(let contact1, _) = syncStates[0] {
+                XCTAssertEqual(1, contact1.receiveList.files.count)
+                XCTAssertEqual("My File Name1", contact1.receiveList.files[0].name)
+                XCTAssertEqual("EFGH1", contact1.receiveList.files[0].hash)
+            } else {
+                XCTFail()
+            }
+
+            if case .synced(let contact2, _) = syncStates[1] {
+                XCTAssertEqual(1, contact2.receiveList.files.count)
+                XCTAssertEqual("My File Name2", contact2.receiveList.files[0].name)
+                XCTAssertEqual("EFGH2", contact2.receiveList.files[0].hash)
+            } else {
+                XCTFail()
+            }
+
+            syncCompletedExpectation.fulfill()
+        }.catch { error in
+            XCTFail("Sync operation should not have failed")
             syncCompletedExpectation.fulfill()
         }
 

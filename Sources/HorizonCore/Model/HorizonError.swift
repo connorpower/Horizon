@@ -62,11 +62,19 @@ public enum HorizonError: Error {
     /**
      The underlying reason the sync command failed.
      - unknown: An unknown reason caused the command to fail.
+     - failedToRetrieveSharedFileList: Horizon either failed to resolve
+     the shared file list via IPNS or failed to retrieve it via IPFS.
+     Most likely, the contact is offline and no other nodes have the
+     information cached.
+     - receiveAddressNotSet: The contact to be synced did not have
+     a receive address.
      - invalidJSONForIPFSObject: The IPFS object pointed to by the
      associated data has did not contain valid JSON.
      */
     public enum SyncOperationFailureReason {
         case unknown(Error)
+        case failedToRetrieveSharedFileList
+        case receiveAddressNotSet
         case invalidJSONForIPFSObject(String)
     }
 

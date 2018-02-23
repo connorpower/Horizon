@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		D29431592040398100BCA7E6 /* The Byzantine Generals Problem.pdf in CopyFiles */ = {isa = PBXBuildFile; fileRef = D29431572040394D00BCA7E6 /* The Byzantine Generals Problem.pdf */; };
 		D2D77A0F20389E8800ECD599 /* DaemonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D77A0E20389E8800ECD599 /* DaemonManager.swift */; };
 		OBJ_127 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_133 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_81 /* Package.swift */; };
@@ -224,8 +225,22 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		D29431582040397700BCA7E6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				D29431592040398100BCA7E6 /* The Byzantine Generals Problem.pdf in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		"Alamofire::Alamofire::Product" /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D29431572040394D00BCA7E6 /* The Byzantine Generals Problem.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "The Byzantine Generals Problem.pdf"; sourceTree = "<group>"; };
 		D2D77A0E20389E8800ECD599 /* DaemonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaemonManager.swift; sourceTree = "<group>"; };
 		"IPFSWebService::IPFSWebService::Product" /* IPFSWebService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IPFSWebService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_100 /* DispatchQueue+Alamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+Alamofire.swift"; sourceTree = "<group>"; };
@@ -380,6 +395,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D29431562040394D00BCA7E6 /* Test Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D29431572040394D00BCA7E6 /* The Byzantine Generals Problem.pdf */,
+			);
+			path = "Test Resources";
+			sourceTree = "<group>";
+		};
 		OBJ_10 /* HorizonCore */ = {
 			isa = PBXGroup;
 			children = (
@@ -461,6 +484,7 @@
 		OBJ_39 /* HorizonCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				D29431562040394D00BCA7E6 /* Test Resources */,
 				OBJ_40 /* Mocks */,
 				OBJ_44 /* Model */,
 			);
@@ -774,6 +798,7 @@
 			buildPhases = (
 				OBJ_150 /* Sources */,
 				OBJ_160 /* Frameworks */,
+				D29431582040397700BCA7E6 /* CopyFiles */,
 			);
 			buildRules = (
 			);

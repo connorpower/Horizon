@@ -417,38 +417,57 @@ public extension Model {
      1. a list of all `Contact` objects complete with updated receive lists, or;
      2. require handling of an `HorizonError.syncOperationFailed` error.
      */
-    public func sync() -> Promise<[Contact]> {
-        let syncableContacts = contacts.filter { $0.receiveAddress != nil }
-
+    public func sync() -> Promise<[SyncState]> {
         return firstly {
-            when(fulfilled: syncableContacts.map({ contact -> Promise<(Contact, String, Data)> in
+            when(fulfilled: contacts.map({ contact -> Promise<(Contact, (String, Data)?)> in
                 self.eventCallback?(.resolvingReceiveListDidStart(contact))
 
+                guard let receiveAddress = contact.receiveAddress else {
+                    return Promise(value: (contact, nil))
+                }
+
                 return firstly {
-                    self.api.resolve(arg: contact.receiveAddress!, recursive: true)
-                }.then { resolveResponse -> Promise<(Contact, String, Data)> in
+                    self.api.resolve(arg: receiveAddress, recursive: true)
+                }.then { resolveResponse -> Promise<(Contact, (String, Data)?)> in
                     let receiveListHash = resolveResponse.path
                     return self.api.cat(arg: receiveListHash).then { data in
-                        (contact, receiveListHash, data)
+                        // Keep passing the contact forward, along with the new receive list data
+                        (contact, (receiveListHash, data))
                     }
+                }.recover { error in
+                    Promise(value: (contact, nil))
                 }
             }))
         }.then { syncResponses in
-            for (contact, receiveListHash, data) in syncResponses {
+            return syncResponses.map{ (contact, maybeReceiveListData) in
+                guard let receiveListData = maybeReceiveListData else {
+                    let error: HorizonError
+                    if contact.receiveAddress == nil {
+                        error = HorizonError.syncOperationFailed(reason: .receiveAddressNotSet)
+                    } else {
+                        error = HorizonError.syncOperationFailed(reason: .failedToRetrieveSharedFileList)
+                    }
+
+                    return SyncState.failed(contact: contact, error: error)
+                }
+                let (receiveListHash, data) = receiveListData
+
                 self.eventCallback?(.processingReceiveListDidStart(contact))
 
                 if let files = try? JSONDecoder().decode([File].self, from: data) {
                     let updatedContact = contact.updatingReceiveList(FileList(hash: receiveListHash, files: files))
 
                     self.persistentStore.createOrUpdateContact(updatedContact)
-                    self.eventCallback?(.propertiesDidChange(contact))
+                    self.eventCallback?(.propertiesDidChange(updatedContact))
+
+                    return SyncState.synced(contact: updatedContact, oldValue: contact)
                 } else {
-                    throw HorizonError.syncOperationFailed(reason: .invalidJSONForIPFSObject(receiveListHash))
+                    let error = HorizonError.syncOperationFailed(reason: .invalidJSONForIPFSObject(receiveListHash))
+                    return SyncState.failed(contact: contact, error: error)
                 }
             }
-
-            return Promise<[Contact]>(value: self.contacts)
         }
+
     }
 
 }

@@ -59,49 +59,8 @@ public struct DaemonManager {
             try? FileManager.default.createDirectory(at: config.path.deletingLastPathComponent(),
                                                      withIntermediateDirectories: true,
                                                      attributes: nil)
-
-            let initialize = ipfsCommand(for: config)
-            initialize.launchPath = ipfsPath
-            initialize.arguments = ["init"]
-            initialize.launch()
-            initialize.waitUntilExit()
-            guard initialize.terminationStatus == 0 else {
-                throw HorizonError.daemonOperationFailed(reason: .ipfsInitFailed)
-            }
-
-            let configAPI = ipfsCommand(for: config)
-            configAPI.launchPath = ipfsPath
-            configAPI.arguments = ["config",
-                                   "Addresses.API",
-                                   "/ip4/127.0.0.1/tcp/\(config.apiPort)"]
-            configAPI.launch()
-            configAPI.waitUntilExit()
-            guard configAPI.terminationStatus == 0 else {
-                throw HorizonError.daemonOperationFailed(reason: .failedToAlterConfigFile)
-            }
-
-            let configGateway = ipfsCommand(for: config)
-            configGateway.launchPath = ipfsPath
-            configGateway.arguments = ["config",
-                                       "Addresses.Gateway",
-                                       "/ip4/127.0.0.1/tcp/\(config.gatewayPort)"]
-            configGateway.launch()
-            configGateway.waitUntilExit()
-            guard configGateway.terminationStatus == 0 else {
-                throw HorizonError.daemonOperationFailed(reason: .failedToAlterConfigFile)
-            }
-
-            let configSwarm = ipfsCommand(for: config)
-            configSwarm.launchPath = ipfsPath
-            configSwarm.arguments = ["config",
-                                     "--json",
-                                     "Addresses.Swarm",
-                                     "[\"/ip4/0.0.0.0/tcp/\(config.swarmPort)\", \"/ip6/::/tcp/\(config.swarmPort)\"]"]
-            configSwarm.launch()
-            configSwarm.waitUntilExit()
-            guard configSwarm.terminationStatus == 0 else {
-                throw HorizonError.daemonOperationFailed(reason: .failedToAlterConfigFile)
-            }
+            try initializeNewIPFSNode(for: config)
+            try configureIPFSNode(for: config)
         }
 
         let daemonProcess = ipfsCommand(for: config)
@@ -161,6 +120,53 @@ public struct DaemonManager {
     }
 
     // MARK: - private Functions
+
+    private func initializeNewIPFSNode(for config: ConfigurationProvider) throws {
+        let initialize = ipfsCommand(for: config)
+        initialize.launchPath = ipfsPath
+        initialize.arguments = ["init"]
+        initialize.launch()
+        initialize.waitUntilExit()
+        guard initialize.terminationStatus == 0 else {
+            throw HorizonError.daemonOperationFailed(reason: .ipfsInitFailed)
+        }
+    }
+
+    private func configureIPFSNode(for config: ConfigurationProvider) throws {
+        let configAPI = ipfsCommand(for: config)
+        configAPI.launchPath = ipfsPath
+        configAPI.arguments = ["config",
+                               "Addresses.API",
+                               "/ip4/127.0.0.1/tcp/\(config.apiPort)"]
+        configAPI.launch()
+        configAPI.waitUntilExit()
+        guard configAPI.terminationStatus == 0 else {
+            throw HorizonError.daemonOperationFailed(reason: .failedToAlterConfigFile)
+        }
+
+        let configGateway = ipfsCommand(for: config)
+        configGateway.launchPath = ipfsPath
+        configGateway.arguments = ["config",
+                                   "Addresses.Gateway",
+                                   "/ip4/127.0.0.1/tcp/\(config.gatewayPort)"]
+        configGateway.launch()
+        configGateway.waitUntilExit()
+        guard configGateway.terminationStatus == 0 else {
+            throw HorizonError.daemonOperationFailed(reason: .failedToAlterConfigFile)
+        }
+
+        let configSwarm = ipfsCommand(for: config)
+        configSwarm.launchPath = ipfsPath
+        configSwarm.arguments = ["config",
+                                 "--json",
+                                 "Addresses.Swarm",
+                                 "[\"/ip4/0.0.0.0/tcp/\(config.swarmPort)\", \"/ip6/::/tcp/\(config.swarmPort)\"]"]
+        configSwarm.launch()
+        configSwarm.waitUntilExit()
+        guard configSwarm.terminationStatus == 0 else {
+            throw HorizonError.daemonOperationFailed(reason: .failedToAlterConfigFile)
+        }
+    }
 
     private func ipfsCommand(for config: ConfigurationProvider) -> Process {
         var environment = ProcessInfo().environment

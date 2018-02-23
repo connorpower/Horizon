@@ -301,4 +301,41 @@ class ModelTests_Contacts: XCTestCase {
         wait(for: [errorThrownExpectation], timeout: 1.0)
     }
 
+    /**
+     Expect that renaming a contact under normal circumstances succeeds.
+     */
+    func testRenameContact() {
+        let identifier = UUID()
+        let contact1 = Contact(identifier: identifier, displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
+        mockStore.contacts = [contact1]
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+
+        let contactPersistedExpectation = expectation(description: "contactPersistedExpectation")
+        let contactRenamedExpectation = expectation(description: "contactRenamedExpectation")
+
+        mockAPI.listKeysResponse = {
+            let key = Key(name: "\(MockConfiguration().persistentStoreKeys.keypairPrefix).Contact1", id: "XXXX")
+            return Promise(value: ListKeysResponse(keys: [key]))
+        }
+        mockAPI.renameKeyResponse = { oldName, newName in
+            return Promise<RenameKeyResponse>(value: RenameKeyResponse(was: oldName, now: newName,
+                                                                       id: UUID().uuidString, overwrite: false))
+        }
+        mockStore.createOrUpdateContactHook = { contact in
+            XCTAssertEqual(contact.identifier, identifier)
+            XCTAssertEqual(contact.displayName, "Contact New Name")
+            contactPersistedExpectation.fulfill()
+        }
+
+        firstly {
+            model.renameContact("Contact1", to: "Contact New Name")
+        }.then { contact in
+            XCTAssertEqual(contact.identifier, identifier)
+            XCTAssertEqual(contact.displayName, "Contact New Name")
+            contactRenamedExpectation.fulfill()
+        }
+
+        wait(for: [contactPersistedExpectation, contactRenamedExpectation], timeout: 1.0)
+    }
+
 }

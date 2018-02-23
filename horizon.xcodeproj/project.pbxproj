@@ -48,7 +48,6 @@
 		OBJ_181 /* FilesHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* FilesHandler.swift */; };
 		OBJ_182 /* Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* Handler.swift */; };
 		OBJ_183 /* Loggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_34 /* Loggers.swift */; };
-		OBJ_184 /* SharesHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_35 /* SharesHandler.swift */; };
 		OBJ_185 /* SyncHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_36 /* SyncHandler.swift */; };
 		OBJ_186 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_37 /* main.swift */; };
 		OBJ_188 /* HorizonCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "horizon::HorizonCore::Product" /* HorizonCore.framework */; };
@@ -283,7 +282,6 @@
 		OBJ_32 /* FilesHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesHandler.swift; sourceTree = "<group>"; };
 		OBJ_33 /* Handler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Handler.swift; sourceTree = "<group>"; };
 		OBJ_34 /* Loggers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loggers.swift; sourceTree = "<group>"; };
-		OBJ_35 /* SharesHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharesHandler.swift; sourceTree = "<group>"; };
 		OBJ_36 /* SyncHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncHandler.swift; sourceTree = "<group>"; };
 		OBJ_37 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		OBJ_41 /* MockConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockConfiguration.swift; sourceTree = "<group>"; };
@@ -470,7 +468,6 @@
 				OBJ_32 /* FilesHandler.swift */,
 				OBJ_33 /* Handler.swift */,
 				OBJ_34 /* Loggers.swift */,
-				OBJ_35 /* SharesHandler.swift */,
 				OBJ_36 /* SyncHandler.swift */,
 				OBJ_37 /* main.swift */,
 			);
@@ -948,7 +945,6 @@
 				OBJ_181 /* FilesHandler.swift in Sources */,
 				OBJ_182 /* Handler.swift in Sources */,
 				OBJ_183 /* Loggers.swift in Sources */,
-				OBJ_184 /* SharesHandler.swift in Sources */,
 				OBJ_185 /* SyncHandler.swift in Sources */,
 				OBJ_186 /* main.swift in Sources */,
 			);

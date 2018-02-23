@@ -376,8 +376,26 @@ public extension Model {
         })
     }
 
+    /**
+     Returns an unordered list of sent files and their associated contacts.
+     */
+    public var sentFiles: [(File, Contact)] {
+        return persistentStore.contacts.flatMap( { contact in
+            return contact.sendList.files.map { ($0, contact) }
+        })
+    }
+
+    /**
+     Searches for a file based on it's hash. The file could be either
+     one shared with a contact, or a file received from a contact. If
+     the hash matches multiple files, the first match will be returned -
+     in this case, there is no guarantee made as to which.
+
+     - parameter hash: The hash of a file to search for.
+     - returns: Returns a file if one was found, otherwise nil.
+     */
     public func file(matching hash: String) -> File? {
-        let matches = receivedFiles.filter { file, contact in
+        let matches = (receivedFiles + sentFiles).filter { file, contact in
             return file.hash == hash
         }
 

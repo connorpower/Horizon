@@ -32,11 +32,10 @@ struct ContactsHelp: HelpProvider {
         > horizon contacts add mmusterman
         > horizon contacts set-rcv-addr mmusterman QmSomeHash
 
-      'horizon contacts ls' lists the available contacts.
-
-        > horizon contacts ls
-        joe
-        mmusterman
+      Where did the recieve address come from? The other contact ran
+      'horizon contacts info <name>' and provided you with their send address.
+      You should do the same, providing them with your send address. Your send
+      address becomes their receive address for you.
 
       'horizon contacts info <name>' prints a given contact to the screen,
       showing the current values for the send address and receive address.
@@ -51,6 +50,12 @@ struct ContactsHelp: HelpProvider {
         Send address:     QmSomeHash
         Receive address:  QmSomeHash
         IPFS keypair:     com-semantical.horizon.joe
+
+      'horizon contacts ls' lists the available contacts.
+
+        > horizon contacts ls
+        joe
+        mmusterman
 
       'horizon contacts rm <name>' removes a given contact from Horizon.
       All files shared with the contact until this point remain available to

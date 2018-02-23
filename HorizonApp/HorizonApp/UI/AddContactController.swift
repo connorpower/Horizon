@@ -8,6 +8,7 @@
 
 import Cocoa
 import HorizonCore
+import PromiseKit
 
 class AddContactController: NSViewController {
 

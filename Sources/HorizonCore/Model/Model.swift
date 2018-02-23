@@ -14,13 +14,13 @@ public class Model {
 
     // MARK: - Properties
 
-    private let persistentStore: PersistentStore
+    internal let persistentStore: PersistentStore
 
-    private let api: IPFSAPI
+    internal let api: IPFSAPI
 
-    private let config: ConfigurationProvider
+    internal let config: ConfigurationProvider
 
-    private let eventCallback: ((Event) -> Void)?
+    internal let eventCallback: ((Event) -> Void)?
 
     // MARK: - Initialization
 
@@ -84,38 +84,7 @@ public extension Model {
      `HorizonError.contactOperationFailed` error.
      */
     public func addContact(name: String) -> Promise<Contact> {
-        let keypairName = "\(config.persistentStoreKeys.keypairPrefix).\(name)"
-
-        guard contact(named: name) == nil else {
-            return Promise(error: HorizonError.contactOperationFailed(reason: .contactAlreadyExists))
-        }
-
-        return firstly {
-            return self.api.listKeys()
-        }.then { listKeysResponse  -> Promise<KeygenResponse> in
-            if listKeysResponse.keys.map({ $0.name }).contains(keypairName) {
-                throw HorizonError.contactOperationFailed(reason: .contactAlreadyExists)
-            }
-
-            self.eventCallback?(.keygenDidStart(keypairName))
-            return self.api.keygen(keypairName: keypairName, type: .rsa, size: 2048)
-        }.then { keygenResponse in
-            let sendAddress = SendAddress(address: keygenResponse.id, keypairName: keygenResponse.name)
-            let contact = Contact(identifier: UUID(), displayName: name,
-                                  sendAddress: sendAddress, receiveAddress: nil)
-
-            self.persistentStore.createOrUpdateContact(contact)
-            self.eventCallback?(.propertiesDidChange(contact))
-            return Promise(value: contact)
-        }.catch { error in
-            let horizonError: HorizonError
-            if let castError = error as? HorizonError {
-                horizonError = castError
-            } else {
-                horizonError = HorizonError.contactOperationFailed(reason: .unknown(error))
-            }
-            self.eventCallback?(.errorEvent(horizonError))
-        }
+        return AddContactTask(model: self).addContact(name: name)
     }
 
     /**
@@ -130,47 +99,7 @@ public extension Model {
      error.
      */
     public func removeContact(name: String) -> Promise<Void> {
-        // Dont rely entirely on the keypair name or the contact. The
-        // contact was potentially deleted, leaving behind a dangling IPNS keypair or vice versa.
-        let contact = self.contact(named: name)
-        let keypairName = "\(config.persistentStoreKeys.keypairPrefix).\(name)"
-
-        return firstly {
-            return self.api.listKeys()
-        }.then { listKeysResponse -> Promise<Void> in
-
-            // Branch 1: the underlying IPFS key is missing, but we may have a model contact object.
-            guard listKeysResponse.keys.map({ $0.name }).contains(keypairName) else {
-                if let contact = contact {
-                    self.persistentStore.removeContact(contact)
-                    self.eventCallback?(.propertiesDidChange(contact))
-
-                    return Promise(value: ())
-                } else {
-                    throw HorizonError.contactOperationFailed(reason: .contactDoesNotExist)
-                }
-            }
-
-            // Branch 2: the underlying IPFS key present, and we may have a model contact object.
-            self.eventCallback?(.removeKeyDidStart(name))
-            return firstly {
-                return self.api.removeKey(keypairName: keypairName)
-            }.then { _ in
-                if let contact = contact {
-                    self.persistentStore.removeContact(contact)
-                    self.eventCallback?(.propertiesDidChange(contact))
-                }
-                return Promise(value: ())
-            }
-        }.catch { error in
-            let horizonError: HorizonError
-            if let castError = error as? HorizonError {
-                horizonError = castError
-            } else {
-                horizonError = HorizonError.contactOperationFailed(reason: .unknown(error))
-            }
-            self.eventCallback?(.errorEvent(horizonError))
-        }
+        return RemoveContactTask(model: self).removeContact(name: name)
     }
 
     /**
@@ -186,46 +115,7 @@ public extension Model {
      `HorizonError.contactOperationFailed` error.
      */
     public func renameContact(_ name: String, to newName: String) -> Promise<Contact> {
-        let keypairName = "\(config.persistentStoreKeys.keypairPrefix).\(name)"
-        let newKeypairName = "\(config.persistentStoreKeys.keypairPrefix).\(newName)"
-
-        guard let contact = self.contact(named: name) else {
-            return Promise<Contact>(error: HorizonError.contactOperationFailed(reason: .contactDoesNotExist))
-        }
-
-        guard self.contact(named: newName) == nil else {
-            return Promise<Contact>(error: HorizonError.contactOperationFailed(reason: .contactAlreadyExists))
-        }
-
-        return firstly {
-            return self.api.listKeys()
-        }.then { listKeysResponse -> Promise<RenameKeyResponse> in
-            let currentNames = listKeysResponse.keys.map({ $0.name })
-            if !currentNames.contains(keypairName) {
-                throw HorizonError.contactOperationFailed(reason: .contactDoesNotExist)
-            }
-            if currentNames.contains(newKeypairName) {
-                throw HorizonError.contactOperationFailed(reason: .contactAlreadyExists)
-            }
-
-            self.eventCallback?(.renameKeyDidStart(keypairName, newKeypairName))
-            return self.api.renameKey(keypairName: keypairName, to: newKeypairName)
-        }.then { renameKeyResponse in
-            let sendAddress = SendAddress(address: renameKeyResponse.id, keypairName: renameKeyResponse.now)
-            let updatedContact = contact.updatingDisplayName(newName).updatingSendAddress(sendAddress)
-
-            self.persistentStore.createOrUpdateContact(updatedContact)
-            self.eventCallback?(.propertiesDidChange(updatedContact))
-            return Promise(value: updatedContact)
-        }.catch { error in
-            let horizonError: HorizonError
-            if let castError = error as? HorizonError {
-                horizonError = castError
-            } else {
-                horizonError = HorizonError.contactOperationFailed(reason: .unknown(error))
-            }
-            self.eventCallback?(.errorEvent(horizonError))
-        }
+        return RenameContactTask(model: self).renameContact(name, to: newName)
     }
 
 }
@@ -257,61 +147,7 @@ public extension Model {
        2. require handling of an `HorizonError.shareOperationFailed` error.
      */
     public func shareFiles(_ files: [URL], with contact: Contact) -> Promise<Contact> {
-        guard let sendAddress = contact.sendAddress else {
-            return Promise(error: HorizonError.fileOperationFailed(reason: .sendAddressNotSet))
-        }
-
-        // It is ill-advised to check for the presence of a file **before** peforming
-        // an operation, but unfortunately the errors we receive from Alamofire are
-        // relatively well buried and obtuse, so we peform the sanity checking here.
-        // Parsing the AFErrors should probably be encapsulated in a helper extension
-        // so we can react to a failure rather than check in advance – as apple suggests.
-        for file in files {
-            if !FileManager.default.isReadableFile(atPath: file.path) {
-                return Promise(error: HorizonError.fileOperationFailed(reason: .fileDoesNotExist(file.path)))
-            }
-        }
-
-        return firstly {
-            when(fulfilled: files.map({ file -> Promise<AddResponse> in
-                self.eventCallback?(.addingFileToIPFSDidStart(file))
-                return self.api.add(file: file)
-            }))
-        }.then { addFileResponses -> Promise<(AddResponse, Contact)> in
-            let newFiles = addFileResponses.map({ return File(name: $0.name, hash: $0.hash) })
-            let updatedSendList = FileList(hash: nil, files: Array(Set(contact.sendList.files + newFiles)))
-            let updatedContact = contact.updatingSendList(updatedSendList)
-            self.persistentStore.createOrUpdateContact(updatedContact)
-
-            guard let newSendListURL = FileManager.default.encodeAsJSONInTemporaryFile(updatedSendList.files) else {
-                throw HorizonError.fileOperationFailed(reason: .failedToEncodeFileListToTemporaryFile)
-            }
-
-            self.eventCallback?(.addingProvidedFileListToIPFSDidStart(contact))
-
-            // Keep passing the updated contact forward
-            return self.api.add(file: newSendListURL).then { ($0, updatedContact) }
-        }.then { addFileFesponse, contact -> Promise<(PublishResponse, Contact)> in
-            self.eventCallback?(.publishingFileListToIPNSDidStart(contact))
-
-            let sendListHash = addFileFesponse.hash
-            let updatedSendList = contact.sendList.updatingHash(sendListHash)
-            let updatedContact = contact.updatingSendList(updatedSendList)
-            self.persistentStore.createOrUpdateContact(updatedContact)
-
-            // Keep passing the updated contact forward
-            return self.api.publish(arg: sendListHash, key: sendAddress.keypairName).then { ($0, updatedContact) }
-        }.then { _, contact in
-            return Promise(value: contact)
-        }.catch { error in
-            let horizonError: HorizonError
-            if let castError = error as? HorizonError {
-                horizonError = castError
-            } else {
-                horizonError = HorizonError.fileOperationFailed(reason: .unknown(error))
-            }
-            self.eventCallback?(.errorEvent(horizonError))
-        }
+        return ShareFileTask(model: self).shareFiles(files, with: contact)
     }
 
     /**
@@ -331,50 +167,7 @@ public extension Model {
        2. require handling of an `HorizonError.shareOperationFailed` error.
      */
     public func unshareFiles(_ files: [File], with contact: Contact) -> Promise<Contact> {
-        guard let sendAddress = contact.sendAddress else {
-            return Promise(error: HorizonError.fileOperationFailed(reason: .sendAddressNotSet))
-        }
-
-        guard contact.sendList.files.filter({ files.contains($0) }).first != nil else {
-            return Promise(error: HorizonError.fileOperationFailed(reason: .fileNotShared))
-        }
-
-        return firstly { () -> Promise<(AddResponse, Contact)> in
-            let filteredFiles = contact.sendList.files.filter { !files.contains($0) }
-            let updatedSendList = FileList(hash: nil, files: filteredFiles)
-            let updatedContact = contact.updatingSendList(updatedSendList)
-
-            guard let newSendListURL = FileManager.default.encodeAsJSONInTemporaryFile(updatedSendList.files) else {
-                throw HorizonError.fileOperationFailed(reason: .failedToEncodeFileListToTemporaryFile)
-            }
-
-            self.eventCallback?(.addingProvidedFileListToIPFSDidStart(contact))
-
-            // Keep passing the updated contact forward
-            return self.api.add(file: newSendListURL).then { ($0, updatedContact) }
-        }.then { addFileFesponse, contact -> Promise<(PublishResponse, Contact)> in
-            self.eventCallback?(.publishingFileListToIPNSDidStart(contact))
-
-            let sendListHash = addFileFesponse.hash
-            let updatedSendList = contact.sendList.updatingHash(sendListHash)
-            let updatedContact = contact.updatingSendList(updatedSendList)
-
-            // Keep passing the updated contact forward
-            return self.api.publish(arg: sendListHash, key: sendAddress.keypairName).then { ($0, updatedContact) }
-        }.then { _, contact in
-            // Persist the changes only after re-publishing the share list
-            self.persistentStore.createOrUpdateContact(contact)
-
-            return Promise(value: contact)
-        }.catch { error in
-            let horizonError: HorizonError
-            if let castError = error as? HorizonError {
-                horizonError = castError
-            } else {
-                horizonError = HorizonError.fileOperationFailed(reason: .unknown(error))
-            }
-            self.eventCallback?(.errorEvent(horizonError))
-        }
+        return UnshareFileTask(model: self).unshareFiles(files, with: contact)
     }
 
 }
@@ -423,21 +216,7 @@ public extension Model {
     }
 
     public func data(for file: File) -> Promise<Data> {
-        guard let hash = file.hash else {
-            return Promise<Data>(error: HorizonError.fileOperationFailed(reason: .fileHashNotSet))
-        }
-
-        return firstly {
-            return self.api.cat(arg: hash)
-        }.catch { error in
-            let horizonError: HorizonError
-            if let castError = error as? HorizonError {
-                horizonError = castError
-            } else {
-                horizonError = HorizonError.fileOperationFailed(reason: .unknown(error))
-            }
-            self.eventCallback?(.errorEvent(horizonError))
-        }
+        return GetDataTask(model: self).data(for: file)
     }
 
 }
@@ -460,56 +239,7 @@ public extension Model {
      2. require handling of an `HorizonError.syncOperationFailed` error.
      */
     public func sync() -> Promise<[SyncState]> {
-        return firstly {
-            when(fulfilled: contacts.map({ contact -> Promise<(Contact, (String, Data)?)> in
-                self.eventCallback?(.resolvingReceiveListDidStart(contact))
-
-                guard let receiveAddress = contact.receiveAddress else {
-                    return Promise(value: (contact, nil))
-                }
-
-                return firstly {
-                    self.api.resolve(arg: receiveAddress, recursive: true)
-                }.then { resolveResponse -> Promise<(Contact, (String, Data)?)> in
-                    let receiveListHash = resolveResponse.path
-                    return self.api.cat(arg: receiveListHash).then { data in
-                        // Keep passing the contact forward, along with the new receive list data
-                        (contact, (receiveListHash, data))
-                    }
-                }.recover { _ in
-                    Promise(value: (contact, nil))
-                }
-            }))
-        }.then { syncResponses in
-            return syncResponses.map { (contact, maybeReceiveListData) in
-                guard let receiveListData = maybeReceiveListData else {
-                    let error: HorizonError
-                    if contact.receiveAddress == nil {
-                        error = HorizonError.syncOperationFailed(reason: .receiveAddressNotSet)
-                    } else {
-                        error = HorizonError.syncOperationFailed(reason: .failedToRetrieveSharedFileList)
-                    }
-
-                    return SyncState.failed(contact: contact, error: error)
-                }
-                let (receiveListHash, data) = receiveListData
-
-                self.eventCallback?(.processingReceiveListDidStart(contact))
-
-                if let files = try? JSONDecoder().decode([File].self, from: data) {
-                    let updatedContact = contact.updatingReceiveList(FileList(hash: receiveListHash, files: files))
-
-                    self.persistentStore.createOrUpdateContact(updatedContact)
-                    self.eventCallback?(.propertiesDidChange(updatedContact))
-
-                    return SyncState.synced(contact: updatedContact, oldValue: contact)
-                } else {
-                    let error = HorizonError.syncOperationFailed(reason: .invalidJSONForIPFSObject(receiveListHash))
-                    return SyncState.failed(contact: contact, error: error)
-                }
-            }
-        }
-
+        return SyncTask(model: self).sync()
     }
 
 }

@@ -216,7 +216,17 @@ struct FilesHandler: Handler {
         firstly {
             return model.data(for: file)
         }.then { data in
-            print(String(data: data, encoding: .utf8) ?? "<failed to cat>")
+            var buffer: [UInt8] = []
+            for byte in data {
+                buffer.append(byte)
+            }
+
+            if fwrite(buffer, MemoryLayout<UInt8>.size, buffer.count, stdout) == 0 {
+                print("Failed to write file")
+            } else {
+                fsync(fileno(stdout))
+            }
+
             self.completionHandler()
         }.catch { error in
             print("Failed to retrieve file. Have you started the horizon daemon and is the contact online?")

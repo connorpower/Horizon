@@ -33,7 +33,7 @@ class Program {
       with it's own list of contacts, shares and entirely separate version of
       IPFS. If no entity is provided, horizon will default to the 'default'
       entity – this is effectively the same as having provided `--identity=default`
-      as a comand line option.
+      as a command line option.
 
     OPTIONS
       --identity                                  Use a self-contained and indepenedent identity other than 'default'

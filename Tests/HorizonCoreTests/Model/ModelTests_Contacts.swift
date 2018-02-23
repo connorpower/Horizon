@@ -380,4 +380,49 @@ class ModelTests_Contacts: XCTestCase {
         wait(for: [errorThrownExpectation], timeout: 1.0)
     }
 
+    /**
+     Expect that renaming a contact fails if there exists a contact or
+     keypair with the same name.
+     */
+    func testRenameContact_KeypairNameConflict() {
+        let identifier = UUID()
+        let contact1 = Contact(identifier: identifier, displayName: "Contact1", sendAddress: nil, receiveAddress: nil)
+        mockStore.contacts = [contact1]
+        let model = Model(api: mockAPI, config: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+
+        let errorThrownExpectation = expectation(description: "errorThrownExpectation")
+
+        mockAPI.listKeysResponse = {
+            let key1 = Key(name: "\(MockConfiguration().persistentStoreKeys.keypairPrefix).Contact1", id: "XXXX")
+            let key2 = Key(name: "\(MockConfiguration().persistentStoreKeys.keypairPrefix).Contact2", id: "XXXX")
+            return Promise(value: ListKeysResponse(keys: [key1, key2]))
+        }
+        mockAPI.renameKeyResponse = { oldName, newName in
+            return Promise<RenameKeyResponse>(value: RenameKeyResponse(was: oldName, now: newName,
+                                                                       id: UUID().uuidString, overwrite: false))
+        }
+        mockStore.createOrUpdateContactHook = { contact in
+            XCTFail("Should not have modified the contact")
+        }
+
+        firstly {
+            model.renameContact("Contact1", to: "Contact2")
+        }.then { contact in
+            XCTFail("Should not have succeeded")
+        }.catch { error in
+            if case HorizonError.contactOperationFailed(let reason) = error {
+                if case .contactAlreadyExists = reason {
+                    XCTAssertTrue(true)
+                } else {
+                    XCTFail()
+                }
+            } else {
+                XCTFail()
+            }
+            errorThrownExpectation.fulfill()
+        }
+
+        wait(for: [errorThrownExpectation], timeout: 1.0)
+    }
+
 }

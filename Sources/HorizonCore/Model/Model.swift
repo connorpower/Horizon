@@ -203,8 +203,8 @@ public extension Model {
             let updatedContact = contact.updatingDisplayName(newName).updatingSendAddress(sendAddress)
 
             self.persistentStore.createOrUpdateContact(updatedContact)
-            self.eventCallback?(.propertiesDidChange(contact))
-            return Promise(value: contact)
+            self.eventCallback?(.propertiesDidChange(updatedContact))
+            return Promise(value: updatedContact)
         }.catch { error in
             let horizonError: HorizonError = error is HorizonError
                 ? error as! HorizonError : HorizonError.contactOperationFailed(reason: .unknown(error))

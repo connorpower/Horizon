@@ -93,7 +93,7 @@ struct SharesHandler: Handler {
                 > horizon shares add mmusterman './The Byzantine Generals Problem.pdf'
 
             """),
-        Command(name: "ls", allowableNumberOfArguments: [0], help: """
+        Command(name: "ls", allowableNumberOfArguments: [0, 1], help: """
             horizon shares ls [<contact-name>]
               'horizon shares ls [<contact-name>]' lists all files you are sharing
               with other contacts.

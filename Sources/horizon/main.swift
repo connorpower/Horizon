@@ -33,7 +33,8 @@ class Program {
       with it's own list of contacts, shares and entirely separate version of
       IPFS. If no entity is provided, horizon will default to the 'default'
       entity – this is effectively the same as having provided `--identity=default`
-      as a comand line option.
+      as a command line option. This feature can be used to keep a work version
+      of horizon separate from a personal version for instance.
 
     OPTIONS
       --identity                                  Use a self-contained and indepenedent identity other than 'default'
@@ -115,8 +116,6 @@ class Program {
                       persistentStore: UserDefaultsStore(configuration: configuration),
                       eventCallback: nil)
 
-        startDaemonIfNecessary(configuration)
-
         runCommand(from: arguments, with: configuration, model: model)
         dispatchMain()
     }
@@ -134,12 +133,14 @@ class Program {
 
         switch command {
         case "contacts":
+            startDaemonIfNecessary(configuration)
             ContactsHandler(model: model,
                             configuration: configuration,
                             arguments: commandArgs,
                             completion: { exit(EXIT_SUCCESS) },
                             error: { exit(EXIT_FAILURE) }).run()
         case "files":
+            startDaemonIfNecessary(configuration)
             FilesHandler(model: model,
                          configuration: configuration,
                          arguments: commandArgs,
@@ -152,6 +153,7 @@ class Program {
                           completion: { exit(EXIT_SUCCESS) },
                           error: { exit(EXIT_FAILURE) }).run()
         case "sync":
+            startDaemonIfNecessary(configuration)
             SyncHandler(model: model,
                         configuration: configuration,
                         arguments: commandArgs,

@@ -116,8 +116,6 @@ class Program {
                       persistentStore: UserDefaultsStore(configuration: configuration),
                       eventCallback: nil)
 
-        startDaemonIfNecessary(configuration)
-
         runCommand(from: arguments, with: configuration, model: model)
         dispatchMain()
     }
@@ -135,12 +133,14 @@ class Program {
 
         switch command {
         case "contacts":
+            startDaemonIfNecessary(configuration)
             ContactsHandler(model: model,
                             configuration: configuration,
                             arguments: commandArgs,
                             completion: { exit(EXIT_SUCCESS) },
                             error: { exit(EXIT_FAILURE) }).run()
         case "files":
+            startDaemonIfNecessary(configuration)
             FilesHandler(model: model,
                          configuration: configuration,
                          arguments: commandArgs,
@@ -153,6 +153,7 @@ class Program {
                           completion: { exit(EXIT_SUCCESS) },
                           error: { exit(EXIT_FAILURE) }).run()
         case "sync":
+            startDaemonIfNecessary(configuration)
             SyncHandler(model: model,
                         configuration: configuration,
                         arguments: commandArgs,

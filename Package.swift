@@ -9,7 +9,7 @@ let package = Package(
         .library(name: "HorizonCore", type: .static, targets: ["HorizonCore"])
     ],
     dependencies: [
-        .package(url: "https://github.com/connorpower/IPFSWebService.git", from: "4.1.1"),
+        .package(url: "git@github.com:connorpower/IPFSWebService.git", .branch("4.1.1")),
         .package(url: "https://github.com/mxcl/PromiseKit.git", from: "4.5.0")
     ],
     targets: [

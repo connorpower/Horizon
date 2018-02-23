@@ -12,11 +12,11 @@
       },
       {
         "package": "IPFSWebService",
-        "repositoryURL": "https://github.com/connorpower/IPFSWebService.git",
+        "repositoryURL": "git@github.com:connorpower/IPFSWebService.git",
         "state": {
-          "branch": null,
+          "branch": "4.1.1",
           "revision": "a7b95aa89dba63c845ee249f479caaa814319e35",
-          "version": "4.1.1"
+          "version": null
         }
       },
       {

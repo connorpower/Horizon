@@ -27,13 +27,13 @@ class Program {
       horizon - An encrypted fileshare for the decentralized web.
 
     SYNOPSIS
-      horizon [--help | -h] [--identity <identity>] <command> ...
+      horizon [--help | -h] [--identity=<identity>] <command> ...
 
     IDENTITIES
       Horizon allows for multiple independent 'identities'. Each is namespaced
       with it's own list of contacts, shares and entirely separate version of
       IPFS. If no entity is provided, horizon will default to the 'default'
-      entity – this is effectively the same as having provided `--identity default`
+      entity – this is effectively the same as having provided `--identity=default`
       as a comand line option.
 
     OPTIONS
@@ -111,20 +111,21 @@ class Program {
 
         var identity = "default"
 
-        switch arguments.first ?? "" {
-        case "-h", "--help", "help":
+        if ["-h", "--help", "help"].contains(arguments[0]) {
             print(help)
             exit(EXIT_SUCCESS)
-        case "--identity":
-            if arguments.count >= 2 {
-                identity = arguments[1]
-                arguments = Array(arguments[2..<arguments.count])
-            } else {
+        }
+
+        if arguments[0].hasPrefix("--identity") {
+            let splitString = arguments[0].split(separator: "=")
+
+            guard splitString.count == 2 else {
                 print(help)
                 exit(EXIT_FAILURE)
             }
-        default:
-            break
+
+            identity = String(splitString[1])
+            arguments = Array(arguments[1..<arguments.count])
         }
 
         let horizonDirectory = URL(fileURLWithPath: ("~/.horizon" as NSString).expandingTildeInPath)
@@ -144,7 +145,7 @@ class Program {
                 print("Failed to start daemon.")
                 exit(EXIT_FAILURE)
             }
-            let identityNotice = config.identity == "default" ? "" : "--identity \(config.identity) "
+            let identityNotice = config.identity == "default" ? "" : "--identity=\(config.identity) "
             print("⚠️ Started. Remember to stop the daemon with 'horizon \(identityNotice)daemon stop'.")
         default:
             break

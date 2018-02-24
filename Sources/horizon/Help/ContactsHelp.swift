@@ -30,7 +30,8 @@ struct ContactsHelp: HelpProvider {
       'horizon contacts set-receive-addr <name> <receive-address>'
 
         > horizon contacts add mmusterman
-        > horizon contacts set-rcv-addr mmusterman QmSomeHash
+        🤝 Send address: QmSomeSendHash
+        > horizon contacts set-rcv-addr mmusterman QmSomeReceiveHash
 
       Where did the recieve address come from? The other contact ran
       'horizon contacts info <name>' and provided you with their send address.
@@ -42,14 +43,14 @@ struct ContactsHelp: HelpProvider {
 
         > horizon contacts info mmusterman
         mmusterman
-        Send address:     QmSomeHash
-        Receive address:  QmSomeHash
-        IPFS keypair:     com-semantical.horizon.mmusterman
+        🤝 Send address:     QmSomeHash
+        🤝 Receive address:  QmSomeHash
+        🔑 IPFS keypair:     com-semantical.horizon.mmusterman
 
         joe
-        Send address:     QmSomeHash
-        Receive address:  QmSomeHash
-        IPFS keypair:     com-semantical.horizon.joe
+        🤝 Send address:     QmSomeHash
+        🤝 Receive address:  QmSomeHash
+        🔑 IPFS keypair:     com-semantical.horizon.joe
 
       'horizon contacts ls' lists the available contacts.
 

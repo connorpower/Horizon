@@ -36,12 +36,14 @@ struct DaemonHandler: Handler {
       manual `kill` command.
 
         > horizon daemon start
+        Started 🤖
         > horizon daemon status
-        Running (PID: 12345)
+        Running (PID: 12345) 🤖
 
         > horizon daemon stop
+        Stopped 💀
         > horizon daemon status
-        Stopped
+        Stopped  💀
 
       'horizon daemon status' prints the status of the background daemon.
       'horizon daemon stop' stops the background daemon.
@@ -49,9 +51,9 @@ struct DaemonHandler: Handler {
       'horizon daemon ls' lists the status of the daemon for each identity.
 
         > horizon daemon ls
-        'default': Running (PID: 12345)
-        'work': Running (PID: 67890)
-        'test': Stopped
+        'default': Running (PID: 12345) 🤖
+        'work': Running (PID: 67890) 🤖
+        'test': Stopped 💀
 
       SUBCOMMANDS
         horizon daemon help     - Displays detailed help information
@@ -105,12 +107,14 @@ struct DaemonHandler: Handler {
               shared files.
 
                 > horizon daemon start
+                Started 🤖
                 > horizon daemon status
-                Running (PID: 12345)
+                Running (PID: 12345) 🤖
 
                 > horizon daemon stop
+                Stopped 💀
                 > horizon daemon status
-                Stopped
+                Stopped 💀
 
             """),
         Command(name: "stop", allowableNumberOfArguments: [0], help: """
@@ -136,10 +140,10 @@ struct DaemonHandler: Handler {
               unclean shutdown.
 
                 > horizon daemon ls
-                'default': Running (PID: 12345)
-                'work': Running (PID: 67890)
-                'test': Stopped
-                'old-test': Error (PID: 6666 not running but PID file remains at ~/.horizon/old-test/PID)
+                'default': Running (PID: 12345) 🤖
+                'work': Running (PID: 67890) 🤖
+                'test': Stopped 💀
+                'old-test': Error (PID: 6666 not running but PID file remains at ~/.horizon/old-test/PID) ⚠️
 
             """)
     ]
@@ -255,7 +259,7 @@ struct DaemonHandler: Handler {
             print("\(identityPrefix)Stopped 💀")
         case .pidFilePresentButDaemonNotRunning(let pid):
             print("\(identityPrefix)Error (PID: \(pid.description) not running but PID file " +
-                "remains at \(configuration.daemonPIDPath.path)) 🤔")
+                "remains at \(configuration.daemonPIDPath.path)) ⚠️")
         }
     }
 

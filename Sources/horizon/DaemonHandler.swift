@@ -72,50 +72,53 @@ struct DaemonHandler: Handler {
     private func runCommand(_ command: Command, arguments: [String]) {
         let isDaemonAutostarted = command.requiresRunningDaemon && DaemonManager().startDaemonIfNecessary(configuration)
 
-        switch command.name {
-        case "start":
-            startDaemon()
-        case "status":
-            printDaemonStatus()
-        case "stop":
-            stopDaemon()
-        case "ls":
-            listDaemons()
-        default:
-            print(command.help)
-            errorHandler()
+        func onCompletion(_ success: Bool) -> Never {
+            if isDaemonAutostarted {
+                DaemonManager().stopDaemonIfNecessary(configuration)
+            }
+            success ? completionHandler() : errorHandler()
         }
 
-        if isDaemonAutostarted {
-            DaemonManager().stopDaemonIfNecessary(configuration)
+        switch command.name {
+        case "start":
+            startDaemon(completion: onCompletion)
+        case "status":
+            printDaemonStatus(completion: onCompletion)
+        case "stop":
+            stopDaemon(completion: onCompletion)
+        case "ls":
+            listDaemons(completion: onCompletion)
+        default:
+            print(command.help)
+            onCompletion(false)
         }
     }
 
-    private func startDaemon() {
+    private func startDaemon(completion: @escaping (Bool) -> Never) {
         do {
             try DaemonManager().startDaemon(for: configuration)
             print("Started 🤖")
         } catch {
             print("Failed to start daemon")
-            errorHandler()
+            completion(false)
         }
 
-        completionHandler()
+        completion(true)
     }
 
-    private func printDaemonStatus() {
+    private func printDaemonStatus(completion: @escaping (Bool) -> Never) {
         printStatus(for: configuration, withIdentityPrefix: false)
-        completionHandler()
+        completion(true)
     }
 
-    private func listDaemons() {
+    private func listDaemons(completion: @escaping (Bool) -> Never) {
         let maybeIdentites = try? FileManager.default.contentsOfDirectory(at: configuration.horizonDirectory,
                                                                           includingPropertiesForKeys: [.isDirectoryKey],
                                                                           options: .skipsSubdirectoryDescendants)
 
         guard let identities = maybeIdentites else {
             print("Identity 'default': Stopped 💀")
-            errorHandler()
+            completion(false)
         }
 
         for identity in identities {
@@ -124,16 +127,16 @@ struct DaemonHandler: Handler {
             printStatus(for: config, withIdentityPrefix: true)
         }
 
-        completionHandler()
+        completion(true)
     }
 
-    private func stopDaemon() {
+    private func stopDaemon(completion: @escaping (Bool) -> Never) {
         if DaemonManager().stopDaemon(for: configuration) {
             print("Stopped 💀")
-            completionHandler()
+            completion(true)
         } else {
             print("Daemon not running")
-            completionHandler()
+            completion(true)
         }
     }
 

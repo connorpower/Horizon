@@ -64,21 +64,24 @@ struct SyncHandler: Handler {
 
         let isDaemonAutostarted = DaemonManager().startDaemonIfNecessary(configuration)
 
+        func onCompletion(_ success: Bool) -> Never {
+            if isDaemonAutostarted {
+                DaemonManager().stopDaemonIfNecessary(configuration)
+            }
+            success ? completionHandler() : errorHandler()
+        }
+
         guard arguments.count == 0 else {
             print(SyncHelp.shortHelp)
-            errorHandler()
+            onCompletion(false)
         }
 
-        sync()
-
-        if isDaemonAutostarted {
-            DaemonManager().stopDaemonIfNecessary(configuration)
-        }
+        sync(completion: onCompletion)
     }
 
     // MARK: - Private Functions
 
-    private func sync() {
+    private func sync(completion: @escaping (Bool) -> Never) {
         firstly {
             model.sync()
         }.then { syncStates in
@@ -107,10 +110,10 @@ struct SyncHandler: Handler {
             if wasAReceiveAddressMissing {
                 print("\nSet a receive address using `horizon contacts set-rcv-addr <contact-name> <receive-hash>`")
             }
-            self.completionHandler()
+            completion(true)
         }.catch { _ in
             print("Failed to sync. Have you started the horizon daemon?")
-            self.errorHandler()
+            completion(false)
         }
     }
 

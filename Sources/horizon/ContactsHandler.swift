@@ -75,56 +75,59 @@ struct ContactsHandler: Handler {
     private func runCommand(_ command: Command, arguments: [String]) {
         let isDaemonAutostarted = command.requiresRunningDaemon && DaemonManager().startDaemonIfNecessary(configuration)
 
-        switch command.name {
-        case "add":
-            addContact(name: arguments[0])
-        case "ls":
-            listContacts()
-        case "info":
-            listContactInfo(for: ContactFilter(optionalContact: arguments.first))
-        case "rm":
-            removeContact(name: arguments[0])
-        case "rename":
-            renameContact(arguments[0], to: arguments[1])
-        case "set-rcv-addr":
-            setReceiveAddress(of: arguments[0], to: arguments[1])
-        default:
-            print(command.help)
-            errorHandler()
+        func onCompletion(_ success: Bool) -> Never {
+            if isDaemonAutostarted {
+                DaemonManager().stopDaemonIfNecessary(configuration)
+            }
+            success ? completionHandler() : errorHandler()
         }
 
-        if isDaemonAutostarted {
-            DaemonManager().stopDaemonIfNecessary(configuration)
+        switch command.name {
+        case "add":
+            addContact(name: arguments[0], completion: onCompletion)
+        case "ls":
+            listContacts(completion: onCompletion)
+        case "info":
+            listContactInfo(for: ContactFilter(optionalContact: arguments.first), completion: onCompletion)
+        case "rm":
+            removeContact(name: arguments[0], completion: onCompletion)
+        case "rename":
+            renameContact(arguments[0], to: arguments[1], completion: onCompletion)
+        case "set-rcv-addr":
+            setReceiveAddress(of: arguments[0], to: arguments[1], completion: onCompletion)
+        default:
+            print(command.help)
+            onCompletion(false)
         }
     }
 
-    private func addContact(name: String) {
+    private func addContact(name: String, completion: @escaping (Bool) -> Never) {
         firstly {
             return model.addContact(name: name)
         }.then { contact in
             print("🤝 Send address: \(contact.sendAddress?.address ?? "nil")")
-            self.completionHandler()
+            completion(true)
         }.catch { error in
             if case HorizonError.contactOperationFailed(let reason) = error {
                 if case .contactAlreadyExists = reason {
                     print("Contact already exists.")
-                    self.errorHandler()
+                    completion(false)
                 }
             }
 
             print("Failed to add contact. Have you started the horizon daemon?")
-            self.errorHandler()
+            completion(false)
         }
     }
 
-    private func listContactInfo(for contactFilter: ContactFilter) {
+    private func listContactInfo(for contactFilter: ContactFilter, completion: @escaping (Bool) -> Never) {
         let contacts: [Contact]
 
         switch contactFilter {
         case .specificContact(let name):
             guard let specificContact = model.contact(named: name) else {
                 print("Contact does not exist.")
-                errorHandler()
+                completion(false)
             }
             contacts = [specificContact]
         case .allContacts:
@@ -140,64 +143,64 @@ struct ContactsHandler: Handler {
 
                 """)
         }
-        completionHandler()
+        completion(true)
     }
 
-    private func listContacts() {
+    private func listContacts(completion: @escaping (Bool) -> Never) {
         for contact in model.contacts {
             print(contact.displayName)
         }
 
-        completionHandler()
+        completion(true)
     }
 
-    private func removeContact(name: String) {
+    private func removeContact(name: String, completion: @escaping (Bool) -> Never) {
         firstly {
             model.removeContact(name: name)
         }.then {
-            self.completionHandler()
+            completion(true)
         }.catch { error in
             if case HorizonError.contactOperationFailed(let reason) = error {
                 if case .contactDoesNotExist = reason {
                     print("Contact does not exist.")
-                    self.errorHandler()
+                    completion(false)
                 }
             }
 
             print("Failed to remove contact. Have you started the horizon daemon?")
-            self.errorHandler()
+            completion(false)
         }
     }
 
-    private func renameContact(_ name: String, to newName: String) {
+    private func renameContact(_ name: String, to newName: String, completion: @escaping (Bool) -> Never) {
         firstly {
             model.renameContact(name, to: newName)
         }.then { _ in
-            self.completionHandler()
+            completion(true)
         }.catch { error in
             if case HorizonError.contactOperationFailed(let reason) = error {
                 if case .contactDoesNotExist = reason {
                     print("Contact does not exist.")
-                    self.errorHandler()
+                    completion(false)
                 } else if case .contactAlreadyExists = reason {
                     print("Another contact already exists with the name \(newName).")
-                    self.errorHandler()
+                    completion(false)
                 }
             }
 
            print("Failed to rename contact. Have you started the horizon daemon?")
-           self.errorHandler()
+           completion(false)
         }
     }
 
-    private func setReceiveAddress(of name: String, to recieveAddress: String) {
+    private func setReceiveAddress(of name: String, to recieveAddress: String, completion: @escaping (Bool) -> Never) {
         guard let contact = model.contact(named: name) else {
             print("Contact does not exist.")
-            self.errorHandler()
+            completion(false)
         }
 
         model.updateReceiveAddress(for: contact, to: recieveAddress)
-        self.completionHandler()
+        completion(true)
     }
 
 }

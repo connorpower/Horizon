@@ -134,9 +134,11 @@ App Center is responsible for:
 
 ## Built With
 
-* [Swift Package Manager](https://swift.org/package-manager/) - Dependency Management
-* [SwiftLint](https://github.com/realm/SwiftLint) - Swift Linter
-* [App Center](https://appcenter.ms) - Continuous Integration
+* [Swift Package Manager](https://swift.org/package-manager/) – The Package Manager for the Swift Programming Language
+* [SwiftLint](https://github.com/realm/SwiftLint) – A tool to enforce Swift style and conventions
+* [PromiseKit](https://github.com/mxcl/PromiseKit) – Promises for Swift & ObjC
+* [Alamofire](https://github.com/Alamofire/Alamofire) – Elegant HTTP Networking in Swift
+* [App Center](https://appcenter.ms) – Continuous Integration
 
 ## Versioning
 
@@ -145,8 +147,8 @@ see the [tags on this repository](https://github.com/connorpower/Horizon/tags).
 
 ## Authors
 
-* **Connor Power** - *Initial work* - [connorpower](https://github.com/connorpower)
-* **Jürgen Schweizer** - *Initial work* - [jschweizer](https://github.com/jschweizer)
+* **Connor Power** – *Initial work* – [connorpower](https://github.com/connorpower)
+* **Jürgen Schweizer** – *Initial work* – [jschweizer](https://github.com/jschweizer)
 
 ## License
 

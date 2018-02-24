@@ -23,7 +23,7 @@ class Program {
 
     let help = """
     USAGE
-      horizon - An encrypted fileshare for the decentralized web.
+      horizon - A fileshare for the decentralized web.
 
     SYNOPSIS
       horizon [--help | -h] [--identity=<identity>] <command> ...

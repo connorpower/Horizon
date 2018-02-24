@@ -2,7 +2,7 @@
 
 # Horizon
 
-An encrypted fileshare for the decentralized web.
+A fileshare for the decentralized web.
 
 ## Getting Started
 

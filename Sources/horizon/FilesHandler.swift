@@ -15,70 +15,16 @@ struct FilesHandler: Handler {
     // MARK: - Constants
 
     private let commands = [
-        Command(name: "share", allowableNumberOfArguments: [2], help: """
-            horizon files share <contact> <file>
-              'horizon files share' adds a new file to be shared with a contact.
-              The file will be added to IPFS. The list of files shared with the
-              contacted will be updated and in turn also re-published to IPFS.
-
-                > horizon files share mmusterman './The Byzantine Generals Problem.pdf'
-
-            """),
-        Command(name: "unshare", allowableNumberOfArguments: [2], help: """
-            horizon files unshare <contact> <file>
-              'horizon files unshare <contact> <hash>' unshares a file with
-              the given contact, and if the file is shared with no other contacts
-              - removes the file from IPFS.
-
-              Note that unsharing a file is not a security mechanism. There is no
-              guarantee that your contact will receive the updated file list sans
-              the removed file, or that the contact could not simply access the file
-              via its direct IPFS hash.
-
-                > horizon files unshare QmSomeHash
-
-            """),
-        Command(name: "ls", allowableNumberOfArguments: [0, 1], help: """
-            horizon files ls [<contact>]
-              'horizon files ls [<contact>]' lists all files you have received,
-              optionally restricted to a single contact.
-
-                > horizon files ls
-                mmusterman
-                  sent
-                    📤 QmSomeHash - "The Byzantine Generals Problem.pdf"
-                    📤 QmSomeHash - "This is Water, David Foster Wallace.pdf"
-                  received:
-                    📥 QmSomeHash - "IPFS - Content Addressed, Versioned, P2P File System (DRAFT 3).pdf"
-
-                jbloggs
-                  sent
-                    (no files)
-                  received
-                    📥 QmSomeHash: "Bitcoin: A Peer-to-Peer Electronic Cash System, Satoshi Nakamoto.pdf"
-
-            """),
-        Command(name: "cat", allowableNumberOfArguments: [1], help: """
-            horizon files cat <hash>
-              'horizon files cat <hash>' outputs the contents of a file to the
-              command line. Care should be taken with binary files, as the shell may
-              interpret byte sequences in unpredictable ways. Most useful combined with
-              a pipe.
-
-                > horizon files cat QmSomeHash | gzip > received_file.gzip
-
-            """),
-        Command(name: "cp", allowableNumberOfArguments: [2], help: """
-            horizon files cp <hash> <target-file>
-              'horizon files cp <hash> <target-file>' copies the contents of a
-              received file to a given location on the local machine. If <target-file>
-              is a directory, the actual file will be written with it's Horizon name
-              inside the directory. The following command would copy a file from
-              Horizon to your desktop.
-
-                > horizon files cp QmSomeHash ~/Desktop
-
-            """)
+        Command(name: "share", allowableNumberOfArguments: [2], requiresRunningDaemon: true,
+                help: FilesHelp.commandShareHelp),
+        Command(name: "unshare", allowableNumberOfArguments: [2], requiresRunningDaemon: true,
+                help: FilesHelp.commandUnshareHelp),
+        Command(name: "ls", allowableNumberOfArguments: [0, 1], requiresRunningDaemon: false,
+                help: FilesHelp.commandLsHelp),
+        Command(name: "cat", allowableNumberOfArguments: [1], requiresRunningDaemon: true,
+                help: FilesHelp.commandCatHelp),
+        Command(name: "cp", allowableNumberOfArguments: [2], requiresRunningDaemon: true,
+                help: FilesHelp.commandCpHelp)
     ]
 
     // MARK: - Properties
@@ -119,26 +65,39 @@ struct FilesHandler: Handler {
             errorHandler()
         }
 
-        switch command.name {
-        case "share":
-            shareFile(commandArguments[1], with: commandArguments[0])
-        case "unshare":
-            unshareFile(commandArguments[1], with: commandArguments[0])
-        case "ls":
-            listReceivedFiles(for: ContactFilter(optionalContact: commandArguments.first))
-        case "cat":
-            printData(for: commandArguments[0])
-        case "cp":
-            copyFile(hash: commandArguments[0], to: commandArguments[1])
-        default:
-            print(command.help)
-            errorHandler()
-        }
+        runCommand(command, arguments: commandArguments)
     }
 
     // MARK: - Private Functions
 
-    private func listReceivedFiles(for contactFilter: ContactFilter) {
+    private func runCommand(_ command: Command, arguments: [String]) {
+        let isDaemonAutostarted = command.requiresRunningDaemon && DaemonManager().startDaemonIfNecessary(configuration)
+
+        func onCompletion(_ success: Bool) -> Never {
+            if isDaemonAutostarted {
+                DaemonManager().stopDaemonIfNecessary(configuration)
+            }
+            success ? completionHandler() : errorHandler()
+        }
+
+        switch command.name {
+        case "share":
+            shareFile(arguments[1], with: arguments[0], completion: onCompletion)
+        case "unshare":
+            unshareFile(arguments[1], with: arguments[0], completion: onCompletion)
+        case "ls":
+            listReceivedFiles(for: ContactFilter(optionalContact: arguments.first), completion: onCompletion)
+        case "cat":
+            printData(for: arguments[0], completion: onCompletion)
+        case "cp":
+            copyFile(hash: arguments[0], to: arguments[1], completion: onCompletion)
+        default:
+            print(command.help)
+            onCompletion(false)
+        }
+    }
+
+    private func listReceivedFiles(for contactFilter: ContactFilter, completion: @escaping (Bool) -> Never) {
         func printFileList(_ files: [File], indentation: String = "") {
             if files.isEmpty {
                 print("\(indentation)(no files)")
@@ -155,7 +114,7 @@ struct FilesHandler: Handler {
         case .specificContact(let name):
             guard let specificContact = model.contact(named: name) else {
                 print("Contact does not exist.")
-                errorHandler()
+                completion(false)
             }
             contacts = [specificContact]
         case .allContacts:
@@ -171,10 +130,10 @@ struct FilesHandler: Handler {
             printFileList(contact.receiveList.files, indentation: "    ")
             print("")
         }
-        completionHandler()
+        completion(true)
     }
 
-    private func printData(for hash: String) {
+    private func printData(for hash: String, completion: @escaping (Bool) -> Never) {
         guard let file = model.file(matching: hash) else {
             print("File does not exist.")
             self.errorHandler()
@@ -194,17 +153,17 @@ struct FilesHandler: Handler {
                 fsync(fileno(stdout))
             }
 
-            self.completionHandler()
+            completion(true)
         }.catch { _ in
             print("Failed to retrieve file. Have you started the horizon daemon and is the contact online?")
-            self.errorHandler()
+            completion(false)
         }
     }
 
-    private func copyFile(hash: String, to targetLocation: String) {
+    private func copyFile(hash: String, to targetLocation: String, completion: @escaping (Bool) -> Never) {
         guard let file = model.file(matching: hash) else {
             print("File does not exist.")
-            self.errorHandler()
+            completion(false)
         }
 
         let location = FileManager.default.finderStyleSafePath(for: file,
@@ -218,17 +177,17 @@ struct FilesHandler: Handler {
             } catch {
                 print("\(location.path): Failed to write file")
             }
-            self.completionHandler()
+            completion(true)
         }.catch { _ in
             print("Failed to retrieve file. Have you started the horizon daemon and is the contact online?")
-            self.errorHandler()
+            completion(false)
         }
     }
 
-    private func shareFile(_ file: String, with contactName: String) {
+    private func shareFile(_ file: String, with contactName: String, completion: @escaping (Bool) -> Never) {
         guard let contact = model.contact(named: contactName) else {
             print("Contact does not exist.")
-            self.errorHandler()
+            completion(false)
         }
 
         let fileURL = URL(fileURLWithPath: (file as NSString).expandingTildeInPath).standardized
@@ -236,49 +195,49 @@ struct FilesHandler: Handler {
         firstly {
             return model.shareFiles([fileURL], with: contact)
         }.then { _ in
-            self.completionHandler()
+            completion(true)
         }.catch { error in
             if case HorizonError.fileOperationFailed(let reason) = error {
                 if case .fileDoesNotExist(let file) = reason {
                     print("\(file): No such file or directory.")
-                    self.errorHandler()
+                    completion(false)
                 }
                 if case .sendAddressNotSet = reason {
                     print("\(contactName): No send address set. Cannot share files.")
-                    self.errorHandler()
+                    completion(false)
                 }
             }
 
             print("Failed to share file. Have you started the horizon daemon?")
-            self.errorHandler()
+            completion(false)
         }
     }
 
-    private func unshareFile(_ fileHash: String, with contactName: String) {
+    private func unshareFile(_ fileHash: String, with contactName: String, completion: @escaping (Bool) -> Never) {
         guard let contact = model.contact(named: contactName) else {
             print("Contact does not exist.")
-            self.errorHandler()
+            completion(false)
         }
 
         guard let file = contact.sendList.files.filter({ $0.hash == fileHash }).first else {
             print("File does not exist.")
-            self.errorHandler()
+            completion(false)
         }
 
         firstly {
             return model.unshareFiles([file], with: contact)
         }.then { _ in
-            self.completionHandler()
+            completion(true)
         }.catch { error in
             if case HorizonError.fileOperationFailed(let reason) = error {
                 if case .sendAddressNotSet = reason {
                     print("\(contactName): No send address set. Cannot unshare files.")
-                    self.errorHandler()
+                    completion(false)
                 }
             }
 
             print("Failed to share file. Have you started the horizon daemon?")
-            self.errorHandler()
+            completion(false)
         }
     }
 

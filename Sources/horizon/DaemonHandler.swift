@@ -16,67 +16,14 @@ struct DaemonHandler: Handler {
     // MARK: - Constants
 
     private let commands = [
-        Command(name: "start", allowableNumberOfArguments: [0], help: """
-            horizon daemon start
-              'horizon daemon start' starts the background daemon.
-              The background daemon remains running so that contacts can access your
-              shared files.
-
-              The root directory for the daemon is located at `~/.horizon/<identity>`.
-              If no particular identity was provided to horizon with the `--identity=`
-              flag, then the root for the daemon will be `~/.horizon/default`.
-
-              If the daemon hangs for some reason, the PID can be found in written
-              to a file at `~/.horizon/<identity>/PID`, from which you can issue a
-              manual `kill` command.
-
-            """),
-        Command(name: "status", allowableNumberOfArguments: [0], help: """
-            horizon daemon status
-              'horizon daemon status' prints the status of the daemon.
-              The background daemon remains running so that contacts can access your
-              shared files.
-
-                > horizon daemon start
-                Started 🤖
-                > horizon daemon status
-                Running (PID: 12345) 🤖
-
-                > horizon daemon stop
-                Stopped 💀
-                > horizon daemon status
-                Stopped 💀
-
-            """),
-        Command(name: "stop", allowableNumberOfArguments: [0], help: """
-            horizon daemon stop
-              'horizon daemon stop' stops the background daemon.
-              The background daemon remains running so that contacts can access your
-              shared files.
-
-              The root directory for the daemon is located at `~/.horizon/<identity>`.
-              If no particular identity was provided to horizon with the `--identity=`
-              flag, then the root for the daemon will be `~/.horizon/default`.
-
-              If the daemon hangs for some reason, the PID can be found in written
-              to a file at `~/.horizon/<identity>/PID`, from which you can issue a
-              manual `kill` command.
-
-            """),
-        Command(name: "ls", allowableNumberOfArguments: [0], help: """
-            horizon daemon ls
-              'horizon daemon ls' lists the status of the daemon for each
-              identity. This is extremely useful to quickly check if any unwanted
-              horizon instances are running, or to potentially clean up after an
-              unclean shutdown.
-
-                > horizon daemon ls
-                'default': Running (PID: 12345) 🤖
-                'work': Running (PID: 67890) 🤖
-                'test': Stopped 💀
-                'old-test': Error (PID: 6666 not running but PID file remains at ~/.horizon/old-test/PID) ⚠️
-
-            """)
+        Command(name: "start", allowableNumberOfArguments: [0], requiresRunningDaemon: false,
+                help: DaemonHelp.commandStartHelp),
+        Command(name: "status", allowableNumberOfArguments: [0], requiresRunningDaemon: false,
+                help: DaemonHelp.commandStatusHelp),
+        Command(name: "stop", allowableNumberOfArguments: [0], requiresRunningDaemon: false,
+                help: DaemonHelp.commandStopHelp),
+        Command(name: "ls", allowableNumberOfArguments: [0], requiresRunningDaemon: false,
+                help: DaemonHelp.commandLsHelp)
     ]
 
     // MARK: - Properties
@@ -117,48 +64,61 @@ struct DaemonHandler: Handler {
             errorHandler()
         }
 
-        switch command.name {
-        case "start":
-            startDaemon()
-        case "status":
-            printDaemonStatus()
-        case "stop":
-            stopDaemon()
-        case "ls":
-            listDaemons()
-        default:
-            print(command.help)
-            errorHandler()
-        }
+        runCommand(command, arguments: commandArguments)
     }
 
     // MARK: - Private Functions
 
-    private func startDaemon() {
+    private func runCommand(_ command: Command, arguments: [String]) {
+        let isDaemonAutostarted = command.requiresRunningDaemon && DaemonManager().startDaemonIfNecessary(configuration)
+
+        func onCompletion(_ success: Bool) -> Never {
+            if isDaemonAutostarted {
+                DaemonManager().stopDaemonIfNecessary(configuration)
+            }
+            success ? completionHandler() : errorHandler()
+        }
+
+        switch command.name {
+        case "start":
+            startDaemon(completion: onCompletion)
+        case "status":
+            printDaemonStatus(completion: onCompletion)
+        case "stop":
+            stopDaemon(completion: onCompletion)
+        case "ls":
+            listDaemons(completion: onCompletion)
+        default:
+            print(command.help)
+            onCompletion(false)
+        }
+    }
+
+    private func startDaemon(completion: @escaping (Bool) -> Never) {
         do {
             try DaemonManager().startDaemon(for: configuration)
             print("Started 🤖")
         } catch {
             print("Failed to start daemon")
-            errorHandler()
+            completion(false)
         }
 
-        completionHandler()
+        completion(true)
     }
 
-    private func printDaemonStatus() {
+    private func printDaemonStatus(completion: @escaping (Bool) -> Never) {
         printStatus(for: configuration, withIdentityPrefix: false)
-        completionHandler()
+        completion(true)
     }
 
-    private func listDaemons() {
+    private func listDaemons(completion: @escaping (Bool) -> Never) {
         let maybeIdentites = try? FileManager.default.contentsOfDirectory(at: configuration.horizonDirectory,
                                                                           includingPropertiesForKeys: [.isDirectoryKey],
                                                                           options: .skipsSubdirectoryDescendants)
 
         guard let identities = maybeIdentites else {
             print("Identity 'default': Stopped 💀")
-            errorHandler()
+            completion(false)
         }
 
         for identity in identities {
@@ -167,16 +127,16 @@ struct DaemonHandler: Handler {
             printStatus(for: config, withIdentityPrefix: true)
         }
 
-        completionHandler()
+        completion(true)
     }
 
-    private func stopDaemon() {
+    private func stopDaemon(completion: @escaping (Bool) -> Never) {
         if DaemonManager().stopDaemon(for: configuration) {
             print("Stopped 💀")
-            completionHandler()
+            completion(true)
         } else {
             print("Daemon not running")
-            completionHandler()
+            completion(true)
         }
     }
 

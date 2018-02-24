@@ -15,7 +15,7 @@ struct SyncHandler: Handler {
     // MARK: - Constants
 
     private let commands = [
-        Command(name: "sync", allowableNumberOfArguments: [0], help: """
+        Command(name: "sync", allowableNumberOfArguments: [0], requiresRunningDaemon: true, help: """
             horizon sync
               'horizon sync' syncs the lists of shared files from your horizon
               contacts. Until this command is run, the newly shared files from
@@ -62,17 +62,26 @@ struct SyncHandler: Handler {
             completionHandler()
         }
 
-        guard arguments.count == 0 else {
-            print(SyncHelp.shortHelp)
-            errorHandler()
+        let isDaemonAutostarted = DaemonManager().startDaemonIfNecessary(configuration)
+
+        func onCompletion(_ success: Bool) -> Never {
+            if isDaemonAutostarted {
+                DaemonManager().stopDaemonIfNecessary(configuration)
+            }
+            success ? completionHandler() : errorHandler()
         }
 
-        sync()
+        guard arguments.count == 0 else {
+            print(SyncHelp.shortHelp)
+            onCompletion(false)
+        }
+
+        sync(completion: onCompletion)
     }
 
     // MARK: - Private Functions
 
-    private func sync() {
+    private func sync(completion: @escaping (Bool) -> Never) {
         firstly {
             model.sync()
         }.then { syncStates in
@@ -101,10 +110,10 @@ struct SyncHandler: Handler {
             if wasAReceiveAddressMissing {
                 print("\nSet a receive address using `horizon contacts set-rcv-addr <contact-name> <receive-hash>`")
             }
-            self.completionHandler()
+            completion(true)
         }.catch { _ in
             print("Failed to sync. Have you started the horizon daemon?")
-            self.errorHandler()
+            completion(false)
         }
     }
 

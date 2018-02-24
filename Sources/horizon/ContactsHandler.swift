@@ -15,71 +15,18 @@ struct ContactsHandler: Handler {
     // MARK: - Constants
 
     private let commands = [
-        Command(name: "add", allowableNumberOfArguments: [1], help: """
-            horizon contacts add <name>
-              'horizon contacts add' adds a new contact for usage with Horizon.
-              An address for the send channel will be immediately created. This address
-              consists of an IPNS hash and can be shared with the contact to allow
-              them to receive files from you.
-              The contact should run the same procedure on their side and provide you
-              with the address of their shared list.
-              This becomes the receive-address which you can set manually later using
-              'horizon contacts set-receive-addr <name> <receive-address>'
-
-                > horizon contacts add mmusterman
-                🤝 Send address: QmSomeSendHash
-                > horizon contacts set-rcv-addr mmusterman QmSomeReceiveHash
-
-            """),
-        Command(name: "ls", allowableNumberOfArguments: [0], help: """
-            horizon contacts ls
-              'horizon contacts ls' lists the available contacts by their short
-              display names.
-
-                > horizon contacts ls
-                joe
-                mmusterman
-
-            """),
-        Command(name: "info", allowableNumberOfArguments: [0, 1], help: """
-            horizon contacts info [<name>]
-              'horizon contacts info <name>' prints a given contact to the screen,
-              showing the current values for the send address and receive address.
-
-                > horizon contacts info mmusterman
-                mmusterman
-                🤝 Send address:     QmSomeHash
-                🤝 Receive address:  QmSomeHash
-                🔑 IPFS keypair:     com-semantical.horizon.mmusterman
-
-            """),
-        Command(name: "rm", allowableNumberOfArguments: [1], help: """
-            horizon contacts rm <name>
-              'horizon contacts rm <name>' removes a given contact from Horizon.
-              All files shared with the contact until this point remain available to
-              the contact.
-
-                > horizon contacts rm mmusterman
-
-            """),
-        Command(name: "rename", allowableNumberOfArguments: [2], help: """
-            horizon contacts rename <name> <new-name>
-              'horizon contacts rename <name> <new-name>' renames a given contact
-              but otherwise keeps all information and addresses the same.
-
-                > horizon contacts rename mmusterman max
-
-            """),
-        Command(name: "set-rcv-addr", allowableNumberOfArguments: [2], help: """
-            horizon contacts set-rcv-addr <name> <hash>
-              'horizon contacts set-rcv-addr <name> <hash>' sets the
-              receive address for a given contact. The contact should provide you
-              with this address – the result of them adding you as a contact to
-              their horizon instance.
-
-                > horizon contacts set-rcv-addr mmusterman QmSomeHash
-
-            """)
+        Command(name: "add", allowableNumberOfArguments: [1], requiresRunningDaemon: true,
+                help: ContactsHelp.commandAddHelp),
+        Command(name: "ls", allowableNumberOfArguments: [0], requiresRunningDaemon: false,
+                help: ContactsHelp.commandLsHelp),
+        Command(name: "info", allowableNumberOfArguments: [0, 1], requiresRunningDaemon: false,
+                help: ContactsHelp.commandInfoHelp),
+        Command(name: "rm", allowableNumberOfArguments: [1], requiresRunningDaemon: true,
+                help: ContactsHelp.commandRmHelp),
+        Command(name: "rename", allowableNumberOfArguments: [2], requiresRunningDaemon: true,
+                help: ContactsHelp.commandRenameHelp),
+        Command(name: "set-rcv-addr", allowableNumberOfArguments: [2], requiresRunningDaemon: false,
+                help: ContactsHelp.commandSetRcvAddrHelp)
     ]
 
     // MARK: - Properties
@@ -120,54 +67,67 @@ struct ContactsHandler: Handler {
             errorHandler()
         }
 
-        switch command.name {
-        case "add":
-            addContact(name: commandArguments[0])
-        case "ls":
-            listContacts()
-        case "info":
-            listContactInfo(for: ContactFilter(optionalContact: commandArguments.first))
-        case "rm":
-            removeContact(name: commandArguments[0])
-        case "rename":
-            renameContact(commandArguments[0], to: commandArguments[1])
-        case "set-rcv-addr":
-            setReceiveAddress(of: commandArguments[0], to: commandArguments[1])
-        default:
-            print(command.help)
-            errorHandler()
-        }
+        runCommand(command, arguments: commandArguments)
     }
 
     // MARK: - Private Functions
 
-    private func addContact(name: String) {
+    private func runCommand(_ command: Command, arguments: [String]) {
+        let isDaemonAutostarted = command.requiresRunningDaemon && DaemonManager().startDaemonIfNecessary(configuration)
+
+        func onCompletion(_ success: Bool) -> Never {
+            if isDaemonAutostarted {
+                DaemonManager().stopDaemonIfNecessary(configuration)
+            }
+            success ? completionHandler() : errorHandler()
+        }
+
+        switch command.name {
+        case "add":
+            addContact(name: arguments[0], completion: onCompletion)
+        case "ls":
+            listContacts(completion: onCompletion)
+        case "info":
+            listContactInfo(for: ContactFilter(optionalContact: arguments.first), completion: onCompletion)
+        case "rm":
+            removeContact(name: arguments[0], completion: onCompletion)
+        case "rename":
+            renameContact(arguments[0], to: arguments[1], completion: onCompletion)
+        case "set-rcv-addr":
+            setReceiveAddress(of: arguments[0], to: arguments[1], completion: onCompletion)
+        default:
+            print(command.help)
+            onCompletion(false)
+        }
+    }
+
+    private func addContact(name: String, completion: @escaping (Bool) -> Never) {
         firstly {
             return model.addContact(name: name)
         }.then { contact in
             print("🤝 Send address: \(contact.sendAddress?.address ?? "nil")")
-            self.completionHandler()
+            completion(true)
         }.catch { error in
             if case HorizonError.contactOperationFailed(let reason) = error {
                 if case .contactAlreadyExists = reason {
                     print("Contact already exists.")
-                    self.errorHandler()
+                    completion(false)
                 }
             }
 
             print("Failed to add contact. Have you started the horizon daemon?")
-            self.errorHandler()
+            completion(false)
         }
     }
 
-    private func listContactInfo(for contactFilter: ContactFilter) {
+    private func listContactInfo(for contactFilter: ContactFilter, completion: @escaping (Bool) -> Never) {
         let contacts: [Contact]
 
         switch contactFilter {
         case .specificContact(let name):
             guard let specificContact = model.contact(named: name) else {
                 print("Contact does not exist.")
-                errorHandler()
+                completion(false)
             }
             contacts = [specificContact]
         case .allContacts:
@@ -183,64 +143,64 @@ struct ContactsHandler: Handler {
 
                 """)
         }
-        completionHandler()
+        completion(true)
     }
 
-    private func listContacts() {
+    private func listContacts(completion: @escaping (Bool) -> Never) {
         for contact in model.contacts {
             print(contact.displayName)
         }
 
-        completionHandler()
+        completion(true)
     }
 
-    private func removeContact(name: String) {
+    private func removeContact(name: String, completion: @escaping (Bool) -> Never) {
         firstly {
             model.removeContact(name: name)
         }.then {
-            self.completionHandler()
+            completion(true)
         }.catch { error in
             if case HorizonError.contactOperationFailed(let reason) = error {
                 if case .contactDoesNotExist = reason {
                     print("Contact does not exist.")
-                    self.errorHandler()
+                    completion(false)
                 }
             }
 
             print("Failed to remove contact. Have you started the horizon daemon?")
-            self.errorHandler()
+            completion(false)
         }
     }
 
-    private func renameContact(_ name: String, to newName: String) {
+    private func renameContact(_ name: String, to newName: String, completion: @escaping (Bool) -> Never) {
         firstly {
             model.renameContact(name, to: newName)
         }.then { _ in
-            self.completionHandler()
+            completion(true)
         }.catch { error in
             if case HorizonError.contactOperationFailed(let reason) = error {
                 if case .contactDoesNotExist = reason {
                     print("Contact does not exist.")
-                    self.errorHandler()
+                    completion(false)
                 } else if case .contactAlreadyExists = reason {
                     print("Another contact already exists with the name \(newName).")
-                    self.errorHandler()
+                    completion(false)
                 }
             }
 
            print("Failed to rename contact. Have you started the horizon daemon?")
-           self.errorHandler()
+           completion(false)
         }
     }
 
-    private func setReceiveAddress(of name: String, to recieveAddress: String) {
+    private func setReceiveAddress(of name: String, to recieveAddress: String, completion: @escaping (Bool) -> Never) {
         guard let contact = model.contact(named: name) else {
             print("Contact does not exist.")
-            self.errorHandler()
+            completion(false)
         }
 
         model.updateReceiveAddress(for: contact, to: recieveAddress)
-        self.completionHandler()
+        completion(true)
     }
 
 }

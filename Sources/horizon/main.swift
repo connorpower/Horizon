@@ -133,14 +133,12 @@ class Program {
 
         switch command {
         case "contacts":
-            startDaemonIfNecessary(configuration)
             ContactsHandler(model: model,
                             configuration: configuration,
                             arguments: commandArgs,
                             completion: { exit(EXIT_SUCCESS) },
                             error: { exit(EXIT_FAILURE) }).run()
         case "files":
-            startDaemonIfNecessary(configuration)
             FilesHandler(model: model,
                          configuration: configuration,
                          arguments: commandArgs,
@@ -153,7 +151,6 @@ class Program {
                           completion: { exit(EXIT_SUCCESS) },
                           error: { exit(EXIT_FAILURE) }).run()
         case "sync":
-            startDaemonIfNecessary(configuration)
             SyncHandler(model: model,
                         configuration: configuration,
                         arguments: commandArgs,
@@ -194,23 +191,6 @@ class Program {
         }
 
         return nil
-    }
-
-    private func startDaemonIfNecessary(_ configuration: ConfigurationProvider) {
-        switch DaemonManager().status(for: configuration) {
-        case .pidFilePresentButDaemonNotRunning, .stopped:
-            print("Horizon daemon not running. Starting...")
-            do {
-                try DaemonManager().startDaemon(for: configuration)
-            } catch {
-                print("Failed to start daemon.")
-                exit(EXIT_FAILURE)
-            }
-            let identityNotice = configuration.identity == "default" ? "" : "--identity=\(configuration.identity) "
-            print("⚠️ Started. Remember to stop the daemon with 'horizon \(identityNotice)daemon stop'.")
-        default:
-            break
-        }
     }
 
 }

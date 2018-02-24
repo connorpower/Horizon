@@ -84,6 +84,14 @@ struct SyncHandler: Handler {
     private func sync(completion: @escaping (Bool) -> Never) {
         print("🌏 syncing...")
 
+        func paddedContactPrefix(_ contact: Contact, padLength: Int) -> String {
+            return "\(contact.displayName):".padding(toLength: padLength + 1, withPad: " ", startingAt: 0)
+        }
+
+        let longestContactName = model.contacts.reduce(0) { result, contact in
+            return contact.displayName.count > result ? contact.displayName.count : result
+        }
+
         firstly {
             model.sync()
         }.then { syncStates in
@@ -91,20 +99,22 @@ struct SyncHandler: Handler {
 
             for syncState in syncStates {
                 if case .synced(let contact, _) = syncState {
-                    print("\(contact.displayName): synced")
+                    let paddedName = paddedContactPrefix(contact, padLength: longestContactName)
+                    print("\(paddedName) synced")
                 } else if case .failed(let contact, let error) = syncState {
+                    let paddedName = paddedContactPrefix(contact, padLength: longestContactName)
                     if case HorizonError.syncOperationFailed(let reason) = error {
                         switch reason {
                         case .failedToRetrieveSharedFileList:
-                            print("\(contact.displayName): failed (contact most likely offline)")
+                            print("\(paddedName) failed (contact most likely offline)")
                         case .receiveAddressNotSet:
                             wasAReceiveAddressMissing = true
-                            print("\(contact.displayName): failed (receive address not set)")
+                            print("\(paddedName) failed (receive address not set)")
                         default:
-                            print("\(contact.displayName): failed (unknown error)")
+                            print("\(paddedName) failed (unknown error)")
                         }
                     } else {
-                        print("\(contact.displayName): failed (unknown error)")
+                        print("\(paddedName) failed (unknown error)")
                     }
                 }
             }

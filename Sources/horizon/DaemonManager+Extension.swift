@@ -18,6 +18,7 @@ extension DaemonManager {
             print("Horizon daemon not running. Auto-starting just for this command...")
             do {
                 try DaemonManager().startDaemon(for: configuration)
+                sleep(5)
             } catch {
                 print("Failed to start daemon.")
                 exit(EXIT_FAILURE)

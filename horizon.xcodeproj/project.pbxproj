@@ -35,6 +35,7 @@
 		D294317920409AF600BCA7E6 /* HelpProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294317820409AF600BCA7E6 /* HelpProvider.swift */; };
 		D294317B20409B4B00BCA7E6 /* SyncHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294317A20409B4B00BCA7E6 /* SyncHelp.swift */; };
 		D294317D20409BBC00BCA7E6 /* FilesHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294317C20409BBC00BCA7E6 /* FilesHelp.swift */; };
+		D2ADA88D2041DF140098E0D0 /* DaemonHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ADA88C2041DF140098E0D0 /* DaemonHelp.swift */; };
 		D2D77A0F20389E8800ECD599 /* DaemonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D77A0E20389E8800ECD599 /* DaemonManager.swift */; };
 		OBJ_127 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_133 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_81 /* Package.swift */; };
@@ -265,6 +266,7 @@
 		D294317820409AF600BCA7E6 /* HelpProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpProvider.swift; sourceTree = "<group>"; };
 		D294317A20409B4B00BCA7E6 /* SyncHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncHelp.swift; sourceTree = "<group>"; };
 		D294317C20409BBC00BCA7E6 /* FilesHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesHelp.swift; sourceTree = "<group>"; };
+		D2ADA88C2041DF140098E0D0 /* DaemonHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaemonHelp.swift; sourceTree = "<group>"; };
 		D2D77A0E20389E8800ECD599 /* DaemonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaemonManager.swift; sourceTree = "<group>"; };
 		"IPFSWebService::IPFSWebService::Product" /* IPFSWebService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IPFSWebService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_100 /* DispatchQueue+Alamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+Alamofire.swift"; sourceTree = "<group>"; };
@@ -440,6 +442,7 @@
 				D294317820409AF600BCA7E6 /* HelpProvider.swift */,
 				D294317A20409B4B00BCA7E6 /* SyncHelp.swift */,
 				D294317C20409BBC00BCA7E6 /* FilesHelp.swift */,
+				D2ADA88C2041DF140098E0D0 /* DaemonHelp.swift */,
 			);
 			name = Help;
 			path = Sources/horizon/Help;
@@ -1001,6 +1004,7 @@
 				OBJ_178 /* Command.swift in Sources */,
 				OBJ_179 /* ContactsHandler.swift in Sources */,
 				D294317B20409B4B00BCA7E6 /* SyncHelp.swift in Sources */,
+				D2ADA88D2041DF140098E0D0 /* DaemonHelp.swift in Sources */,
 				OBJ_180 /* DaemonHandler.swift in Sources */,
 				D294317920409AF600BCA7E6 /* HelpProvider.swift in Sources */,
 				OBJ_181 /* FilesHandler.swift in Sources */,

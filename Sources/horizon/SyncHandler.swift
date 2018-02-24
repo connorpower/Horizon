@@ -112,7 +112,7 @@ struct SyncHandler: Handler {
             }
             completion(true)
         }.catch { _ in
-            print("Failed to sync. Have you started the horizon daemon?")
+            print("Failed to sync – most likely due to a timeout. Try again.")
             completion(false)
         }
     }

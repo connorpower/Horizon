@@ -208,7 +208,7 @@ struct FilesHandler: Handler {
                 }
             }
 
-            print("Failed to share file. Have you started the horizon daemon?")
+            print("Failed to share file – most likely due to a timeout. Try again.")
             completion(false)
         }
     }
@@ -236,7 +236,7 @@ struct FilesHandler: Handler {
                 }
             }
 
-            print("Failed to share file. Have you started the horizon daemon?")
+            print("Failed to share file – most likely due to a timeout. Try again.")
             completion(false)
         }
     }

@@ -115,7 +115,7 @@ struct ContactsHandler: Handler {
                 }
             }
 
-            print("Failed to add contact. Have you started the horizon daemon?")
+            print("Failed to add contact.")
             completion(false)
         }
     }
@@ -167,7 +167,7 @@ struct ContactsHandler: Handler {
                 }
             }
 
-            print("Failed to remove contact. Have you started the horizon daemon?")
+            print("Failed to remove contact.")
             completion(false)
         }
     }
@@ -188,7 +188,7 @@ struct ContactsHandler: Handler {
                 }
             }
 
-           print("Failed to rename contact. Have you started the horizon daemon?")
+           print("Failed to rename contact.")
            completion(false)
         }
     }

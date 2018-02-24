@@ -15,7 +15,7 @@ struct SyncHandler: Handler {
     // MARK: - Constants
 
     private let commands = [
-        Command(name: "sync", allowableNumberOfArguments: [0], help: """
+        Command(name: "sync", allowableNumberOfArguments: [0], requiresRunningDaemon: true, help: """
             horizon sync
               'horizon sync' syncs the lists of shared files from your horizon
               contacts. Until this command is run, the newly shared files from
@@ -62,12 +62,18 @@ struct SyncHandler: Handler {
             completionHandler()
         }
 
+        let isDaemonAutostarted = DaemonManager().startDaemonIfNecessary(configuration)
+
         guard arguments.count == 0 else {
             print(SyncHelp.shortHelp)
             errorHandler()
         }
 
         sync()
+
+        if isDaemonAutostarted {
+            DaemonManager().stopDaemonIfNecessary(configuration)
+        }
     }
 
     // MARK: - Private Functions

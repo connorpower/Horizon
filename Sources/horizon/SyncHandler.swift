@@ -22,6 +22,7 @@ struct SyncHandler: Handler {
               other contacts are not visible in the local horizon instance.
 
                    > horizon sync
+                   🌏 syncing...
                    contact-x: synced
                    contact-y: failed (receive address not set)
                    contact-z: synced

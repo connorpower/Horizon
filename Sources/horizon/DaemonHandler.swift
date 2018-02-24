@@ -202,6 +202,7 @@ struct DaemonHandler: Handler {
     private func startDaemon() {
         do {
             try DaemonManager().startDaemon(for: configuration)
+            print("Started 🤖")
         } catch {
             print("Failed to start daemon")
             errorHandler()
@@ -221,7 +222,7 @@ struct DaemonHandler: Handler {
                                                                           options: .skipsSubdirectoryDescendants)
 
         guard let identities = maybeIdentites else {
-            print("Identity 'default': Stopped")
+            print("Identity 'default': Stopped 💀")
             errorHandler()
         }
 
@@ -236,6 +237,7 @@ struct DaemonHandler: Handler {
 
     private func stopDaemon() {
         if DaemonManager().stopDaemon(for: configuration) {
+            print("Stopped 💀")
             completionHandler()
         } else {
             print("Daemon not running")
@@ -248,12 +250,12 @@ struct DaemonHandler: Handler {
 
         switch DaemonManager().status(for: configuration) {
         case .running(let pid):
-            print("\(identityPrefix)Running (PID: \(pid.description))")
+            print("\(identityPrefix)Running (PID: \(pid.description)) 🤖")
         case .stopped:
-            print("\(identityPrefix)Stopped")
+            print("\(identityPrefix)Stopped 💀")
         case .pidFilePresentButDaemonNotRunning(let pid):
             print("\(identityPrefix)Error (PID: \(pid.description) not running but PID file " +
-                "remains at \(configuration.daemonPIDPath.path))")
+                "remains at \(configuration.daemonPIDPath.path)) 🤔")
         }
     }
 

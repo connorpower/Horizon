@@ -82,6 +82,8 @@ struct SyncHandler: Handler {
     // MARK: - Private Functions
 
     private func sync(completion: @escaping (Bool) -> Never) {
+        print("🌏 syncing...")
+
         firstly {
             model.sync()
         }.then { syncStates in

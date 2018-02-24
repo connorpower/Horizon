@@ -46,16 +46,16 @@ struct FilesHandler: Handler {
                 > horizon files ls
                 mmusterman
                   sent
-                    QmSomeHash - "The Byzantine Generals Problem.pdf"
-                    QmSomeHash - "This is Water, David Foster Wallace.pdf"
+                    📤 QmSomeHash - "The Byzantine Generals Problem.pdf"
+                    📤 QmSomeHash - "This is Water, David Foster Wallace.pdf"
                   received:
-                    QmSomeHash - "IPFS - Content Addressed, Versioned, P2P File System (DRAFT 3).pdf"
+                    📥 QmSomeHash - "IPFS - Content Addressed, Versioned, P2P File System (DRAFT 3).pdf"
 
                 jbloggs
                   sent
                     (no files)
                   received
-                    QmSomeHash: "Bitcoin: A Peer-to-Peer Electronic Cash System, Satoshi Nakamoto.pdf"
+                    📥 QmSomeHash: "Bitcoin: A Peer-to-Peer Electronic Cash System, Satoshi Nakamoto.pdf"
 
             """),
         Command(name: "cat", allowableNumberOfArguments: [1], help: """

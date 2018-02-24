@@ -41,16 +41,16 @@ struct FilesHelp: HelpProvider {
         > horizon files ls
         mmusterman
           sent
-            QmSomeHash - "The Byzantine Generals Problem.pdf"
-            QmSomeHash - "This is Water, David Foster Wallace.pdf"
+            📤 QmSomeHash - "The Byzantine Generals Problem.pdf"
+            📤 QmSomeHash - "This is Water, David Foster Wallace.pdf"
           received:
-            QmSomeHash - "IPFS - Content Addressed, Versioned, P2P File System (DRAFT 3).pdf"
+            📥 QmSomeHash - "IPFS - Content Addressed, Versioned, P2P File System (DRAFT 3).pdf"
 
         jbloggs
           sent
             (no files)
           received
-            QmSomeHash: "Bitcoin: A Peer-to-Peer Electronic Cash System, Satoshi Nakamoto.pdf"
+            📥 QmSomeHash: "Bitcoin: A Peer-to-Peer Electronic Cash System, Satoshi Nakamoto.pdf"
 
       You may optionally filter by only a given contact.
 
@@ -58,7 +58,7 @@ struct FilesHelp: HelpProvider {
           sent
             (no files)
           received
-            QmSomeHash: "Bitcoin: A Peer-to-Peer Electronic Cash System, Satoshi Nakamoto.pdf"
+            📥 QmSomeHash: "Bitcoin: A Peer-to-Peer Electronic Cash System, Satoshi Nakamoto.pdf"
 
       'horizon files cat <hash>' outputs the contents of a file to the
       command line. Care should be taken with binary files, as the shell may

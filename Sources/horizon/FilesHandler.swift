@@ -98,12 +98,12 @@ struct FilesHandler: Handler {
     }
 
     private func listReceivedFiles(for contactFilter: ContactFilter, completion: @escaping (Bool) -> Never) {
-        func printFileList(_ files: [File], indentation: String = "") {
+        func printFileList(_ files: [File], prefix: String = "") {
             if files.isEmpty {
-                print("\(indentation)(no files)")
+                print("\(prefix)(no files)")
             } else {
                 for file in files {
-                    print("\(indentation)\(file.hash ?? "nil"): \(file.name)")
+                    print("\(prefix)\(file.hash ?? "nil"): \(file.name)")
                 }
             }
         }
@@ -124,10 +124,10 @@ struct FilesHandler: Handler {
         for contact in contacts {
             print(contact.displayName)
             print("  sent:")
-            printFileList(contact.sendList.files, indentation: "    ")
+            printFileList(contact.sendList.files, prefix: "    📤 ")
 
             print("  received:")
-            printFileList(contact.receiveList.files, indentation: "    ")
+            printFileList(contact.receiveList.files, prefix: "    📥 ")
             print("")
         }
         completion(true)

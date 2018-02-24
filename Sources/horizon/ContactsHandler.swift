@@ -27,7 +27,8 @@ struct ContactsHandler: Handler {
               'horizon contacts set-receive-addr <name> <receive-address>'
 
                 > horizon contacts add mmusterman
-                > horizon contacts set-rcv-addr mmusterman QmSomeHash
+                🤝 Send address: QmSomeSendHash
+                > horizon contacts set-rcv-addr mmusterman QmSomeReceiveHash
 
             """),
         Command(name: "ls", allowableNumberOfArguments: [0], help: """
@@ -47,9 +48,9 @@ struct ContactsHandler: Handler {
 
                 > horizon contacts info mmusterman
                 mmusterman
-                Send address:     QmSomeHash
-                Receive address:  QmSomeHash
-                IPFS keypair:     com-semantical.horizon.mmusterman
+                🤝 Send address:     QmSomeHash
+                🤝 Receive address:  QmSomeHash
+                🔑 IPFS keypair:     com-semantical.horizon.mmusterman
 
             """),
         Command(name: "rm", allowableNumberOfArguments: [1], help: """
@@ -143,7 +144,8 @@ struct ContactsHandler: Handler {
     private func addContact(name: String) {
         firstly {
             return model.addContact(name: name)
-        }.then { _ in
+        }.then { contact in
+            print("🤝 Send address: \(contact.sendAddress?.address ?? "nil")")
             self.completionHandler()
         }.catch { error in
             if case HorizonError.contactOperationFailed(let reason) = error {
@@ -175,9 +177,9 @@ struct ContactsHandler: Handler {
         for contact in contacts {
             print("""
                 \(contact.displayName)
-                Send address:    \(contact.sendAddress?.address ?? "nil")
-                Receive address: \(contact.receiveAddress ?? "nil")
-                IPFS keypair:    \(contact.sendAddress?.keypairName ?? "nil")
+                🤝 Send address:    \(contact.sendAddress?.address ?? "nil")
+                🤝 Receive address: \(contact.receiveAddress ?? "nil")
+                🔑 IPFS keypair:    \(contact.sendAddress?.keypairName ?? "nil")
 
                 """)
         }

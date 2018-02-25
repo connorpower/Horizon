@@ -209,13 +209,18 @@ struct FilesHandler: Handler {
             completion(true)
         }.catch { error in
             if case HorizonError.fileOperationFailed(let reason) = error {
-                if case .fileDoesNotExist(let file) = reason {
+                switch reason {
+                case .fileDoesNotExist(let file):
                     print("\(file): No such file or directory.")
                     completion(false)
-                }
-                if case .sendAddressNotSet = reason {
+                case .sendAddressNotSet:
                     print("\(contactName): No send address set. Cannot share files.")
                     completion(false)
+                case .fileAlreadyExists(let file):
+                    print("\(file): File already exists. Use a different file name.")
+                    completion(false)
+                default:
+                    break
                 }
             }
 

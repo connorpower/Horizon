@@ -137,7 +137,8 @@ public extension Model {
      file), then finally the newly uploaded shareList will be published
      on the contact's sendAddress using IPFS.
 
-     **Note:** IPFS must be online.
+     - precondition: IPFS must be online. No files must exist in the
+     `Contacts` share list or receive list with the same name.
 
      - parameter files: An array of URLs to files on the local system which
      will be shared with the contact.

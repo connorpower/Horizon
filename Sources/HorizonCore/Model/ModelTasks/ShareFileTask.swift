@@ -28,6 +28,12 @@ struct ShareFileTask: ModelTask {
             return Promise(error: HorizonError.fileOperationFailed(reason: .sendAddressNotSet))
         }
 
+        for fileName in files.map({ $0.lastPathComponent }) {
+            guard model.file(named: fileName, sentOrReceivedFrom: contact) == nil else {
+                return Promise(error: HorizonError.fileOperationFailed(reason: .fileAlreadyExists(fileName)))
+            }
+        }
+
         // It is ill-advised to check for the presence of a file **before** peforming
         // an operation, but unfortunately the errors we receive from Alamofire are
         // relatively well buried and obtuse, so we peform the sanity checking here.

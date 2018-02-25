@@ -35,6 +35,8 @@ public enum HorizonError: Error {
      in any IPFS caches.
      - sendAddressNotSet: The contact does not have a send address set.
      - fileDoesNotExist: The file either does not exist or is not readable.
+     - fileAlreadyExists: A file with the same name already exists. Please
+     use a different name.
      - fileNotShared: The file was never shared, and the requested
      operation therefore did not make sense (unsharing, etc.)
      - failedToEncodeFileListToTemporaryFile: Something went wrong
@@ -46,6 +48,7 @@ public enum HorizonError: Error {
         case fileHashNotSet
         case sendAddressNotSet
         case fileDoesNotExist(String)
+        case fileAlreadyExists(String)
         case fileNotShared
         case failedToEncodeFileListToTemporaryFile
     }

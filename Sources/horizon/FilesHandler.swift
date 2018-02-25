@@ -21,9 +21,9 @@ struct FilesHandler: Handler {
                 help: FilesHelp.commandUnshareHelp),
         Command(name: "ls", allowableNumberOfArguments: [0, 1], requiresRunningDaemon: false,
                 help: FilesHelp.commandLsHelp),
-        Command(name: "cat", allowableNumberOfArguments: [1], requiresRunningDaemon: true,
+        Command(name: "cat", allowableNumberOfArguments: [2], requiresRunningDaemon: true,
                 help: FilesHelp.commandCatHelp),
-        Command(name: "cp", allowableNumberOfArguments: [2], requiresRunningDaemon: true,
+        Command(name: "cp", allowableNumberOfArguments: [3], requiresRunningDaemon: true,
                 help: FilesHelp.commandCpHelp)
     ]
 
@@ -88,9 +88,9 @@ struct FilesHandler: Handler {
         case "ls":
             listReceivedFiles(for: ContactFilter(optionalContact: arguments.first), completion: onCompletion)
         case "cat":
-            printData(for: arguments[0], completion: onCompletion)
+            printData(contact: arguments[0], fileName: arguments[1], completion: onCompletion)
         case "cp":
-            copyFile(hash: arguments[0], to: arguments[1], completion: onCompletion)
+            copyFile(contact: arguments[0], fileName: arguments[1], to: arguments[2], completion: onCompletion)
         default:
             print(command.help)
             onCompletion(false)
@@ -103,7 +103,7 @@ struct FilesHandler: Handler {
                 print("\(prefix)(no files)")
             } else {
                 for file in files {
-                    print("\(prefix)\(file.hash ?? "nil"): \(file.name)")
+                    print("\(prefix)\(file.name)")
                 }
             }
         }
@@ -133,10 +133,15 @@ struct FilesHandler: Handler {
         completion(true)
     }
 
-    private func printData(for hash: String, completion: @escaping (Bool) -> Never) {
-        guard let file = model.file(matching: hash) else {
-            print("File does not exist.")
-            self.errorHandler()
+    private func printData(contact: String, fileName: String, completion: @escaping (Bool) -> Never) {
+        guard let contact = model.contact(named: contact) else {
+            print("Contact does not exist.")
+            completion(false)
+        }
+
+        guard let file = model.file(named: fileName, sentOrReceivedFrom: contact) else {
+            print("No such file.")
+            completion(false)
         }
 
         firstly {
@@ -160,9 +165,15 @@ struct FilesHandler: Handler {
         }
     }
 
-    private func copyFile(hash: String, to targetLocation: String, completion: @escaping (Bool) -> Never) {
-        guard let file = model.file(matching: hash) else {
-            print("File does not exist.")
+    private func copyFile(contact: String, fileName: String, to targetLocation: String,
+                          completion: @escaping (Bool) -> Never) {
+        guard let contact = model.contact(named: contact) else {
+            print("Contact does not exist.")
+            completion(false)
+        }
+
+        guard let file = model.file(named: fileName, sentOrReceivedFrom: contact) else {
+            print("No such file.")
             completion(false)
         }
 
@@ -198,13 +209,18 @@ struct FilesHandler: Handler {
             completion(true)
         }.catch { error in
             if case HorizonError.fileOperationFailed(let reason) = error {
-                if case .fileDoesNotExist(let file) = reason {
+                switch reason {
+                case .fileDoesNotExist(let file):
                     print("\(file): No such file or directory.")
                     completion(false)
-                }
-                if case .sendAddressNotSet = reason {
+                case .sendAddressNotSet:
                     print("\(contactName): No send address set. Cannot share files.")
                     completion(false)
+                case .fileAlreadyExists(let file):
+                    print("\(file): File already exists. Use a different file name.")
+                    completion(false)
+                default:
+                    break
                 }
             }
 

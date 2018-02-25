@@ -37,37 +37,37 @@ class Program {
       of horizon separate from a personal version for instance.
 
     OPTIONS
-      --identity                                  Use a self-contained and indepenedent identity other than 'default'
-      --help, -h                                  Show the full command help text.
+      --identity                                           Use an identity other than 'default'
+      --help, -h                                           Show the full command help text.
 
     SUBCOMMANDS
       BASIC COMMANDS
-        help                                      Prints this help menu
-        sync                                      Syncs the receive lists from all contacts
+        help                                               Prints this help menu
+        sync                                               Syncs the receive lists from all contacts
 
       DAEMON COMMANDS
-        daemon help                               Displays detailed help information
-        daemon start                              Starts the horizon daemon in the background
-        daemon status                             Prints the current status of the background daemon
-        daemon ls                                 Lists the status of the daemons for each identity
-        daemon stop                               Starts the horizon daemon in the background
+        daemon help                                        Displays detailed help information
+        daemon start                                       Starts the horizon daemon in the background
+        daemon status                                      Prints the current status of the background daemon
+        daemon ls                                          Lists the status of the daemons for each identity
+        daemon stop                                        Starts the horizon daemon in the background
 
       CONTACT COMMANDS
-        contacts help                             Displays detailed help information
-        contacts add <name>                       Create a new contact
-        contacts ls                               List all contacts
-        contacts info [<name>]                    Prints contact and associated details
-        contacts rm <name>                        Removes contact
-        contacts rename <name> <new-name>         Renames contact
-        contacts set-rcv-addr <name> <hash>       Sets the receive address for a contact
+        contacts help                                      Displays detailed help information
+        contacts add <name>                                Create a new contact
+        contacts ls                                        List all contacts
+        contacts info [<name>]                             Prints contact and associated details
+        contacts rm <name>                                 Removes contact
+        contacts rename <name> <new-name>                  Renames contact
+        contacts set-rcv-addr <name> <hash>                Sets the receive address for a contact
 
       FILE COMMANDS
-        horizon files help                        Displays detailed help information
-        horizon files share <contact> <file>      Adds a new file to be shared with a contact
-        horizon files unshare <contact> <file>    Unshares a file which was shared with a contact
-        horizon files ls [<contact>]              Lists all files (optionally from a given contact)
-        horizon files cat <hash>                  Outputs the contents of a file to the command line
-        horizon files cp <hash> <target-file>     Copies a file to a location on the local machine
+        horizon files help                                 Displays detailed help information
+        horizon files share <contact> <file>               Adds a new file to be shared with a contact
+        horizon files unshare <contact> <file>             Unshares a file which was shared with a contact
+        horizon files ls [<contact>]                       Lists all files (optionally from a given contact)
+        horizon files cat <contact> <file>                 Outputs the contents of a file to the command line
+        horizon files cp <contact> <file> <target-file>    Copies a file to a location on the local machine
 
       Use 'horizon <command> --help' to learn more about each command.
 

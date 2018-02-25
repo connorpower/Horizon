@@ -21,7 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		D294315B204041BF00BCA7E6 /* ModelTests_Files.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294315A204041BF00BCA7E6 /* ModelTests_Files.swift */; };
+		D267AD6A20430BF800F8F66D /* ModelTests_Files.swift in Sources */ = {isa = PBXBuildFile; fileRef = D267AD6820430A5700F8F66D /* ModelTests_Files.swift */; };
 		D294315D20404FF800BCA7E6 /* SyncState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294315C20404FF800BCA7E6 /* SyncState.swift */; };
 		D294316620408FEC00BCA7E6 /* ShareFileTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294316520408FEC00BCA7E6 /* ShareFileTask.swift */; };
 		D29431682040923D00BCA7E6 /* UnshareFileTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29431672040923D00BCA7E6 /* UnshareFileTask.swift */; };
@@ -49,7 +49,6 @@
 		OBJ_155 /* FileListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_46 /* FileListTests.swift */; };
 		OBJ_156 /* FileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_47 /* FileTests.swift */; };
 		OBJ_157 /* ModelTests_Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_48 /* ModelTests_Contacts.swift */; };
-		OBJ_158 /* ModelTests_Shares.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_49 /* ModelTests_Shares.swift */; };
 		OBJ_159 /* ModelTests_Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_50 /* ModelTests_Sync.swift */; };
 		OBJ_161 /* HorizonCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "horizon::HorizonCore::Product" /* HorizonCore.framework */; };
 		OBJ_162 /* IPFSWebService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "IPFSWebService::IPFSWebService::Product" /* IPFSWebService.framework */; };
@@ -253,7 +252,7 @@
 
 /* Begin PBXFileReference section */
 		"Alamofire::Alamofire::Product" /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D294315A204041BF00BCA7E6 /* ModelTests_Files.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests_Files.swift; sourceTree = "<group>"; };
+		D267AD6820430A5700F8F66D /* ModelTests_Files.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelTests_Files.swift; sourceTree = "<group>"; };
 		D294315C20404FF800BCA7E6 /* SyncState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncState.swift; sourceTree = "<group>"; };
 		D294316520408FEC00BCA7E6 /* ShareFileTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareFileTask.swift; sourceTree = "<group>"; };
 		D29431672040923D00BCA7E6 /* UnshareFileTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnshareFileTask.swift; sourceTree = "<group>"; };
@@ -316,7 +315,6 @@
 		OBJ_46 /* FileListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListTests.swift; sourceTree = "<group>"; };
 		OBJ_47 /* FileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTests.swift; sourceTree = "<group>"; };
 		OBJ_48 /* ModelTests_Contacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests_Contacts.swift; sourceTree = "<group>"; };
-		OBJ_49 /* ModelTests_Shares.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests_Shares.swift; sourceTree = "<group>"; };
 		OBJ_50 /* ModelTests_Sync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests_Sync.swift; sourceTree = "<group>"; };
 		OBJ_59 /* APIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHelper.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
@@ -554,13 +552,12 @@
 		OBJ_44 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D267AD6820430A5700F8F66D /* ModelTests_Files.swift */,
 				OBJ_45 /* ContactTests.swift */,
 				OBJ_46 /* FileListTests.swift */,
 				OBJ_47 /* FileTests.swift */,
 				OBJ_48 /* ModelTests_Contacts.swift */,
-				OBJ_49 /* ModelTests_Shares.swift */,
 				OBJ_50 /* ModelTests_Sync.swift */,
-				D294315A204041BF00BCA7E6 /* ModelTests_Files.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -992,10 +989,9 @@
 				OBJ_153 /* MockPersistentStore.swift in Sources */,
 				OBJ_154 /* ContactTests.swift in Sources */,
 				OBJ_155 /* FileListTests.swift in Sources */,
-				D294315B204041BF00BCA7E6 /* ModelTests_Files.swift in Sources */,
 				OBJ_156 /* FileTests.swift in Sources */,
 				OBJ_157 /* ModelTests_Contacts.swift in Sources */,
-				OBJ_158 /* ModelTests_Shares.swift in Sources */,
+				D267AD6A20430BF800F8F66D /* ModelTests_Files.swift in Sources */,
 				OBJ_159 /* ModelTests_Sync.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

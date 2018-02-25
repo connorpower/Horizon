@@ -120,10 +120,10 @@ public extension Model {
 
 }
 
-// MARK: - File Sharing Functionality (Outbound)
+// MARK: - File Sharing Functionality
 
 /**
- An extension which groups all related outbound file sharing functionality
+ An extension which groups all related file sharing functionality
  into one place.
  */
 public extension Model {
@@ -137,7 +137,8 @@ public extension Model {
      file), then finally the newly uploaded shareList will be published
      on the contact's sendAddress using IPFS.
 
-     **Note:** IPFS must be online.
+     - precondition: IPFS must be online. No files must exist in the
+     `Contacts` share list or receive list with the same name.
 
      - parameter files: An array of URLs to files on the local system which
      will be shared with the contact.
@@ -170,16 +171,6 @@ public extension Model {
         return UnshareFileTask(model: self).unshareFiles(files, with: contact)
     }
 
-}
-
-// MARK: - Files Functionality (Inbound)
-
-/**
- An extension which groups all related inbound file sharing functionality
- into one place.
- */
-public extension Model {
-
     /**
      Returns an unordered list of received files and their associated contacts.
      */
@@ -196,6 +187,24 @@ public extension Model {
         return persistentStore.contacts.flatMap { contact in
             return contact.sendList.files.map { ($0, contact) }
         }
+    }
+
+    /**
+     Searches for a file of a given name wither shared with or shared
+     from a given contact.
+
+     - parameter fileName: The name of the file, excluding any path
+     information.
+     - parameter contact: The contact which has sent the file or
+     received the file from you.
+     - returns: Returns a file if one was found, otherwise nil.
+     */
+    public func file(named fileName: String, sentOrReceivedFrom contact: Contact) -> File? {
+        let matches = (contact.sendList.files + contact.receiveList.files).filter { file in
+            return file.name == fileName
+        }
+
+        return matches.first
     }
 
     /**

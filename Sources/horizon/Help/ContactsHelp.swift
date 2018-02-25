@@ -31,7 +31,7 @@ struct ContactsHelp: HelpProvider {
 
         > horizon contacts add mmusterman
         🤝 Send address: QmSomeSendHash
-        > horizon contacts set-rcv-addr mmusterman QmSomeReceiveHash
+        > horizon contacts set-rcv-addr mmustermann QmSomeReceiveHash
 
       Where did the recieve address come from? The other contact ran
       'horizon contacts info <name>' and provided you with their send address.
@@ -67,13 +67,13 @@ struct ContactsHelp: HelpProvider {
       'horizon contacts rename <name> <new-name>' renames a given contact
       but otherwise keeps all information and addresses the same.
 
-        > horizon contacts rename mmusterman max
+        > horizon contacts rename mmustermann max
 
       'horizon contacts set-rcv-addr <name> <hash>' sets the receive address
       for a given contact. The contact should provide you with this address –
       the result of them adding you as a contact to their horizon instance.
 
-        > horizon contacts set-rcv-addr mmusterman QmSomeHash
+        > horizon contacts set-rcv-addr mmustermann QmSomeHash
 
       SUBCOMMANDS
         horizon contacts help                          - Displays detailed help information
@@ -123,7 +123,7 @@ struct ContactsHelp: HelpProvider {
 
         > horizon contacts add mmusterman
         🤝 Send address: QmSomeSendHash
-        > horizon contacts set-rcv-addr mmusterman QmSomeReceiveHash
+        > horizon contacts set-rcv-addr mmustermann QmSomeReceiveHash
 
     """
 
@@ -166,7 +166,7 @@ struct ContactsHelp: HelpProvider {
       'horizon contacts rename <name> <new-name>' renames a given contact
       but otherwise keeps all information and addresses the same.
 
-        > horizon contacts rename mmusterman max
+        > horizon contacts rename mmustermann max
 
     """
 
@@ -177,7 +177,7 @@ struct ContactsHelp: HelpProvider {
       with this address – the result of them adding you as a contact to
       their horizon instance.
 
-        > horizon contacts set-rcv-addr mmusterman QmSomeHash
+        > horizon contacts set-rcv-addr mmustermann QmSomeHash
 
     """
 

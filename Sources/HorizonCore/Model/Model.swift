@@ -199,6 +199,24 @@ public extension Model {
     }
 
     /**
+     Searches for a file of a given name wither shared with or shared
+     from a given contact.
+
+     - parameter fileName: The name of the file, excluding any path
+     information.
+     - parameter contact: The contact which has sent the file or
+     received the file from you.
+     - returns: Returns a file if one was found, otherwise nil.
+     */
+    public func file(named fileName: String, sentOrReceivedFrom contact: Contact) -> File? {
+        let matches = (contact.sendList.files + contact.receiveList.files).filter { file in
+            return file.name == fileName
+        }
+
+        return matches.first
+    }
+
+    /**
      Searches for a file based on it's hash. The file could be either
      one shared with a contact, or a file received from a contact. If
      the hash matches multiple files, the first match will be returned -

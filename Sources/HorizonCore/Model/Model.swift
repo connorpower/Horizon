@@ -120,10 +120,10 @@ public extension Model {
 
 }
 
-// MARK: - File Sharing Functionality (Outbound)
+// MARK: - File Sharing Functionality
 
 /**
- An extension which groups all related outbound file sharing functionality
+ An extension which groups all related file sharing functionality
  into one place.
  */
 public extension Model {
@@ -169,16 +169,6 @@ public extension Model {
     public func unshareFiles(_ files: [File], with contact: Contact) -> Promise<Contact> {
         return UnshareFileTask(model: self).unshareFiles(files, with: contact)
     }
-
-}
-
-// MARK: - Files Functionality (Inbound)
-
-/**
- An extension which groups all related inbound file sharing functionality
- into one place.
- */
-public extension Model {
 
     /**
      Returns an unordered list of received files and their associated contacts.

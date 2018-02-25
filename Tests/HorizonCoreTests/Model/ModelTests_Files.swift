@@ -63,6 +63,102 @@ class ModelTests_Files: XCTestCase {
     }
 
     /**
+     Expect that adding a share fails if the contact has already shared
+     a file with the same name.
+     */
+    func testAddShare_FailsIfSameNamedFileReceivedFromContact() {
+        let existingFile = File(name: "My Pre-Existing File.txt", hash: "XXX")
+        let contact1 = Contact(identifier: UUID(), displayName: "Contact1",
+                               sendAddress: SendAddress(address: "7A5055A5-39A7-4CE4-8061-7C80F918229A",
+                                                        keypairName: "my.keypair.name"),
+                               receiveAddress: "XXX",
+                               sendList: FileList(hash: nil, files: []),
+                               receiveList: FileList(hash: nil, files: [existingFile]))
+        mockStore.contacts = [contact1]
+        let model = Model(api: mockAPI,
+                          configuration: MockConfiguration(),
+                          persistentStore: mockStore,
+                          eventCallback: nil)
+
+        let errorThrownExpectation = expectation(description: "errorThrownExpectation")
+
+        mockAPI.addResponse = { url in
+            Promise(value: AddResponse(name: url.lastPathComponent, hash: UUID().uuidString, size: "12345"))
+        }
+        mockAPI.publishResponse = { hash, keypair in
+            Promise(value: PublishResponse(name: keypair!, value: UUID().uuidString))
+        }
+
+        let url = URL(fileURLWithPath: "/tmp/My Pre-Existing File.txt")
+        firstly {
+            model.shareFiles([url], with: contact1)
+        }.then { _ in
+            XCTFail("Should not have succeeded")
+        }.catch { error in
+            if case HorizonError.fileOperationFailed(let reason) = error {
+                if case .fileAlreadyExists(let fileName) = reason {
+                    XCTAssertEqual(fileName, "My Pre-Existing File.txt")
+                } else {
+                    XCTFail()
+                }
+            } else {
+                XCTFail()
+            }
+            errorThrownExpectation.fulfill()
+        }
+
+        wait(for: [errorThrownExpectation], timeout: 1.0)
+    }
+
+    /**
+     Expect that adding a share fails if you have already shared
+     a file with the same name with the same contact
+     */
+    func testAddShare_FailsIfSameNamedFileSharedWithContact() {
+        let existingFile = File(name: "My Pre-Existing File.txt", hash: "XXX")
+        let contact1 = Contact(identifier: UUID(), displayName: "Contact1",
+                               sendAddress: SendAddress(address: "7A5055A5-39A7-4CE4-8061-7C80F918229A",
+                                                        keypairName: "my.keypair.name"),
+                               receiveAddress: "XXX",
+                               sendList: FileList(hash: nil, files: [existingFile]),
+                               receiveList: FileList(hash: nil, files: []))
+        mockStore.contacts = [contact1]
+        let model = Model(api: mockAPI,
+                          configuration: MockConfiguration(),
+                          persistentStore: mockStore,
+                          eventCallback: nil)
+
+        let errorThrownExpectation = expectation(description: "errorThrownExpectation")
+
+        mockAPI.addResponse = { url in
+            Promise(value: AddResponse(name: url.lastPathComponent, hash: UUID().uuidString, size: "12345"))
+        }
+        mockAPI.publishResponse = { hash, keypair in
+            Promise(value: PublishResponse(name: keypair!, value: UUID().uuidString))
+        }
+
+        let url = URL(fileURLWithPath: "/tmp/My Pre-Existing File.txt")
+        firstly {
+            model.shareFiles([url], with: contact1)
+        }.then { _ in
+            XCTFail("Should not have succeeded")
+        }.catch { error in
+            if case HorizonError.fileOperationFailed(let reason) = error {
+                if case .fileAlreadyExists(let fileName) = reason {
+                    XCTAssertEqual(fileName, "My Pre-Existing File.txt")
+                } else {
+                    XCTFail()
+                }
+            } else {
+                XCTFail()
+            }
+            errorThrownExpectation.fulfill()
+        }
+
+        wait(for: [errorThrownExpectation], timeout: 1.0)
+    }
+
+    /**
      Expect that an attempt to share a file with a contact fails if the
      contact does not have a send address set.
      */

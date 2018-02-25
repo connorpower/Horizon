@@ -92,6 +92,34 @@ class ModelTests_Files: XCTestCase {
         XCTAssertNil(model.file(matching: "I do not exist"))
     }
 
+    func testFileMatchingName() {
+        let contact1File1Identifier = UUID().uuidString
+        let contact2File1Identifier = UUID().uuidString
+        let contact2File2Identifier = UUID().uuidString
+
+        let contact1 = Contact(identifier: UUID(), displayName: "Contact1",
+                               sendAddress: nil, receiveAddress: nil,
+                               sendList: FileList(hash: nil, files: []),
+                               receiveList: FileList(hash: UUID().uuidString, files: [
+                                File(name: "Contact1 File 1", hash: contact1File1Identifier)
+                                ]))
+        let contact2 = Contact(identifier: UUID(), displayName: "Contact2",
+                               sendAddress: nil, receiveAddress: nil,
+                               sendList: FileList(hash: nil, files: []),
+                               receiveList: FileList(hash: UUID().uuidString, files: [
+                                File(name: "Contact2 File 1", hash: contact2File1Identifier),
+                                File(name: "Contact2 File 2", hash: contact2File2Identifier)
+                                ]))
+        let contact3 = Contact(identifier: UUID(), displayName: "Contact3",
+                               sendAddress: nil, receiveAddress: nil)
+        mockStore.contacts = [contact1, contact2, contact3]
+        let model = Model(api: mockAPI, configuration: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
+
+        XCTAssertEqual(File(name: "Contact2 File 2", hash: contact2File2Identifier),
+                       model.file(named: "Contact2 File 2", sentOrReceivedFrom: contact2))
+        XCTAssertNil(model.file(named: "Contact2 File XX", sentOrReceivedFrom: contact2))
+    }
+
     func testDataForFile() {
         let model = Model(api: mockAPI, configuration: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 

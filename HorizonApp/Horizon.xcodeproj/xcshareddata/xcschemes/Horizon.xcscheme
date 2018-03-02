@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D27825E6202601FC00550CAB"
-               BuildableName = "HorizonApp.app"
-               BlueprintName = "HorizonApp"
-               ReferencedContainer = "container:HorizonApp.xcodeproj">
+               BuildableName = "Horizon.app"
+               BlueprintName = "Horizon"
+               ReferencedContainer = "container:Horizon.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,9 +34,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D27825F8202601FC00550CAB"
-               BuildableName = "HorizonAppTests.xctest"
-               BlueprintName = "HorizonAppTests"
-               ReferencedContainer = "container:HorizonApp.xcodeproj">
+               BuildableName = "HorizonTests.xctest"
+               BlueprintName = "HorizonTests"
+               ReferencedContainer = "container:Horizon.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -46,7 +46,7 @@
                BlueprintIdentifier = "D2782603202601FC00550CAB"
                BuildableName = "HorizonAppUITests.xctest"
                BlueprintName = "HorizonAppUITests"
-               ReferencedContainer = "container:HorizonApp.xcodeproj">
+               ReferencedContainer = "container:Horizon.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -54,9 +54,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D27825E6202601FC00550CAB"
-            BuildableName = "HorizonApp.app"
-            BlueprintName = "HorizonApp"
-            ReferencedContainer = "container:HorizonApp.xcodeproj">
+            BuildableName = "Horizon.app"
+            BlueprintName = "Horizon"
+            ReferencedContainer = "container:Horizon.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -78,9 +78,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D27825E6202601FC00550CAB"
-            BuildableName = "HorizonApp.app"
-            BlueprintName = "HorizonApp"
-            ReferencedContainer = "container:HorizonApp.xcodeproj">
+            BuildableName = "Horizon.app"
+            BlueprintName = "Horizon"
+            ReferencedContainer = "container:Horizon.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -97,9 +97,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D27825E6202601FC00550CAB"
-            BuildableName = "HorizonApp.app"
-            BlueprintName = "HorizonApp"
-            ReferencedContainer = "container:HorizonApp.xcodeproj">
+            BuildableName = "Horizon.app"
+            BlueprintName = "Horizon"
+            ReferencedContainer = "container:Horizon.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

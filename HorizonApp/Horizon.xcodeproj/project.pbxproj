@@ -52,7 +52,7 @@
 
 /* Begin PBXFileReference section */
 		D27825E7202601FC00550CAB /* HorizonApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HorizonApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D27825F9202601FC00550CAB /* HorizonAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HorizonAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D27825F9202601FC00550CAB /* HorizonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HorizonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D27825FD202601FC00550CAB /* HorizonAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizonAppTests.swift; sourceTree = "<group>"; };
 		D27825FF202601FC00550CAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D27826182026024A00550CAB /* AppCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppCenterCrashes.framework; sourceTree = "<group>"; };
@@ -114,7 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				D27825E7202601FC00550CAB /* HorizonApp.app */,
-				D27825F9202601FC00550CAB /* HorizonAppTests.xctest */,
+				D27825F9202601FC00550CAB /* HorizonTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -196,9 +196,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D27825E6202601FC00550CAB /* HorizonApp */ = {
+		D27825E6202601FC00550CAB /* Horizon */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D278260D202601FC00550CAB /* Build configuration list for PBXNativeTarget "HorizonApp" */;
+			buildConfigurationList = D278260D202601FC00550CAB /* Build configuration list for PBXNativeTarget "Horizon" */;
 			buildPhases = (
 				D27825E3202601FC00550CAB /* Sources */,
 				D27825E4202601FC00550CAB /* Frameworks */,
@@ -209,14 +209,14 @@
 			);
 			dependencies = (
 			);
-			name = HorizonApp;
+			name = Horizon;
 			productName = HorizonApp;
 			productReference = D27825E7202601FC00550CAB /* HorizonApp.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D27825F8202601FC00550CAB /* HorizonAppTests */ = {
+		D27825F8202601FC00550CAB /* HorizonTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D2782610202601FC00550CAB /* Build configuration list for PBXNativeTarget "HorizonAppTests" */;
+			buildConfigurationList = D2782610202601FC00550CAB /* Build configuration list for PBXNativeTarget "HorizonTests" */;
 			buildPhases = (
 				D27825F5202601FC00550CAB /* Sources */,
 				D27825F6202601FC00550CAB /* Frameworks */,
@@ -227,9 +227,9 @@
 			dependencies = (
 				D27825FB202601FC00550CAB /* PBXTargetDependency */,
 			);
-			name = HorizonAppTests;
+			name = HorizonTests;
 			productName = HorizonAppTests;
-			productReference = D27825F9202601FC00550CAB /* HorizonAppTests.xctest */;
+			productReference = D27825F9202601FC00550CAB /* HorizonTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -254,7 +254,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D27825E2202601FC00550CAB /* Build configuration list for PBXProject "HorizonApp" */;
+			buildConfigurationList = D27825E2202601FC00550CAB /* Build configuration list for PBXProject "Horizon" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -267,8 +267,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D27825E6202601FC00550CAB /* HorizonApp */,
-				D27825F8202601FC00550CAB /* HorizonAppTests */,
+				D27825E6202601FC00550CAB /* Horizon */,
+				D27825F8202601FC00550CAB /* HorizonTests */,
 			);
 		};
 /* End PBXProject section */
@@ -321,7 +321,7 @@
 /* Begin PBXTargetDependency section */
 		D27825FB202601FC00550CAB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D27825E6202601FC00550CAB /* HorizonApp */;
+			target = D27825E6202601FC00550CAB /* Horizon */;
 			targetProxy = D27825FA202601FC00550CAB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -506,7 +506,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.semantical.HorizonAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HorizonApp.app/Contents/MacOS/HorizonApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Horizon.app/Contents/MacOS/Horizon";
 			};
 			name = Debug;
 		};
@@ -523,14 +523,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.semantical.HorizonAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HorizonApp.app/Contents/MacOS/HorizonApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Horizon.app/Contents/MacOS/Horizon";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D27825E2202601FC00550CAB /* Build configuration list for PBXProject "HorizonApp" */ = {
+		D27825E2202601FC00550CAB /* Build configuration list for PBXProject "Horizon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D278260B202601FC00550CAB /* Debug */,
@@ -539,7 +539,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D278260D202601FC00550CAB /* Build configuration list for PBXNativeTarget "HorizonApp" */ = {
+		D278260D202601FC00550CAB /* Build configuration list for PBXNativeTarget "Horizon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D278260E202601FC00550CAB /* Debug */,
@@ -548,7 +548,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D2782610202601FC00550CAB /* Build configuration list for PBXNativeTarget "HorizonAppTests" */ = {
+		D2782610202601FC00550CAB /* Build configuration list for PBXNativeTarget "HorizonTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D2782611202601FC00550CAB /* Debug */,

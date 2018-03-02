@@ -24,6 +24,7 @@
 		D27826392026024B00550CAB /* AddContactController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D278262A2026024A00550CAB /* AddContactController.swift */; };
 		D278263D2026027D00550CAB /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D278263E2026027D00550CAB /* PromiseKit.framework */; };
 		D29FA5CF20278E3E0009FFAC /* HorizonCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D278263C2026027800550CAB /* HorizonCore.framework */; };
+		D2A77A742049C30100C27AEE /* HorizonCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D278263C2026027800550CAB /* HorizonCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +36,19 @@
 			remoteInfo = HorizonApp;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D2A77A732049C2F600C27AEE /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D2A77A742049C30100C27AEE /* HorizonCore.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		D27825E7202601FC00550CAB /* HorizonApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HorizonApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -189,6 +203,7 @@
 				D27825E3202601FC00550CAB /* Sources */,
 				D27825E4202601FC00550CAB /* Frameworks */,
 				D27825E5202601FC00550CAB /* Resources */,
+				D2A77A732049C2F600C27AEE /* CopyFiles */,
 			);
 			buildRules = (
 			);

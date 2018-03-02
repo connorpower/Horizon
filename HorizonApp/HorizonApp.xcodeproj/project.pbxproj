@@ -215,6 +215,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D278260D202601FC00550CAB /* Build configuration list for PBXNativeTarget "HorizonApp" */;
 			buildPhases = (
+				D2A77A202049885E00C27AEE /* Initialize Swift Package Manager Dependencies */,
 				D27825E3202601FC00550CAB /* Sources */,
 				D27825E4202601FC00550CAB /* Frameworks */,
 				D27825E5202601FC00550CAB /* Resources */,
@@ -336,6 +337,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D2A77A202049885E00C27AEE /* Initialize Swift Package Manager Dependencies */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Initialize Swift Package Manager Dependencies";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ ! -f ../.build ]; then\n    ../spm-init.sh\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D27825E3202601FC00550CAB /* Sources */ = {

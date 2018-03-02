@@ -3,7 +3,7 @@
 //  Horizon
 //
 //  Created by Connor Power on 30.12.17.
-//  Copyright © 2017 Semantical GmbH & Co. KG. All rights reserved.
+//  Copyright © 2017 Connor Power. All rights reserved.
 //
 
 import Foundation

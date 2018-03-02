@@ -3,7 +3,7 @@
 //  Horizon
 //
 //  Created by Jürgen on 03.11.17.
-//  Copyright © 2017 Semantical GmbH & Co. KG. All rights reserved.
+//  Copyright © 2017 Connor Power. All rights reserved.
 //
 
 import Cocoa

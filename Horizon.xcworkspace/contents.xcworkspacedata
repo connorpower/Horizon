@@ -5,6 +5,6 @@
       location = "group:horizon.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:HorizonApp/HorizonApp.xcodeproj">
+      location = "group:Horizon/Horizon.xcodeproj">
    </FileRef>
 </Workspace>

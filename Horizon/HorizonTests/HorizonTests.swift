@@ -1,15 +1,15 @@
 //
-//  HorizonAppTests.swift
-//  HorizonAppTests
+//  HorizonTests.swift
+//  HorizonTests
 //
 //  Created by Connor Power on 03.02.18.
 //  Copyright © 2018 Semantical GmbH & Co KG. All rights reserved.
 //
 
 import XCTest
-@testable import HorizonApp
+@testable import Horizon
 
-class HorizonAppTests: XCTestCase {
+class HorizonTests: XCTestCase {
 
     func testExample() { }
 

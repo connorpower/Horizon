@@ -890,6 +890,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 9999;
+				ORGANIZATIONNAME = "Connor Power";
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "horizon" */;
 			compatibilityVersion = "Xcode 3.2";

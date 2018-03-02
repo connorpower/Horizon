@@ -5,6 +5,6 @@
       location = "group:horizon.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:/Users/connorpower/Library/Mobile Documents/com~apple~CloudDocs/Developer/newtopia/Horizon/HorizonApp/Horizon.xcodeproj">
+      location = "group:Horizon/Horizon.xcodeproj">
    </FileRef>
 </Workspace>

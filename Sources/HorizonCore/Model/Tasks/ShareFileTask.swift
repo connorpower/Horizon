@@ -52,7 +52,7 @@ struct ShareFileTask: ModelTask {
             let updatedContact = contact.updatingSendList(updatedSendList)
             self.model.persistentStore.createOrUpdateContact(updatedContact)
 
-            return PublishFileListTask(model: self.model).publishFileList(for: contact)
+            return PublishFileListTask(model: self.model).publishFileList(for: updatedContact)
         }.catch { error in
             let horizonError: HorizonError
             if let castError = error as? HorizonError {

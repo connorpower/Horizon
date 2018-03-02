@@ -46,7 +46,9 @@ struct AddContactTask: ModelTask {
 
             self.model.persistentStore.createOrUpdateContact(contact)
             self.model.eventCallback?(.propertiesDidChange(contact))
-            return Promise(value: contact)
+
+            // Immediately publish the file list, so that a sync for the other contact succeeds (Issue #56).
+            return PublishFileListTask(model: self.model).publishFileList(for: contact)
         }.catch { error in
             let horizonError: HorizonError
             if let castError = error as? HorizonError {

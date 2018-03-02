@@ -2,7 +2,7 @@
 
 # Horizon
 
-An encrypted fileshare for the decentralized web.
+A fileshare for the decentralized web.
 
 ## Getting Started
 
@@ -23,7 +23,7 @@ compiler. It is in early development, but Horizon does support its use. The
 Swift Package manager doesn't yet support Cocoa GUI apps, so its use in this
 project comes with some caveats.
 
-The horizon-cli is Swift Package Manger based. The Xcode project 'horizon-cli'
+The horizon is Swift Package Manger based. The Xcode project 'horizon'
 can therefore simply be regenerated:
 
     swift package generate-xcodeproj --xcconfig-overrides ./Configuration.xcconfig
@@ -80,7 +80,7 @@ The various levels are:
 
 Example for the command line tool:
 
-    sudo log config --mode "level:info" --subsystem com.semantical.horizon-cli
+    sudo log config --mode "level:info" --subsystem com.semantical.horizon
 
 Example for the macOS App:
 
@@ -99,21 +99,21 @@ for contacts and file lists. During development, the contents of UserDefaults
 can be easily inspected on the terminal:
 
     # Show all entries for the command line tool
-    > defaults read horizon-cli
+    > defaults read horizon
 
     # Show the contact list for the default identity
-    > defaults read horizon-cli com.semantical.Horizon.default.contactList
+    > defaults read horizon com.semantical.Horizon.default.contactList
 
 Horizon supports multiple independent and simultaneous identities. Presuming
 you have (in addition to the 'default' identity) a 'work' identitiy:
 
     # Show the contact list for the 'work' identity
-    > defaults read horizon-cli com.semantical.Horizon.work.contactList
+    > defaults read horizon com.semantical.Horizon.work.contactList
 
 Care is taken to ensure that the entries are JSON formatted strings, so the
 following command will be more useful in most circumstances.
 
-    > output=$(defaults read horizon-cli com.semantical.Horizon.default.contactList) && echo -n $output | jsonlint
+    > output=$(defaults read horizon com.semantical.Horizon.default.contactList) && echo -n $output | jsonlint
 
 Why not just a straightforward pipe? If the key is not present in the UserDefaults
 we end up trying to feed gabarge into `jsonLint`.
@@ -134,9 +134,11 @@ App Center is responsible for:
 
 ## Built With
 
-* [Swift Package Manager](https://swift.org/package-manager/) - Dependency Management
-* [SwiftLint](https://github.com/realm/SwiftLint) - Swift Linter
-* [App Center](https://appcenter.ms) - Continuous Integration
+* [Swift Package Manager](https://swift.org/package-manager/) – The Package Manager for the Swift Programming Language
+* [SwiftLint](https://github.com/realm/SwiftLint) – A tool to enforce Swift style and conventions
+* [PromiseKit](https://github.com/mxcl/PromiseKit) – Promises for Swift & ObjC
+* [Alamofire](https://github.com/Alamofire/Alamofire) – Elegant HTTP Networking in Swift
+* [App Center](https://appcenter.ms) – Continuous Integration
 
 ## Versioning
 
@@ -145,8 +147,8 @@ see the [tags on this repository](https://github.com/connorpower/Horizon/tags).
 
 ## Authors
 
-* **Connor Power** - *Initial work* - [connorpower](https://github.com/connorpower)
-* **Jürgen Schweizer** - *Initial work* - [jschweizer](https://github.com/jschweizer)
+* **Connor Power** – *Initial work* – [connorpower](https://github.com/connorpower)
+* **Jürgen Schweizer** – *Initial work* – [jschweizer](https://github.com/jschweizer)
 
 ## License
 

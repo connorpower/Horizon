@@ -77,6 +77,7 @@ class ModelTests_Contacts: XCTestCase {
         let model = Model(api: mockAPI, configuration: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
         let contactPersistedExpectation = expectation(description: "contactPersistedExpectation")
+        contactPersistedExpectation.expectedFulfillmentCount = 2
         let contactAddedExpectation = expectation(description: "contactAddedExpectation")
 
         mockAPI.listKeysResponse = {
@@ -84,6 +85,12 @@ class ModelTests_Contacts: XCTestCase {
         }
         mockAPI.keygenResponse = { keypairName, _, _ in
             Promise(value: KeygenResponse(name: keypairName, id: UUID().uuidString))
+        }
+        mockAPI.addResponse = { url in
+            Promise(value: AddResponse(name: url.lastPathComponent, hash: UUID().uuidString, size: "12345"))
+        }
+        mockAPI.publishResponse = { hash, keypair in
+            Promise(value: PublishResponse(name: keypair!, value: UUID().uuidString))
         }
         mockStore.createOrUpdateContactHook = { contact in
             XCTAssertEqual(contact.displayName, "Added Contact Display Name")

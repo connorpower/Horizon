@@ -15,133 +15,15 @@ struct DaemonHandler: Handler {
 
     // MARK: - Constants
 
-    let longHelp = """
-    USAGE
-      horizon daemon - Start or stop the background horizon process
-
-    SYNOPSIS
-      horizon daemon
-
-    DESCRIPTION
-
-      'horizon daemon start' starts the background daemon. The background
-      daemon remains running so that contacts can access your shared files.
-
-      The root directory for the daemon is located at `~/.horizon/<identity>`.
-      If no particular identity was provided to horizon with the `--identity=`
-      flag, then the root for the daemon will be `~/.horizon/default`.
-
-      If the daemon hangs for some reason, the PID can be found in written
-      to a file at `~/.horizon/<identity>/PID`, from which you can issue a
-      manual `kill` command.
-
-        > horizon daemon start
-        > horizon daemon status
-        Running (PID: 12345)
-
-        > horizon daemon stop
-        > horizon daemon status
-        Stopped
-
-      'horizon daemon status' prints the status of the background daemon.
-      'horizon daemon stop' stops the background daemon.
-
-      'horizon daemon ls' lists the status of the daemon for each identity.
-
-        > horizon daemon ls
-        'default': Running (PID: 12345)
-        'work': Running (PID: 67890)
-        'test': Stopped
-
-      SUBCOMMANDS
-        horizon daemon help     - Displays detailed help information
-        horizon daemon start    - Starts the horizon daemon in the background
-        horizon daemon status   - Prints the current status of the background daemon
-        horizon daemon ls       - Lists the status of the daemons for each identity
-        horizon daemon stop     - Starts the horizon daemon in the background
-
-        Use 'horizon daemon <subcmd> --help' for more information about each command.
-
-    """
-
-    private let shortHelp = """
-    USAGE
-      horizon daemon - Start or stop the background horizon process
-
-    SYNOPSIS
-      horizon daemon
-
-      SUBCOMMANDS
-        horizon daemon help     - Displays detailed help information
-        horizon daemon start    - Starts the horizon daemon in the background
-        horizon daemon status   - Prints the current status of the background daemon
-        horizon daemon ls       - Lists the status of the daemons for each identity
-        horizon daemon stop     - Starts the horizon daemon in the background
-
-        Use 'horizon daemon <subcmd> --help' for more information about each command.
-
-    """
-
     private let commands = [
-        Command(name: "start", allowableNumberOfArguments: [0], help: """
-            horizon daemon start
-              'horizon daemon start' starts the background daemon.
-              The background daemon remains running so that contacts can access your
-              shared files.
-
-              The root directory for the daemon is located at `~/.horizon/<identity>`.
-              If no particular identity was provided to horizon with the `--identity=`
-              flag, then the root for the daemon will be `~/.horizon/default`.
-
-              If the daemon hangs for some reason, the PID can be found in written
-              to a file at `~/.horizon/<identity>/PID`, from which you can issue a
-              manual `kill` command.
-
-            """),
-        Command(name: "status", allowableNumberOfArguments: [0], help: """
-            horizon daemon status
-              'horizon daemon status' prints the status of the daemon.
-              The background daemon remains running so that contacts can access your
-              shared files.
-
-                > horizon daemon start
-                > horizon daemon status
-                Running (PID: 12345)
-
-                > horizon daemon stop
-                > horizon daemon status
-                Stopped
-
-            """),
-        Command(name: "stop", allowableNumberOfArguments: [0], help: """
-            horizon daemon stop
-              'horizon daemon stop' stops the background daemon.
-              The background daemon remains running so that contacts can access your
-              shared files.
-
-              The root directory for the daemon is located at `~/.horizon/<identity>`.
-              If no particular identity was provided to horizon with the `--identity=`
-              flag, then the root for the daemon will be `~/.horizon/default`.
-
-              If the daemon hangs for some reason, the PID can be found in written
-              to a file at `~/.horizon/<identity>/PID`, from which you can issue a
-              manual `kill` command.
-
-            """),
-        Command(name: "ls", allowableNumberOfArguments: [0], help: """
-            horizon daemon ls
-              'horizon daemon ls' lists the status of the daemon for each
-              identity. This is extremely useful to quickly check if any unwanted
-              horizon instances are running, or to potentially clean up after an
-              unclean shutdown.
-
-                > horizon daemon ls
-                'default': Running (PID: 12345)
-                'work': Running (PID: 67890)
-                'test': Stopped
-                'old-test': Error (PID: 6666 not running but PID file remains at ~/.horizon/old-test/PID)
-
-            """)
+        Command(name: "start", allowableNumberOfArguments: [0], requiresRunningDaemon: false,
+                help: DaemonHelp.commandStartHelp),
+        Command(name: "status", allowableNumberOfArguments: [0], requiresRunningDaemon: false,
+                help: DaemonHelp.commandStatusHelp),
+        Command(name: "stop", allowableNumberOfArguments: [0], requiresRunningDaemon: false,
+                help: DaemonHelp.commandStopHelp),
+        Command(name: "ls", allowableNumberOfArguments: [0], requiresRunningDaemon: false,
+                help: DaemonHelp.commandLsHelp)
     ]
 
     // MARK: - Properties
@@ -167,12 +49,12 @@ struct DaemonHandler: Handler {
 
     func run() {
         if !arguments.isEmpty, ["help", "-h", "--help"].contains(arguments[0]) {
-            print(longHelp)
+            print(DaemonHelp.longHelp)
             completionHandler()
         }
 
         guard !arguments.isEmpty, let command = commands.filter({$0.name == arguments[0]}).first else {
-            print(shortHelp)
+            print(DaemonHelp.shortHelp)
             errorHandler()
         }
 
@@ -182,47 +64,61 @@ struct DaemonHandler: Handler {
             errorHandler()
         }
 
-        switch command.name {
-        case "start":
-            startDaemon()
-        case "status":
-            printDaemonStatus()
-        case "stop":
-            stopDaemon()
-        case "ls":
-            listDaemons()
-        default:
-            print(command.help)
-            errorHandler()
-        }
+        runCommand(command, arguments: commandArguments)
     }
 
     // MARK: - Private Functions
 
-    private func startDaemon() {
-        do {
-            try DaemonManager().startDaemon(for: configuration)
-        } catch {
-            print("Failed to start daemon")
-            errorHandler()
+    private func runCommand(_ command: Command, arguments: [String]) {
+        let isDaemonAutostarted = command.requiresRunningDaemon && DaemonManager().startDaemonIfNecessary(configuration)
+
+        func onCompletion(_ success: Bool) -> Never {
+            if isDaemonAutostarted {
+                DaemonManager().stopDaemonIfNecessary(configuration)
+            }
+            success ? completionHandler() : errorHandler()
         }
 
-        completionHandler()
+        switch command.name {
+        case "start":
+            startDaemon(completion: onCompletion)
+        case "status":
+            printDaemonStatus(completion: onCompletion)
+        case "stop":
+            stopDaemon(completion: onCompletion)
+        case "ls":
+            listDaemons(completion: onCompletion)
+        default:
+            print(command.help)
+            onCompletion(false)
+        }
     }
 
-    private func printDaemonStatus() {
+    private func startDaemon(completion: @escaping (Bool) -> Never) {
+        do {
+            try DaemonManager().startDaemon(for: configuration)
+            print("Started 🤖")
+        } catch {
+            print("Failed to start daemon")
+            completion(false)
+        }
+
+        completion(true)
+    }
+
+    private func printDaemonStatus(completion: @escaping (Bool) -> Never) {
         printStatus(for: configuration, withIdentityPrefix: false)
-        completionHandler()
+        completion(true)
     }
 
-    private func listDaemons() {
+    private func listDaemons(completion: @escaping (Bool) -> Never) {
         let maybeIdentites = try? FileManager.default.contentsOfDirectory(at: configuration.horizonDirectory,
                                                                           includingPropertiesForKeys: [.isDirectoryKey],
                                                                           options: .skipsSubdirectoryDescendants)
 
         guard let identities = maybeIdentites else {
-            print("Identity 'default': Stopped")
-            errorHandler()
+            print("Identity 'default': Stopped 💀")
+            completion(false)
         }
 
         for identity in identities {
@@ -231,15 +127,16 @@ struct DaemonHandler: Handler {
             printStatus(for: config, withIdentityPrefix: true)
         }
 
-        completionHandler()
+        completion(true)
     }
 
-    private func stopDaemon() {
+    private func stopDaemon(completion: @escaping (Bool) -> Never) {
         if DaemonManager().stopDaemon(for: configuration) {
-            completionHandler()
+            print("Stopped 💀")
+            completion(true)
         } else {
             print("Daemon not running")
-            completionHandler()
+            completion(true)
         }
     }
 
@@ -248,12 +145,12 @@ struct DaemonHandler: Handler {
 
         switch DaemonManager().status(for: configuration) {
         case .running(let pid):
-            print("\(identityPrefix)Running (PID: \(pid.description))")
+            print("\(identityPrefix)Running (PID: \(pid.description)) 🤖")
         case .stopped:
-            print("\(identityPrefix)Stopped")
+            print("\(identityPrefix)Stopped 💀")
         case .pidFilePresentButDaemonNotRunning(let pid):
             print("\(identityPrefix)Error (PID: \(pid.description) not running but PID file " +
-                "remains at \(configuration.daemonPIDPath.path))")
+                "remains at \(configuration.daemonPIDPath.path)) ⚠️")
         }
     }
 

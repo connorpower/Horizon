@@ -23,7 +23,7 @@ class Program {
 
     let help = """
     USAGE
-      horizon - An encrypted fileshare for the decentralized web.
+      horizon - A fileshare for the decentralized web.
 
     SYNOPSIS
       horizon [--help | -h] [--identity=<identity>] <command> ...
@@ -37,37 +37,37 @@ class Program {
       of horizon separate from a personal version for instance.
 
     OPTIONS
-      --identity                                  Use a self-contained and indepenedent identity other than 'default'
-      --help, -h                                  Show the full command help text.
+      --identity                                           Use an identity other than 'default'
+      --help, -h                                           Show the full command help text.
 
     SUBCOMMANDS
       BASIC COMMANDS
-        help                                      Prints this help menu
-        sync                                      Syncs the receive lists from all contacts
+        help                                               Prints this help menu
+        sync                                               Syncs the receive lists from all contacts
 
       DAEMON COMMANDS
-        daemon help                               Displays detailed help information
-        daemon start                              Starts the horizon daemon in the background
-        daemon status                             Prints the current status of the background daemon
-        daemon ls                                 Lists the status of the daemons for each identity
-        daemon stop                               Starts the horizon daemon in the background
+        daemon help                                        Displays detailed help information
+        daemon start                                       Starts the horizon daemon in the background
+        daemon status                                      Prints the current status of the background daemon
+        daemon ls                                          Lists the status of the daemons for each identity
+        daemon stop                                        Starts the horizon daemon in the background
 
       CONTACT COMMANDS
-        contacts help                             Displays detailed help information
-        contacts add <name>                       Create a new contact
-        contacts ls                               List all contacts
-        contacts info [<name>]                    Prints contact and associated details
-        contacts rm <name>                        Removes contact
-        contacts rename <name> <new-name>         Renames contact
-        contacts set-rcv-addr <name> <hash>       Sets the receive address for a contact
+        contacts help                                      Displays detailed help information
+        contacts add <name>                                Create a new contact
+        contacts ls                                        List all contacts
+        contacts info [<name>]                             Prints contact and associated details
+        contacts rm <name>                                 Removes contact
+        contacts rename <name> <new-name>                  Renames contact
+        contacts set-rcv-addr <name> <hash>                Sets the receive address for a contact
 
       FILE COMMANDS
-        horizon files help                        Displays detailed help information
-        horizon files share <contact> <file>      Adds a new file to be shared with a contact
-        horizon files unshare <contact> <file>    Unshares a file which was shared with a contact
-        horizon files ls [<contact>]              Lists all files (optionally from a given contact)
-        horizon files cat <hash>                  Outputs the contents of a file to the command line
-        horizon files cp <hash> <target-file>     Copies a file to a location on the local machine
+        horizon files help                                 Displays detailed help information
+        horizon files share <contact> <file>               Adds a new file to be shared with a contact
+        horizon files unshare <contact> <file>             Unshares a file which was shared with a contact
+        horizon files ls [<contact>]                       Lists all files (optionally from a given contact)
+        horizon files cat <contact> <file>                 Outputs the contents of a file to the command line
+        horizon files cp <contact> <file> <target-file>    Copies a file to a location on the local machine
 
       Use 'horizon <command> --help' to learn more about each command.
 
@@ -133,14 +133,12 @@ class Program {
 
         switch command {
         case "contacts":
-            startDaemonIfNecessary(configuration)
             ContactsHandler(model: model,
                             configuration: configuration,
                             arguments: commandArgs,
                             completion: { exit(EXIT_SUCCESS) },
                             error: { exit(EXIT_FAILURE) }).run()
         case "files":
-            startDaemonIfNecessary(configuration)
             FilesHandler(model: model,
                          configuration: configuration,
                          arguments: commandArgs,
@@ -153,7 +151,6 @@ class Program {
                           completion: { exit(EXIT_SUCCESS) },
                           error: { exit(EXIT_FAILURE) }).run()
         case "sync":
-            startDaemonIfNecessary(configuration)
             SyncHandler(model: model,
                         configuration: configuration,
                         arguments: commandArgs,
@@ -194,23 +191,6 @@ class Program {
         }
 
         return nil
-    }
-
-    private func startDaemonIfNecessary(_ configuration: ConfigurationProvider) {
-        switch DaemonManager().status(for: configuration) {
-        case .pidFilePresentButDaemonNotRunning, .stopped:
-            print("Horizon daemon not running. Starting...")
-            do {
-                try DaemonManager().startDaemon(for: configuration)
-            } catch {
-                print("Failed to start daemon.")
-                exit(EXIT_FAILURE)
-            }
-            let identityNotice = configuration.identity == "default" ? "" : "--identity=\(configuration.identity) "
-            print("⚠️ Started. Remember to stop the daemon with 'horizon \(identityNotice)daemon stop'.")
-        default:
-            break
-        }
     }
 
 }

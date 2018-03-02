@@ -33,6 +33,13 @@ struct Command {
     let allowableNumberOfArguments: [Int]
 
     /**
+     Indicates if the command requires the daemon be running
+     or not. Some commands simply modify the local database,
+     while others require access to the IPFS network.
+     */
+    let requiresRunningDaemon: Bool
+
+    /**
      The help string, as it would be output to the terminal
      in the event that the user inputs invalid information.
      In the case of `$ horizon contacts list foobar`, the

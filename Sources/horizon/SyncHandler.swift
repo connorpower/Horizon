@@ -15,13 +15,14 @@ struct SyncHandler: Handler {
     // MARK: - Constants
 
     private let commands = [
-        Command(name: "sync", allowableNumberOfArguments: [0], help: """
+        Command(name: "sync", allowableNumberOfArguments: [0], requiresRunningDaemon: true, help: """
             horizon sync
               'horizon sync' syncs the lists of shared files from your horizon
               contacts. Until this command is run, the newly shared files from
               other contacts are not visible in the local horizon instance.
 
                    > horizon sync
+                   🌏 syncing...
                    contact-x: synced
                    contact-y: failed (receive address not set)
                    contact-z: synced
@@ -61,17 +62,36 @@ struct SyncHandler: Handler {
             completionHandler()
         }
 
-        guard arguments.count == 0 else {
-            print(SyncHelp.shortHelp)
-            errorHandler()
+        let isDaemonAutostarted = DaemonManager().startDaemonIfNecessary(configuration)
+
+        func onCompletion(_ success: Bool) -> Never {
+            if isDaemonAutostarted {
+                DaemonManager().stopDaemonIfNecessary(configuration)
+            }
+            success ? completionHandler() : errorHandler()
         }
 
-        sync()
+        guard arguments.count == 0 else {
+            print(SyncHelp.shortHelp)
+            onCompletion(false)
+        }
+
+        sync(completion: onCompletion)
     }
 
     // MARK: - Private Functions
 
-    private func sync() {
+    private func sync(completion: @escaping (Bool) -> Never) {
+        print("🌏 syncing...")
+
+        func paddedContactPrefix(_ contact: Contact, padLength: Int) -> String {
+            return "\(contact.displayName):".padding(toLength: padLength + 1, withPad: " ", startingAt: 0)
+        }
+
+        let longestContactName = model.contacts.reduce(0) { result, contact in
+            return contact.displayName.count > result ? contact.displayName.count : result
+        }
+
         firstly {
             model.sync()
         }.then { syncStates in
@@ -79,20 +99,22 @@ struct SyncHandler: Handler {
 
             for syncState in syncStates {
                 if case .synced(let contact, _) = syncState {
-                    print("\(contact.displayName): synced")
+                    let paddedName = paddedContactPrefix(contact, padLength: longestContactName)
+                    print("\(paddedName) synced")
                 } else if case .failed(let contact, let error) = syncState {
+                    let paddedName = paddedContactPrefix(contact, padLength: longestContactName)
                     if case HorizonError.syncOperationFailed(let reason) = error {
                         switch reason {
                         case .failedToRetrieveSharedFileList:
-                            print("\(contact.displayName): failed (contact most likely offline)")
+                            print("\(paddedName) failed (contact most likely offline)")
                         case .receiveAddressNotSet:
                             wasAReceiveAddressMissing = true
-                            print("\(contact.displayName): failed (receive address not set)")
+                            print("\(paddedName) failed (receive address not set)")
                         default:
-                            print("\(contact.displayName): failed (unknown error)")
+                            print("\(paddedName) failed (unknown error)")
                         }
                     } else {
-                        print("\(contact.displayName): failed (unknown error)")
+                        print("\(paddedName) failed (unknown error)")
                     }
                 }
             }
@@ -100,10 +122,10 @@ struct SyncHandler: Handler {
             if wasAReceiveAddressMissing {
                 print("\nSet a receive address using `horizon contacts set-rcv-addr <contact-name> <receive-hash>`")
             }
-            self.completionHandler()
+            completion(true)
         }.catch { _ in
-            print("Failed to sync. Have you started the horizon daemon?")
-            self.errorHandler()
+            print("Failed to sync – most likely due to a timeout. Try again.")
+            completion(false)
         }
     }
 

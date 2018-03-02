@@ -324,9 +324,6 @@
 		OBJ_66 /* ModelTests_Contacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests_Contacts.swift; sourceTree = "<group>"; };
 		OBJ_67 /* ModelTests_Files.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests_Files.swift; sourceTree = "<group>"; };
 		OBJ_68 /* ModelTests_Sync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests_Sync.swift; sourceTree = "<group>"; };
-		OBJ_69 /* HorizonApp */ = {isa = PBXFileReference; lastKnownFileType = folder; path = HorizonApp; sourceTree = SOURCE_ROOT; };
-		OBJ_70 /* Horizon.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = Horizon.xcworkspace; sourceTree = SOURCE_ROOT; };
-		OBJ_71 /* build */ = {isa = PBXFileReference; lastKnownFileType = folder; path = build; sourceTree = SOURCE_ROOT; };
 		OBJ_78 /* APIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHelper.swift; sourceTree = "<group>"; };
 		OBJ_79 /* APIs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIs.swift; sourceTree = "<group>"; };
 		OBJ_8 /* Configuration.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Configuration.xcconfig; sourceTree = "<group>"; };
@@ -561,20 +558,16 @@
 			path = Help;
 			sourceTree = "<group>";
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
 				OBJ_7 /* Configs */,
 				OBJ_9 /* Sources */,
 				OBJ_56 /* Tests */,
-				OBJ_69 /* HorizonApp */,
-				OBJ_70 /* Horizon.xcworkspace */,
-				OBJ_71 /* build */,
 				OBJ_72 /* Dependencies */,
 				OBJ_134 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_56 /* Tests */ = {
@@ -905,7 +898,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_134 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

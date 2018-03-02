@@ -168,6 +168,10 @@ class ModelTests_Files: XCTestCase {
         mockStore.contacts = [contact1]
         let model = Model(api: mockAPI, configuration: MockConfiguration(), persistentStore: mockStore, eventCallback: nil)
 
+        mockAPI.addResponse = { url in
+            Promise(value: AddResponse(name: url.lastPathComponent, hash: UUID().uuidString, size: "12345"))
+        }
+
         let errorThrownExpectation = expectation(description: "errorThrownExpectation")
 
         firstly {

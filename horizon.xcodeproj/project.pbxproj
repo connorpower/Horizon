@@ -420,7 +420,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D294316420408FEC00BCA7E6 /* ModelTasks */ = {
+		D294316420408FEC00BCA7E6 /* Tasks */ = {
 			isa = PBXGroup;
 			children = (
 				D294316520408FEC00BCA7E6 /* ShareFileTask.swift */,
@@ -432,7 +432,7 @@
 				D29431712040947B00BCA7E6 /* AddContactTask.swift */,
 				D2943173204094FA00BCA7E6 /* ModelTask.swift */,
 			);
-			path = ModelTasks;
+			path = Tasks;
 			sourceTree = "<group>";
 		};
 		D294317520409A5000BCA7E6 /* Help */ = {
@@ -461,7 +461,7 @@
 		OBJ_11 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D294316420408FEC00BCA7E6 /* ModelTasks */,
+				D294316420408FEC00BCA7E6 /* Tasks */,
 				OBJ_12 /* Configuration.swift */,
 				OBJ_13 /* ConfigurationProvider.swift */,
 				OBJ_14 /* Contact.swift */,

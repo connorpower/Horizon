@@ -24,10 +24,6 @@ struct ShareFileTask: ModelTask {
     // MARK: - Functions
 
     func shareFiles(_ files: [URL], with contact: Contact) -> Promise<Contact> {
-        guard let sendAddress = contact.sendAddress else {
-            return Promise(error: HorizonError.fileOperationFailed(reason: .sendAddressNotSet))
-        }
-
         for fileName in files.map({ $0.lastPathComponent }) {
             guard model.file(named: fileName, sentOrReceivedFrom: contact) == nil else {
                 return Promise(error: HorizonError.fileOperationFailed(reason: .fileAlreadyExists(fileName)))
@@ -50,32 +46,13 @@ struct ShareFileTask: ModelTask {
                 self.model.eventCallback?(.addingFileToIPFSDidStart(file))
                 return self.model.api.add(file: file)
             }))
-        }.then { addFileResponses -> Promise<(AddResponse, Contact)> in
+        }.then { addFileResponses -> Promise<Contact> in
             let newFiles = addFileResponses.map({ return File(name: $0.name, hash: $0.hash) })
             let updatedSendList = FileList(hash: nil, files: Array(Set(contact.sendList.files + newFiles)))
             let updatedContact = contact.updatingSendList(updatedSendList)
             self.model.persistentStore.createOrUpdateContact(updatedContact)
 
-            guard let newSendListURL = FileManager.default.encodeAsJSONInTemporaryFile(updatedSendList.files) else {
-                throw HorizonError.fileOperationFailed(reason: .failedToEncodeFileListToTemporaryFile)
-            }
-
-            self.model.eventCallback?(.addingProvidedFileListToIPFSDidStart(contact))
-
-            // Keep passing the updated contact forward
-            return self.model.api.add(file: newSendListURL).then { ($0, updatedContact) }
-        }.then { addFileFesponse, contact -> Promise<(PublishResponse, Contact)> in
-            self.model.eventCallback?(.publishingFileListToIPNSDidStart(contact))
-
-            let sendListHash = addFileFesponse.hash
-            let updatedSendList = contact.sendList.updatingHash(sendListHash)
-            let updatedContact = contact.updatingSendList(updatedSendList)
-            self.model.persistentStore.createOrUpdateContact(updatedContact)
-
-            // Keep passing the updated contact forward
-            return self.model.api.publish(arg: sendListHash, key: sendAddress.keypairName).then { ($0, updatedContact) }
-        }.then { _, contact in
-            return Promise(value: contact)
+            return PublishFileListTask(model: self.model).publishFileList(for: updatedContact)
         }.catch { error in
             let horizonError: HorizonError
             if let castError = error as? HorizonError {

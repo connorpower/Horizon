@@ -35,6 +35,7 @@
 		D294317920409AF600BCA7E6 /* HelpProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294317820409AF600BCA7E6 /* HelpProvider.swift */; };
 		D294317B20409B4B00BCA7E6 /* SyncHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294317A20409B4B00BCA7E6 /* SyncHelp.swift */; };
 		D294317D20409BBC00BCA7E6 /* FilesHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D294317C20409BBC00BCA7E6 /* FilesHelp.swift */; };
+		D2A77A032049664700C27AEE /* PublishFileListTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A77A022049664700C27AEE /* PublishFileListTask.swift */; };
 		D2ADA88D2041DF140098E0D0 /* DaemonHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ADA88C2041DF140098E0D0 /* DaemonHelp.swift */; };
 		D2ADA88F2041E1C70098E0D0 /* DaemonManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ADA88E2041E1C70098E0D0 /* DaemonManager+Extension.swift */; };
 		D2D77A0F20389E8800ECD599 /* DaemonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D77A0E20389E8800ECD599 /* DaemonManager.swift */; };
@@ -266,6 +267,7 @@
 		D294317820409AF600BCA7E6 /* HelpProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpProvider.swift; sourceTree = "<group>"; };
 		D294317A20409B4B00BCA7E6 /* SyncHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncHelp.swift; sourceTree = "<group>"; };
 		D294317C20409BBC00BCA7E6 /* FilesHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesHelp.swift; sourceTree = "<group>"; };
+		D2A77A022049664700C27AEE /* PublishFileListTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishFileListTask.swift; sourceTree = "<group>"; };
 		D2ADA88C2041DF140098E0D0 /* DaemonHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaemonHelp.swift; sourceTree = "<group>"; };
 		D2ADA88E2041E1C70098E0D0 /* DaemonManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DaemonManager+Extension.swift"; sourceTree = "<group>"; };
 		D2D77A0E20389E8800ECD599 /* DaemonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaemonManager.swift; sourceTree = "<group>"; };
@@ -420,7 +422,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D294316420408FEC00BCA7E6 /* ModelTasks */ = {
+		D294316420408FEC00BCA7E6 /* Tasks */ = {
 			isa = PBXGroup;
 			children = (
 				D294316520408FEC00BCA7E6 /* ShareFileTask.swift */,
@@ -431,8 +433,9 @@
 				D294316F2040940400BCA7E6 /* RemoveContactTask.swift */,
 				D29431712040947B00BCA7E6 /* AddContactTask.swift */,
 				D2943173204094FA00BCA7E6 /* ModelTask.swift */,
+				D2A77A022049664700C27AEE /* PublishFileListTask.swift */,
 			);
-			path = ModelTasks;
+			path = Tasks;
 			sourceTree = "<group>";
 		};
 		D294317520409A5000BCA7E6 /* Help */ = {
@@ -461,7 +464,7 @@
 		OBJ_11 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D294316420408FEC00BCA7E6 /* ModelTasks */,
+				D294316420408FEC00BCA7E6 /* Tasks */,
 				OBJ_12 /* Configuration.swift */,
 				OBJ_13 /* ConfigurationProvider.swift */,
 				OBJ_14 /* Contact.swift */,
@@ -1041,6 +1044,7 @@
 				OBJ_212 /* UserDefaultsStore.swift in Sources */,
 				D29431682040923D00BCA7E6 /* UnshareFileTask.swift in Sources */,
 				D29431702040940400BCA7E6 /* RemoveContactTask.swift in Sources */,
+				D2A77A032049664700C27AEE /* PublishFileListTask.swift in Sources */,
 				D294316C2040933100BCA7E6 /* GetDataTask.swift in Sources */,
 				D294315D20404FF800BCA7E6 /* SyncState.swift in Sources */,
 				D2D77A0F20389E8800ECD599 /* DaemonManager.swift in Sources */,

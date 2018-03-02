@@ -139,98 +139,98 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		D2A77A042049807300C27AEE /* PBXContainerItemProxy */ = {
+		D2A77A5620498E9B00C27AEE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "IPFSWebService::IPFSWebService";
 			remoteInfo = IPFSWebService;
 		};
-		D2A77A052049807300C27AEE /* PBXContainerItemProxy */ = {
+		D2A77A5720498E9B00C27AEE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "PromiseKit::PromiseKit";
 			remoteInfo = PromiseKit;
 		};
-		D2A77A062049807300C27AEE /* PBXContainerItemProxy */ = {
+		D2A77A5820498E9B00C27AEE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Alamofire::Alamofire";
 			remoteInfo = Alamofire;
 		};
-		D2A77A072049807300C27AEE /* PBXContainerItemProxy */ = {
+		D2A77A5920498E9B00C27AEE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "PromiseKit::PromiseKit";
 			remoteInfo = PromiseKit;
 		};
-		D2A77A082049807300C27AEE /* PBXContainerItemProxy */ = {
+		D2A77A5A20498E9B00C27AEE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Alamofire::Alamofire";
 			remoteInfo = Alamofire;
 		};
-		D2A77A092049807300C27AEE /* PBXContainerItemProxy */ = {
+		D2A77A5B20498E9B00C27AEE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "horizon::HorizonCore";
 			remoteInfo = HorizonCore;
 		};
-		D2A77A0A2049807300C27AEE /* PBXContainerItemProxy */ = {
+		D2A77A5C20498E9B00C27AEE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "IPFSWebService::IPFSWebService";
 			remoteInfo = IPFSWebService;
 		};
-		D2A77A0B2049807300C27AEE /* PBXContainerItemProxy */ = {
+		D2A77A5D20498E9B00C27AEE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "PromiseKit::PromiseKit";
 			remoteInfo = PromiseKit;
 		};
-		D2A77A0C2049807300C27AEE /* PBXContainerItemProxy */ = {
+		D2A77A5E20498E9B00C27AEE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Alamofire::Alamofire";
 			remoteInfo = Alamofire;
 		};
-		D2A77A0D2049807300C27AEE /* PBXContainerItemProxy */ = {
+		D2A77A5F20498E9B00C27AEE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "horizon::HorizonCore";
 			remoteInfo = HorizonCore;
 		};
-		D2A77A0E2049807300C27AEE /* PBXContainerItemProxy */ = {
+		D2A77A6020498E9B00C27AEE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "IPFSWebService::IPFSWebService";
 			remoteInfo = IPFSWebService;
 		};
-		D2A77A0F2049807300C27AEE /* PBXContainerItemProxy */ = {
+		D2A77A6120498E9B00C27AEE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "PromiseKit::PromiseKit";
 			remoteInfo = PromiseKit;
 		};
-		D2A77A102049807300C27AEE /* PBXContainerItemProxy */ = {
+		D2A77A6220498E9B00C27AEE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Alamofire::Alamofire";
 			remoteInfo = Alamofire;
 		};
-		D2A77A112049807300C27AEE /* PBXContainerItemProxy */ = {
+		D2A77A6320498E9C00C27AEE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
@@ -1104,72 +1104,72 @@
 		OBJ_184 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "horizon::HorizonCore" /* HorizonCore */;
-			targetProxy = D2A77A0D2049807300C27AEE /* PBXContainerItemProxy */;
+			targetProxy = D2A77A5F20498E9B00C27AEE /* PBXContainerItemProxy */;
 		};
 		OBJ_186 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "IPFSWebService::IPFSWebService" /* IPFSWebService */;
-			targetProxy = D2A77A0E2049807300C27AEE /* PBXContainerItemProxy */;
+			targetProxy = D2A77A6020498E9B00C27AEE /* PBXContainerItemProxy */;
 		};
 		OBJ_188 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "PromiseKit::PromiseKit" /* PromiseKit */;
-			targetProxy = D2A77A0F2049807300C27AEE /* PBXContainerItemProxy */;
+			targetProxy = D2A77A6120498E9B00C27AEE /* PBXContainerItemProxy */;
 		};
 		OBJ_190 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Alamofire::Alamofire" /* Alamofire */;
-			targetProxy = D2A77A102049807300C27AEE /* PBXContainerItemProxy */;
+			targetProxy = D2A77A6220498E9B00C27AEE /* PBXContainerItemProxy */;
 		};
 		OBJ_216 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "horizon::HorizonCore" /* HorizonCore */;
-			targetProxy = D2A77A092049807300C27AEE /* PBXContainerItemProxy */;
+			targetProxy = D2A77A5B20498E9B00C27AEE /* PBXContainerItemProxy */;
 		};
 		OBJ_217 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "IPFSWebService::IPFSWebService" /* IPFSWebService */;
-			targetProxy = D2A77A0A2049807300C27AEE /* PBXContainerItemProxy */;
+			targetProxy = D2A77A5C20498E9B00C27AEE /* PBXContainerItemProxy */;
 		};
 		OBJ_218 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "PromiseKit::PromiseKit" /* PromiseKit */;
-			targetProxy = D2A77A0B2049807300C27AEE /* PBXContainerItemProxy */;
+			targetProxy = D2A77A5D20498E9B00C27AEE /* PBXContainerItemProxy */;
 		};
 		OBJ_219 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Alamofire::Alamofire" /* Alamofire */;
-			targetProxy = D2A77A0C2049807300C27AEE /* PBXContainerItemProxy */;
+			targetProxy = D2A77A5E20498E9B00C27AEE /* PBXContainerItemProxy */;
 		};
 		OBJ_254 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "IPFSWebService::IPFSWebService" /* IPFSWebService */;
-			targetProxy = D2A77A042049807300C27AEE /* PBXContainerItemProxy */;
+			targetProxy = D2A77A5620498E9B00C27AEE /* PBXContainerItemProxy */;
 		};
 		OBJ_255 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "PromiseKit::PromiseKit" /* PromiseKit */;
-			targetProxy = D2A77A052049807300C27AEE /* PBXContainerItemProxy */;
+			targetProxy = D2A77A5720498E9B00C27AEE /* PBXContainerItemProxy */;
 		};
 		OBJ_256 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Alamofire::Alamofire" /* Alamofire */;
-			targetProxy = D2A77A062049807300C27AEE /* PBXContainerItemProxy */;
+			targetProxy = D2A77A5820498E9B00C27AEE /* PBXContainerItemProxy */;
 		};
 		OBJ_284 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "PromiseKit::PromiseKit" /* PromiseKit */;
-			targetProxy = D2A77A072049807300C27AEE /* PBXContainerItemProxy */;
+			targetProxy = D2A77A5920498E9B00C27AEE /* PBXContainerItemProxy */;
 		};
 		OBJ_285 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Alamofire::Alamofire" /* Alamofire */;
-			targetProxy = D2A77A082049807300C27AEE /* PBXContainerItemProxy */;
+			targetProxy = D2A77A5A20498E9B00C27AEE /* PBXContainerItemProxy */;
 		};
 		OBJ_329 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "horizon::HorizonCoreTests" /* HorizonCoreTests */;
-			targetProxy = D2A77A112049807300C27AEE /* PBXContainerItemProxy */;
+			targetProxy = D2A77A6320498E9C00C27AEE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

@@ -39,7 +39,7 @@ playground.xcworkspace
 # Package.pins
 .build/*
 !.build/checkouts
-.build/checkouts/**/.git
+#.build/checkouts/*/.git
 
 # CocoaPods
 #

@@ -6,20 +6,6 @@
 	objectVersion = 48;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		D2A77A25204989CA00C27AEE /* Swift Package Manager */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = D2A77A26204989CA00C27AEE /* Build configuration list for PBXAggregateTarget "Swift Package Manager" */;
-			buildPhases = (
-				D2A77A29204989D100C27AEE /* Initialize Swift Package Manager Dependencies */,
-			);
-			dependencies = (
-			);
-			name = "Swift Package Manager";
-			productName = SPM;
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
 		D27825FE202601FC00550CAB /* HorizonAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27825FD202601FC00550CAB /* HorizonAppTests.swift */; };
 		D2782609202601FC00550CAB /* HorizonAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2782608202601FC00550CAB /* HorizonAppUITests.swift */; };
@@ -55,13 +41,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = D27825E6202601FC00550CAB;
 			remoteInfo = HorizonApp;
-		};
-		D2A77A2A204989F300C27AEE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D27825DF202601FC00550CAB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D2A77A25204989CA00C27AEE;
-			remoteInfo = "Swift Package Manager";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -243,7 +222,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				D2A77A2B204989F300C27AEE /* PBXTargetDependency */,
 			);
 			name = HorizonApp;
 			productName = HorizonApp;
@@ -311,10 +289,6 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = D27825E6202601FC00550CAB;
 					};
-					D2A77A25204989CA00C27AEE = {
-						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
-					};
 				};
 			};
 			buildConfigurationList = D27825E2202601FC00550CAB /* Build configuration list for PBXProject "HorizonApp" */;
@@ -333,7 +307,6 @@
 				D27825E6202601FC00550CAB /* HorizonApp */,
 				D27825F8202601FC00550CAB /* HorizonAppTests */,
 				D2782603202601FC00550CAB /* HorizonAppUITests */,
-				D2A77A25204989CA00C27AEE /* Swift Package Manager */,
 			);
 		};
 /* End PBXProject section */
@@ -363,23 +336,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		D2A77A29204989D100C27AEE /* Initialize Swift Package Manager Dependencies */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Initialize Swift Package Manager Dependencies";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ ! -d ../.build ]; then\n    ../spm-init.sh\nfi";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D27825E3202601FC00550CAB /* Sources */ = {
@@ -425,11 +381,6 @@
 			isa = PBXTargetDependency;
 			target = D27825E6202601FC00550CAB /* HorizonApp */;
 			targetProxy = D2782605202601FC00550CAB /* PBXContainerItemProxy */;
-		};
-		D2A77A2B204989F300C27AEE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D2A77A25204989CA00C27AEE /* Swift Package Manager */;
-			targetProxy = D2A77A2A204989F300C27AEE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -666,24 +617,6 @@
 			};
 			name = Release;
 		};
-		D2A77A27204989CA00C27AEE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = MJ4T58LF5M;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		D2A77A28204989CA00C27AEE /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = MJ4T58LF5M;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -719,15 +652,6 @@
 			buildConfigurations = (
 				D2782614202601FC00550CAB /* Debug */,
 				D2782615202601FC00550CAB /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D2A77A26204989CA00C27AEE /* Build configuration list for PBXAggregateTarget "Swift Package Manager" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D2A77A27204989CA00C27AEE /* Debug */,
-				D2A77A28204989CA00C27AEE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
